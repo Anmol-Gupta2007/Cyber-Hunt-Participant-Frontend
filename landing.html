@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyber Hunt | Graphic Era University</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@700&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root { --ink:#061d2c; --panel:#08283a; --blue:#57ace9; --white:#edf2f4; }
+    * { box-sizing:border-box; }
+    html { min-width:320px; background:#061d2c; }
+    body { min-height:100vh; margin:0; display:grid; place-items:center; overflow-x:hidden; background:#062033; color:var(--white); font-family:'DM Mono',monospace; }
+    .site { width:min(95.6vw,1535px); min-height:min(90.5vh,1010px); margin:4vh auto; border:3px solid #4aa8e9; border-radius:9px; position:relative; overflow:hidden; background:#06283b; box-shadow:0 0 25px rgba(68,165,226,.2); }
+    .nav { height:102px; border-bottom:1px solid rgba(99,177,226,.72); display:flex; align-items:center; padding:0 45px; gap:24px; }
+    .brand { display:flex; align-items:center; gap:23px; white-space:nowrap; color:#f4f5f5; font-size:30px; letter-spacing:-1.5px; }
+    .target { width:63px; height:63px; position:relative; border:2px solid currentColor; border-radius:50%; transform:scale(.58); }
+    .target:before,.target:after { content:""; position:absolute; background:currentColor; }
+    .target:before { height:2px; left:-13px; right:-13px; top:29px; box-shadow:13px -13px 0 -0.5px currentColor,13px 13px 0 -0.5px currentColor; }
+    .target:after { width:2px; top:-13px; bottom:-13px; left:29px; box-shadow:-13px 13px 0 -0.5px currentColor,13px 13px 0 -0.5px currentColor; }
+    .nav-line { height:3px; flex:1; max-width:510px; background:#62aef0; margin-left:-5px; }
+    .links { margin-left:auto; display:flex; align-items:center; gap:31px; font-size:19px; }
+    a { color:inherit; text-decoration:none; }
+    .links a:not(.nav-cta) { opacity:.85; }
+    .links .active { padding:13px 22px; background:#59a9e8; color:#092234; border-radius:2px; opacity:1; }
+    .nav-cta { background:#61abe4; color:#0d283c; padding:14px 28px; border-radius:2px; box-shadow:4px 5px 0 transparent,6px 6px 0 #23608d; }
+    .arrow-disc { width:40px; height:40px; border:1px solid #5399d1; border-radius:50%; display:grid; place-items:center; font:34px/1 Arial; color:#67b4ef; }
+    main { position:relative; min-height:905px; padding:76px 77px 52px; }
+    .copy { position:relative; z-index:2; max-width:700px; }
+    .tech-label { color:#58aae9; letter-spacing:2.6px; font-size:29px; margin-bottom:12px; }
+    h1 { font-family:'Space Grotesk',sans-serif; font-size:148px; line-height:.87; letter-spacing:-8px; margin:0 0 15px -8px; color:#f2f2f0; text-shadow:0 1px 2px #85919a; }
+    .tagline { color:#5aafea; font-size:39px; font-weight:700; letter-spacing:4px; margin-bottom:35px; }
+    .description { font-size:25px; line-height:1.52; letter-spacing:.4px; max-width:650px; margin:0; }
+    .actions { display:flex; gap:31px; margin-top:48px; }
+    .button { min-width:303px; height:78px; display:flex; justify-content:center; align-items:center; font-size:29px; letter-spacing:1px; border:3px solid #55ace9; border-radius:3px; }
+    .button.primary { background:#5aaeea; color:#092439; box-shadow:8px 8px 0 -3px #062234,9px 9px 0 -2px #509bd1; }
+    .button.secondary { color:#5daeea; }
+    .button b { font:42px/1 Arial; margin-left:19px; font-weight:400; }
+    .art { position:absolute; z-index:1; top:130px; right:52px; width:56%; height:590px; }
+    .photo { position:absolute; width:345px; height:490px; right:250px; top:20px; clip-path:polygon(9% 6%,91% 0,100% 97%,0 100%); transform:rotate(-3.8deg); overflow:hidden; z-index:3; }
+    .photo img { width:100%; height:100%; object-fit:cover; object-position:49% center; transform:scale(1.08); }
+    .photo-grid { position:absolute; inset:0; display:grid; grid-template-columns:repeat(4,1fr); grid-template-rows:repeat(4,1fr); pointer-events:none; }
+    .photo-grid span { border-right:1px solid rgba(228,246,255,.58); border-bottom:1px solid rgba(228,246,255,.58); }
+    .orbit { position:absolute; border:2px solid #53a7e7; border-radius:50%; opacity:.88; }
+    .orbit.one { width:675px; height:260px; top:85px; left:0; transform:rotate(-32deg); }
+    .orbit.two { width:700px; height:250px; top:183px; left:-18px; transform:rotate(22deg); }
+    .hud { position:absolute; right:48px; top:100px; width:410px; height:230px; border-top:1px solid rgba(104,187,239,.8); border-right:1px solid rgba(104,187,239,.45); opacity:.75; }
+    .hud:before { content:""; position:absolute; height:100%; width:1px; left:100px; top:0; background:rgba(103,186,235,.7); box-shadow:102px 0 0 rgba(103,186,235,.7),204px 0 0 rgba(103,186,235,.7); }
+    .hud:after { content:""; position:absolute; width:100%; height:1px; left:0; top:76px; background:rgba(103,186,235,.7); }
+    .bracket { position:absolute; width:42px; height:42px; border-color:#edf5f8; border-style:solid; z-index:4; }
+    .b1 { left:30px; top:0; border-width:4px 0 0 4px; }.b2 { left:0; top:163px; border-width:3px 0 0 3px; border-color:#58aae9; }.b3 { right:210px; bottom:0; border-width:0 0 4px 4px; }.b4 { right:48px; bottom:68px; border-width:0 4px 4px 0; }
+    .event-info { position:absolute; bottom:42px; left:78px; z-index:3; display:flex; align-items:center; gap:48px; font-size:22px; }
+    .info { display:flex; align-items:center; gap:22px; white-space:nowrap; }.icon { width:43px; color:#57ace9; font:45px/1 Arial; text-align:center; }.divider { height:48px; border-left:2px solid #4286bb; }
+    .handwriting { position:absolute; z-index:5; right:16px; bottom:25px; color:#5cade8; font:600 52px/.9 Caveat,cursive; transform:rotate(-13deg); text-align:center; }.handwriting:after { content:""; display:block; height:2px; width:130px; background:#5cade8; transform:rotate(-13deg); margin:15px 0 0 21px; }
+    .corner { position:absolute; width:26px; height:26px; border:2px solid #5aaee9; opacity:.75; }.corner.tl{top:44px;left:29px;border-right:0;border-bottom:0}.corner.tr{top:44px;right:29px;border-left:0;border-bottom:0}
+    @media (max-width:1200px){ .site{margin:2vh auto}.nav{padding:0 24px}.links{gap:14px;font-size:15px}.nav-line{max-width:260px}.brand{font-size:25px}.nav-cta{padding:12px 16px}main{padding:54px 46px}.tech-label{font-size:22px}h1{font-size:112px}.tagline{font-size:29px}.art{right:-30px;transform:scale(.85);transform-origin:top right}.event-info{left:46px;font-size:17px;gap:22px}.handwriting{font-size:39px} }
+    @media (max-width:780px){ body{display:block}.site{width:100%;margin:0;border-width:0;min-height:100vh;border-radius:0}.nav{height:auto;min-height:82px;flex-wrap:wrap;padding:14px 20px;gap:10px}.brand{font-size:21px;gap:8px}.target{transform:scale(.4);margin:-17px}.nav-line,.arrow-disc{display:none}.links{width:100%;margin:0;justify-content:space-between;gap:5px;font-size:13px}.links .active,.nav-cta{padding:9px 10px}.links a:not(.nav-cta){display:none}main{min-height:970px;padding:55px 30px}.tech-label{font-size:17px}h1{font-size:78px;letter-spacing:-5px}.tagline{font-size:20px;letter-spacing:2px}.description{font-size:17px}.actions{gap:12px;margin-top:30px}.button{min-width:0;flex:1;height:60px;font-size:18px}.button b{font-size:27px;margin-left:8px}.art{top:485px;right:-175px;transform:scale(.68);transform-origin:top right}.event-info{left:30px;bottom:30px;gap:12px;font-size:12px}.info{gap:7px}.icon{font-size:24px;width:24px}.divider{height:30px}.handwriting{font-size:32px;right:5px;bottom:185px} }
+  </style>
+</head>
+<body>
+  <section class="site" id="home">
+    <nav class="nav" aria-label="Main navigation">
+      <a class="brand" href="#home"><span class="target" aria-hidden="true"></span><span>CYBER HUNT</span></a><span class="nav-line"></span>
+      <div class="links"><a class="active" href="#home">Home</a><a href="#home">About</a><a href="#home">Rules</a><a href="index.html?mode=login">Login</a><a class="nav-cta" href="index.html?mode=signup">Join Now</a><span class="arrow-disc" aria-hidden="true">›</span></div>
+    </nav>
+    <main>
+      <i class="corner tl"></i><i class="corner tr"></i>
+      <div class="copy"><div class="tech-label">GRAPHIC ERA UNIVERSITY</div><h1>CYBER<br>HUNT</h1><div class="tagline">THE DIGITAL ESCAPE ROOM</div><p class="description">Think. Analyse. Decode. Solve.<br>A cybersecurity challenge designed<br>to test your logic, speed and teamwork.</p><div class="actions"><a class="button primary" href="index.html?mode=signup">Join Now <b>→</b></a><a class="button secondary" href="index.html?mode=login">Login <b>→</b></a></div></div>
+      <div class="art" aria-hidden="true"><div class="orbit one"></div><div class="orbit two"></div><div class="hud"></div><div class="photo"><img src="university-building.jpeg" alt=""><div class="photo-grid"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div><i class="bracket b1"></i><i class="bracket b2"></i><i class="bracket b3"></i><i class="bracket b4"></i></div>
+      <div class="event-info"><div class="info"><span class="icon">▣</span><span>19 Sep 2026</span></div><span class="divider"></span><div class="info"><span class="icon">♧</span><span>Seminar Hall, CSIT</span></div><span class="divider"></span><div class="info"><span class="icon">♧</span><span>Teams of 3</span></div></div>
+      <div class="handwriting">Solve<br>More<br>Together.</div>
+    </main>
+  </section>
+</body>
+</html>
