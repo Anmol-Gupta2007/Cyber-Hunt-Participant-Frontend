@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CYBER HUNT - Graphic Geeks</title>
+    <!-- Google Fonts for Cyberpunk Aesthetic -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-color: #030712;
+            --card-bg: rgba(10, 18, 30, 0.85);
+            --cyan: #00f0ff;
+            --green: #22c55e;
+            --red: #ef4444;
+            --yellow: #eab308;
+            --text-main: #ffffff;
+            --text-dim: #94a3b8;
+            --border-cyan: rgba(0, 240, 255, 0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 240, 255, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 240, 255, 0.05) 0%, transparent 40%);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dashboard-container {
+            width: 100%;
+            max-width: 1280px;
+            background: rgba(4, 9, 20, 0.95);
+            border: 1px solid var(--border-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.1);
+        }
+
+        /* --- Header Section --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .university-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .university-logo .logo-img {
+            width: 45px;
+            height: 45px;
+            background: #e11d48;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .university-text h2 {
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        .university-text p {
+            font-size: 11px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+        }
+
+        .side-taglines {
+            font-size: 12px;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        /* User Profile & Student Input */
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(0, 240, 255, 0.05);
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: 1px solid var(--border-cyan);
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #0284c7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-input-group {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .user-name-input {
+            background: transparent;
+            border: none;
+            border-bottom: 1px dashed var(--cyan);
+            color: var(--cyan);
+            font-size: 14px;
+            font-weight: 700;
+            outline: none;
+            width: 130px;
+            padding: 2px 4px;
+        }
+
+        .user-name-input::placeholder {
+            color: rgba(0, 240, 255, 0.5);
+        }
+
+        .name-submit-btn {
+            background: var(--cyan);
+            color: #000;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 11px;
+            font-family: 'Orbitron', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .name-submit-btn:hover {
+            background: #fff;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+        }
+
+        /* --- Title Banner --- */
+        .banner {
+            text-align: center;
+            margin: 10px 0 25px 0;
+        }
+
+        .banner h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 52px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: var(--cyan);
+            text-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+        }
+
+        .banner .subtitle {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 16px;
+            letter-spacing: 6px;
+            color: var(--text-main);
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        /* --- Grid Layout --- */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+
+        .left-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .top-cards-row {
+            display: grid;
+            grid-template-columns: 1.6fr 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-cyan);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--cyan);
+            font-size: 13px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        /* Countdown Timer */
+        .timer-display {
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+        }
+
+        .time-box {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--border-cyan);
+            border-radius: 6px;
+            padding: 10px;
+            text-align: center;
+            flex: 1;
+        }
+
+        .time-box .num {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .time-box .label {
+            font-size: 10px;
+            color: var(--text-dim);
+            margin-top: 4px;
+        }
+
+        .event-info {
+            font-size: 12px;
+            color: var(--text-dim);
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        /* Total Score Box */
+        .score-card {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .score-val {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 44px;
+            font-weight: 800;
+        }
+
+        .score-label {
+            font-size: 18px;
+            color: var(--text-dim);
+        }
+
+        /* Stages Row */
+        .stages-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .stage-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-cyan);
+            border-radius: 8px;
+            padding: 15px 10px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stage-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            border: 1px solid currentColor;
+        }
+
+        .stage-card.locked { color: var(--cyan); opacity: 0.7; }
+        .stage-card.locked .stage-icon { background: rgba(0, 240, 255, 0.1); }
+
+        .stage-card.active {
+            border-color: var(--green);
+            color: var(--green);
+            background: rgba(34, 197, 94, 0.05);
+        }
+        .stage-card.active .stage-icon { background: rgba(34, 197, 94, 0.2); }
+
+        .stage-card.final { color: var(--red); border-color: rgba(239, 68, 68, 0.4); }
+        .stage-card.final .stage-icon { background: rgba(239, 68, 68, 0.2); }
+
+        /* Leaderboard */
+        .leaderboard-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-cyan);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .leaderboard-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 15px;
+            color: var(--cyan);
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-cyan);
+        }
+
+        .lb-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .lb-table th {
+            text-align: left;
+            color: var(--text-dim);
+            font-size: 11px;
+            padding-bottom: 8px;
+        }
+
+        .lb-table td {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .rank { font-family: 'Orbitron', sans-serif; font-weight: 700; width: 30px; }
+        .team-name { color: var(--text-dim); }
+        .score { font-family: 'Orbitron', sans-serif; font-weight: 600; }
+        .status-icon .active { color: var(--green); }
+        .status-icon .inactive { color: var(--red); }
+
+        /* --- Section Title for Questions --- */
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+            color: var(--cyan);
+            margin: 20px 0 15px 0;
+            border-bottom: 1px solid var(--border-cyan);
+            padding-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* --- 6 Phases Container --- */
+        .phases-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .phase-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-cyan);
+            border-radius: 10px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 280px;
+            gap: 20px;
+        }
+
+        .phase-main {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .phase-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 16px;
+            color: var(--cyan);
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 15px;
+            color: #e2e8f0;
+            margin-bottom: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid var(--cyan);
+        }
+
+        .answer-box {
+            display: flex;
+            gap: 10px;
+        }
+
+        .answer-box input {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border-cyan);
+            border-radius: 6px;
+            padding: 10px 14px;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .answer-box input:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
+        }
+
+        .submit-btn {
+            background: var(--cyan);
+            color: #000;
+            border: none;
+            padding: 0 20px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            background: #fff;
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+        }
+
+        /* Sidebar inside Phase Card */
+        .phase-sidebar {
+            background: rgba(0, 0, 0, 0.4);
+            border-left: 1px solid var(--border-cyan);
+            padding-left: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .hint-box {
+            background: rgba(234, 179, 8, 0.1);
+            border: 1px dashed var(--yellow);
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .hint-title {
+            color: var(--yellow);
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 5px;
+        }
+
+        .hint-text {
+            font-size: 12px;
+            color: #cbd5e1;
+        }
+
+        .phase-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+        }
+
+        .stat-val {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--green);
+        }
+
+        .stat-val.rank {
+            color: var(--cyan);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border-cyan);
+            padding-top: 15px;
+        }
+
+        .footer-brand {
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .footer-brand h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        
+        <!-- Header -->
+        <header>
+            <div class="university-logo">
+                <div class="logo-img">GE</div>
+                <div class="university-text">
+                    <h2>Graphic Era</h2>
+                    <p>Deemed to be University</p>
+                    <p>Dehradun</p>
+                </div>
+            </div>
+
+            <div class="side-taglines">
+                THINK<br>ANALYSE<br>DECODE<br>SOLVE
+            </div>
+
+            <!-- Profile Badge with Name Input + SUBMIT button -->
+            <div class="user-profile">
+                <div class="avatar"><i class="fa-solid fa-ninja"></i></div>
+                <div>
+                    <div class="user-input-group">
+                        <input type="text" class="user-name-input" placeholder="Enter name..." value="">
+                        <button class="name-submit-btn">SUBMIT</button>
+                    </div>
+                    <p style="font-size: 11px; color: var(--text-dim); margin-top: 2px;">Graphic Geeks - Level 1</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Cyber Hunt Banner -->
+        <div class="banner">
+            <h1>CYBER HUNT</h1>
+            <div class="subtitle">
+                THE DIGITAL ESCAPE ROOM
+                <i class="fa-solid fa-crosshair"></i>
+            </div>
+        </div>
+
+        <!-- Dashboard Section: Timer, Score, Stages & Leaderboard -->
+        <div class="main-grid">
+            <div class="left-content">
+                <div class="top-cards-row">
+                    <!-- Timer -->
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fa-regular fa-clock"></i>
+                            <span>Time Remaining for the event</span>
+                        </div>
+                        <div class="timer-display">
+                            <div class="time-box">
+                                <div class="num">03</div>
+                                <div class="label">DAYS</div>
+                            </div>
+                            <div class="time-box">
+                                <div class="num">12</div>
+                                <div class="label">HRS</div>
+                            </div>
+                            <div class="time-box">
+                                <div class="num">47</div>
+                                <div class="label">MIN</div>
+                            </div>
+                            <div class="time-box">
+                                <div class="num">26</div>
+                                <div class="label">SEC</div>
+                            </div>
+                        </div>
+                        <div class="event-info">
+                            Total Event Time: 19 September 2026, 12 PM - 6 PM
+                        </div>
+                    </div>
+
+                    <!-- Total Score -->
+                    <div class="card score-card">
+                        <div class="card-header">
+                            <i class="fa-solid fa-bolt"></i>
+                            <span>Total Score</span>
+                        </div>
+                        <div class="score-val">150</div>
+                        <div class="score-label">Points</div>
+                    </div>
+                </div>
+
+                <!-- Stage Cards -->
+                <div class="stages-container">
+                    <div class="stage-card locked">
+                        <div class="stage-icon"><i class="fa-solid fa-lock"></i></div>
+                        <div style="font-size:14px; font-weight:700;">Stage 1:<br>[Locked]</div>
+                    </div>
+                    <div class="stage-card active">
+                        <div class="stage-icon"><i class="fa-solid fa-lock-open"></i></div>
+                        <div style="font-size:14px; font-weight:700;">Stage 2:<br>[Active]</div>
+                    </div>
+                    <div class="stage-card locked">
+                        <div class="stage-icon"><i class="fa-solid fa-lock"></i></div>
+                        <div style="font-size:14px; font-weight:700;">Stage 3:<br>[Locked]</div>
+                    </div>
+                    <div class="stage-card final">
+                        <div class="stage-icon"><i class="fa-solid fa-flag"></i></div>
+                        <div style="font-size:14px; font-weight:700;">Stage 4:<br>[Final]</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leaderboard -->
+            <div class="leaderboard-card">
+                <div class="leaderboard-title">LEADBOARD - TOP HACKERS</div>
+                <table class="lb-table">
+                    <thead>
+                        <tr>
+                            <th>RANK</th>
+                            <th>HACKER</th>
+                            <th>TEAM</th>
+                            <th>SCORE</th>
+                            <th style="text-align:center;">ACTIVE?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="rank">1</td>
+                            <td>BinaryBeast</td>
+                            <td class="team-name">ChronoHackers</td>
+                            <td class="score">2450</td>
+                            <td class="status-icon" style="text-align:center;"><i class="fa-solid fa-circle-check active"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="rank">2</td>
+                            <td>CryptoQueen</td>
+                            <td class="team-name">ShadowGuard</td>
+                            <td class="score">2180</td>
+                            <td class="status-icon" style="text-align:center;"><i class="fa-solid fa-circle-check active"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="rank">3</td>
+                            <td>CyberDrifter</td>
+                            <td class="team-name">TeamZero</td>
+                            <td class="score">1950</td>
+                            <td class="status-icon" style="text-align:center;"><i class="fa-solid fa-circle-xmark inactive"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="rank">4</td>
+                            <td>null_pointer</td>
+                            <td class="team-name">G_R@d10</td>
+                            <td class="score">1820</td>
+                            <td class="status-icon" style="text-align:center;"><i class="fa-solid fa-circle-check active"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 6 Phases Challenges Section -->
+        <div class="section-title">
+            <i class="fa-solid fa-terminal"></i> EVENT CHALLENGES (PHASES 1 - 6)
+        </div>
+
+        <div class="phases-grid">
+
+            <!-- PHASE 1 -->
+            <div class="phase-card">
+                <div class="phase-main">
+                    <div class="phase-title">PHASE 1: Cryptic Cipher</div>
+                    <div class="question-text">
+                        Decode the following base64 string to retrieve the access key: <code>R3JhcGhpY0dlZWtzMjAyNg==</code>
+                    </div>
+                    <div class="answer-box">
+                        <input type="text" placeholder="Type your answer here...">
+                        <button class="submit-btn">SUBMIT</button>
+                    </div>
+                </div>
+                <div class="phase-sidebar">
+                    <div class="hint-box">
+                        <div class="hint-title"><i class="fa-regular fa-lightbulb"></i> HINT</div>
+                        <div class="hint-text">Standard Base64 encoding. Use an online decoder or browser console.</div>
+                    </div>
+                    <div class="phase-stats">
+                        <div class="stat-item">
+                            <div class="stat-label">Points Gained</div>
+                            <div class="stat-val">+50</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Current Rank</div>
+                            <div class="stat-val rank">#4</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PHASE 2 -->
+            <div class="phase-card">
+                <div class="phase-main">
+                    <div class="phase-title">PHASE 2: Web Forensics</div>
+                    <div class="question-text">
+                        Inspect the network request headers of the target server. What is the value of the hidden "X-Flag" parameter?
+                    </div>
+                    <div class="answer-box">
+                        <input type="text" placeholder="Type your answer here...">
+                        <button class="submit-btn">SUBMIT</button>
+                    </div>
+                </div>
+                <div class="phase-sidebar">
+                    <div class="hint-box">
+                        <div class="hint-title"><i class="fa-regular fa-lightbulb"></i> HINT</div>
+                        <div class="hint-text">Check Developer Tools > Network Tab > Response Headers.</div>
+                    </div>
+                    <div class="phase-stats">
+                        <div class="stat-item">
+                            <div class="stat-label">Points Gained</div>
+                            <div class="stat-val">+100</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Current Rank</div>
+                            <div class="stat-val rank">#2</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PHASE 3 -->
+            <div class="phase-card">
+                <div class="phase-main">
+                    <div class="phase-title">PHASE 3: Steganography</div>
+                    <div class="question-text">
+                        Extract the hidden text file contained within the provided system image. What is the root password?
+                    </div>
+                    <div class="answer-box">
+                        <input type="text" placeholder="Type your answer here...">
+                        <button class="submit-btn">SUBMIT</button>
+                    </div>
+                </div>
+                <div class="phase-sidebar">
+                    <div class="hint-box">
+                        <div class="hint-title"><i class="fa-regular fa-lightbulb"></i> HINT</div>
+                        <div class="hint-text">Use steghide or check metadata info via ExifTool.</div>
+                    </div>
+                    <div class="phase-stats">
+                        <div class="stat-item">
+                            <div class="stat-label">Points Gained</div>
+                            <div class="stat-val">+150</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Current Rank</div>
+                            <div class="stat-val rank">#3</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PHASE 4 -->
+            <div class="phase-card">
+                <div class="phase-main">
+                    <div class="phase-title">PHASE 4: Reverse Engineering</div>
+                    <div class="question-text">
+                        Bypass the execution check in the provided binary executable. Identify the success string printed upon activation.
+                    </div>
+                    <div class="answer-box">
+                        <input type="text" placeholder="Type your answer here...">
+                        <button class="submit-btn">SUBMIT</button>
+                    </div>
+                </div>
+                <div class="phase-sidebar">
+                    <div class="hint-box">
+                        <div class="hint-title"><i class="fa-regular fa-lightbulb"></i> HINT</div>
+                        <div class="hint-text">Decompile using Ghidra or trace main functions in Cutter.</div>
+                    </div>
+                    <div class="phase-stats">
+                        <div class="stat-item">
+                            <div class="stat-label">Points Gained</div>
+                            <div class="stat-val">+200</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Current Rank</div>
+                            <div class="stat-val rank">#1</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PHASE 5 -->
+            <div class="phase-card">
+                <div class="phase-main">
+                    <div class="phase-title">PHASE 5: SQL Injection</div>
+                    <div class="question-text">
+                        Bypass the admin authentication form using SQL payload injection. Retrieve the admin account username.
+                    </div>
+                    <div class="answer-box">
+                        <input type="text" placeholder="Type your answer here...">
+                        <button class="submit-btn">SUBMIT</button>
+                    </div>
+                </div>
+                <div class="phase-sidebar">
+                    <div class="hint-box">
+                        <div class="hint-title"><i class="fa-regular fa-lightbulb"></i> HINT</div>
+                        <div class="hint-text">Try classic OR injection syntax: ' OR '1'='1.</div>
+                    </div>
+                    <div class="phase-stats">
+                        <div class="stat-item">
+                            <div class="stat-label">Points Gained</div>
+                            <div class="stat-val">+250</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Current Rank</div>
+                            <div class="stat-val rank">#1</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PHASE 6 -->
+            <div class="phase-card">
+                <div class="phase-main">
+                    <div class="phase-title">PHASE 6: Final Mainframe Crack</div>
+                    <div class="question-text">
+                        Combine all previous phase keys into the decryption algorithm to derive the final victory flag string.
+                    </div>
+                    <div class="answer-box">
+                        <input type="text" placeholder="Type your answer here...">
+                        <button class="submit-btn">SUBMIT</button>
+                    </div>
+                </div>
+                <div class="phase-sidebar">
+                    <div class="hint-box">
+                        <div class="hint-title"><i class="fa-regular fa-lightbulb"></i> HINT</div>
+                        <div class="hint-text">Concatenate keys 1 through 5 using SHA-256 hashing.</div>
+                    </div>
+                    <div class="phase-stats">
+                        <div class="stat-item">
+                            <div class="stat-label">Points Gained</div>
+                            <div class="stat-val">+500</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Current Rank</div>
+                            <div class="stat-val rank">#1</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div style="font-size: 12px; color: var(--text-dim);">
+                REAL PROBLEMS. REAL SKILLS. ONE MISSION.
+            </div>
+
+            <div class="footer-brand">
+                <h3>GRAPHIC GEEKS</h3>
+                <p style="font-size: 11px; color: var(--text-dim);">Presents</p>
+            </div>
+
+            <div>
+                <a href="#" style="color: var(--text-main); text-decoration: none; font-size: 13px;">
+                    <i class="fa-brands fa-instagram"></i> graphic_geeks_geu
+                </a>
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+</html>
