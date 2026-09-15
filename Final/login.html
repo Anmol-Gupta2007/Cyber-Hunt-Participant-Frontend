@@ -3,68 +3,148 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Auth Modal</title>
+  <title>Cyber Hunt | Authentication</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+  
   <style>
+    :root {
+      --bg: #061a29;
+      --panel: #062338;
+      --panel-inner: #092c44;
+      --panel-border: #4aa8e9;
+      --blue: #58aaeb;
+      --blue-light: #72b9f0;
+      --blue-dim: rgba(88, 170, 235, 0.45);
+      --white: #edf2f4;
+      --text-muted: #b0c9db;
+      --red: #ef4444;
+    }
+
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-      font-family: system-ui, -apple-system, sans-serif;
     }
 
     body {
       min-height: 100vh;
-      background: radial-gradient(circle at center, #0e2a38, #05141d);
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(circle at 15% 20%, rgba(88, 170, 235, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 80%, rgba(88, 170, 235, 0.08) 0%, transparent 40%);
+      color: var(--white);
+      font-family: 'DM Mono', monospace;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       padding: 20px;
     }
 
-    .card {
-      background-color: #171923;
-      border-radius: 16px;
+    .brand-header {
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .brand-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--white);
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 24px;
+      letter-spacing: -0.5px;
+    }
+
+    .target-icon {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      color: var(--blue);
+    }
+
+    .target-icon svg {
       width: 100%;
-      max-width: 400px;
-      border: 1px solid #2d3748;
+      height: 100%;
+      stroke: var(--blue);
+      fill: none;
+    }
+
+    .auth-card {
+      background: var(--panel);
+      border: 2px solid var(--panel-border);
+      border-radius: 8px;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: 0 0 35px rgba(74, 168, 233, 0.18), inset 0 0 40px rgba(6, 26, 41, 0.5);
+      position: relative;
       overflow: hidden;
     }
 
+    /* Corner Marks */
+    .corner-mark {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-color: var(--blue);
+      border-style: solid;
+      pointer-events: none;
+    }
+    .corner-mark.tl { top: 8px; left: 8px; border-width: 2px 0 0 2px; }
+    .corner-mark.tr { top: 8px; right: 8px; border-width: 2px 2px 0 0; }
+    .corner-mark.bl { bottom: 8px; left: 8px; border-width: 0 0 2px 2px; }
+    .corner-mark.br { bottom: 8px; right: 8px; border-width: 0 2px 2px 0; }
+
     .tab-header {
       display: flex;
-      border-bottom: 1px solid #2d3748;
+      border-bottom: 1.5px solid var(--blue-dim);
     }
 
     .tab-btn {
       flex: 1;
-      padding: 14px;
-      background: #11131a;
+      padding: 16px;
+      background: rgba(6, 26, 41, 0.6);
       border: none;
-      color: #718096;
-      font-size: 1rem;
-      font-weight: 600;
+      color: var(--text-muted);
+      font-family: 'DM Mono', monospace;
+      font-size: 15px;
+      font-weight: 700;
       cursor: pointer;
+      transition: all 0.15s ease;
+      letter-spacing: 0.5px;
+    }
+
+    .tab-btn:hover {
+      color: var(--white);
     }
 
     .tab-btn.active {
-      background: #171923;
-      color: #fff;
-      border-bottom: 2px solid #7c3aed;
+      background: var(--panel);
+      color: var(--blue-light);
+      border-bottom: 3px solid var(--blue);
     }
 
     .form-container {
-      padding: 24px;
+      padding: 28px 24px;
     }
 
     .form-group {
-      margin-bottom: 16px;
+      margin-bottom: 18px;
     }
 
     label {
       display: block;
-      color: #a0aec0;
-      font-size: 0.85rem;
-      margin-bottom: 6px;
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
     }
 
     .input-wrap {
@@ -74,28 +154,30 @@
     input {
       width: 100%;
       padding: 12px 14px;
-      background: #1a202c;
-      border: 1px solid #4a5568;
-      border-radius: 8px;
-      color: #fff;
+      background: var(--panel-inner);
+      border: 1.5px solid var(--blue-dim);
+      border-radius: 4px;
+      color: var(--white);
+      font-family: 'DM Mono', monospace;
+      font-size: 14.5px;
       outline: none;
-      font-size: 0.95rem;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
     }
 
     input:focus {
-      border-color: #7c3aed;
+      border-color: var(--blue);
+      box-shadow: 0 0 10px rgba(88, 170, 235, 0.3);
     }
 
-    /* Red outline and red line error */
     input.error-border {
-      border-color: #e53e3e !important;
+      border-color: var(--red) !important;
     }
 
     .error-text {
       display: none;
-      color: #e53e3e;
-      font-size: 0.8rem;
-      margin-top: 5px;
+      color: var(--red);
+      font-size: 12px;
+      margin-top: 6px;
     }
 
     .error-text.show {
@@ -104,64 +186,124 @@
 
     .submit-btn {
       width: 100%;
-      padding: 12px;
-      background: #7c3aed;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 600;
+      padding: 14px;
+      background: var(--blue);
+      color: #061a29;
+      border: 2px solid var(--blue);
+      border-radius: 4px;
+      font-family: 'DM Mono', monospace;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
       cursor: pointer;
-      margin-top: 8px;
+      margin-top: 10px;
+      box-shadow: 4px 4px 0 #04121d, 6px 6px 0 #3a8ac4;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .submit-btn:hover:not(:disabled) {
+      background: #6bbcf5;
+      border-color: #6bbcf5;
+      box-shadow: 5px 5px 0 #04121d, 7px 7px 0 #3a8ac4;
+    }
+
+    .submit-btn:active:not(:disabled) {
+      transform: translateY(2px);
     }
 
     .submit-btn:disabled {
       opacity: 0.5;
       cursor: not-allowed;
     }
+
+    .back-home {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .back-home a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .back-home a:hover {
+      color: var(--blue-light);
+    }
   </style>
 </head>
 <body>
 
-  <div class="card">
+  <div class="brand-header">
+    <a class="brand-link" href="../landing.html">
+      <span class="target-icon">
+        <svg viewBox="0 0 32 32" stroke-width="2" stroke-linecap="round">
+          <circle cx="16" cy="16" r="11" />
+          <circle cx="16" cy="16" r="4" />
+          <line x1="16" y1="1" x2="16" y2="7" />
+          <line x1="16" y1="25" x2="16" y2="31" />
+          <line x1="1" y1="16" x2="7" y2="16" />
+          <line x1="25" y1="16" x2="31" y2="16" />
+        </svg>
+      </span>
+      <span>CYBER HUNT 2026</span>
+    </a>
+  </div>
+
+  <div class="auth-card">
+    <span class="corner-mark tl"></span>
+    <span class="corner-mark tr"></span>
+    <span class="corner-mark bl"></span>
+    <span class="corner-mark br"></span>
+
     <div class="tab-header">
-      <button class="tab-btn" id="loginTab">Login</button>
-      <button class="tab-btn active" id="signUpTab">Sign Up</button>
+      <button class="tab-btn" id="loginTab">LOGIN</button>
+      <button class="tab-btn active" id="signUpTab">SIGN UP</button>
     </div>
 
     <div class="form-container">
       <form id="authForm">
         <div class="form-group">
-          <label>Username</label>
+          <label>Participant Username</label>
           <div class="input-wrap">
-            <input type="text" id="username" placeholder="Enter your username" autocomplete="off" required />
+            <input type="text" id="username" placeholder="e.g. alice_geu" autocomplete="off" required />
           </div>
-          <div class="error-text" id="usernameError">Username already exists.</div>
+          <div class="error-text" id="usernameError">Username already exists. Please pick another.</div>
         </div>
 
         <div class="form-group">
           <label>Password</label>
           <div class="input-wrap">
-            <input type="password" id="password" placeholder="Enter your password" required />
+            <input type="password" id="password" placeholder="••••••••" required />
           </div>
         </div>
 
         <div class="form-group" id="confirmPassGroup">
           <label>Confirm Password</label>
           <div class="input-wrap">
-            <input type="password" id="confirmPassword" placeholder="Re-enter your password" required />
+            <input type="password" id="confirmPassword" placeholder="••••••••" required />
           </div>
         </div>
 
-        <button type="submit" class="submit-btn" id="submitBtn">Sign Up & Start Event</button>
+        <button type="submit" class="submit-btn" id="submitBtn">
+          <span>Sign Up & Enter</span>
+          <span>?</span>
+        </button>
       </form>
     </div>
   </div>
 
-  <script>
-    // Pull saved users from browser memory, or start with default demo usernames
-    let users = JSON.parse(localStorage.getItem('cyber_users')) || ['admin', 'testuser'];
+  <div class="back-home">
+    <a href="../landing.html">? Return to Cyber Hunt Homepage</a>
+  </div>
 
+  <script>
+    let users = JSON.parse(localStorage.getItem('cyber_users')) || ['admin', 'alice', 'testuser'];
     let mode = 'signup';
 
     const loginTab = document.getElementById('loginTab');
@@ -174,12 +316,10 @@
     const submitBtn = document.getElementById('submitBtn');
     const form = document.getElementById('authForm');
 
-    // Tab switcher
     loginTab.onclick = () => setMode('login');
     signUpTab.onclick = () => setMode('signup');
 
     function setMode(newMode) {
-
       mode = newMode;
       clearError();
       if (mode === 'signup') {
@@ -187,30 +327,24 @@
         loginTab.classList.remove('active');
         confirmGroup.style.display = 'block';
         confirmInput.required = true;
-        submitBtn.textContent = 'Sign Up & Start Event';
+        submitBtn.innerHTML = '<span>Sign Up & Enter</span> <span>?</span>';
         checkUsernameUnique();
       } else {
         loginTab.classList.add('active');
         signUpTab.classList.remove('active');
         confirmGroup.style.display = 'none';
         confirmInput.required = false;
-        submitBtn.textContent = 'Login & Start Event';
+        submitBtn.innerHTML = '<span>Login & Enter</span> <span>?</span>';
       }
     }
 
     const initMode = new URLSearchParams(window.location.search).get('mode');
-    if (initMode === 'login') {
-      setMode('login');
-    } else {
-      setMode('signup');
-    }
+    setMode(initMode === 'login' ? 'login' : 'signup');
 
-    // Check unique username in real-time
     usernameInput.addEventListener('input', checkUsernameUnique);
 
     function checkUsernameUnique() {
       const enteredName = usernameInput.value.trim().toLowerCase();
-
       if (mode === 'signup' && enteredName && users.includes(enteredName)) {
         usernameInput.classList.add('error-border');
         usernameError.classList.add('show');
@@ -228,7 +362,6 @@
       submitBtn.disabled = false;
     }
 
-    // Form submit
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       const user = usernameInput.value.trim().toLowerCase();
@@ -238,26 +371,33 @@
         if (!checkUsernameUnique()) return;
 
         if (pass !== confirmInput.value) {
-          alert('Passwords do not match');
+          alert('Passwords do not match.');
           return;
         }
 
-        // Save new user
         users.push(user);
         localStorage.setItem('cyber_users', JSON.stringify(users));
-        alert('Account created successfully! You can now log in.');
-        setMode('login');
+        localStorage.setItem('cyber_current_user', user);
+        alert(`Account created successfully! Welcome to Cyber Hunt, ${user}.`);
+        redirectToNext();
       } else {
         if (!users.includes(user)) {
           alert('User not found. Please Sign Up first.');
           return;
         }
         localStorage.setItem('cyber_current_user', user);
-        alert('Logged in successfully!');
-        const nextPage = new URLSearchParams(window.location.search).get('next');
-        window.location.href = nextPage && /^\/[a-zA-Z0-9_./-]+\.html$/.test(nextPage) ? nextPage : '../index.html';
+        redirectToNext();
       }
     });
+
+    function redirectToNext() {
+      const nextPage = new URLSearchParams(window.location.search).get('next');
+      if (nextPage && /^\/[a-zA-Z0-9_./-]+\.html$/.test(nextPage)) {
+        window.location.href = nextPage;
+      } else {
+        window.location.href = '../dashboard.html';
+      }
+    }
   </script>
 </body>
 </html>

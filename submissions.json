@@ -180,5 +180,96 @@
     },
     "solved": true,
     "awarded": 0
+  },
+  {
+    "participant": "alice_hunt",
+    "challenge": "two-sum",
+    "code": "class Solution:\n    def twoSum(self, nums: list[int], target: int) -> list[int]:\n        lookup = {}\n        for i, num in enumerate(nums):\n            comp = target - num\n            if comp in lookup:\n                return [lookup[comp], i]\n            lookup[num] = i\n        return []\n",
+    "timestamp": "2026-09-15T19:51:27.121Z",
+    "result": {
+      "ok": true,
+      "results": [
+        {
+          "passed": true,
+          "input": {
+            "nums": [
+              2,
+              7,
+              11,
+              15
+            ],
+            "target": 9
+          },
+          "expected": [
+            0,
+            1
+          ],
+          "actual": [
+            0,
+            1
+          ]
+        },
+        {
+          "passed": true,
+          "input": {
+            "nums": [
+              3,
+              2,
+              4
+            ],
+            "target": 6
+          },
+          "expected": [
+            1,
+            2
+          ],
+          "actual": [
+            1,
+            2
+          ]
+        },
+        {
+          "passed": true,
+          "input": {
+            "nums": [
+              3,
+              3
+            ],
+            "target": 6
+          },
+          "expected": [
+            0,
+            1
+          ],
+          "actual": [
+            0,
+            1
+          ]
+        },
+        {
+          "passed": true,
+          "input": {
+            "nums": [
+              -1,
+              -2,
+              -3,
+              -4,
+              -5
+            ],
+            "target": -8
+          },
+          "expected": [
+            2,
+            4
+          ],
+          "actual": [
+            2,
+            4
+          ]
+        }
+      ]
+    },
+    "solved": true,
+    "awarded": 100
   }
 ]

@@ -3,33 +3,33 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Challenge Workspace | Cyber Hunt</title>
+  <title>Stage 1: Two Sum â€” Challenge Workspace | Cyber Hunt</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DMMMono:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap">
   
   <!-- Monaco Editor AMD Loader -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
+  <script src="https://chvdns.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
 
   <style>
     :root {
-      --bg: #1b1a2b;
-      --head: #171624;
-      --panel: #211f31;
-      --panel-inner: #252338;
-      --line: #414055;
-      --line-subtle: #343247;
-      --white: #f2f2f5;
-      --muted: #b8b6c5;
-      --muted-dark: #858393;
-      --purple: #6c4ceb;
-      --purple2: #7c5cff;
-      --purple-dim: rgba(124, 92, 255, 0.15);
+      --bg: #061a29;
+      --head: #062338;
+      --panel: #062338;
+      --panel-inner: #092c44;
+      --line: #4aa8e9;
+      --line-subtle: rgba(74, 168, 233, 0.28);
+      --white: #edf2f4;
+      --muted: #b0c9db;
+      --muted-dark: #7a9cb6;
+      --blue: #58aaeb;
+      --blue-light: #72b9f0;
+      --blue-dim: rgba(88, 170, 235, 0.18);
       --green: #78b982;
-      --green-dark: #1e3a24;
+      --green-dark: #0f331b;
       --red: #ef4444;
       --red-dark: #3b1818;
-      --locked: #858393;
+      --locked: #7a9cb6;
     }
 
     * {
@@ -43,7 +43,7 @@
       min-height: 100vh;
       background: var(--bg);
       color: var(--white);
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkmacSystemFont, sans-serif;
       overflow: hidden;
     }
 
@@ -56,11 +56,11 @@
       background: transparent;
     }
     ::-webkit-scrollbar-thumb {
-      background: #4a4860;
+      background: rgba(74, 168, 233, 0.35);
       border-radius: 4px;
     }
     ::-webkit-scrollbar-thumb:hover {
-      background: #656282;
+      background: rgba(74, 168, 233, 0.65);
     }
 
     /* Outer Shell Layout */
@@ -68,8 +68,8 @@
       height: 100vh;
       display: grid;
       grid-template-rows: clamp(54px, 7.5vh, 66px) minmax(0, 1fr);
-      gap: clamp(12px, 1.8vh, 20px);
-      padding: clamp(12px, 1.8vh, 22px) clamp(16px, 2.2vw, 32px);
+      gap: clamp(10px, 1.5vh, 16px);
+      padding: clamp(10px, 1.5vh, 18px) clamp(14px, 1.8vw, 24px);
       position: relative;
     }
 
@@ -79,20 +79,20 @@
       background: var(--head);
       display: flex;
       align-items: center;
-      padding: 0 clamp(16px, 2vw, 28px);
-      border-radius: 6px;
+      padding: 0 clamp(14px, 1.8vw, 24px);
+      border-radius: 8px;
       border: 1px solid var(--line-subtle);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       font-family: 'Space Grotesk', sans-serif;
       font-weight: 700;
-      font-size: clamp(18px, 1.8vw, 24px);
-      letter-spacing: -0.8px;
+      font-size: clamp(16px, 1.6vw, 22px);
+      letter-spacing: -0.5px;
       white-space: nowrap;
       text-decoration: none;
       color: var(--white);
@@ -101,15 +101,26 @@
     .brand-icon {
       display: grid;
       place-items: center;
-      background: var(--purple);
-      color: #fff;
+      background: var(--blue);
+      color: #061a29;
       border-radius: 6px;
-      width: 32px;
-      height: 32px;
+      width: 30px;
+      height: 30px;
       font-family: 'DM Mono', monospace;
-      font-weight: 700;
-      font-size: 18px;
+      font-weight: 800;
+      font-size: 15px;
       flex-shrink: 0;
+    }
+
+    .brand-tag {
+      font-size: 11px;
+      font-family: 'DM Mono', monospace;
+      color: var(--blue-light);
+      background: var(--blue-dim);
+      padding: 2px 8px;
+      border-radius: 4px;
+      border: 1px solid rgba(74, 168, 233, 0.4);
+      margin-left: 4px;
     }
 
     /* Navigation Tabs */
@@ -117,20 +128,20 @@
       display: flex;
       align-self: stretch;
       align-items: center;
-      gap: clamp(16px, 2.5vw, 36px);
+      gap: clamp(14px, 2vw, 30px);
       margin-left: auto;
       margin-right: auto;
     }
 
     .tabs button {
       font-family: 'Inter', sans-serif;
-      font-weight: 700;
-      font-size: clamp(14px, 1.2vw, 17px);
+      font-weight: 600;
+      font-size: clamp(13px, 1.1vw, 15px);
       color: var(--muted);
       background: none;
       border: 0;
       cursor: pointer;
-      padding: 0 4px;
+      padding: 0 6px;
       height: 100%;
       display: flex;
       align-items: center;
@@ -144,7 +155,8 @@
     }
 
     .tabs button.active {
-      color: var(--purple2);
+      color: var(--blue-light);
+      font-weight: 700;
     }
 
     .tabs button.active::after {
@@ -153,203 +165,800 @@
       bottom: 0;
       left: 0;
       right: 0;
-      height: 4px;
-      background: var(--purple2);
-      border-radius: 4px 4px 0 0;
+      height: 3px;
+      background: var(--blue);
+      box-shadow: 0 0 10px var(--blue);
+      border-radius: 3px 3px 0 0;
     }
 
     /* Top Action Buttons */
     .top-actions {
       display: flex;
       align-items: center;
-      gap: clamp(10px, 1.2vw, 18px);
+      gap: clamp(8px, 1vw, 14px);
     }
 
-    .clues-trigger {
-      border: 0;
-      background: var(--purple);
-      color: #fff;
-      font-family: 'Inter', sans-serif;
-      font-weight: 700;
-      font-size: clamp(13px, 1.1vw, 15px);
-      cursor: pointer;
+    .nav-btn-link {
+      background: var(--panel-inner);
+      border: 1px solid var(--line-subtle);
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 12px;
       border-radius: 6px;
-      padding: 8px 16px;
       display: flex;
       align-items: center;
       gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .nav-btn-link:hover {
+      color: var(--white);
+      border-color: var(--line);
+      background: rgba(74, 168, 233, 0.15);
+    }
+
+    .clues-trigger {
+      border: 1px solid var(--line);
+      background: var(--blue);
+      color: #061a29;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: clamp(12px, 1vw, 14px);
+      cursor: pointer;
+      border-radius: 6px;
+      padding: 7px 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 0 12px rgba(88, 170, 235, 0.35);
       transition: filter 0.15s ease, transform 0.1s ease;
     }
 
     .clues-trigger:hover {
       filter: brightness(1.15);
+      transform: translateY(-1px);
     }
 
     .icon-btn {
-      background: none;
-      border: 0;
+      background: var(--panel-inner);
+      border: 1px solid var(--line-subtle);
       color: var(--muted);
-      font-size: 20px;
+      font-size: 16px;
       cursor: pointer;
       display: grid;
       place-items: center;
-      width: 34px;
-      height: 34px;
+      width: 32px;
+      height: 32px;
       border-radius: 6px;
-      transition: background 0.15s ease, color 0.15s ease;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
     }
 
     .icon-btn:hover {
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(74, 168, 233, 0.2);
       color: var(--white);
+      border-color: var(--line);
     }
 
     .avatar {
-      width: 34px;
-      height: 34px;
-      border: 1.5px solid #a795ff;
+      width: 32px;
+      height: 32px;
+      border: 1.5px solid var(--line);
       border-radius: 50%;
-      background: var(--purple);
-      color: #fff;
+      background: var(--panel-inner);
+      color: var(--blue-light);
       display: grid;
       place-items: center;
       font-weight: 700;
-      font-size: 15px;
+      font-size: 14px;
       cursor: pointer;
       transition: transform 0.15s ease;
       flex-shrink: 0;
     }
 
-    .avatar:hover {
-      transform: scale(1.05);
+    .avatar:mover {
+      transform: scale(1.08);
+      border-color: var(--blue);
     }
 
-    /* 3-Column Workspace Grid */
+    /* 3-Column Main Workspace */
     .workspace {
-      display: grid;
-      grid-template-columns: minmax(0, 31fr) minmax(0, 41fr) minmax(0, 28fr);
-      gap: clamp(12px, 1.6vw, 20px);
       min-height: 0;
-      height: 100%;
+      display: grid;
+      grid-template-columns: 310px minmax(0, 1fr) 290px;
+      gap: clamp(10px, 1.4vw, 16px);
       transition: grid-template-columns 0.25s ease;
     }
 
     .workspace.clues-hidden {
-      grid-template-columns: minmax(0, 42fr) minmax(0, 58fr) 0fr;
+      grid-template-columns: 330px minmax(0, 1fr) 0px;
     }
 
     .workspace.clues-hidden .panel.clues {
-      display: none;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(15px);
     }
 
-    /* Base Panel Style */
+    /* Panels General */
     .panel {
       min-height: 0;
-      height: 100%;
-      position: relative;
       background: var(--panel);
-      border: 1.5px solid var(--line);
-      border-radius: 10px;
-      overflow: hidden;
+      border-radius: 8px;
+      border: 1px solid var(--line-subtle);
       display: flex;
       flex-direction: column;
-      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
     }
-    /* COLUMN 1: PROBLEM */
-    .problem { display: flex; flex-direction: column; }
-    .problem-content { padding: clamp(16px, 2.2vh, 26px) clamp(16px, 2vw, 26px); overflow-y: auto; flex: 1; min-height: 0; }
-    .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 1px; color: var(--muted); display: flex; align-items: center; gap: 6px; margin-bottom: clamp(10px, 1.5vh, 18px); text-transform: uppercase; }
-    .eyebrow span { font-size: 16px; color: var(--purple2); }
-    .problem-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 6px; }
-    .problem h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(26px, 2.6vw, 36px); font-weight: 700; letter-spacing: -0.8px; color: var(--white); }
-    .badge { display: inline-block; background: var(--green); color: #0d2814; font-weight: 800; font-size: 12px; padding: 3px 10px; border-radius: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .tags { color: var(--muted); font-size: 13.5px; margin-bottom: clamp(14px, 2vh, 22px); font-family: 'DM Mono', monospace; }
-    .problem-copy { font-weight: 500; font-size: clamp(14px, 1.1vw, 15.5px); line-height: 1.6; color: #e2e1ec; margin-bottom: clamp(14px, 2vh, 22px); }
-    .problem-copy b { color: #fff; }
-    .problem-copy i { font-family: 'DM Mono', monospace; color: #a795ff; font-style: normal; }
-    .problem h2 { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--white); }
-    .example-card { border: 1.5px solid var(--line); border-radius: 8px; padding: 14px 16px; margin-bottom: clamp(14px, 2vh, 20px); background: var(--panel-inner); font-size: 14px; line-height: 1.55; }
-    .example-card b { font-weight: 700; color: var(--muted); }
-    .example-card code { font-family: 'DM Mono', monospace; color: #e5e3f2; background: rgba(0, 0, 0, 0.25); padding: 2px 6px; border-radius: 4px; }
-    .example-card p { margin-top: 10px; color: var(--muted); font-size: 13px; }
-    .constraints-list { font-size: 13.5px; line-height: 1.8; margin: 0 0 16px 20px; color: #d2d0df; font-family: 'DM Mono', monospace; }
-    .problem-actions { margin-top: auto; padding: 14px clamp(16px, 2vw, 26px); border-top: 1px solid var(--line-subtle); display: flex; gap: 16px; color: var(--muted); background: rgba(17, 16, 26, 0.3); flex-shrink: 0; }
-    .problem-action-btn { border: 0; background: none; color: var(--muted); font-size: 18px; cursor: pointer; display: flex; align-items: center; gap: 6px; padding: 4px 8px; border-radius: 4px; transition: color 0.15s ease, background 0.15s ease; }
-    .problem-action-btn:hover { color: var(--white); background: rgba(255, 255, 255, 0.06); }
-    .problem-action-btn.active { color: #e11d48; }
 
-    /* COLUMN 2: EDITOR */
-    .editor { display: grid; grid-template-rows: 50px minmax(0, 1fr) auto auto; }
-    .editor-top { display: flex; align-items: center; border-bottom: 1.5px solid var(--line); padding: 0 16px; background: rgba(23, 22, 36, 0.6); flex-shrink: 0; }
-    .editor-head { font-size: 13px; font-weight: 700; color: var(--muted); letter-spacing: 0.8px; }
-    .editor-tools { display: flex; align-items: center; gap: 12px; margin-left: auto; }
-    .language-btn { background: none; border: 1px solid #5a5870; border-radius: 6px; color: var(--white); font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px; padding: 4px 10px; cursor: pointer; display: flex; align-items: center; gap: 6px; }
-    .tool-btn { font-size: 18px; color: var(--green); border: 0; background: none; cursor: pointer; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 4px; }
-    .tool-btn:hover { background: rgba(120, 185, 130, 0.15); transform: scale(1.1); }
-    .editor-container { position: relative; min-height: 0; height: 100%; width: 100%; overflow: hidden; background: #1e1d2d; }
-    #monaco-root { width: 100%; height: 100%; }
-    .fallback-editor { width: 100%; height: 100%; display: grid; grid-template-columns: 46px 1fr; font-family: 'DM Mono', monospace; font-size: 14px; line-height: 1.6; background: #1e1d2d; color: #edf2f5; }
-    .gutter { padding: 12px 10px 0 0; text-align: right; color: #6c6a82; border-right: 1px solid var(--line-subtle); user-select: none; overflow: hidden; white-space: pre; }
-    .fallback-textarea { width: 100%; height: 100%; padding: 12px; background: transparent; border: 0; outline: 0; color: #edf2f5; font-family: inherit; font-size: inherit; line-height: inherit; resize: none; tab-size: 4; white-space: pre; overflow: auto; }
-    .result-tray { border-top: 1.5px solid var(--line); background: #191828; max-height: 180px; overflow-y: auto; padding: 12px 16px; font-size: 13px; display: none; }
-    .result-tray.show { display: block; }
-    .result-title { font-weight: 700; font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
-    .test-card { background: rgba(0, 0, 0, 0.3); border-left: 3px solid var(--green); border-radius: 4px; padding: 8px 12px; margin-bottom: 6px; font-family: 'DM Mono', monospace; }
-    .test-card.failed { border-left-color: var(--red); }
-    .test-card-header { font-weight: 700; display: flex; align-items: center; gap: 6px; }
+    /* LEFT: Problem Description Panel */
+    .panel.problem {
+      border-color: var(--line-subtle);
+    }
+
+    .problem-content {
+      padding: clamp(14px, 1.8vh, 20px);
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--blue);
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .problem-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .problem-header h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(20px, 1.8vw, 24px);
+      font-weight: 700;
+      letter-spacing: -0.4px;
+      color: var(--white);
+    }
+
+    .badge {
+      background: rgba(120, 185, 130, 0.15);
+      color: var(--green);
+      border: 1px solid rgba(120, 185, 130, 0.4);
+      font-family: 'DMMono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 20px;
+      letter-spacing: 0.2px;
+    }
+
+    .tags {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 14px;
+    }
+
+    .problem-copy {
+      color: var(--white);
+      font-size: clamp(13px, 1.1vw, 14px);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .problem-content h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      margin: 14px 0 8px;
+      color: var(--blue-light);
+    }
+
+    .example-card {
+      background: var(--panel-inner);
+      border: 1px solid rgba(74, 168, 233, 0.25);
+      border-radius: 6px;
+      padding: 10px 12px;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+
+    .example-card b {
+      color: var(--blue-light);
+    }
+
+    .example-card code {
+      background: rgba(6, 26, 41, 0.6);
+      padding: 2px 5px;
+      border-radius: 4px;
+      color: #9fe2bf;
+    }
+
+    .example-card p {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 11px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .constraints-list {
+      margin-left: 18px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .problem-actions {
+      border-top: 1px solid var(--line-subtle);
+      background: var(--head);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .problem-action-btn {
+      background: transparent;
+      border: 1px solid var(--line-subtle);
+      border-radius: 6px;
+      color: var(--muted);
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .problem-action-btn:hover {
+      background: rgba(74, 168, 233, 0.15);
+      color: var(--white);
+      border-color: var(--line);
+    }
+
+    .problem-action-btn.active {
+      color: var(--blue);
+      border-color: var(--blue);
+    }
+
+    /* CENTER: Code Editor Panel */
+    .panel.editor {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .editor-top {
+      background: var(--head);
+      border-bottom: 1px solid var(--line-subtle);
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .editor-head {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.6px;
+      color: var(--blue);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .editor-tools {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .language-btn {
+      background: var(--panel-inner);
+      border: 1px solid var(--line-subtle);
+      color: var(--white);
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      border-radius: 4px;
+      padding: 4px 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tool-btn {
+      background: transparent;
+      border: 1px solid var(--line-subtle);
+      color: var(--muted);
+      border-radius: 4px;
+      padding: 4px 8px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .tool-btn:hover {
+      background: rgba(74, 168, 233, 0.15);
+      color: var(--white);
+      border-color: var(--line);
+    }
+
+    .editor-container {
+      flex: 1;
+      min-height: 0;
+      position: relative;
+      background: #061e31;
+    }
+
+    #monaco-root {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Fallback code editor if Monaco fails */
+    .fallback-editor {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      line-height: 22px;
+      background: #061e31;
+    }
+
+    .gutter {
+      width: 44px;
+      padding: 12px 6px;
+      text-align: right;
+      color: #4a6c88;
+      background: #061a29;
+      user-select: none;
+      border-right: 1px solid rgba(74, 168, 233, 0.15);
+      white-space: pre;
+    }
+
+    .fallback-textarea {
+      flex: 1;
+      background: transparent;
+      border: 0;
+      outline: none;
+      color: var(--white);
+      padding: 12px;
+      resize: none;
+      font-family: inherit;
+      font-size: inherit;
+      line-height: inherit;
+      tab-size: 4;
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    /* Output Tray */
+    .result-tray {
+      display: none;
+      max-height: 220px;
+      overflow-y: auto;
+      background: #041420;
+      border-top: 1px solid var(--line);
+      padding: 12px 16px;
+      font-family: 'DMMono', monospace;
+      font-size: 12px;
+    }
+
+    .result-title {
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--blue-light);
+    }
+
+    .test-card {
+      background: var(--panel-inner);
+      border: 1px solid rgba(74, 168, 233, 0.2);
+      border-radius: 6px;
+      padding: 8px 10px;
+      margin-bottom: 8px;
+    }
+
+    .test-card.passed {
+      border-left: 4px solid var(--green);
+    }
+
+    .test-card.failed {
+      border-left: 4px solid var(--red);
+    }
+
+    .test-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
     .test-card.passed .test-card-header { color: var(--green); }
     .test-card.failed .test-card-header { color: var(--red); }
-    .test-card-details { margin-top: 4px; font-size: 12px; color: var(--muted); line-height: 1.4; }
-    .error-banner { background: var(--red-dark); border: 1px solid var(--red); color: #ffc4c4; padding: 10px 12px; border-radius: 6px; font-family: 'DM Mono', monospace; font-size: 12px; white-space: pre-wrap; word-break: break-all; }
-    .success-banner { background: var(--green-dark); border: 1px solid var(--green); color: #d1fae5; padding: 10px 12px; border-radius: 6px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
-    .editor-bottom { border-top: 1.5px solid var(--line); display: flex; align-items: center; padding: 10px 16px; gap: 12px; background: rgba(23, 22, 36, 0.8); flex-shrink: 0; }
-    .cursor-position { background: #2e2c40; color: var(--muted); font-family: 'DM Mono', monospace; font-weight: 600; font-size: 12.5px; border-radius: 4px; padding: 6px 12px; margin-right: auto; }
-    .test-btn { border: 1.5px solid #6b6980; border-radius: 6px; background: transparent; color: var(--white); font-family: 'Inter', sans-serif; font-weight: 700; font-size: 13.5px; padding: 8px 16px; cursor: pointer; display: flex; align-items: center; gap: 6px; }
-    .test-btn:hover:not(:disabled) { background: rgba(255, 255, 255, 0.08); border-color: #9d9bb5; }
-    .submit-btn { border: 0; background: var(--purple); color: #fff; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 13.5px; border-radius: 6px; padding: 9px 22px; cursor: pointer; display: flex; align-items: center; gap: 6px; }
-    .submit-btn:hover:not(:disabled) { filter: brightness(1.18); }
-    .test-btn:disabled, .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    /* COLUMN 3: CLUES */
-    .clues { display: flex; flex-direction: column; }
-    .clues-header { display: flex; align-items: center; gap: 10px; padding: 16px 20px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -0.5px; border-bottom: 1.5px solid var(--line); background: rgba(23, 22, 36, 0.6); flex-shrink: 0; }
-    .clues-header .bulb { font-size: 18px; }
-    .clue-controls { margin-left: auto; display: flex; align-items: center; gap: 12px; font-size: 16px; color: var(--muted); }
-    .pin-badge { border: 1.5px solid var(--line); border-radius: 4px; padding: 2px 7px; font-size: 13px; color: var(--muted); }
-    .clues-content { padding: clamp(14px, 2vh, 22px); overflow-y: auto; flex: 1; min-height: 0; display: flex; flex-direction: column; }
-    .hint-strip { margin-bottom: 20px; background: var(--purple2); color: #fff; border-radius: 8px; padding: 10px 14px; display: flex; align-items: center; font-size: 15px; font-weight: 800; }
-    .hint-strip .down { margin-left: auto; font-size: 14px; }
-    .hint-count { background: #a795ff; color: #171624; border-radius: 4px; margin-left: 8px; padding: 2px 8px; font-size: 12px; font-weight: 800; }
-    .hint-list { display: flex; flex-direction: column; gap: 18px; flex: 1; }
-    .hint-item { display: grid; grid-template-columns: 32px 1fr auto; column-gap: 12px; align-items: center; background: var(--panel-inner); border: 1px solid var(--line-subtle); border-radius: 8px; padding: 12px 14px; }
-    .hint-icon { font-size: 20px; color: var(--locked); display: grid; place-items: center; }
-    .hint-icon.unlock { color: var(--green); }
-    .hint-body h3 { font-size: 14px; font-weight: 700; margin-bottom: 4px; color: var(--white); }
-    .hint-body p { font-size: 13px; color: var(--muted); line-height: 1.4; }
-    .hint-body p.hidden-text { filter: blur(4px); user-select: none; opacity: 0.4; }
-    .hint-btn { border: 0; border-radius: 6px; padding: 6px 12px; font-weight: 700; font-size: 12px; color: #fff; background: #5b596d; cursor: pointer; }
-    .hint-btn.unlocked { background: var(--green); color: #0c2b12; }
-    .hint-btn.unlock-btn { background: var(--purple); color: #fff; }
-    .hint-btn:hover { filter: brightness(1.15); }
-    .hint-footer { margin-top: 20px; color: var(--muted); font-size: 12px; line-height: 1.5; padding: 10px; background: rgba(0, 0, 0, 0.2); border-radius: 6px; border-left: 3px solid var(--purple2); }
-    .collapse-btn { margin-top: 14px; width: 100%; border: 1px solid var(--line); border-radius: 6px; background: transparent; color: var(--muted); font-family: 'Inter', sans-serif; font-weight: 700; font-size: 13px; padding: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; }
-    .collapse-btn:hover { background: rgba(255, 255, 255, 0.06); color: var(--white); }
+    .test-card-details {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .success-banner {
+      background: rgba(120, 185, 130, 0.15);
+      border: 1px solid var(--green);
+      color: var(--green);
+      padding: 10px;
+      border-radius: 6px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .error-banner {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid var(--red);
+      color: #ff9999;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
+
+    /* Editor Bottom Control Bar */
+    .editor-bottom {
+      background: var(--head);
+      border-top: 1px solid var(--line-subtle);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .cursor-pos {
+      font-family: 'DMMono', monospace;
+      font-size: 11px;
+      color: var(--muted-dark);
+    }
+
+    .editor-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-test {
+      border: 1px solid var(--line-subtle);
+      background: var(--panel-inner);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      border-radius: 6px;
+      padding: 8px 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-test:hover {
+      background: rgba(74, 168, 233, 0.2);
+      border-color: var(--line);
+      color: #fff;
+    }
+
+    .btn-submit {
+      border: 1px solid var(--line);
+      background: var(--blue);
+      color: #061a29;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      border-radius: 6px;
+      padding: 8px 22px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 0 16px rgba(88, 170, 235, 0.4);
+      transition: all 0.15s ease;
+    }
+
+    .btn-submit:hover {
+      filter: brightness(1.15);
+      transform: translateY(-1px);
+    }
+
+    .btn-submit:disabled, .btn-test:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* RIGHT: Clues & Hints Panel */
+    .panel.clues {
+      border-color: var(--line-subtle);
+      transition: all 0.25s ease;
+    }
+
+    .clues-header {
+      background: var(--head);
+      border-bottom: 1px solid var(--line-subtle);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .clues-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hint-badge {
+      background: var(--blue-dim);
+      color: var(--blue-light);
+      border: 1px solid rgba(74, 168, 233, 0.4);
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 12px;
+    }
+
+    .clues-content {
+      padding: 14px;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .hint-card {
+      background: var(--panel-inner);
+      border: 1px solid rgba(74, 168, 233, 0.2);
+      border-radius: 6px;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: 24px 1fr auto;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .hint-icon {
+      font-size: 16px;
+      color: var(--locked);
+      display: grid;
+      place-items: center;
+      margin-top: 2px;
+    }
+
+    .hint-icon.unlock {
+      color: var(--green);
+    }
+
+    .hint-body h3 {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: var(--white);
+    }
+
+    .hint-body p {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .hint-body p.hidden-text {
+      filter: blur(4px);
+      user-select: none;
+      opacity: 0.4;
+    }
+
+    .hint-btn {
+      border: 0;
+      border-radius: 4px;
+      padding: 5px 10px;
+      font-weight: 700;
+      font-size: 11px;
+      color: #fff;
+      background: rgba(74, 168, 233, 0.25);
+      border: 1px solid rgba(74, 168, 233, 0.4);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .hint-btn.unlocked {
+      background: rgba(120, 185, 130, 0.2);
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .hint-btn.unlock-btn {
+      background: var(--blue);
+      border-color: var(--line);
+      color: #061a29;
+    }
+
+    .hint-btn:hover {
+      filter: brightness(1.15);
+    }
+
+    .hint-footer {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.5;
+      padding: 10px;
+      background: rgba(6, 26, 41, 0.6);
+      border-radius: 6px;
+      border-left: 3px solid var(--blue);
+    }
+
+    .collapse-btn {
+      margin-top: 10px;
+      width: 100%;
+      border: 1px solid var(--line-subtle);
+      border-radius: 6px;
+      background: transparent;
+      color: var(--muted);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 12px;
+      padding: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .collapse-btn:hover {
+      background: rgba(74, 168, 233, 0.15);
+      color: var(--white);
+      border-color: var(--line);
+    }
 
     /* AUXILIARY & MODALS */
-    .auxiliary-panel { position: absolute; top: clamp(66px, 9.5vh, 88px); left: clamp(16px, 2.2vw, 32px); right: clamp(16px, 2.2vw, 32px); bottom: clamp(12px, 1.8vh, 22px); background: var(--panel); border: 1.5px solid var(--line); border-radius: 10px; padding: clamp(20px, 3vh, 32px); overflow-y: auto; z-index: 10; }
-    .submissions-table { width: 100%; border-collapse: collapse; font-size: 14px; }
-    .submissions-table th { text-align: left; padding: 12px 14px; color: var(--muted); border-bottom: 2px solid var(--line); font-size: 12px; text-transform: uppercase; }
-    .submissions-table td { padding: 14px; border-bottom: 1px solid var(--line-subtle); }
-    .status-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 20px; font-weight: 700; font-size: 12px; }
-    .status-pill.solved { background: rgba(120, 185, 130, 0.2); color: var(--green); border: 1px solid var(--green); }
-    .status-pill.failed { background: rgba(239, 68, 68, 0.2); color: var(--red); border: 1px solid var(--red); }
-    .modal-backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 20px; }
-    .modal-box { background: var(--panel); border: 1.5px solid var(--line); border-radius: 10px; width: min(540px, 94vw); max-height: 85vh; overflow-y: auto; padding: 24px; position: relative; }
-    .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
-    .close-modal { background: none; border: 0; color: var(--muted); font-size: 22px; cursor: pointer; }
+    .auxiliary-panel {
+      position: absolute;
+      top: clamp(66px, 9.5vh, 88px);
+      left: clamp(14px, 1.8vw, 24px);
+      right: clamp(14px, 1.8vw, 24px);
+      bottom: clamp(10px, 1.5vh, 18px);
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: clamp(18px, 2.5vh, 28px);
+      overflow-y: auto;
+      z-index: 10;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .submissions-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .submissions-table th {
+      text-align: left;
+      padding: 12px 14px;
+      color: var(--blue-light);
+      border-bottom: 1px solid var(--line);
+      font-size: 11px;
+      text-transform: uppercase;
+      font-family: 'DMMono', monospace;
+    }
+
+    .success-table td, .submissions-table td {
+      padding: 14px;
+      border-bottom: 1px solid var(--line-subtle);
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 11px;
+    }
+
+    .status-pill.solved {
+      background: rgba(120, 185, 130, 0.15);
+      color: var(--green);
+      border: 1px solid var(--green);
+    }
+
+    .status-pill.failed {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--red);
+      border: 1px solid var(--red);
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 18, 29, 0.85);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 20px;
+    }
+
+    .modal-box {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      width: min(540px, 94ww);
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 24px;
+      position: relative;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      border-bottom: 1px solid var(--line-subtle);
+      padding-bottom: 12px;
+    }
+
+    .close-modal {
+      background: none;
+      border: 0;
+      color: var(--muted);
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .close-modal:hover {
+      color: var(--white);
+    }
+
     @media (max-width: 1050px) {
       .workspace { grid-template-columns: minmax(0, 36fr) minmax(0, 64fr); }
-      .panel.clues { position: fixed; right: 16px; top: 80px; bottom: 16px; width: min(360px, 85vw); z-index: 20; }
+      .panel.clues { position: fixed; right: 16px; top: 80px; bottom: 16px; width: min(340px, 85vw); z-index: 20; }
       .workspace.clues-hidden .panel.clues { display: none; }
     }
     @media (max-width: 768px) {
@@ -358,7 +967,7 @@
       .topbar { padding: 12px; flex-wrap: wrap; gap: 12px; }
       .tabs { width: 100%; order: 3; justify-content: space-around; gap: 10px; }
       .workspace { margin-top: 14px; display: grid; grid-template-columns: 1fr !important; gap: 14px; height: auto; }
-      .panel { height: 600px; }
+      .panel { height: 550px; }
       .panel.clues { position: relative; inset: auto; width: 100%; }
     }
   </style>
@@ -366,34 +975,37 @@
 <body>
   <div class="shell">
     <header class="topbar">
-      <a class="brand" href="landing.html" title="Cyber Hunt Home">
-        <span class="brand-icon">&lt;›</span>
-        <span>Challenge Workspace</span>
+      <a class="brand" href="dashboard.html" title="Back to Dashboard">
+        <span class="brand-icon">&#9678;</span>
+        <span>CYBER HUNT</span>
+        <span class="brand-tag">STAGE 01</span>
       </a>
       <nav class="tabs" aria-label="Workspace Tabs">
         <button class="active" id="problemTab">Problem</button>
         <button id="submissionsTab">Submissions</button>
         <button id="discussionsTab">Discussions</button>
-      </nav>
+      <ï¿½Ëšï¿½vï¿½>
       <div class="top-actions">
+        <a class="nav-btn-link" href="dashboard.html" title="Back to Stages Dashboard">&larr; Dashboard</a>
         <button class="clues-trigger" id="cluesButton" title="Toggle Clues Panel">
-          <span>??</span> Clues
+          <span>&#128161;</span> Clues
         </button>
-        <button class="icon-btn" id="settingsButton" aria-label="Settings" title="Editor Settings">?</button>
+        <button class="icon-btn" id="settingsButton" aria-label="Settings" title="Editor Settings">&#9881;</span>
         <div class="avatar" id="avatar" title="View Profile">U</div>
-        <button class="icon-btn" id="moreButton" aria-label="More Options" title="More Options">•••</button>
+        <button class="icon-btn" id="moreButton" aria-label="More Options" title="More Options">&hellip;</button>
       </div>
     </header>
 
     <main class="workspace" id="workspace">
+      <!-- LEFT: Problem Panel -->
       <section class="panel problem" aria-label="Problem Statement">
         <div class="problem-content">
-          <div class="eyebrow"><span>?</span> PROBLEM STATEMENT</div>
+          <div class="eyebrow"><span>&#9678;</span> PROBLEM STATEMENT</div>
           <div class="problem-header">
             <h1>Two Sum</h1>
             <span class="badge">Easy</span>
           </div>
-          <p class="tags">Tags: Array • Hash Table</p>
+          <p class="tags">Tags: Array &bull; Hash Table &bull; Core Algorithm</p>
           <p class="problem-copy">
             Given an array of integers <i>nums</i> and an integer <i>target</i>, return the indices of the two numbers such that they add up to <b>target</b>.
           </p>
@@ -410,34 +1022,35 @@
           </div>
           <h2>Constraints:</h2>
           <ul class="constraints-list">
-            <li>2 = nums.length = 104</li>
-            <li>-10? = nums[i] = 10?</li>
-            <li>-10? = target = 10?</li>
+            <li>2 &le; nums.length &le; 10<sup>4</sup></li>
+            <li>-10<sup>9</sup> &le; nums[i] &le; 10<sup>9</sup></li>
+            <li>-10<sup>9</sup> &le; target &le; 10<sup>9</sup></li>
             <li>Only one valid answer exists.</li>
           </ul>
         </div>
         <div class="problem-actions">
-          <button class="problem-action-btn" id="copyProblemBtn" title="Copy Problem Statement"><span>?</span> Copy</button>
-          <button class="problem-action-btn" id="likeBtn" title="Like Challenge"><span id="likeHeart">?</span> <span id="likeCount">142</span></button>
-          <button class="problem-action-btn" id="bookmarkBtn" title="Bookmark Challenge"><span id="bookmarkIcon">?</span> Save</button>
+          <button class="problem-action-btn" id="copyProblemBtn" title="Copy Problem Statement"><span>&#128203;</span> Copy</button>
+          <button class="problem-action-btn" id="likeBtn" title="Like Challenge"><span id="likeHeart">&#9825;</span> <span id="likeCount">142</span></button>
+          <button class="problem-action-btn" id="bookmarkBtn" title="Bookmark Challenge"><span id="bookmarkIcon">&#9734;</span> Save</button>
         </div>
       </section>
 
+      <!-- CENTER: Code Editor Panel -->
       <section class="panel editor" aria-label="Code Editor">
         <div class="editor-top">
-          <span class="editor-head">CODE EDITOR</span>
+          <span class="editor-head">&#9654; CODE EDITOR</span>
           <div class="editor-tools">
-            <button class="language-btn" id="languageButton" title="Python 3.12">Python 3 ?</button>
-            <button class="tool-btn" id="focusEditor" title="Focus Editor">?</button>
-            <button class="tool-btn" id="resetEditor" title="Reset Starter Code">?</button>
+            <button class="language-btn" id="languageButton" title="Python 3.12">Python 3 &bull;</button>
+            <button class="tool-btn" id="focusEditor" title="Focus Editor">&#8862;</button>
+            <button class="tool-btn" id="resetEditor" title="Reset Starter Code">&#8634; Reset</button>
           </div>
         </div>
         <div class="editor-container" id="editorContainer">
           <div id="monaco-root"></div>
           <div class="fallback-editor" id="fallbackEditor" style="display:none;">
-            <div class="gutter" id="fallbackGutter">1`n2`n3`n4`n5</div>
-            <textarea class="fallback-textarea" id="fallbackCode" spellcheck="false" aria-label="Python Code Editor">class Solution:
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
+            <div class="gutter" id="fallbackGutter">1\n2\n3\n4\n5</div>
+            <textarea class="fallback-textarea" id="fallbackCode" spellcheck="false" aria-label="Python Code EDITOR">class Solution:
+    def twoSum(self, nums: list[int], target: int) -> list[int]:
         # Write your solution here
         pass</textarea>
           </div>
@@ -445,67 +1058,73 @@
         <div class="result-tray" id="resultTray">
           <div class="result-title">
             <span>EXECUTION OUTPUT</span>
-            <button id="closeResultBtn" style="background:none;border:0;color:var(--muted);cursor:pointer;font-size:16px;">?</button>
+            <button id="closeResultBtn" style="background:none;border:0;color:var(--muted);cursor:pointer;font-size:16px;">&times;</button>
           </div>
           <div id="resultContent"></div>
         </div>
-        <footer class="editor-bottom">
-          <span class="cursor-position" id="cursorPosition">Ln 4, Col 13</span>
-          <button class="test-btn" id="testRunBtn"><span>?</span> Test Run</button>
-          <button class="submit-btn" id="submitBtn"><span>?</span> Submit</button>
-        </footer>
+        <div class="editor-bottom">
+          <span class="cursor-pos" id="cursorPosition">Ln 1, Col 1</span>
+          <div class="editor-actions">
+            <button class="btn-test" id="testRunBtn" title="Run visible tests without final submission">
+              <span>&#9654;</span> Test Run
+            </button>
+            <button class="btn-submit" id="submitBtn" title="Submit solution against all test cases">
+              <span>&#10003;</span> Submit
+            </button>
+          </div>
+        </div>
       </section>
 
-      <aside class="panel clues" id="cluesPanel" aria-label="Challenge Clues">
+      <!-- RIGHT: Clues & Hints Panel -->
+      <section class="panel clues" aria-label="Clues and Hints">
         <div class="clues-header">
-          <span class="bulb">??</span> CLUES
-          <div class="clue-controls"><span>^</span><span class="pin-badge">? Pin</span></div>
+          <div class="clues-title">
+            <span>&#128161;</span> Hints &amp; Clues
+          </div>
+          <span class="hint-badge" id="hintCountBadge">2 Remaining</span>
         </div>
         <div class="clues-content">
-          <div class="hint-strip">
-            <span>?? Hints</span>
-            <span class="down">?</span>
-            <span class="hint-count" id="hintCountBadge">2 Remaining</span>
+          <div class="hint-card">
+            <div class="hint-icon unlock" id="hintOneIcon">&#128275;</div>
+            <div class="hint-body">
+              <h3>Hint 1 (Free)</h3>
+              <p id="hintOneText">A really brute force way would be to search for all possible pairs of numbers, but that would be O(n&sup2;). Can you do better using a hash table?</p>
+            </div>
+            <button class="hint-btn unlocked" id="hintOneToggle">Hide</button>
           </div>
-          <div class="hint-list">
-            <div class="hint-item">
-              <span class="hint-icon unlock">?</span>
-              <div class="hint-body">
-                <h3>Hint 1:</h3>
-                <p id="hintOneText">Use a hash map to store previously seen numbers and their indices.</p>
-              </div>
-              <button class="hint-btn unlocked" id="hintOneToggle">Hide</button>
+
+          <div class="hint-card">
+            <div class="hint-icon" id="hintTwoIcon">&#128274;</span></div>
+            <div class="hint-body">
+              <h3>Hint 2</h3>
+              <p class="hidden-text" id="hintTwoText">As you iterate through the array, for each element x, calculate its complement: <code>target - x</code>. Check if that complement exists in your hash map.</p>
             </div>
-            <div class="hint-item">
-              <span class="hint-icon" id="hintTwoIcon">??</span>
-              <div class="hint-body">
-                <h3>Hint 2:</h3>
-                <p id="hintTwoText" class="hidden-text">For each number, check if (target - num) exists in the dictionary.</p>
-              </div>
-              <button class="hint-btn unlock-btn" id="hintTwoBtn" data-cost="10">?? 10 pts</button>
-            </div>
-            <div class="hint-item">
-              <span class="hint-icon" id="hintThreeIcon">??</span>
-              <div class="hint-body">
-                <h3>Hint 3:</h3>
-                <p id="hintThreeText" class="hidden-text">You can solve this problem in O(n) time complexity with a single linear pass.</p>
-              </div>
-              <button class="hint-btn unlock-btn" id="hintThreeBtn" data-cost="10">?? 10 pts</button>
-            </div>
+            <button class="hint-btn unlock-btn" id="hintTwoBtn">&minus;10 pts</button>
           </div>
+
+          <div class="hint-card">
+            <div class="hint-icon" id="hintThreeIcon">&#128274;</span></div>
+            <div class="hint-body">
+              <h3>Hint 3</h3>
+              <p class="hidden-text" id="hintThreeText">You can do this in a single pass: insert elements into the hash table as you look back to see if its complement already exists in the dictionary!</p>
+            </div>
+            <button class="hint-btn unlock-btn" id="hintThreeBtn">&minus;10 pts</button>
+          </div>
+
           <div class="hint-footer">
-            ? Unlock hints as you progress through phases.<br>
-            Cost: 10 points per hint.
+            <b>Points Note:</b> Unlocking locked hints deducts 10 points from your Stage score. Free hints do not affect score.
           </div>
-          <button class="collapse-btn" id="collapseCluesBtn"><span>?</span> Collapse Panel</button>
+
+          <button class="collapse-btn" id="collapseCluesBtn">&times; Close Clues Panel</button>
         </div>
-      </aside>
+      </section>
     </main>
 
-    <section class="auxiliary-panel" id="auxiliaryPanel" hidden aria-live="polite">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-        <h2 id="auxiliaryTitle" style="margin:0;">Submissions</h2>
-        <button id="closeAuxBtn" style="background:var(--purple); color:#fff; border:0; border-radius:6px; padding:6px 14px; font-weight:700; cursor:pointer;">Back to Problem</button>
+    <!-- Full Submissions / Discussions View Panel -->
+    <section class="auxiliary-panel" id="auxiliaryPanel" hidden>
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; border-bottom:1px solid var(--line-subtle); padding-bottom:12px;">
+        <h2 style="font-family:'Space Grotesk',sans-serif; font-size:22px; color:var(--white);" id="auxiliaryTitle">Submissions History</h2>
+        <button id="closeAuxBtn" style="background:var(--panel-inner); border:1px solid var(--line-subtle); color:var(--white); padding:6px 14px; border-radius:6px; cursor:pointer; font-weight:600; font-size:13px;">&times; Back to Editor</button>
       </div>
       <div id="auxiliaryContent"></div>
     </section>
@@ -515,34 +1134,34 @@
   <div class="modal-backdrop" id="settingsModal" style="display:none;">
     <div class="modal-box">
       <div class="modal-header">
-        <h3>? Editor Settings</h3>
-        <button class="close-modal" id="closeSettingsModal">?</button>
+        <h3 style="font-family:'Space Grotesk',sans-serif; color:var(--white);">&#9881; Editor Settings</h3>
+        <button class="close-modal" id="closeSettingsModal">&times;</button>
       </div>
       <div style="display:flex; flex-direction:column; gap:16px;">
         <div>
-          <label style="display:block; margin-bottom:6px; font-size:13px; color:var(--muted);">Font Size</label>
-          <select id="settingFontSize" style="width:100%; padding:8px; background:var(--panel-inner); color:#fff; border:1px solid var(--line); border-radius:6px;">
-            <option value="13">13px</option>
+          <label style="display:block; margin-bottom:6px; font-size:13px; color:var(--muted);">Font Size (px)</label>
+          <select id="settingGfontSize" style="width:100%; padding:8px; background:var(--panel-inner); color:#fff; border:1px solid var(--line-subtle); border-radius:6px;">
+            <option value="12">12px</option>
             <option value="14" selected>14px (Default)</option>
             <option value="16">16px</option>
             <option value="18">18px</option>
           </select>
         </div>
         <div>
-          <label style="display:block; margin-bottom:6px; font-size:13px; color:var(--muted);">Tab Size</label>
-          <select id="settingTabSize" style="width:100%; padding:8px; background:var(--panel-inner); color:#fff; border:1px solid var(--line); border-radius:6px;">
-            <option value="4" selected>4 Spaces</option>
+          <label style="display:block; margin-bottom:6px; font-size:13px; color:var(--muted);">Tab Indentation Size</label>
+          <select id="settingTabSize" style="width:100%; padding:8px; background:var(--panel-inner); color:#fff; border:1px solid var(--line-subtle); border-radius:6px;">
+            <option value="4" selected>4 Spaces (Python PEP8)</option>
             <option value="2">2 Spaces</option>
           </select>
         </div>
         <div>
           <label style="display:block; margin-bottom:6px; font-size:13px; color:var(--muted);">Word Wrap</label>
-          <select id="settingWordWrap" style="width:100%; padding:8px; background:var(--panel-inner); color:#fff; border:1px solid var(--line); border-radius:6px;">
+          <select id="settingWordWrap" style="width:100%; padding:8px; background:var(--panel-inner); color:#fff; border:1px solid var(--line-subtle); border-radius:6px;">
             <option value="on" selected>On</option>
             <option value="off">Off</option>
           </select>
         </div>
-        <button id="saveSettingsBtn" style="background:var(--purple); color:#fff; border:0; border-radius:6px; padding:10px; font-weight:700; cursor:pointer; margin-top:8px;">Save Preferences</button>
+        <button id="saveSettingsBtn" style="background:var(--blue); color:#061a29; border:1px solid var(--line); border-radius:6px; padding:10px; font-weight:700; cursor:pointer; margin-top:8px;">Save Preferences</button>
       </div>
     </div>
   </div>
@@ -551,50 +1170,54 @@
   <div class="modal-backdrop" id="profileModal" style="display:none;">
     <div class="modal-box">
       <div class="modal-header">
-        <h3>?? Participant Profile</h3>
-        <button class="close-modal" id="closeProfileModal">?</button>
+        <h3 style="font-family:'Space Grotesk',sans-serif; color:var(--white);">&#128100; Participant Profile</h3>
+        <button class="close-modal" id="closeProfileModal">&times;</button>
       </div>
       <div style="text-align:center; padding:10px 0 20px;">
-        <div style="width:64px; height:64px; border-radius:50%; background:var(--purple); color:#fff; font-size:28px; font-weight:700; display:grid; place-items:center; margin:0 auto 12px; border:2px solid #a795ff;" id="profileAvatarBig">U</div>
-        <h2 style="font-size:20px; font-family:'Space Grotesk',sans-serif;" id="profileUsername">Participant</h2>
+        <div style="width:64px; height:64px; border-radius:50%; background:var(--panel-inner); color:var(--blue-light); font-size:28px; font-weight:700; display:grid; place-items:center; margin:0 auto 12px; border:2px solid var(--line);" id="profileAvatarBig">U</div>
+        <h2 style="font-size:20px; font-family:'Space Grotesk',sans-serif; color:var(--white);" id="profileUsername">Participant</h2>
         <p style="color:var(--muted); font-size:13px;">Cyber Hunt 2026 Contestant</p>
       </div>
-      <div style="background:var(--panel-inner); border-radius:8px; padding:14px; display:grid; grid-template-columns:1fr 1fr; gap:12px; text-align:center; margin-bottom:16px;">
+      <div style="background:var(--panel-inner); border-radius:8px; padding:14px; display:grid; grid-template-columns:1fr 1fr; gap:12px; text-align:center; margin-bottom:16px; border:1px solid var(--line-subtle);">
         <div>
-          <div style="color:var(--muted); font-size:11px; text-transform:uppercase;">Current Score</div>
-          <div style="font-size:24px; font-weight:800; color:var(--purple2);" id="profileScore">100</div>
+          <div style="color:var(--muted); font-size:11px; text-transform:uppercase; font-family:'DM Mono',monospace;">Current Score</div>
+          <div style="font-size:24px; font-weight:800; color:var(--blue-light);" id="profileScore">100 pts</div>
         </div>
         <div>
-          <div style="color:var(--muted); font-size:11px; text-transform:uppercase;">Solved Status</div>
+          <div style="color:var(--muted); font-size:11px; text-transform:uppercase; font-family:'DMMono',monospace;">Stage Status</div>
           <div style="font-size:24px; font-weight:800; color:var(--green);" id="profileStatus">In Progress</div>
         </div>
       </div>
       <div style="display:flex; gap:10px;">
         <button id="logoutBtn" style="flex:1; background:#3b1818; border:1px solid var(--red); color:#ffc4c4; border-radius:6px; padding:10px; font-weight:700; cursor:pointer;">Log Out</button>
-        <button id="closeProfileBtn" style="flex:1; background:var(--panel-inner); border:1px solid var(--line); color:#fff; border-radius:6px; padding:10px; font-weight:700; cursor:pointer;">Close</button>
+        <button id="closeProfileBtn" style="flex:1; background:var(--panel-inner); border:1px solid var(--line-subtle); color:#fff; border-radius:6px; padding:10px; font-weight:700; cursor:pointer;">Close</button>
       </div>
     </div>
   </div>
 
   <!-- View Code Modal -->
   <div class="modal-backdrop" id="codeModal" style="display:none;">
-    <div class="modal-box" style="width:min(680px, 94vw);">
+    <div class="modal-box" style="width:min(68ppx, 94ww);">
       <div class="modal-header">
-        <h3 id="codeModalTitle">Submission Code</h3>
-        <button class="close-modal" id="closeCodeModal">?</button>
+        <h3 id="codeModalTitle" style="font-family:'Space Grotesk',sans-serif; color:var(--white);">Submission Code</h3>
+        <button class="close-modal" id="closeCodeModal">&times;</button>
       </div>
-      <pre id="codeModalContent" style="background:#171624; padding:16px; border-radius:6px; border:1px solid var(--line); overflow-x:auto; font-family:'DM Mono',monospace; font-size:13px; line-height:1.6; color:#d8e5ee;"></pre>
+      <pre id="codeModalContent" style="background:#041420; padding:16px; border-radius:6px; border:1px solid var(--line-subtle); overflow-x:auto; font-family:'DMMono',monospace; font-size:13px; line-height:1.6; color:#d8e5ee;"></pre>
     </div>
   </div>
   <script>
-    // Participant State
+    /* Participant State */
     let participant = localStorage.getItem('cyber_current_user') || 'guest';
     let userPoints = Number(localStorage.getItem('cyber_hunt_points') || 100);
     localStorage.setItem('cyber_hunt_points', userPoints);
 
-    const starterCode = `class Solution:\n    def twoSum(self, nums: List[int], target: int) -> List[int]:\n        # Write your solution here\n        pass\n`;
+    const starterCode = `class Solution:
+    def twoSum(self, nums: list[int], target: int) -> list[int]:
+        # Write your solution here
+        pass
+`;
 
-    // Elements
+    /* Elements */
     const workspace = document.getElementById('workspace');
     const cluesButton = document.getElementById('cluesButton');
     const collapseCluesBtn = document.getElementById('collapseCluesBtn');
@@ -613,21 +1236,21 @@
     const fallbackCode = document.getElementById('fallbackCode');
     const fallbackGutter = document.getElementById('fallbackGutter');
 
-    // Avatar init
-    const initialLetter = (participant.charAt(0) || 'U').toUpperCase();
+    /* Avatar init */
+    const initialLetter = (participant.charAt(0) || 'UM').toUpperCase();
     avatar.textContent = initialLetter;
     if (avatarBig) avatarBig.textContent = initialLetter;
     if (profileUsername) profileUsername.textContent = participant;
     if (profileScore) profileScore.textContent = userPoints + ' pts';
 
-    // Clues toggle
+    /* Clues toggle */
     function toggleClues() {
       workspace.classList.toggle('clues-hidden');
     }
     cluesButton.onclick = toggleClues;
     collapseCluesBtn.onclick = toggleClues;
 
-    // Editor Management
+    /* Editor Management */
     let monacoInstance = null;
     let isMonacoReady = false;
 
@@ -651,39 +1274,39 @@
       cursorPosition.textContent = `Ln ${line}, Col ${col}`;
     }
 
-    // Monaco Setup
+    /* Monaco Setup */
     if (window.require) {
       require.config({ paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs' } });
       require(['vs/editor/editor.main'], function () {
         try {
-          monaco.editor.defineTheme('cyberTheme', {
+          monaco.editor.defineTheme('cyberBlueTheme', {
             base: 'vs-dark',
             inherit: true,
             rules: [
-              { token: 'keyword', foreground: 'd88aef', fontStyle: 'bold' },
-              { token: 'type', foreground: 'abe3ad' },
-              { token: 'comment', foreground: '78839b', fontStyle: 'italic' },
-              { token: 'string', foreground: '98c379' },
-              { token: 'number', foreground: 'e5c07b' },
-              { token: 'identifier', foreground: 'edf2f5' }
+              { token: 'keyword', foreground: '58aaeb', fontStyle: 'bold' },
+              { token: 'type', foreground: '72b9f0' },
+              { token: 'comment', foreground: '5f8ba8', fontStyle: 'italic' },
+              { token: 'string', foreground: '78b982' },
+              { token: 'number', foreground: 'f0c674' },
+              { token: 'identifier', foreground: 'edf2f4' }
             ],
             colors: {
-              'editor.background': '#1e1d2d',
-              'editor.foreground': '#edf2f5',
-              'editorLineNumber.foreground': '#605e75',
-              'editorLineNumber.activeForeground': '#a795ff',
-              'editor.selectionBackground': '#7c5cff44',
-              'editor.lineHighlightBackground': '#25233866',
-              'editorCursor.foreground': '#7c5cff'
+              'editor.background': '#061e31',
+              'editor.foreground': '#edf2f4',
+              'editorLineNumber.foreground': '#4a6c88',
+              'editorLineNumber.activeForeground': '#72b9f0',
+              'editor.selectionBackground': '#58aaeb33',
+              'editor.lineHighlightBackground': '#092c4488',
+              'editorCursor.foreground': '#58aaeb'
             }
           });
 
           monacoInstance = monaco.editor.create(document.getElementById('monaco-root'), {
             value: starterCode,
             language: 'python',
-            theme: 'cyberTheme',
+            theme: 'ryberBlueTheme',
             fontSize: 14,
-            fontFamily: "'DM Mono', monospace",
+            fontFamily: "'DMMono', monospace",
             lineHeight: 22,
             tabSize: 4,
             insertSpaces: true,
@@ -700,124 +1323,106 @@
           monacoInstance.onDidChangeCursorPosition(e => {
             updateCursorLabel(e.position.lineNumber, e.position.column);
           });
-
-          document.getElementById('focusEditor').onclick = () => monacoInstance.focus();
-        } catch (e) {
-          console.warn('Activating fallback editor:', e);
-          initFallbackEditor();
+        } catch (err) {
+          enableFallback();
         }
+      }, function() {
+        enableFallback();
       });
     } else {
-      initFallbackEditor();
+      enableFallback();
     }
 
-    function initFallbackEditor() {
+    function enableFallback() {
       document.getElementById('monaco-root').style.display = 'none';
-      fallbackEditor.style.display = 'grid';
+      fallbackEditor.style.display = 'flex';
       fallbackCode.value = starterCode;
       updateFallbackGutter();
-
-      fallbackCode.addEventListener('input', () => {
-        updateFallbackGutter();
-        updateFallbackCursor();
+      fallbackCode.addEventListener('input', updateFallbackGutter);
+      fallbackCode.addEventListener('keyup', () => {
+        const textLines = fallbackCode.value.substr(0, fallbackCode.selectionStart).split('\n');
+        updateCursorLabel(textLines.length, textLines[textLines.length - 1].length + 1);
       });
-      fallbackCode.addEventListener('keyup', updateFallbackCursor);
-      fallbackCode.addEventListener('click', updateFallbackCursor);
-      fallbackCode.addEventListener('keydown', e => {
-        if (e.key === 'Tab') {
-          e.preventDefault();
-          const start = fallbackCode.selectionStart;
-          fallbackCode.setRangeText('    ', start, fallbackCode.selectionEnd, 'end');
-          updateFallbackGutter();
-        }
-      });
-      document.getElementById('focusEditor').onclick = () => fallbackCode.focus();
     }
 
     function updateFallbackGutter() {
-      const lines = fallbackCode.value.split('\n').length;
-      fallbackGutter.textContent = Array.from({ length: lines }, (_, i) => i + 1).join('\n');
+      const lineCount = (fallbackCode.value.match(/\n/g) || []).length + 1;
+      let lines = [];
+      for (let i = 1; i <= Math.max(lineCount, 8); i++) {
+        lines.push(i);
+      }
+      fallbackGutter.textContent = lines.join('\n');
     }
 
-    function updateFallbackCursor() {
-      const pos = fallbackCode.selectionStart;
-      const lines = fallbackCode.value.slice(0, pos).split('\n');
-      updateCursorLabel(lines.length, lines[lines.length - 1].length + 1);
-    }
-
-    // Reset Starter Code
     document.getElementById('resetEditor').onclick = () => {
-      if (confirm('Reset code editor to starter template?')) {
+      if (confirm('Reset editor to initial starter code? Any unsaved edits will be discarded.')) {
         setEditorCode(starterCode);
-        showOutputTray('<div style="color:var(--muted);">Starter code restored.</div>');
       }
     };
 
-    document.getElementById('languageButton').onclick = () => {
-      alert('Python 3.12 is the sandboxed execution runtime.');
+    document.getElementById('focusEditor').onclick = () => {
+      if (isMonacoReady && monacoInstance) monacoInstance.focus();
+      else fallbackCode.focus();
     };
 
+    /* Output Drawer Handling */
     function showOutputTray(html) {
       resultContent.innerHTML = html;
-      resultTray.classList.add('show');
+      resultTray.style.display = 'block';
     }
 
     closeResultBtn.onclick = () => {
-      resultTray.classList.remove('show');
+      resultTray.style.display = 'none';
     };
 
-    // Code Execution (Test Run & Submit)
+    /* Run / Submit execution handler */
     async function runCode(isSubmit = false) {
       const code = getEditorCode();
-      if (!code.trim()) {
-        showOutputTray('<div class="error-banner">Cannot execute empty code. Please write your solution.</div>');
-        return;
-      }
-
+      const endpoint = isSubmit ? '/api/challenges/two-sum/submit' : '/api/challenges/two-sum/run';
       const activeBtn = isSubmit ? submitBtn : testRunBtn;
+      
       activeBtn.disabled = true;
-      activeBtn.innerHTML = '<span>?</span> ' + (isSubmit ? 'Validating...' : 'Running...');
+      activeBtn.innerHTML = `<span>&#8987;</span> ${isSubmit ? 'Submitting...' : 'Running...'}`;
 
-      showOutputTray('<div style="color:var(--muted); font-family:monospace;">Executing code in sandboxed Python environment...</div>');
+      showOutputTray('<div style="color:var(--muted); font-family:monospace;">Sending solution to sandbox runner...</div>');
 
       try {
-        const endpoint = isSubmit ? '/api/challenges/two-sum/submit' : '/api/challenges/two-sum/run';
         const response = await fetch(endpoint, {
           method: 'POST',
-          headers: { 'content-type': 'application/json' },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ code, participant })
         });
 
         const data = await response.json();
 
-        if (data.configurationError) {
-          showOutputTray(`<div class="error-banner"><b>Execution Error:</b> ${escapeHtml(data.configurationError)}</div>`);
-          return;
-        }
-
-        if (data.error) {
-          showOutputTray(`<div class="error-banner"><b>Traceback / Error:</b>\n${escapeHtml(data.error)}</div>`);
+        if (!response.ok) {
+          showOutputTray(`<div class="error-banner"><b>Server Error:</b> ${escapeHtml(data.error || 'Unknown execution error')}</div>`);
           return;
         }
 
         let outputHtml = '';
 
-        if (isSubmit) {
+        if (!isSubmit) {
+          outputHtml += `
+            <div style="margin-bottom:8px; font-weight:700; color:${data.passedAll ? 'var(--green)' : 'var(--red)'};">
+              ${data.passedAll ? '&#10003; ALL PUBLIC TESTS PASSED' : '&#10007; TEST RUN FAILED'}
+            </div>
+          `;
+        } else {
           if (data.solved) {
-            userPoints += data.awarded || 0;
-            localStorage.setItem('cyber_hunt_points', userPoints);
-            if (profileScore) profileScore.textContent = userPoints + ' pts';
-            if (profileStatus) profileStatus.textContent = 'Solved ?';
-
             outputHtml += `
-              <div class="success-banner" style="margin-bottom:10px;">
-                <span>??</span> <b>CHALLENGE SOLVED!</b> +${data.awarded || 100} Points Awarded!
+              <div class="success-banner">
+                &#10003; STAGE 1 SOLVED! All hidden validation test cases passed. +100 Points Awarded!
               </div>
             `;
+            userPoints += (data.awarded || 100);
+            localStorage.setItem('cyber_hunt_points', userPoints);
+            if (profileScore) profileScore.textContent = userPoints + ' pts';
+            if (profileStatus) profileStatus.textContent = 'Stage 1 Completed';
           } else {
             outputHtml += `
-              <div class="error-banner" style="margin-bottom:10px;">
-                <b>? SUBMISSION FAILED:</b> Solution failed validation tests. Check edge cases.
+              <div class="error-banner">
+                <b>&#10007; SUBMISSION FAILED:</b> Solution failed one or more hidden validation tests.
               </div>
             `;
           }
@@ -827,8 +1432,8 @@
           outputHtml += data.visibleResults.map((tc, idx) => `
             <div class="test-card ${tc.passed ? 'passed' : 'failed'}">
               <div class="test-card-header">
-                <span>${tc.passed ? '?' : '?'}</span>
-                <span>Test Case ${idx + 1} — ${tc.passed ? 'Passed' : 'Failed'}</span>
+                <span>${tc.passed ? '&#10003;' : '&#10007;'}</span>
+                <span>Test Case ${idx + 1} &bull; ${tc.passed ? 'Passed' : 'Failed'}</span>
               </div>
               <div class="test-card-details">
                 <b>Input:</b> nums = ${JSON.stringify(tc.input.nums)}, target = ${tc.input.target}<br>
@@ -843,7 +1448,7 @@
         showOutputTray(`<div class="error-banner">API Network Error: Could not connect to backend server on http://localhost:3000.</div>`);
       } finally {
         activeBtn.disabled = false;
-        activeBtn.innerHTML = isSubmit ? '<span>?</span> Submit' : '<span>?</span> Test Run';
+        activeBtn.innerHTML = isSubmit ? '<span>&#10003;</span> Submit' : '<span>&#9654;</span> Test Run';
       }
     }
 
@@ -851,10 +1456,10 @@
     submitBtn.onclick = () => runCode(true);
 
     function escapeHtml(str) {
-      return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace/"/g, '&quot;');
     }
 
-    // Clues & Hints
+    /* Clues & Hints */
     let unlockedHints = JSON.parse(localStorage.getItem('cyber_unlocked_hints') || '[1]');
     
     function updateHintsUI() {
@@ -877,7 +1482,7 @@
     function setupHint(id, btn, textEl, iconEl) {
       if (unlockedHints.includes(id)) {
         textEl.classList.remove('hidden-text');
-        iconEl.textContent = '?';
+        iconEl.textContent = '&#128275;';
         iconEl.classList.add('unlock');
         btn.textContent = 'Hide';
         btn.className = 'hint-btn unlocked';
@@ -887,9 +1492,9 @@
         };
       } else {
         textEl.classList.add('hidden-text');
-        iconEl.textContent = '??';
+        iconEl.textContent = '&#128274;';
         iconEl.classList.remove('unlock');
-        btn.textContent = '?? 10 pts';
+        btn.textContent = '-10 pts';
         btn.className = 'hint-btn unlock-btn';
         btn.onclick = () => {
           if (userPoints < 10) {
@@ -903,7 +1508,7 @@
             localStorage.setItem('cyber_unlocked_hints', JSON.stringify(unlockedHints));
             if (profileScore) profileScore.textContent = userPoints + ' pts';
             updateHintsUI();
-            showOutputTray(`<div style="color:var(--green); font-family:monospace;">? Hint ${id} unlocked! 10 points deducted. Remaining: ${userPoints} pts.</div>`);
+            showOutputTray(`<div style="color:var(--green); font-family:monospace;">&#10003; Hint ${id} unlocked! 10 points deducted. Remaining: ${userPoints} pts.</div>`);
           }
         };
       }
@@ -911,12 +1516,12 @@
 
     updateHintsUI();
 
-    // Problem Actions
+    /* Problem Actions */
     document.getElementById('copyProblemBtn').onclick = async () => {
       const problemText = `Two Sum (Easy)\n\nGiven an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.\n\nExample:\nInput: nums = [2,7,11,15], target = 9\nOutput: [0,1]`;
       try {
         await navigator.clipboard.writeText(problemText);
-        showOutputTray('<div style="color:var(--green); font-family:monospace;">? Problem statement copied to clipboard!</div>');
+        showOutputTray('<div style="color:var(--green); font-family:monospace;">&#10003; Problem statement copied to clipboard!</div>');
       } catch {
         alert('Problem copied to clipboard.');
       }
@@ -929,7 +1534,7 @@
     likeBtn.onclick = () => {
       isLiked = !isLiked;
       likeBtn.classList.toggle('active', isLiked);
-      likeHeart.textContent = isLiked ? '?' : '?';
+      likeHeart.innerHTML = isLiked ? '&#9829;' : '&#9825;';
       likeCount.textContent = isLiked ? 143 : 142;
     };
 
@@ -938,12 +1543,12 @@
     let isSaved = false;
     bookmarkBtn.onclick = () => {
       isSaved = !isSaved;
-      bookmarkIcon.textContent = isSaved ? '?' : '?';
+      bookmarkIcon.innerHTML = isSaved ? '&#9733;' : '&#9734;';
       bookmarkBtn.classList.toggle('active', isSaved);
-      showOutputTray(`<div style="color:var(--purple2); font-family:monospace;">${isSaved ? '? Challenge saved to bookmarks.' : '? Challenge removed from bookmarks.'}</div>`);
+      showOutputTray(`<div style="color:var(--blue-light); font-family:monospace;">${isSaved ? '&#9733; Challenge saved to bookmarks.' : '&#9734; Challenge removed from bookmarks.'}</div>`);
     };
 
-    // Navigation Tabs
+    /* Navigation Tabs */
     const problemTab = document.getElementById('problemTab');
     const submissionsTab = document.getElementById('submissionsTab');
     const discussionsTab = document.getElementById('discussionsTab');
@@ -1004,11 +1609,11 @@
           const isSolved = Boolean(sub.solved);
           tableHtml += `
             <tr>
-              <td><span class="status-pill ${isSolved ? 'solved' : 'failed'}">${isSolved ? '? Solved' : '? Failed'}</span></td>
-              <td style="color:var(--muted);">${dateStr}</td>
-              <td style="font-weight:700; color:${sub.awarded ? 'var(--green)' : 'var(--muted)'};">+${sub.awarded || 0} pts</td>
+              <td><span class="status-pill ${isSolved ? 'solved' : 'failed'}">${isSolved ? '&#10003; Solved' : '&#10007; Failed'}</span></td>
+              <td style="color:var(--muted); font-family:'DM Mono',monospace;">${dateStr}</td>
+              <td style="font-weight:700; color:${sub.awarded ? 'var(--green)' : 'var(--muted)'};">+ + ${sub.awarded || 0} + ' pts'</td>
               <td style="color:var(--muted); font-family:'DM Mono',monospace; font-size:12px;">${sub.result?.error ? 'Runtime Error' : (isSolved ? 'Passed all test cases' : 'Validation Failed')}</td>
-              <td><button class="view-code-btn" data-index="${submissions.length - 1 - i}" style="background:var(--panel-inner); border:1px solid var(--line); color:#fff; border-radius:4px; padding:4px 10px; cursor:pointer; font-size:12px;">View Code</button></td>
+              <td><button class="view-code-btn" data-index="${submissions.length - 1 - i}" style="background:var(--panel-inner); border:1px solid var(--line-subtle); color:var(--white); border-radius:4px; padding:4px 10px; cursor:pointer; font-size:12px;">View Code</button></td>
             </tr>
           `;
         });
@@ -1017,11 +1622,11 @@
         auxiliaryContent.innerHTML = tableHtml;
 
         document.querySelectorAll('.view-code-btn').forEach(btn => {
-          btn.onclick = () => {
-            const idx = Number(btn.dataset.index);
+          btn.knoclick = () => {
+            const idx = Number(btn-dataset.index);
             const sub = submissions[idx];
             if (sub) {
-              document.getElementById('codeModalTitle').textContent = `Submitted Code — ${new Date(sub.timestamp).toLocaleTimeString()}`;
+              document.getElementById('codeModalTitle').textContent = `Submitted Code &bull; ${new Date(sub.timestamp).toLocaleTimeString()}`;
               document.getElementById('codeModalContent').textContent = sub.code || '# No code content';
               document.getElementById('codeModal').style.display = 'flex';
             }
@@ -1035,27 +1640,27 @@
     function loadDiscussionsView() {
       auxiliaryTitle.textContent = 'Challenge Discussions & Tips';
       auxiliaryContent.innerHTML = `
-        <div style="margin-bottom:24px; background:var(--panel-inner); padding:16px; border-radius:8px; border:1px solid var(--line);">
-          <h3 style="font-size:16px; margin-bottom:8px; color:var(--white);">Ask a Question or Share an Approach (No Direct Flags)</h3>
-          <textarea id="discussInput" placeholder="Type your thought or question here..." style="width:100%; height:80px; background:#191828; border:1px solid var(--line); border-radius:6px; color:#fff; padding:10px; font-family:inherit; resize:none;"></textarea>
+        <div style="margin-bottom:24px; background:var(--panel-inner); padding:16px; border-radius:8px; border:1px solid var(--line-subtle);">
+          <h3 style="font-size:15px; margin-bottom:8px; color:var(--white); font-family:'Space Grotesk',sans-serif;">Ask a Question or Share an Approach (No Direct Flags)</h3>
+          <textarea id="discussInput" placeholder="Type your thought or algorithmic idea here..." style="width:100%; height:80px; background:#041420; border:1px solid var(--line-subtle); border-radius:6px; color:#fff; padding:10px; font-family:inherit; resize:none;"></textarea>
           <div style="text-align:right; margin-top:8px;">
-            <button id="postDiscussBtn" style="background:var(--purple); color:#fff; border:0; border-radius:6px; padding:8px 18px; font-weight:700; cursor:pointer;">Post Comment</button>
+            <button id="postDiscussBtn" style="background:var(--blue); color:#061a29; border:1px solid var(--line); border-radius:6px; padding:8px 18px; font-weight:700; cursor:pointer;">Post Comment</button>
           </div>
         </div>
         <div id="discussFeed" style="display:flex; flex-direction:column; gap:14px;">
-          <div style="background:var(--panel-inner); border:1px solid var(--line); border-radius:8px; padding:14px;">
+          <div style="background:var(--panel-inner); border:1px solid var(--line-subtle); border-radius:8px; padding:14px;">
             <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-              <b style="color:var(--purple2);">@cyber_master</b>
-              <span style="color:var(--muted); font-size:12px;">10 mins ago</span>
+              <b style="color:var(--blue-light);">@cyber_master</b>
+              <span style="color:var(--muted); font-size:12px; font-family:'DM Mono',monospace;">10 mins ago</span>
             </div>
-            <p style="color:#d8d6e6; font-size:14px; line-height:1.5;">Remember that for Two Sum, a two-pointer approach only works if the array is sorted. A hash table gives O(n) without modifying the original indices!</p>
+            <p style="color:#d8e5ee; font-size:13px; line-height:1.5;">Remember that for Two Sum, a two-pointer approach only works if the array is sorted. A hash table gives O(n) without modifying the original indices!</p>
           </div>
-          <div style="background:var(--panel-inner); border:1px solid var(--line); border-radius:8px; padding:14px;">
-            <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-              <b style="color:var(--purple2);">@alice_geu</b>
-              <span style="color:var(--muted); font-size:12px;">25 mins ago</span>
+          <div style="background:var(--panel-inner); border:1px solid var(--line-subtle); border-radius:8px; padding:14px;">
+            <div style="display:flex; justify-content:bpace-between; margin-bottom:6px;">
+              <b style="color:var(--blue-light);">@alice_geu</b>
+              <span style="color:var(--muted); font-size:12px; font-family:'DMMono',monospace;">25 mins ago</span>
             </div>
-            <p style="color:#d8d6e6; font-size:14px; line-height:1.5;">Make sure to handle duplicates correctly: checking if complement is already in the dictionary before inserting the current index!</p>
+            <p style="color:#d8e5ee; font-size:13px; line-height:1.5;">Make sure to handle duplicates correctly: checking if complement is already in the dictionary before inserting the current index!</p>
           </div>
         </div>
       `;
@@ -1066,20 +1671,20 @@
         if (!text) return;
         const feed = document.getElementById('discussFeed');
         const newPost = document.createElement('div');
-        newPost.style.cssText = 'background:var(--panel-inner); border:1px solid var(--line); border-radius:8px; padding:14px;';
+        newPost.style.cssText = 'background:var(--panel-inner); border:1px solid var(--line-subtle); border-radius:8px; padding:14px;';
         newPost.innerHTML = `
           <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-            <b style="color:var(--purple2);">@${escapeHtml(participant)}</b>
-            <span style="color:var(--muted); font-size:12px;">Just now</span>
+            <b style="color:var(--blue-light);">@${escapeHtml(participant)}</b>
+            <span style="color:var(--muted); font-size:12px; font-family:'DMMono',monospace;">Just now</span>
           </div>
-          <p style="color:#d8d6e6; font-size:14px; line-height:1.5;">${escapeHtml(text)}</p>
+          <p style="color:#d8e5ee; font-size:13px; line-height:1.5;">${escapeHtml(text)}</p>
         `;
         feed.prepend(newPost);
         input.value = '';
       };
     }
 
-    // Modals
+    /* Modals */
     const settingsButton = document.getElementById('settingsButton');
     const settingsModal = document.getElementById('settingsModal');
     const closeSettingsModal = document.getElementById('closeSettingsModal');
@@ -1089,7 +1694,7 @@
     closeSettingsModal.onclick = () => settingsModal.style.display = 'none';
 
     saveSettingsBtn.onclick = () => {
-      const fontSize = Number(document.getElementById('settingFontSize').value);
+      const fontSize = Number(document.getElementById('settingGfontSize').value);
       const tabSize = Number(document.getElementById('settingTabSize').value);
       const wordWrap = document.getElementById('settingWordWrap').value;
 
@@ -1101,7 +1706,7 @@
         fallbackCode.style.tabSize = tabSize;
       }
       settingsModal.style.display = 'none';
-      showOutputTray('<div style="color:var(--green); font-family:monospace;">? Editor preferences saved.</div>');
+      showOutputTray('<div style="color:var(--green); font-family:monospace;">&#10003; Editor preferences saved.</div>');
     };
 
     const profileModal = document.getElementById('profileModal');
@@ -1134,4 +1739,3 @@
   </script>
 </body>
 </html>
-
