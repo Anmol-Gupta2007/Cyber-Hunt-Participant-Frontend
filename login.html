@@ -1,1 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cyber Hunt - Auth</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
 
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at center, #0e2a38, #05141d);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .card {
+      background-color: #171923;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* Tabs Header */
+    .tab-header {
+      display: flex;
+      background-color: #1a1c27;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 16px;
+      border: none;
+      background: transparent;
+      color: #71768c;
+      font-size: 1.15rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background-color: #171923;
+      color: #ffffff;
+      border-bottom: 3px solid #6c5ce7;
+    }
+
+    /* Form Container */
+    .form-container {
+      padding: 30px 25px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+      position: relative;
+    }
+
+    .form-label {
+      display: block;
+      color: #9da3ba;
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+    }
+
+    .input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-wrap svg.icon-left {
+      position: absolute;
+      left: 14px;
+      width: 18px;
+      height: 18px;
+      stroke: #666c82;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      pointer-events: none;
+    }
+
+    .input-wrap svg.icon-right {
+      position: absolute;
+      right: 14px;
+      width: 18px;
+      height: 18px;
+      stroke: #666c82;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      cursor: pointer;
+      transition: stroke 0.2s;
+    }
+
+    .input-wrap svg.icon-right:hover {
+      stroke: #a29bfe;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 13px 40px 13px 44px;
+      background: #1e212f;
+      border: 1px solid #2f344a;
+      border-radius: 10px;
+      color: #f1f2f6;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+      border-color: #6c5ce7;
+    }
+
+    /* Error state for username */
+    input.error {
+      border-color: #ff4757 !important;
+    }
+
+    .error-msg {
+      display: none;
+      color: #ff4757;
+      font-size: 0.8rem;
+      margin-top: 6px;
+      padding-left: 4px;
+    }
+
+    .error-msg.visible {
+      display: block;
+    }
+
+    /* Submit Button */
+    .submit-btn {
+      width: 100%;
+      margin-top: 10px;
+      padding: 14px;
+      background: #6c5ce7;
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .submit-btn:hover {
+      background: #5b4cdb;
+    }
+
+    .submit-btn:active {
+      transform: scale(0.98);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <!-- Header Tabs -->
+    <div class="tab-header">
+      <button class="tab-btn" id="loginTabBtn" onclick="switchMode('login')">Login</button>
+      <button class="tab-btn active" id="signUpTabBtn" onclick="switchMode('signup')">Sign Up</button>
+    </div>
+
+    <!-- Forms -->
+    <div class="form-container">
+      <form id="authForm" onsubmit="handleSubmit(event)">
+        <!-- Username Field -->
+        <div class="form-group">
+          <label class="form-label">Username</label>
+          <div class="input-wrap">
+            <svg class="icon-left" viewBox="0 0 24 24">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <input 
+              type="text" 
+              id="usernameInput" 
+              placeholder="Enter your username" 
+              autocomplete="off" 
+              required 
+            />
+          </div>
+          <!-- Red error message -->
+          <div class="error-msg" id="usernameError">Username already exists.</div>
+        </div>
+
+        <!-- Password Field -->
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <div class="input-wrap">
+            <svg class="icon-left" viewBox="0 0 24 24">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            <input 
+              type="password" 
+              id="passwordInput" 
+              placeholder="Enter your password" 
+              required 
+            />
+            <svg class="icon-right" onclick="togglePassword('passwordInput')" viewBox="0 0 24 24">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Confirm Password Field (Sign Up Only) -->
+        <div class="form-group" id="confirmPasswordGroup">
+          <label class="form-label">Confirm Password</label>
+          <div class="input-wrap">
+            <svg class="icon-left" viewBox="0 0 24 24">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            <input 
+              type="password" 
+              id="confirmPasswordInput" 
+              placeholder="Re-enter your password" 
+            />
+            <svg class="icon-right" onclick="togglePassword('confirmPasswordInput')" viewBox="0 0 24 24">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Action Button -->
+        <button type="submit" class="submit-btn" id="submitBtn">
+          Register & Start Event
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    let currentMode = 'signup';
+
+    // Mock existing database of usernames
+    const existingUsers = new Set(['admin', 'player1', 'cybergod', 'testuser']);
+
+    const usernameInput = document.getElementById('usernameInput');
+    const usernameError = document.getElementById('usernameError');
+    const confirmGroup = document.getElementById('confirmPasswordGroup');
+    const confirmPasswordInput = document.getElementById('confirmPasswordInput');
+    const submitBtn = document.getElementById('submitBtn');
+    const loginTab = document.getElementById('loginTabBtn');
+    const signUpTab = document.getElementById('signUpTabBtn');
+
+    // Switch between Login and Sign Up tabs
+    function switchMode(mode) {
+      currentMode = mode;
+      clearError();
+
+      if (mode === 'signup') {
+        signUpTab.classList.add('active');
+        loginTab.classList.remove('active');
+        confirmGroup.style.display = 'block';
+        confirmPasswordInput.setAttribute('required', 'required');
+        submitBtn.textContent = 'Register & Start Event';
+      } else {
+        loginTab.classList.add('active');
+        signUpTab.classList.remove('active');
+        confirmGroup.style.display = 'none';
+        confirmPasswordInput.removeAttribute('required');
+        submitBtn.textContent = 'Log In & Start Event';
+      }
+    }
+
+    // Toggle password visibility
+    function togglePassword(inputId) {
+      const field = document.getElementById(inputId);
+      field.type = field.type === 'password' ? 'text' : 'password';
+    }
+
+    // Real-time check if username already exists during signup
+    usernameInput.addEventListener('input', () => {
+      const val = usernameInput.value.trim().toLowerCase();
+      if (currentMode === 'signup' && existingUsers.has(val)) {
+        showError('Username already exists.');
+      } else {
+        clearError();
+      }
+    });
+
+    function showError(msg) {
+      usernameInput.classList.add('error');
+      usernameError.textContent = msg;
+      usernameError.classList.add('visible');
+    }
+
+    function clearError() {
+      usernameInput.classList.remove('error');
+      usernameError.classList.remove('visible');
+    }
+
+    // Handle form submission
+    function handleSubmit(e) {
+      e.preventDefault();
+      const username = usernameInput.value.trim().toLowerCase();
+      const password = document.getElementById('passwordInput').value;
+
+      if (currentMode === 'signup') {
+        if (existingUsers.has(username)) {
+          showError('Username already exists.');
+          return;
+        }
+
+        const confirmPassword = confirmPasswordInput.value;
+        if (password !== confirmPassword) {
+          alert('Passwords do not match!');
+          return;
+        }
+
+        // Save username to unique store
+        existingUsers.add(username);
+        alert(`Registered successfully as "${username}"!`);
+      } else {
+        // Login Flow
+        if (!existingUsers.has(username)) {
+          alert('User not found. Please register first.');
+          return;
+        }
+        alert(`Welcome back, ${username}!`);
+      }
+    }
+  </script>
+</body>
+</html>
