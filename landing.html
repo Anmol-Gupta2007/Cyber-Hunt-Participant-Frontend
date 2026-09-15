@@ -1,0 +1,737 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyber Hunt | Graphic Era University</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #061a29;
+      --panel: #062338;
+      --panel-border: #4aa8e9;
+      --blue: #58aaeb;
+      --blue-light: #72b9f0;
+      --blue-dim: rgba(88, 170, 235, 0.45);
+      --white: #edf2f4;
+      --text-muted: #b0c9db;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      min-height: 100vh;
+      background-color: var(--bg);
+      color: var(--white);
+      font-family: 'DM Mono', monospace;
+      overflow-x: hidden;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+    }
+
+    /* Main Container Frame */
+    .site-frame {
+      width: min(97vw, 1520px);
+      height: min(96vh, 920px);
+      min-height: 640px;
+      background: var(--panel);
+      border: 2px solid var(--panel-border);
+      border-radius: 8px;
+      box-shadow: 0 0 35px rgba(74, 168, 233, 0.18), inset 0 0 60px rgba(6, 26, 41, 0.5);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Top Corner Marks */
+    .frame-corner {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border-color: var(--blue);
+      border-style: solid;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .frame-corner.tl { top: 12px; left: 14px; border-width: 2px 0 0 2px; }
+    .frame-corner.tr { top: 12px; right: 14px; border-width: 2px 2px 0 0; }
+    .frame-corner.bl { bottom: 12px; left: 14px; border-width: 0 0 2px 2px; }
+    .frame-corner.br { bottom: 12px; right: 14px; border-width: 0 2px 2px 0; }
+
+    /* Navigation Bar */
+    .nav {
+      height: clamp(56px, 7.5vh, 72px);
+      border-bottom: 1.5px solid var(--blue-dim);
+      display: flex;
+      align-items: center;
+      padding: 0 clamp(20px, 3.2vw, 44px);
+      gap: clamp(12px, 2vw, 24px);
+      position: relative;
+      z-index: 5;
+      flex-shrink: 0;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: #f7fafc;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: clamp(18px, 1.8vw, 23px);
+      letter-spacing: -0.5px;
+      white-space: nowrap;
+    }
+
+    /* Crosshair / Target Logo */
+    .target-icon {
+      width: 32px;
+      height: 32px;
+      position: relative;
+      display: grid;
+      place-items: center;
+      color: var(--blue);
+      flex-shrink: 0;
+    }
+
+    .target-icon svg {
+      width: 100%;
+      height: 100%;
+      stroke: var(--blue);
+      fill: none;
+    }
+
+    /* Connecting horizontal blue line */
+    .nav-divider-line {
+      height: 2px;
+      flex: 1;
+      max-width: 480px;
+      background: linear-gradient(90deg, var(--blue) 0%, rgba(88, 170, 235, 0.6) 80%, transparent 100%);
+    }
+
+    .nav-links {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: clamp(12px, 1.8vw, 28px);
+      font-family: 'DM Mono', monospace;
+      font-size: clamp(13px, 1.1vw, 15.5px);
+    }
+
+    .nav-links a {
+      color: var(--white);
+      text-decoration: none;
+      transition: color 0.15s ease, opacity 0.15s ease;
+      opacity: 0.85;
+      white-space: nowrap;
+    }
+
+    .nav-links a:hover {
+      opacity: 1;
+      color: var(--blue-light);
+    }
+
+    .nav-links a.active {
+      background: var(--blue);
+      color: #061a29;
+      font-weight: 700;
+      padding: 6px 16px;
+      border-radius: 3px;
+      opacity: 1;
+    }
+
+    .nav-links .nav-cta {
+      background: var(--blue);
+      color: #061a29;
+      font-weight: 700;
+      padding: 6px 18px;
+      border-radius: 3px;
+      opacity: 1;
+      box-shadow: 2px 2px 0 #1b4968;
+    }
+
+    .nav-links .nav-cta:hover {
+      background: #6bb9f3;
+      color: #061a29;
+    }
+
+    .arrow-disc {
+      width: 30px;
+      height: 30px;
+      border: 1.5px solid var(--blue);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: var(--blue);
+      text-decoration: none;
+      transition: background 0.15s ease, color 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .arrow-disc svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      stroke-width: 2.5;
+      fill: none;
+    }
+
+    .arrow-disc:hover {
+      background: var(--blue);
+      color: #061a29;
+    }
+
+    /* Main Hero Workspace */
+    .hero-container {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+      padding: clamp(16px, 2.5vh, 32px) clamp(24px, 3.5vw, 48px) clamp(16px, 2.2vh, 26px);
+      gap: clamp(16px, 2.5vw, 36px);
+      position: relative;
+    }
+
+    /* Left Hero Content */
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      z-index: 3;
+      min-height: 0;
+    }
+
+    .uni-label {
+      color: var(--blue);
+      font-family: 'DM Mono', monospace;
+      font-size: clamp(14px, 1.4vw, 20px);
+      letter-spacing: 2.5px;
+      font-weight: 500;
+      margin-bottom: clamp(6px, 1vh, 12px);
+      text-transform: uppercase;
+    }
+
+    .hero-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(48px, 6.5vw, 98px);
+      line-height: 0.88;
+      font-weight: 800;
+      letter-spacing: -3px;
+      color: #f7fafc;
+      margin-bottom: clamp(8px, 1.2vh, 14px);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    }
+
+    .hero-tagline {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(15px, 1.8vw, 25px);
+      font-weight: 700;
+      letter-spacing: 3.5px;
+      color: var(--blue);
+      margin-bottom: clamp(10px, 1.8vh, 20px);
+      text-transform: uppercase;
+    }
+
+    .hero-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(13px, 1.1vw, 16px);
+      line-height: 1.5;
+      color: #d6e4ee;
+      margin-bottom: clamp(18px, 2.8vh, 32px);
+      max-width: 480px;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: clamp(12px, 1.6vw, 22px);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: clamp(9px, 1.3vh, 13px) clamp(20px, 2vw, 30px);
+      font-family: 'DM Mono', monospace;
+      font-size: clamp(14px, 1.15vw, 17px);
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn:active {
+      transform: translateY(2px);
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      color: #061a29;
+      border: 2px solid var(--blue);
+      box-shadow: 4px 4px 0 #04121d, 6px 6px 0 #3a8ac4;
+    }
+
+    .btn-primary:hover {
+      background: #6bbcf5;
+      border-color: #6bbcf5;
+      box-shadow: 5px 5px 0 #04121d, 7px 7px 0 #3a8ac4;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--blue);
+      border: 2px solid var(--blue);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(88, 170, 235, 0.12);
+      color: #72b9f0;
+    }
+
+    .btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 2.5;
+      fill: none;
+    }
+
+    /* Right Hero Visual Area */
+    .hero-right {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 0;
+      z-index: 2;
+    }
+
+    .art-stage {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      max-height: 480px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Elliptical Orbit Rings (behind photograph) */
+    .orbit-ring {
+      position: absolute;
+      border: 1.5px solid var(--blue);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.75;
+    }
+
+    .orbit-ring.one {
+      width: clamp(340px, 42vw, 540px);
+      height: clamp(140px, 18vw, 220px);
+      transform: rotate(-28deg);
+    }
+
+    .orbit-ring.two {
+      width: clamp(360px, 44vw, 560px);
+      height: clamp(130px, 17vw, 210px);
+      transform: rotate(22deg);
+      border-color: rgba(88, 170, 235, 0.6);
+    }
+
+    /* HUD Tech Grid Box */
+    .hud-grid {
+      position: absolute;
+      right: clamp(10px, 2vw, 35px);
+      top: clamp(10px, 2vh, 30px);
+      width: clamp(180px, 22vw, 280px);
+      height: clamp(120px, 14vw, 170px);
+      border-top: 1px solid rgba(88, 170, 235, 0.6);
+      border-right: 1px solid rgba(88, 170, 235, 0.35);
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.6;
+    }
+
+    .hud-grid::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(to right, rgba(88, 170, 235, 0.3) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(88, 170, 235, 0.3) 1px, transparent 1px);
+      background-size: clamp(40px, 5vw, 60px) clamp(30px, 4vw, 45px);
+    }
+
+    /* College Photo Frame */
+    .photo-container {
+      position: relative;
+      z-index: 3;
+      width: clamp(260px, 28vw, 420px);
+      aspect-ratio: 1.38 / 1;
+      transform: rotate(-3.5deg);
+      border-radius: 3px;
+      overflow: hidden;
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.55), 0 0 0 1.5px rgba(88, 170, 235, 0.5);
+    }
+
+    .photo-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    /* Photo Grid Overlay */
+    .photo-grid-lines {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      pointer-events: none;
+    }
+
+    .photo-grid-lines span {
+      border-right: 1px solid rgba(220, 240, 255, 0.45);
+      border-bottom: 1px solid rgba(220, 240, 255, 0.45);
+    }
+
+    /* Corner Technical Brackets around the photo art */
+    .art-bracket {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border-color: var(--blue);
+      border-style: solid;
+      pointer-events: none;
+      z-index: 4;
+    }
+    .art-bracket.top-left { top: 20px; left: 15px; border-width: 2.5px 0 0 2.5px; }
+    .art-bracket.bottom-right { bottom: 20px; right: 15px; border-width: 0 2.5px 2.5px 0; border-color: #edf2f4; }
+
+    /* Bottom Area */
+    .bottom-bar {
+      border-top: 1.5px solid var(--blue-dim);
+      padding: clamp(10px, 1.6vh, 16px) clamp(20px, 3.2vw, 44px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      z-index: 5;
+      flex-shrink: 0;
+    }
+
+    .event-meta {
+      display: flex;
+      align-items: center;
+      gap: clamp(14px, 2.5vw, 36px);
+      font-family: 'DM Mono', monospace;
+      font-size: clamp(12px, 1.1vw, 15px);
+      color: var(--white);
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      white-space: nowrap;
+    }
+
+    .meta-icon {
+      color: var(--blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .meta-icon svg {
+      width: clamp(16px, 1.3vw, 20px);
+      height: clamp(16px, 1.3vw, 20px);
+      stroke: var(--blue);
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .meta-divider {
+      width: 1.5px;
+      height: 24px;
+      background: var(--blue-dim);
+    }
+
+    /* Handwritten "Solve More Together." text */
+    .handwriting {
+      color: var(--blue);
+      font-family: 'Caveat', cursive;
+      font-size: clamp(24px, 2.8vw, 38px);
+      font-weight: 700;
+      line-height: 0.88;
+      text-align: center;
+      transform: rotate(-10deg);
+      position: relative;
+      margin-right: clamp(6px, 1.5vw, 20px);
+      user-select: none;
+    }
+
+    .handwriting-underline {
+      display: block;
+      width: clamp(70px, 7vw, 100px);
+      height: 2px;
+      background: var(--blue);
+      margin: 4px auto 0;
+      border-radius: 2px;
+      transform: rotate(-2deg);
+    }
+
+    /* Responsive Queries */
+    @media (max-width: 960px) {
+      body {
+        padding: 0;
+        height: auto;
+        min-height: 100vh;
+        align-items: stretch;
+      }
+
+      .site-frame {
+        width: 100%;
+        height: auto;
+        min-height: 100vh;
+        border-radius: 0;
+        border: none;
+      }
+
+      .hero-container {
+        grid-template-columns: 1fr;
+        padding: 24px 20px 20px;
+        gap: 32px;
+      }
+
+      .hero-right {
+        order: -1;
+        min-height: 240px;
+      }
+
+      .photo-container {
+        width: clamp(260px, 70vw, 380px);
+      }
+
+      .bottom-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 20px;
+      }
+
+      .event-meta {
+        flex-wrap: wrap;
+        gap: 14px 20px;
+      }
+
+      .meta-divider {
+        display: none;
+      }
+
+      .handwriting {
+        align-self: flex-end;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav {
+        padding: 0 16px;
+      }
+
+      .nav-divider-line,
+      .nav-links a:not(.active):not(.nav-cta),
+      .arrow-disc {
+        display: none;
+      }
+
+      .hero-title {
+        font-size: 52px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="site-frame" id="home">
+    <!-- Outer Frame Corner Brackets -->
+    <span class="frame-corner tl" aria-hidden="true"></span>
+    <span class="frame-corner tr" aria-hidden="true"></span>
+    <span class="frame-corner bl" aria-hidden="true"></span>
+    <span class="frame-corner br" aria-hidden="true"></span>
+
+    <!-- Top Navigation Header -->
+    <header class="nav">
+      <a class="brand" href="landing.html" aria-label="Cyber Hunt Home">
+        <span class="target-icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32" stroke-width="2" stroke-linecap="round">
+            <circle cx="16" cy="16" r="11" />
+            <circle cx="16" cy="16" r="4" />
+            <line x1="16" y1="1" x2="16" y2="7" />
+            <line x1="16" y1="25" x2="16" y2="31" />
+            <line x1="1" y1="16" x2="7" y2="16" />
+            <line x1="25" y1="16" x2="31" y2="16" />
+          </svg>
+        </span>
+        <span>CYBER HUNT</span>
+      </a>
+
+      <div class="nav-divider-line" aria-hidden="true"></div>
+
+      <nav class="nav-links" aria-label="Main Navigation">
+        <a class="active" href="landing.html">Home</a>
+        <a href="#about" onclick="alert('CYBER HUNT 2026: An immersive technical capture-the-flag escape room hosted at Graphic Era University.'); return false;">About</a>
+        <a href="#rules" onclick="alert('RULES:\n1. Teams of 3 participants.\n2. Solve multi-phase cyber challenges sequentially.\n3. No unauthorized network intrusion outside the sandbox environment.'); return false;">Rules</a>
+        <a href="Final/login.html?mode=login">Login</a>
+        <a class="nav-cta" href="Final/login.html?mode=signup">Join Now</a>
+        <a class="arrow-disc" href="Final/login.html?mode=signup" aria-label="Join Now">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </a>
+      </nav>
+    </header>
+
+    <!-- Main Hero Body -->
+    <section class="hero-container">
+      <!-- Left Hero Column -->
+      <div class="hero-left">
+        <div class="uni-label">GRAPHIC ERA UNIVERSITY</div>
+        <h1 class="hero-title">
+          CYBER<br>HUNT
+        </h1>
+        <div class="hero-tagline">THE DIGITAL ESCAPE ROOM</div>
+        <p class="hero-desc">
+          Think. Analyse. Decode. Solve.<br>
+          A cybersecurity challenge designed<br>
+          to test your logic, speed and teamwork.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="Final/login.html?mode=signup">
+            Join Now
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+          <a class="btn btn-secondary" href="Final/login.html?mode=login">
+            Login
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Right Hero Column -->
+      <div class="hero-right">
+        <div class="art-stage">
+          <!-- Behind photo orbit rings -->
+          <div class="orbit-ring one" aria-hidden="true"></div>
+          <div class="orbit-ring two" aria-hidden="true"></div>
+
+          <!-- Technical Grid HUD -->
+          <div class="hud-grid" aria-hidden="true"></div>
+
+          <!-- Corner Brackets -->
+          <span class="art-bracket top-left" aria-hidden="true"></span>
+          <span class="art-bracket bottom-right" aria-hidden="true"></span>
+
+          <!-- College Photo -->
+          <div class="photo-container">
+            <img src="university-building.jpeg" alt="Graphic Era University Building">
+            <div class="photo-grid-lines" aria-hidden="true">
+              <span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom Metadata Bar -->
+    <footer class="bottom-bar">
+      <div class="event-meta">
+        <!-- Date -->
+        <div class="meta-item">
+          <span class="meta-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+          </span>
+          <span>19 Sep 2026</span>
+        </div>
+
+        <span class="meta-divider" aria-hidden="true"></span>
+
+        <!-- Location -->
+        <div class="meta-item">
+          <span class="meta-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+          </span>
+          <span>Seminar Hall, CSIT</span>
+        </div>
+
+        <span class="meta-divider" aria-hidden="true"></span>
+
+        <!-- Team Size -->
+        <div class="meta-item">
+          <span class="meta-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </span>
+          <span>Teams of 3</span>
+        </div>
+      </div>
+
+      <!-- Handwritten Note -->
+      <div class="handwriting">
+        Solve<br>More<br>Together.
+        <span class="handwriting-underline" aria-hidden="true"></span>
+      </div>
+    </footer>
+  </main>
+
+</body>
+</html>

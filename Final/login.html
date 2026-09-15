@@ -179,6 +179,7 @@
     signUpTab.onclick = () => setMode('signup');
 
     function setMode(newMode) {
+
       mode = newMode;
       clearError();
       if (mode === 'signup') {
@@ -195,6 +196,13 @@
         confirmInput.required = false;
         submitBtn.textContent = 'Login & Start Event';
       }
+    }
+
+    const initMode = new URLSearchParams(window.location.search).get('mode');
+    if (initMode === 'login') {
+      setMode('login');
+    } else {
+      setMode('signup');
     }
 
     // Check unique username in real-time
@@ -244,7 +252,10 @@
           alert('User not found. Please Sign Up first.');
           return;
         }
+        localStorage.setItem('cyber_current_user', user);
         alert('Logged in successfully!');
+        const nextPage = new URLSearchParams(window.location.search).get('next');
+        window.location.href = nextPage && /^\/[a-zA-Z0-9_./-]+\.html$/.test(nextPage) ? nextPage : '../index.html';
       }
     });
   </script>

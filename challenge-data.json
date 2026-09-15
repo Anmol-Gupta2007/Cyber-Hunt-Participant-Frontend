@@ -1,0 +1,60 @@
+{
+  "id": "two-sum",
+  "title": "Two Sum",
+  "points": 100,
+  "starterCode": "class Solution:\n    def twoSum(self, nums: List[int], target: int) -> List[int]:\n        # Write your solution here\n        pass",
+  "publicTests": [
+    {
+      "nums": [
+        2,
+        7,
+        11,
+        15
+      ],
+      "target": 9,
+      "expected": [
+        0,
+        1
+      ]
+    },
+    {
+      "nums": [
+        3,
+        2,
+        4
+      ],
+      "target": 6,
+      "expected": [
+        1,
+        2
+      ]
+    }
+  ],
+  "hiddenTests": [
+    {
+      "nums": [
+        3,
+        3
+      ],
+      "target": 6,
+      "expected": [
+        0,
+        1
+      ]
+    },
+    {
+      "nums": [
+        -1,
+        -2,
+        -3,
+        -4,
+        -5
+      ],
+      "target": -8,
+      "expected": [
+        2,
+        4
+      ]
+    }
+  ]
+}
