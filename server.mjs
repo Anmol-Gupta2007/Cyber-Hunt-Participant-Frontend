@@ -1,3 +1,5 @@
+process.on('uncaughtException', err => console.error('Uncaught Exception:', err));
+process.on('unhandledRejection', err => console.error('Unhandled Rejection:', err));
 import { createServer } from 'node:http';
 import { promises as fs } from 'node:fs';
 import { spawn, spawnSync } from 'node:child_process';
@@ -270,3 +272,6 @@ server.listen(3000, async () => {
   }
   console.log('Cyber Hunt server listening on http://localhost:3000');
 });
+
+// Keep event loop alive
+setInterval(() => {}, 1000 * 60 * 60);
