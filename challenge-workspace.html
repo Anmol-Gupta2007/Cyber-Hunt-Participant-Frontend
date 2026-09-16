@@ -6,10 +6,10 @@
   <title>Stage 1: Two Sum — Challenge Workspace | Cyber Hunt</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DMMMono:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap">
   
   <!-- Monaco Editor AMD Loader -->
-  <script src="https://chvdns.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
 
   <style>
     :root {
@@ -71,6 +71,43 @@
       gap: clamp(10px, 1.5vh, 16px);
       padding: clamp(10px, 1.5vh, 18px) clamp(14px, 1.8vw, 24px);
       position: relative;
+    }
+
+    
+    .topbar-brand-logo {
+      width: 30px;
+      height: 30px;
+      max-width: 30px;
+      max-height: 30px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid var(--line);
+      box-shadow: 0 0 8px rgba(88, 170, 235, 0.4);
+      flex-shrink: 0;
+      display: inline-block;
+    }
+    .topbar-era-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      text-decoration: none;
+    }
+    .topbar-era-logo {
+      width: 30px;
+      height: 30px;
+      max-width: 30px;
+      max-height: 30px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid var(--line);
+      box-shadow: 0 0 8px rgba(88, 170, 235, 0.4);
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+      display: block;
+    }
+    .topbar-era-logo:hover {
+      transform: scale(1.08);
     }
 
     /* Top Navigation Bar */
@@ -976,7 +1013,7 @@
   <div class="shell">
     <header class="topbar">
       <a class="brand" href="dashboard.html" title="Back to Dashboard">
-        <span class="brand-icon">&#9678;</span>
+        <img src="logo-graphic-geeks.png" alt="Graphic Geeks" class="topbar-brand-logo">
         <span>CYBER HUNT</span>
         <span class="brand-tag">STAGE 01</span>
       </a>
@@ -984,14 +1021,17 @@
         <button class="active" id="problemTab">Problem</button>
         <button id="submissionsTab">Submissions</button>
         <button id="discussionsTab">Discussions</button>
-      <�˚�v�>
+      </nav>
       <div class="top-actions">
         <a class="nav-btn-link" href="dashboard.html" title="Back to Stages Dashboard">&larr; Dashboard</a>
         <button class="clues-trigger" id="cluesButton" title="Toggle Clues Panel">
           <span>&#128161;</span> Clues
         </button>
-        <button class="icon-btn" id="settingsButton" aria-label="Settings" title="Editor Settings">&#9881;</span>
+        <button class="icon-btn" id="settingsButton" aria-label="Settings" title="Editor Settings">&#9881;</button>
         <div class="avatar" id="avatar" title="View Profile">U</div>
+        <a class="topbar-era-wrap" href="https://geu.ac.in" target="_blank" rel="noopener" title="Graphic Era University">
+          <img src="logo-graphic-era.png" alt="Graphic Era University" class="topbar-era-logo" width="30" height="30">
+        </a>
         <button class="icon-btn" id="moreButton" aria-label="More Options" title="More Options">&hellip;</button>
       </div>
     </header>

@@ -43,10 +43,27 @@
       padding: 20px;
     }
 
-    .brand-header {
-      margin-bottom: 24px;
+    
+        .brand-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 440px;
+      margin: 0 auto 24px auto;
+      padding: 0;
       text-align: center;
     }
+    .header-brand-logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid var(--panel-border);
+      box-shadow: 0 0 10px rgba(88, 170, 235, 0.4);
+    }
+    
+
 
     .brand-link {
       display: inline-flex;
@@ -240,17 +257,8 @@
 <body>
 
   <div class="brand-header">
-    <a class="brand-link" href="../landing.html">
-      <span class="target-icon">
-        <svg viewBox="0 0 32 32" stroke-width="2" stroke-linecap="round">
-          <circle cx="16" cy="16" r="11" />
-          <circle cx="16" cy="16" r="4" />
-          <line x1="16" y1="1" x2="16" y2="7" />
-          <line x1="16" y1="25" x2="16" y2="31" />
-          <line x1="1" y1="16" x2="7" y2="16" />
-          <line x1="25" y1="16" x2="31" y2="16" />
-        </svg>
-      </span>
+    <a class="brand-link" href="../landing.html" title="Cyber Hunt Home">
+      <img src="../logo-graphic-geeks.png" alt="Graphic Geeks" class="header-brand-logo" width="34" height="34" onerror="this.src='logo-graphic-geeks.png'">
       <span>CYBER HUNT 2026</span>
     </a>
   </div>
@@ -279,27 +287,26 @@
         <div class="form-group">
           <label>Password</label>
           <div class="input-wrap">
-            <input type="password" id="password" placeholder="••••••••" required />
+            <input type="password" id="password" placeholder="Enter Your Pass" required />
           </div>
         </div>
 
         <div class="form-group" id="confirmPassGroup">
           <label>Confirm Password</label>
           <div class="input-wrap">
-            <input type="password" id="confirmPassword" placeholder="••••••••" required />
+            <input type="password" id="confirmPassword" placeholder="Enter Your Pass" required />
           </div>
         </div>
 
         <button type="submit" class="submit-btn" id="submitBtn">
           <span>Sign Up & Enter</span>
-          <span>?</span>
         </button>
       </form>
     </div>
   </div>
 
   <div class="back-home">
-    <a href="../landing.html">? Return to Cyber Hunt Homepage</a>
+    <a href="../landing.html">&larr; Return to Cyber Hunt Homepage</a>
   </div>
 
   <script>
@@ -327,14 +334,14 @@
         loginTab.classList.remove('active');
         confirmGroup.style.display = 'block';
         confirmInput.required = true;
-        submitBtn.innerHTML = '<span>Sign Up & Enter</span> <span>?</span>';
+        submitBtn.innerHTML = '<span>Sign Up & Enter</span>';
         checkUsernameUnique();
       } else {
         loginTab.classList.add('active');
         signUpTab.classList.remove('active');
         confirmGroup.style.display = 'none';
         confirmInput.required = false;
-        submitBtn.innerHTML = '<span>Login & Enter</span> <span>?</span>';
+        submitBtn.innerHTML = '<span>Login & Enter</span>';
       }
     }
 
