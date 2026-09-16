@@ -1,526 +1,767 @@
-<!DOCTYPE html> 
-<html lang="en"> 
-<head> 
-    <meta charset="UTF-8"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>CYBER HUNT - Graphic Geeks</title> 
-    <!-- Google Fonts for Cyberpunk Aesthetic --> 
-    <link href="https://googleapis.com" rel="stylesheet"> 
-    <!-- FontAwesome Icons --> 
-    <link rel="stylesheet" href="https://cloudflare.com"> 
-    <style> 
-        :root { 
-            --bg-color: #030712; 
-            --card-bg: rgba(10, 18, 30, 0.85); 
-            --cyan: #00f0ff; 
-            --green: #22c55e; 
-            --red: #ef4444; 
-            --yellow: #eab308; 
-            --text-main: #ffffff; 
-            --text-dim: #94a3b8; 
-            --border-cyan: rgba(0, 240, 255, 0.3); 
-        } 
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-            font-family: 'Rajdhani', sans-serif; 
-        } 
-        body { 
-            background-color: var(--bg-color); 
-            background-image: radial-gradient(circle at 10% 20%, rgba(0, 240, 255, 0.05) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(0, 240, 255, 0.05) 0%, transparent 40%); 
-            color: var(--text-main); 
-            min-height: 100vh; 
-            padding: 20px; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-        } 
-        .dashboard-container { 
-            width: 100%; 
-            max-width: 1280px; 
-            background: rgba(4, 9, 20, 0.95); 
-            border: 1px solid var(--border-cyan); 
-            border-radius: 12px; 
-            padding: 24px; 
-            box-shadow: 0 0 30px rgba(0, 240, 255, 0.1); 
-        } 
-        /* --- Header Section --- */ 
-        header { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            margin-bottom: 20px; 
-        } 
-        .university-logo { 
-            display: flex; 
-            align-items: center; 
-            gap: 12px; 
-        } 
-        .university-logo .logo-img { 
-            width: 45px; 
-            height: 45px; 
-            background: #e11d48; 
-            border-radius: 50%; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-weight: bold; 
-            font-size: 18px; 
-        } 
-        .university-text h2 { 
-            font-size: 20px; 
-            font-weight: 700; 
-        } 
-        .university-text p { 
-            font-size: 11px; 
-            color: var(--text-dim); 
-            text-transform: uppercase; 
-        } 
-        /* Student Input Field */ 
-        .student-input-container { 
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-            background: rgba(0, 240, 255, 0.05); 
-            padding: 8px 16px; 
-            border-radius: 8px; 
-            border: 1px solid var(--border-cyan); 
-        } 
-        .student-input-container label { 
-            font-size: 14px; 
-            color: var(--cyan); 
-            font-weight: 700; 
-            letter-spacing: 1px; 
-        } 
-        .student-input-container input { 
-            background: transparent; 
-            border: none; 
-            border-bottom: 1px solid var(--cyan); 
-            color: #fff; 
-            padding: 4px 8px; 
-            outline: none; 
-            font-size: 16px; 
-            font-weight: 600; 
-        } 
-        .user-profile { 
-            display: flex; 
-            align-items: center; 
-            gap: 12px; 
-            background: rgba(0, 240, 255, 0.05); 
-            padding: 8px 16px; 
-            border-radius: 30px; 
-            border: 1px solid var(--border-cyan); 
-        } 
-        .avatar { 
-            width: 36px; 
-            height: 36px; 
-            border-radius: 50%; 
-            background: #0284c7; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-        } 
-        /* --- Title Banner --- */ 
-        .banner { 
-            text-align: center; 
-            margin: 10px 0 25px 0; 
-        } 
-        .banner h1 { 
-            font-family: 'Orbitron', sans-serif; 
-            font-size: 48px; 
-            font-weight: 900; 
-            letter-spacing: 6px; 
-            color: var(--cyan); 
-            text-shadow: 0 0 15px rgba(0, 240, 255, 0.6); 
-        } 
-        /* --- Phase Section Headers --- */ 
-        .section-title { 
-            font-family: 'Orbitron', sans-serif; 
-            font-size: 20px; 
-            color: var(--cyan); 
-            margin: 30px 0 15px 0; 
-            border-bottom: 1px solid var(--border-cyan); 
-            padding-bottom: 8px; 
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-        } 
-        /* --- 6 Phases Container --- */ 
-        .phases-grid { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 20px; 
-        } 
-        .phase-card { 
-            background: var(--card-bg); 
-            border: 1px solid var(--border-cyan); 
-            border-radius: 10px; 
-            padding: 20px; 
-            display: grid; 
-            grid-template-columns: 1fr 280px; 
-            gap: 20px; 
-            position: relative; 
-        } 
-        .phase-main { 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: space-between; 
-        } 
-        .phase-header { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            margin-bottom: 10px; 
-        } 
-        .phase-title { 
-            font-family: 'Orbitron', sans-serif; 
-            font-size: 16px; 
-            color: var(--cyan); 
-        } 
-        .question-text { 
-            font-size: 16px; 
-            color: #e2e8f0; 
-            margin-bottom: 15px; 
-            background: rgba(0, 0, 0, 0.3); 
-            padding: 12px; 
-            border-radius: 6px; 
-            border-left: 3px solid var(--cyan); 
-        } 
-        /* Answer Input & Submit */ 
-        .answer-box { 
-            display: flex; 
-            gap: 10px; 
-        } 
-        .answer-box input { 
-            flex: 1; 
-            background: rgba(0, 0, 0, 0.5); 
-            border: 1px solid var(--border-cyan); 
-            border-radius: 6px; 
-            padding: 10px 14px; 
-            color: #fff; 
-            font-size: 14px; 
-            outline: none; 
-        } 
-        .answer-box input:focus { 
-            border-color: var(--cyan); 
-            box-shadow: 0 0 8px rgba(0, 240, 255, 0.4); 
-        } 
-        .submit-btn { 
-            background: var(--cyan); 
-            color: #000; 
-            border: none; 
-            padding: 0 20px; 
-            border-radius: 6px; 
-            font-weight: 700; 
-            font-family: 'Orbitron', sans-serif; 
-            cursor: pointer; 
-            transition: all 0.2s ease; 
-        } 
-        .submit-btn:hover { 
-            background: #fff; 
-            box-shadow: 0 0 12px rgba(255, 255, 255, 0.6); 
-        } 
-        /* Extreme Right Sidebar Inside Phase Card */ 
-        .phase-sidebar { 
-            background: rgba(0, 0, 0, 0.4); 
-            border-left: 1px solid var(--border-cyan); 
-            padding-left: 15px; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: space-between; 
-        } 
-        .hint-box { 
-            background: rgba(234, 179, 8, 0.1); 
-            border: 1px dashed var(--yellow); 
-            border-radius: 6px; 
-            padding: 10px; 
-            margin-bottom: 10px; 
-        } 
-        .hint-title { 
-            color: var(--yellow); 
-            font-size: 12px; 
-            font-weight: 700; 
-            display: flex; 
-            align-items: center; 
-            gap: 5px; 
-            margin-bottom: 5px; 
-        } 
-        .hint-text { 
-            font-size: 12px; 
-            color: #cbd5e1; 
-        } 
-        .phase-stats { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            background: rgba(255, 255, 255, 0.03); 
-            padding: 8px 12px; 
-            border-radius: 6px; 
-        } 
-        .stat-item { 
-            text-align: center; 
-        } 
-        .stat-label { 
-            font-size: 10px; 
-            color: var(--text-dim); 
-            text-transform: uppercase; 
-        } 
-        .stat-val { 
-            font-family: 'Orbitron', sans-serif; 
-            font-size: 16px; 
-            font-weight: 700; 
-            color: var(--green); 
-        } 
-        .stat-val.rank { 
-            color: var(--cyan); 
-        } 
-        /* Footer */ 
-        footer { 
-            margin-top: 30px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            border-top: 1px solid var(--border-cyan); 
-            padding-top: 15px; 
-        } 
-        .footer-brand { 
-            text-align: center; 
-            margin: 0 auto; 
-        } 
-        .footer-brand h3 { 
-            font-family: 'Orbitron', sans-serif; 
-            font-size: 18px; 
-        } 
-    </style> 
-</head> 
-<body> 
-    <div class="dashboard-container"> 
-        <!-- Header --> 
-        <header> 
-            <div class="university-logo"> 
-                <div class="logo-img">GE</div> 
-                <div class="university-text"> 
-                    <h2>Graphic Era</h2> 
-                    <p>Deemed to be University</p> 
-                </div> 
-            </div> 
-            <!-- Added Student Name Input --> 
-            <div class="student-input-container"> 
-                <label for="studentName"><i class="fa-solid fa-user-graduate"></i> STUDENT NAME:</label> 
-                <label id="display_name"></label> 
-            <!-- Added Student Name Input --> 
-            <div class="student-input-container"> 
-                <label for="studentName"><i class="fa-solid fa-user-graduate"></i> STUDENT NAME:</label> 
-                <label id="display_name"></label> 
-            </div> 
-            <div class="user-profile"> 
-                <div class="avatar"><i class="fa-solid fa-ninja"></i></div> 
-                <div> 
-                    <h4 style="color: var(--cyan); font-size: 14px;">Alice</h4> 
-                    <p style="font-size: 11px; color: var(--text-dim);">Graphic Geeks</p> 
-                </div> 
-            </div> 
-        </header> 
-        
-        <div class="banner"> 
-            <h1>CYBER HUNT</h1> 
-            <p style="letter-spacing: 4px; color: var(--text-dim); font-size: 14px;">THE DIGITAL ESCAPE ROOM</p> 
-        </div> 
-        
-        <div class="section-title"> 
-            <i class="fa-solid fa-terminal"></i> EVENT CHALLENGES (PHASES 1 - 6) 
-        </div> 
-        
-            <div class="phase-card"> 
-                <div class="phase-main"> 
-                    <div class="phase-header"> 
-                        <span class="phase-title">PHASE 1: Cryptic Cipher</span> 
-                    </div> 
-                    <div class="question-text"> 
-                        Decode the following base64 string to retrieve the access key: <code>R3JhcGhpY0dlZWtzMjAyNg==</code> 
-                    </div> 
-                    <div class="answer-box"> 
-                        <input type="text" placeholder="Type your answer here..."> 
-                        <button class="submit-btn">SUBMIT</button> 
-                    </div> 
-                </div> 
-                <div class="phase-sidebar"> 
-                    <div class="hint-box"> 
-                        <div class="hint-title"><i class="fa-regular fa-lightbulb"></i> HINT</div> 
-                        <div class="hint-text">Standard Base64 encoding. Use an online decoder or browser console.</div> 
-                    </div> 
-                    <div class="phase-stats"> 
-                        <div class="stat-item"> 
-                            <div class="stat-label">Points Gained</div> 
-                            <div class="stat-val">+50</div> 
-                        </div> 
-                        <div class="stat-item"> 
-                            <div class="stat-label">Current Rank</div> 
-                            <div class="stat-val rank">#4</div> 
-                        </div> 
-                    </div> 
-                </div> 
-            </div> 
-            
-            <div class="phase-card"> 
-                <div class="phase-main"> 
-                    <div class="phase-header"> 
-                        <span class="phase-title">PHASE 2: Web Forensics</span> 
-                    </div> 
-                    <div class="question-text"> 
-                        Inspect the network request headers of the target server. What is the value of the hidden "X-Flag" parameter? 
-                    </div> 
-                    <div class="answer-box"> 
-                        <input type="text" placeholder="Type your answer here..."> 
-                        <button class="submit-btn">SUBMIT</button> 
-                    </div> 
-                </div> 
-                <div class="phase-sidebar"> 
-                    <div class="hint-box"> 
-                        <div class="hint-title"><i class="fa-regular fa-lightbulb"></i> HINT</div> 
-                        <div class="hint-text">Check Developer Tools > Network Tab > Response Headers.</div> 
-                    </div> 
-                    <div class="phase-stats"> 
-                        <div class="stat-item"> 
-                            <div class="stat-label">Points Gained</div> 
-                            <div class="stat-val">+100</div> 
-                        </div> 
-                        <div class="stat-item"> 
-                            <div class="stat-label">Current Rank</div> 
-                            <div class="stat-val rank">#2</div> 
-                        </div> 
-                    </div> 
-                </div> 
-            </div> 
-            
-            <div class="phase-card"> 
-                <div class="phase-main"> 
-                    <div class="phase-header"> 
-                        <span class="phase-title">PHASE 3: Steganography</span> 
-                    </div> 
-                    <div class="question-text"> 
-                        Extract the hidden text file contained within the provided system image. What is the root password? 
-                    </div> 
-                    <div class="answer-box"> 
-                        <input type="text" placeholder="Type your answer here..."> 
-                        <button class="submit-btn">SUBMIT</button> 
-                    </div> 
-                </div> 
-                <div class="phase-sidebar"> 
-                    <div class="hint-box"> 
-                        <div class="hint-title"><i class="fa-regular fa-lightbulb"></i> HINT</div> 
-                        <div class="hint-text">Use steghide or check metadata info via ExifTool.</div> 
-                    </div> 
-                    <div class="phase-stats"> 
-                        <div class="stat-item"> 
-                            <div class="stat-label">Points Gained</div> 
-                            <div class="stat-val">+150</div> 
-                        </div> 
-                        <div class="stat-item"> 
-                            <div class="stat-label">Current Rank</div> 
-                            <div class="stat-val rank">#3</div> 
-                        </div> 
-                    </div> 
-                </div> 
-            </div> 
-            
-            <div class="phase-card"> 
-                <div class="phase-main"> 
-                    <div class="phase-header"> 
-                        <span class="phase-title">PHASE 4: Reverse Engineering</span> 
-                    </div> 
-                    <div class="question-text"> 
-                        Bypass the execution check in the provided binary executable. Identify the success string printed upon activation. 
-                    </div> 
-                    <div class="answer-box"> 
-                        <input type="text" placeholder="Type your answer here..."> 
-                        <button class="submit-btn">SUBMIT</button> 
-                    </div> 
-                </div> 
-                <div class="phase-sidebar"> 
-                    <div class="hint-box"> 
-                        <div class="hint-title"><i class="fa-regular fa-lightbulb"></i> HINT</div> 
-                        <div class="hint-text">Decompile using Ghidra or trace main functions in Cutter.</div> 
-                    </div> 
-                    <div class="phase-stats"> 
-                        <div class="stat-item"> 
-                            <div class="stat-label">Points Gained</div> 
-                            <div class="stat-val">+200</div> 
-                        </div> 
-                        <div class="stat-item"> 
-                            <div class="stat-label">Current Rank</div> 
-                            <div class="stat-val rank">#1</div> 
-                        </div> 
-                    </div> 
-                </div> 
-            </div> 
-            
-            <div class="phase-card"> 
-                <div class="phase-main"> 
-                    <div class="phase-header"> 
-                        <span class="phase-title">PHASE 5: SQL Injection</span> 
-                    </div> 
-                    <div class="question-text"> 
-                        Bypass the admin authentication form using SQL payload injection. Retrieve the admin account username. 
-                    </div> 
-                    <div class="answer-box"> 
-                        <input type="text" placeholder="Type your answer here..."> 
-                        <button class="submit-btn">SUBMIT</button> 
-                    </div> 
-                </div> 
-                <div class="phase-sidebar"> 
-                    <div class="hint-box"> 
-                        <div class="hint-title"><i class="fa-regular fa-lightbulb"></i> HINT</div> 
-                        <div class="hint-text">Try classic OR injection syntax: ' OR '1'='1.</div> 
-                    </div> 
-                    <div class="phase-stats"> 
-                        <div class="stat-item"> 
-                            <div class="stat-label">Points Gained</div> 
-                            <div class="stat-val">+250</div> 
-                        </div> 
-                        <div class="stat-item"> 
-                            <div class="stat-label">Current Rank</div> 
-                            <div class="stat-val rank">#1</div> 
-                        </div> 
-                    </div> 
-                </div> 
-            </div> 
-            
-            <div class="phase-card"> 
-                <div class="phase-main"> 
-                    <div class="phase-header"> 
-                        <span class="phase-title">PHASE 6: Final Mainframe Crack</span> 
-                    </div> 
-                    <div class="question-text"> 
-                        Combine all previous phase keys into the decryption algorithm to derive the final victory flag string. 
-                    </div> 
-                    <div class="answer-box"> 
-                        <input type="text" placeholder="Type your answer here..."> 
-                        <button class="submit-btn">SUBMIT</button> 
-                    </div> 
-                </div> 
-                <div class="phase-sidebar"> 
-                    <div class="hint-box"> 
-                        <div class="hint-title"><i class="fa-regular fa-lightbulb"></i> HINT</div> 
-                        <div class="hint-text">Concatenate keys 1 through 5 using SHA-256 hashing.</div> 
-                    </div> 
-        </div> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyber Hunt | Participant Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
 
-        <footer> 
-            <div style="font-size: 12px; color: var(--text-dim);"> 
-                REAL PROBLEMS. REAL SKILLS. ONE MISSION. 
-            </div> 
-            <div class="footer-brand"> 
-                <h3>GRAPHIC GEEKS</h3> 
-                <p style="font-size: 11px; color: var(--text-dim);">Presents</p> 
-            </div> 
-            <div> 
-                <a href="#" style="color: var(--text-main); text-decoration: none; font-size: 13px;"> 
-                    <i class="fa-brands fa-instagram"></i> graphic_geeks_geu 
-                </a> 
-            </div> 
-        </footer> 
-    </div> 
-</body> 
+  <style>
+    :root {
+      --bg: #061a29;
+      --panel: #062338;
+      --panel-inner: #092c44;
+      --panel-border: #4aa8e9;
+      --blue: #58aaeb;
+      --blue-light: #72b9f0;
+      --blue-dim: rgba(88, 170, 235, 0.45);
+      --white: #edf2f4;
+      --text-muted: #b0c9db;
+      --green: #78b982;
+      --green-dim: rgba(120, 185, 130, 0.2);
+      --locked: #607383;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(88, 170, 235, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(88, 170, 235, 0.08) 0%, transparent 40%);
+      color: var(--white);
+      font-family: 'DM Mono', monospace;
+      padding: clamp(14px, 2vh, 24px) clamp(16px, 2.5vw, 36px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .dashboard-container {
+      width: 100%;
+      max-width: 1380px;
+      background: var(--panel);
+      border: 2px solid var(--panel-border);
+      border-radius: 8px;
+      box-shadow: 0 0 35px rgba(74, 168, 233, 0.18), inset 0 0 50px rgba(6, 26, 41, 0.5);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Corner Marks */
+    .corner-mark {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border-color: var(--blue);
+      border-style: solid;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .corner-mark.tl { top: 10px; left: 10px; border-width: 2px 0 0 2px; }
+    .corner-mark.tr { top: 10px; right: 10px; border-width: 2px 2px 0 0; }
+    .corner-mark.bl { bottom: 10px; left: 10px; border-width: 0 0 2px 2px; }
+    .corner-mark.br { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; }
+
+    /* Top Navigation Header */
+    
+    .brand-logo-img {
+      width: 32px;
+      height: 32px;
+      max-width: 32px;
+      max-height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid var(--panel-border);
+      box-shadow: 0 0 10px rgba(88, 170, 235, 0.4);
+      flex-shrink: 0;
+      display: inline-block;
+    }
+    .header-era-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      text-decoration: none;
+    }
+    .header-era-logo {
+      width: 32px;
+      height: 32px;
+      max-width: 32px;
+      max-height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid var(--panel-border);
+      box-shadow: 0 0 10px rgba(88, 170, 235, 0.4);
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+      display: block;
+    }
+    .header-era-logo:hover {
+      transform: scale(1.08);
+    }
+
+    
+    .timer-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(6, 26, 41, 0.85);
+      border: 1.5px solid var(--blue);
+      box-shadow: 0 0 15px rgba(88, 170, 235, 0.25);
+      padding: 6px 16px;
+      border-radius: 6px;
+      font-family: 'DM Mono', monospace;
+    }
+    .timer-icon {
+      color: var(--blue-light);
+      font-size: 16px;
+      animation: pulse-icon 2s infinite ease-in-out;
+    }
+    @keyframes pulse-icon {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.15); opacity: 1; filter: drop-shadow(0 0 6px var(--blue)); }
+    }
+    .timer-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .timer-display {
+      font-size: 16px;
+      font-weight: 700;
+      color: #38bdf8;
+      letter-spacing: 1.5px;
+      text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+    }
+
+    header {
+      height: clamp(56px, 7.5vh, 70px);
+      border-bottom: 1.5px solid var(--blue-dim);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(16px, 2.5vw, 32px);
+      background: rgba(6, 26, 41, 0.6);
+      flex-shrink: 0;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--white);
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: clamp(18px, 1.8vw, 22px);
+      letter-spacing: -0.5px;
+    }
+
+    .target-icon {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      color: var(--blue);
+      flex-shrink: 0;
+    }
+
+    .target-icon svg {
+      width: 100%;
+      height: 100%;
+      stroke: var(--blue);
+      fill: none;
+    }
+
+    .header-user-info {
+      display: flex;
+      align-items: center;
+      gap: clamp(10px, 1.6vw, 20px);
+    }
+
+    .student-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--panel-inner);
+      border: 1px solid var(--blue-dim);
+      border-radius: 4px;
+      padding: 6px 12px;
+      font-size: 13px;
+    }
+
+    .student-badge label {
+      color: var(--blue);
+      font-weight: 700;
+    }
+
+    .student-name-val {
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    .score-badge {
+      background: var(--blue);
+      color: #061a29;
+      font-weight: 800;
+      padding: 6px 14px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+
+    .avatar-circle {
+      width: 32px;
+      height: 32px;
+      border: 1.5px solid var(--blue);
+      border-radius: 50%;
+      background: var(--panel-inner);
+      color: var(--blue-light);
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .logout-btn {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13px;
+      padding: 6px 10px;
+      border-radius: 4px;
+      border: 1px solid transparent;
+      transition: all 0.15s ease;
+    }
+
+    .logout-btn:hover {
+      color: var(--white);
+      border-color: var(--blue-dim);
+    }
+
+    /* Main Dashboard Body */
+    .dashboard-body {
+      padding: clamp(18px, 2.5vh, 32px) clamp(16px, 2.5vw, 36px);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: clamp(18px, 2.2vw, 32px);
+    }
+
+    /* Left Stages Column */
+    .stages-column {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .banner {
+      margin-bottom: 8px;
+    }
+
+    .uni-label {
+      color: var(--blue);
+      font-size: 13px;
+      letter-spacing: 2px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .banner-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(28px, 3.2vw, 42px);
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.1;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+
+    .banner-sub {
+      color: var(--text-muted);
+      font-size: 13.5px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Active Stage 1 Card */
+    .stage-card-active {
+      background: var(--panel-inner);
+      border: 2px solid var(--panel-border);
+      border-radius: 8px;
+      padding: clamp(20px, 2.5vh, 28px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(88, 170, 235, 0.08);
+      position: relative;
+    }
+
+    .stage-top-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .active-pill {
+      background: var(--green);
+      color: #0c2b12;
+      font-weight: 800;
+      font-size: 11.5px;
+      letter-spacing: 1px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .points-tag {
+      color: var(--blue-light);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .stage-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(22px, 2.2vw, 28px);
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+
+    .stage-tags {
+      font-size: 12.5px;
+      color: var(--blue);
+      margin-bottom: 14px;
+    }
+
+    .stage-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 14.5px;
+      line-height: 1.6;
+      color: #d6e4ee;
+      margin-bottom: 24px;
+      max-width: 680px;
+    }
+
+    .stage-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .start-challenge-btn {
+      background: var(--blue);
+      color: #061a29;
+      border: 2px solid var(--blue);
+      border-radius: 4px;
+      font-family: 'DM Mono', monospace;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 12px 28px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 4px 4px 0 #04121d, 6px 6px 0 #3a8ac4;
+      transition: all 0.15s ease;
+    }
+
+    .start-challenge-btn:hover {
+      background: #6bbcf5;
+      border-color: #6bbcf5;
+      box-shadow: 5px 5px 0 #04121d, 7px 7px 0 #3a8ac4;
+      transform: translateY(-1px);
+    }
+
+    .start-challenge-btn:active {
+      transform: translateY(2px);
+    }
+
+    /* Locked Stages Grid */
+    .locked-stages-header {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-top: 10px;
+      border-bottom: 1px solid var(--blue-dim);
+      padding-bottom: 8px;
+    }
+
+    .locked-stages-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .stage-card-locked {
+      background: rgba(6, 26, 41, 0.5);
+      border: 1px dashed var(--locked);
+      border-radius: 6px;
+      padding: 14px 16px;
+      opacity: 0.75;
+      transition: opacity 0.15s ease;
+    }
+
+    .stage-card-locked:hover {
+      opacity: 0.95;
+    }
+
+    .locked-badge {
+      font-size: 11px;
+      color: var(--locked);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .locked-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #9cb5c7;
+      margin-bottom: 4px;
+    }
+
+    .locked-pts {
+      font-size: 12px;
+      color: var(--locked);
+    }
+
+    /* Right Stats & Info Sidebar */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .side-card {
+      background: var(--panel-inner);
+      border: 1.5px solid var(--blue-dim);
+      border-radius: 8px;
+      padding: 18px 20px;
+    }
+
+    .side-card-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--blue);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(88, 170, 235, 0.15);
+      font-size: 13.5px;
+    }
+
+    .stat-row:last-child {
+      border-bottom: none;
+    }
+
+    .stat-val {
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .stat-val.highlight {
+      color: var(--blue-light);
+    }
+
+    .stat-val.success {
+      color: var(--green);
+    }
+
+    .event-detail-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      margin-bottom: 10px;
+      color: #d6e4ee;
+    }
+
+    .event-detail-item svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--blue);
+      fill: none;
+      flex-shrink: 0;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1.5px solid var(--blue-dim);
+      padding: 14px clamp(16px, 2.5vw, 32px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      background: rgba(6, 26, 41, 0.6);
+      flex-shrink: 0;
+    }
+
+    footer a {
+      color: var(--blue-light);
+      text-decoration: none;
+    }
+
+    @media (max-width: 960px) {
+      .dashboard-body {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        order: -1;
+      }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 0;
+      }
+      .dashboard-container {
+        border-radius: 0;
+        border: none;
+      }
+      .header-user-info {
+        gap: 8px;
+      }
+      .student-badge {
+        display: none;
+      }
+      .stage-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .start-challenge-btn {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="dashboard-container">
+    <span class="corner-mark tl"></span>
+    <span class="corner-mark tr"></span>
+    <span class="corner-mark bl"></span>
+    <span class="corner-mark br"></span>
+
+    <!-- Top Header -->
+    <header>
+      <a class="brand" href="landing.html" title="Cyber Hunt Home">
+        <img src="logo-graphic-geeks.png" alt="Graphic Geeks" class="brand-logo-img">
+        <span>CYBER HUNT</span>
+      </a>
+
+      <div class="timer-pill" title="Live Event Countdown">
+        <span class="timer-icon">&#9201;</span>
+        <span class="timer-label">TIME REMAINING:</span>
+        <span class="timer-display" id="dashEventCountdown">01:59:59</span>
+      </div>
+
+      <div class="header-user-info">
+        <div class="student-badge">
+          <label>STUDENT:</label>
+          <span class="student-name-val" id="studentDisplayName">Alice</span>
+        </div>
+
+        <div class="score-badge" id="headerScoreBadge">100 PTS</div>
+        <div class="avatar-circle" id="headerAvatar">A</div>
+        <a class="logout-btn" href="landing.html" id="logoutLink">Logout</a>
+        <a href="https://geu.ac.in" target="_blank" rel="noopener" title="Graphic Era University">
+          <img src="logo-graphic-era.png" alt="Graphic Era University" class="header-era-logo">
+        </a>
+      </div>
+    </header>
+
+    <!-- Main Dashboard Area -->
+    <div class="dashboard-body">
+      <!-- Left Column: Active Stage 1 & Locked Future Stages -->
+      <section class="stages-column">
+        <div class="banner">
+          <div class="uni-label">GRAPHIC ERA UNIVERSITY &bull; THE DIGITAL ESCAPE ROOM</div>
+          <h1 class="banner-title">Participant Dashboard</h1>
+          <p class="banner-sub">Complete multi-phase security challenges sequentially in the live sandbox environment.</p>
+        </div>
+
+        <!-- STAGE 1 ACTIVE CARD -->
+        <article class="stage-card-active">
+          <div class="stage-top-meta">
+            <span class="active-pill">? STAGE 1 ACTIVE</span>
+            <span class="points-tag">+100 Points</span>
+          </div>
+
+          <h2 class="stage-title">Stage 1: Phase 1: Cryptic Cipher</h2>
+          <div class="stage-tags">Tags: Cryptography &bull; Base64 &bull; One-Word Flag &bull; CTF</div>
+
+          <p class="stage-desc">
+            An algorithmic access key is locked within the mainframe checksum validation matrix. 
+            Decode the encrypted base64 payload to retrieve the initial access key and unlock subsequent forensic stages.
+          </p>
+
+          <div class="stage-actions">
+            <a class="start-challenge-btn" href="challenge-workspace.html" id="startChallengeBtn">
+              <span>START CHALLENGE</span>
+              <span>?</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- LOCKED STAGES 2 - 6 -->
+        <div class="locked-stages-header">UPCOMING STAGES (LOCKED)</div>
+        <div class="locked-stages-grid">
+          <div class="stage-card-locked">
+            <div class="locked-badge">&#128274; LOCKED &bull; STAGE 2</div>
+            <div class="locked-title">Web Forensics</div>
+            <div class="locked-pts">100 Points &bull; HTTP Headers</div>
+          </div>
+          <div class="stage-card-locked">
+            <div class="locked-badge">&#128274; LOCKED &bull; STAGE 3</div>
+            <div class="locked-title">Steganography</div>
+            <div class="locked-pts">150 Points &bull; Image Metadata</div>
+          </div>
+          <div class="stage-card-locked">
+            <div class="locked-badge">&#128274; LOCKED &bull; STAGE 4</div>
+            <div class="locked-title">Reverse Engineering</div>
+            <div class="locked-pts">200 Points &bull; Binary Analysis</div>
+          </div>
+          <div class="stage-card-locked">
+            <div class="locked-badge">&#128274; LOCKED &bull; STAGE 5</div>
+            <div class="locked-title">SQL Injection</div>
+            <div class="locked-pts">250 Points &bull; Database Auth</div>
+          </div>
+          <div class="stage-card-locked">
+            <div class="locked-badge">&#128274; LOCKED &bull; STAGE 6</div>
+            <div class="locked-title">Mainframe Crack</div>
+            <div class="locked-pts">500 Points &bull; SHA-256</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Participant Stats & Event Rules -->
+      <aside class="sidebar">
+        <!-- Live Stats Card -->
+        <div class="side-card">
+          <div class="side-card-title">?? PARTICIPANT STATS</div>
+          <div class="stat-row">
+            <span>Score</span>
+            <span class="stat-val highlight" id="statsScore">100</span>
+          </div>
+          <div class="stat-row">
+            <span>Stage 1 Status</span>
+            <span class="stat-val success" id="statsStage1">Active</span>
+          </div>
+          <div class="stat-row">
+            <span>Overall Rank</span>
+            <span class="stat-val">#1</span>
+          </div>
+          <div class="stat-row">
+            <span>Completed Stages</span>
+            <span class="stat-val" id="statsCompleted">0 / 6</span>
+          </div>
+        </div>
+
+        <!-- Event Metadata Card -->
+        <div class="side-card">
+          <div class="side-card-title">?? EVENT DETAILS</div>
+          <div class="event-detail-item">
+            <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span>19 September 2026</span>
+          </div>
+          <div class="event-detail-item">
+            <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>Seminar Hall, CSIT Block</span>
+          </div>
+          <div class="event-detail-item">
+            <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>
+            <span>Teams of 3</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div>REAL PROBLEMS. REAL SKILLS. ONE MISSION.</div>
+      <div>GRAPHIC GEEKS &bull; GRAPHIC ERA UNIVERSITY</div>
+      <div><a href="landing.html">Event Home</a></div>
+    </footer>
+  </main>
+
+  <script>
+    const user = localStorage.getItem('cyber_current_user') || 'Alice';
+    const score = Number(localStorage.getItem('cyber_hunt_points') || 100);
+
+    document.getElementById('studentDisplayName').textContent = user;
+    document.getElementById('headerScoreBadge').textContent = score + ' PTS';
+    document.getElementById('statsScore').textContent = score;
+    document.getElementById('headerAvatar').textContent = (user.charAt(0) || 'U').toUpperCase();
+
+    // Check if challenge is solved
+    fetch(`/api/submissions?participant=${encodeURIComponent(user)}`)
+      .then(r => r.json())
+      .then(subs => {
+        const solved = subs && subs.some(s => s.solved);
+        if (solved) {
+          document.getElementById('statsStage1').textContent = 'Solved ?';
+          document.getElementById('statsCompleted').textContent = '1 / 6';
+        }
+      })
+      .catch(() => {});
+
+    document.getElementById('logoutLink').onclick = (e) => {
+      e.preventDefault();
+      localStorage.removeItem('cyber_current_user');
+      window.location.href = 'landing.html';
+    };
+  
+    // Live Event Countdown Sync
+    let dashTimerSeconds = parseInt(localStorage.getItem('cyber_timer_remaining'), 10);
+    if (isNaN(dashTimerSeconds) || dashTimerSeconds <= 0) {
+      dashTimerSeconds = 2 * 60 * 60;
+    }
+    const dashTimerEl = document.getElementById('dashEventCountdown');
+    function updateDashTimer() {
+      if (!dashTimerEl) return;
+      if (dashTimerSeconds <= 0) {
+        dashTimerEl.textContent = "00:00:00 - EXPIRED";
+        return;
+      }
+      dashTimerSeconds--;
+      localStorage.setItem('cyber_timer_remaining', dashTimerSeconds);
+      const h = String(Math.floor(dashTimerSeconds / 3600)).padStart(2, '0');
+      const m = String(Math.floor((dashTimerSeconds % 3600) / 60)).padStart(2, '0');
+      const s = String(dashTimerSeconds % 60).padStart(2, '0');
+      dashTimerEl.textContent = `${h}:${m}:${s}`;
+    }
+    setInterval(updateDashTimer, 1000);
+    updateDashTimer();
+
+    // Sync score from localStorage
+    const savedScore = localStorage.getItem('cyber_total_score');
+    if (savedScore && document.getElementById('headerScoreBadge')) {
+      document.getElementById('headerScoreBadge').textContent = `${savedScore} PTS`;
+    }
+
+  </script>
+</body>
 </html>
