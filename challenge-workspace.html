@@ -3,13 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Stage 1: Two Sum — Challenge Workspace | Cyber Hunt</title>
+  <title>Cyber Hunt | Challenge Workspace</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap">
-  
-  <!-- Monaco Editor AMD Loader -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
 
   <style>
     :root {
@@ -25,11 +22,13 @@
       --blue: #58aaeb;
       --blue-light: #72b9f0;
       --blue-dim: rgba(88, 170, 235, 0.18);
-      --green: #78b982;
-      --green-dark: #0f331b;
+      --green: #10b981;
+      --green-dark: #064e3b;
+      --green-glow: rgba(16, 185, 129, 0.35);
       --red: #ef4444;
-      --red-dark: #3b1818;
-      --locked: #7a9cb6;
+      --red-dark: #450a0a;
+      --yellow: #f59e0b;
+      --locked: #567287;
     }
 
     * {
@@ -42,177 +41,121 @@
       height: 100%;
       min-height: 100vh;
       background: var(--bg);
+      background-image: 
+        radial-gradient(circle at 10% 15%, rgba(88, 170, 235, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 85%, rgba(88, 170, 235, 0.08) 0%, transparent 40%);
       color: var(--white);
-      font-family: 'Inter', -apple-system, BlinkmacSystemFont, sans-serif;
-      overflow: hidden;
+      font-family: 'DM Mono', monospace;
+      overflow-x: hidden;
     }
 
-    /* Custom Scrollbars */
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: rgba(74, 168, 233, 0.35);
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(74, 168, 233, 0.65);
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      padding: 12px 18px;
+      gap: 14px;
+      max-width: 1560px;
+      margin: 0 auto;
     }
 
-    /* Outer Shell Layout */
-    .shell {
-      height: 100vh;
-      display: grid;
-      grid-template-rows: clamp(54px, 7.5vh, 66px) minmax(0, 1fr);
-      gap: clamp(10px, 1.5vh, 16px);
-      padding: clamp(10px, 1.5vh, 18px) clamp(14px, 1.8vw, 24px);
-      position: relative;
-    }
-
-    
-    .topbar-brand-logo {
-      width: 30px;
-      height: 30px;
-      max-width: 30px;
-      max-height: 30px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 1.5px solid var(--line);
-      box-shadow: 0 0 8px rgba(88, 170, 235, 0.4);
-      flex-shrink: 0;
-      display: inline-block;
-    }
-    .topbar-era-wrap {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      text-decoration: none;
-    }
-    .topbar-era-logo {
-      width: 30px;
-      height: 30px;
-      max-width: 30px;
-      max-height: 30px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 1.5px solid var(--line);
-      box-shadow: 0 0 8px rgba(88, 170, 235, 0.4);
-      flex-shrink: 0;
-      transition: transform 0.2s ease;
-      display: block;
-    }
-    .topbar-era-logo:hover {
-      transform: scale(1.08);
-    }
-
-    /* Top Navigation Bar */
+    /* TOP BAR */
     .topbar {
-      min-width: 0;
       background: var(--head);
       display: flex;
       align-items: center;
-      padding: 0 clamp(14px, 1.8vw, 24px);
+      justify-content: space-between;
+      padding: 10px 20px;
       border-radius: 8px;
-      border: 1px solid var(--line-subtle);
+      border: 1.5px solid var(--line-subtle);
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+      gap: 16px;
+      flex-shrink: 0;
     }
 
-    .brand {
+    .brand-wrap {
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 700;
-      font-size: clamp(16px, 1.6vw, 22px);
-      letter-spacing: -0.5px;
-      white-space: nowrap;
+      gap: 12px;
       text-decoration: none;
       color: var(--white);
     }
 
-    .brand-icon {
-      display: grid;
-      place-items: center;
-      background: var(--blue);
-      color: #061a29;
-      border-radius: 6px;
-      width: 30px;
-      height: 30px;
-      font-family: 'DM Mono', monospace;
-      font-weight: 800;
-      font-size: 15px;
+    .topbar-brand-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid var(--line);
+      box-shadow: 0 0 8px rgba(88, 170, 235, 0.4);
       flex-shrink: 0;
     }
 
-    .brand-tag {
-      font-size: 11px;
-      font-family: 'DM Mono', monospace;
-      color: var(--blue-light);
-      background: var(--blue-dim);
-      padding: 2px 8px;
-      border-radius: 4px;
-      border: 1px solid rgba(74, 168, 233, 0.4);
-      margin-left: 4px;
-    }
-
-    /* Navigation Tabs */
-    .tabs {
-      display: flex;
-      align-self: stretch;
-      align-items: center;
-      gap: clamp(14px, 2vw, 30px);
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .tabs button {
-      font-family: 'Inter', sans-serif;
-      font-weight: 600;
-      font-size: clamp(13px, 1.1vw, 15px);
-      color: var(--muted);
-      background: none;
-      border: 0;
-      cursor: pointer;
-      padding: 0 6px;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      position: relative;
-      transition: color 0.15s ease;
-      white-space: nowrap;
-    }
-
-    .tabs button:hover {
+    .brand-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: clamp(16px, 1.4vw, 20px);
+      letter-spacing: -0.5px;
       color: var(--white);
     }
 
-    .tabs button.active {
+    .brand-tag {
+      background: var(--panel-inner);
       color: var(--blue-light);
+      border: 1px solid var(--line-subtle);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 11px;
       font-weight: 700;
+      letter-spacing: 0.5px;
     }
 
-    .tabs button.active::after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: var(--blue);
-      box-shadow: 0 0 10px var(--blue);
-      border-radius: 3px 3px 0 0;
+    /* LIVE EVENT TIMER */
+    .timer-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(6, 26, 41, 0.85);
+      border: 1.5px solid var(--blue);
+      box-shadow: 0 0 15px rgba(88, 170, 235, 0.25);
+      padding: 6px 16px;
+      border-radius: 6px;
+      font-family: 'DM Mono', monospace;
     }
 
-    /* Top Action Buttons */
+    .timer-icon {
+      color: var(--blue-light);
+      font-size: 16px;
+      animation: pulse-icon 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse-icon {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.15); opacity: 1; filter: drop-shadow(0 0 6px var(--blue)); }
+    }
+
+    .timer-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .timer-display {
+      font-size: 18px;
+      font-weight: 700;
+      color: #38bdf8;
+      letter-spacing: 1.5px;
+      text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+    }
+
+    /* TOP ACTIONS */
     .top-actions {
       display: flex;
       align-items: center;
-      gap: clamp(8px, 1vw, 14px);
+      gap: 12px;
+      flex-shrink: 0;
     }
 
     .nav-btn-link {
@@ -222,9 +165,9 @@
       text-decoration: none;
       font-size: 12px;
       font-weight: 600;
-      padding: 6px 12px;
+      padding: 6px 14px;
       border-radius: 6px;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 6px;
       transition: all 0.15s ease;
@@ -236,1546 +179,845 @@
       background: rgba(74, 168, 233, 0.15);
     }
 
-    .clues-trigger {
-      border: 1px solid var(--line);
-      background: var(--blue);
-      color: #061a29;
-      font-family: 'Inter', sans-serif;
+    .score-badge-box {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid var(--green);
+      color: #6ee7b7;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 12px;
       font-weight: 700;
-      font-size: clamp(12px, 1vw, 14px);
-      cursor: pointer;
-      border-radius: 6px;
-      padding: 7px 14px;
       display: flex;
       align-items: center;
       gap: 6px;
-      box-shadow: 0 0 12px rgba(88, 170, 235, 0.35);
-      transition: filter 0.15s ease, transform 0.1s ease;
     }
 
-    .clues-trigger:hover {
-      filter: brightness(1.15);
-      transform: translateY(-1px);
+    .topbar-era-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
     }
 
-    .icon-btn {
-      background: var(--panel-inner);
-      border: 1px solid var(--line-subtle);
-      color: var(--muted);
-      font-size: 16px;
-      cursor: pointer;
-      display: grid;
-      place-items: center;
+    .topbar-era-logo {
       width: 32px;
       height: 32px;
-      border-radius: 6px;
-      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
-    }
-
-    .icon-btn:hover {
-      background: rgba(74, 168, 233, 0.2);
-      color: var(--white);
-      border-color: var(--line);
-    }
-
-    .avatar {
-      width: 32px;
-      height: 32px;
-      border: 1.5px solid var(--line);
       border-radius: 50%;
-      background: var(--panel-inner);
-      color: var(--blue-light);
-      display: grid;
-      place-items: center;
-      font-weight: 700;
-      font-size: 14px;
-      cursor: pointer;
-      transition: transform 0.15s ease;
-      flex-shrink: 0;
+      object-fit: cover;
+      border: 1.5px solid var(--line);
+      box-shadow: 0 0 8px rgba(88, 170, 235, 0.4);
+      transition: transform 0.2s ease;
     }
 
-    .avatar:mover {
+    .topbar-era-logo:hover {
       transform: scale(1.08);
-      border-color: var(--blue);
     }
 
-    /* 3-Column Main Workspace */
-    .workspace {
-      min-height: 0;
+    /* STAGES PROGRESS ROW (Reference Image Top Section) */
+    .stages-progress-bar {
       display: grid;
-      grid-template-columns: 310px minmax(0, 1fr) 290px;
-      gap: clamp(10px, 1.4vw, 16px);
-      transition: grid-template-columns 0.25s ease;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 6px;
     }
 
-    .workspace.clues-hidden {
-      grid-template-columns: 330px minmax(0, 1fr) 0px;
-    }
-
-    .workspace.clues-hidden .panel.clues {
-      opacity: 0;
-      pointer-events: none;
-      transform: translateX(15px);
-    }
-
-    /* Panels General */
-    .panel {
-      min-height: 0;
+    .stage-pill-card {
       background: var(--panel);
+      border: 1.5px solid var(--line-subtle);
       border-radius: 8px;
-      border: 1px solid var(--line-subtle);
+      padding: 14px 18px;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-    }
-
-    /* LEFT: Problem Description Panel */
-    .panel.problem {
-      border-color: var(--line-subtle);
-    }
-
-    .problem-content {
-      padding: clamp(14px, 1.8vh, 20px);
-      overflow-y: auto;
-      flex: 1;
-    }
-
-    .eyebrow {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      color: var(--blue);
-      letter-spacing: 0.5px;
-      display: flex;
       align-items: center;
+      justify-content: center;
       gap: 6px;
-      margin-bottom: 8px;
+      position: relative;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      text-decoration: none;
     }
 
-    .problem-header {
+    .stage-pill-card.active {
+      border-color: var(--green);
+      background: rgba(16, 185, 129, 0.08);
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.25), inset 0 0 15px rgba(16, 185, 129, 0.1);
+    }
+
+    .stage-pill-card.solved {
+      border-color: var(--blue);
+      background: rgba(88, 170, 235, 0.08);
+    }
+
+    .stage-pill-card.locked {
+      border-color: rgba(74, 168, 233, 0.15);
+      background: rgba(6, 26, 41, 0.5);
+      opacity: 0.7;
+    }
+
+    .stage-pill-card.final {
+      border-color: rgba(239, 68, 68, 0.4);
+      background: rgba(69, 10, 10, 0.2);
+    }
+
+    .stage-pill-icon {
+      font-size: 20px;
+    }
+
+    .stage-pill-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .stage-pill-status {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .stage-pill-card.active .stage-pill-status { color: var(--green); }
+    .stage-pill-card.solved .stage-pill-status { color: var(--blue-light); }
+    .stage-pill-card.locked .stage-pill-status { color: var(--locked); }
+    .stage-pill-card.final .stage-pill-status { color: var(--red); }
+
+    /* SECTION HEADER */
+    .section-title-wrap {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--line-subtle);
       margin-bottom: 8px;
     }
 
-    .problem-header h1 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(20px, 1.8vw, 24px);
+    .section-title {
+      font-family: 'DM Mono', monospace;
+      font-size: clamp(15px, 1.3vw, 18px);
       font-weight: 700;
-      letter-spacing: -0.4px;
-      color: var(--white);
+      color: var(--blue-light);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: 0.5px;
     }
 
-    .badge {
-      background: rgba(120, 185, 130, 0.15);
-      color: var(--green);
-      border: 1px solid rgba(120, 185, 130, 0.4);
-      font-family: 'DMMono', monospace;
-      font-size: 11px;
+    .section-title .cmd-prompt {
+      color: var(--blue);
+    }
+
+    /* CHALLENGES CONTAINER */
+    .challenges-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* CHALLENGE PHASE CARD */
+    .phase-card {
+      background: var(--panel);
+      border: 1.5px solid var(--line-subtle);
+      border-radius: 8px;
+      padding: 20px 24px;
+      position: relative;
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .phase-card.active-phase {
+      border-color: var(--line);
+      box-shadow: 0 0 25px rgba(74, 168, 233, 0.2), inset 0 0 20px rgba(6, 26, 41, 0.6);
+    }
+
+    .phase-card.solved-phase {
+      border-color: rgba(16, 185, 129, 0.5);
+      background: rgba(6, 35, 56, 0.85);
+    }
+
+    .phase-card.locked-phase {
+      opacity: 0.55;
+      filter: grayscale(0.4);
+      pointer-events: none;
+    }
+
+    .phase-card-inner {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .phase-card-inner {
+        grid-template-columns: 1fr;
+      }
+      .stages-progress-bar {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* LEFT SIDE OF PHASE CARD */
+    .phase-main {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .phase-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .phase-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--blue-light);
+      letter-spacing: 0.5px;
+    }
+
+    .phase-status-badge {
+      font-size: 12px;
       font-weight: 700;
       padding: 3px 8px;
-      border-radius: 20px;
-      letter-spacing: 0.2px;
+      border-radius: 4px;
     }
 
-    .tags {
-      color: var(--muted);
-      font-size: 12px;
-      margin-bottom: 14px;
+    .phase-status-badge.solved {
+      background: rgba(16, 185, 129, 0.2);
+      color: #6ee7b7;
+      border: 1px solid var(--green);
     }
 
-    .problem-copy {
+    .phase-status-badge.active {
+      background: rgba(88, 170, 235, 0.2);
+      color: var(--blue-light);
+      border: 1px solid var(--blue);
+    }
+
+    .phase-status-badge.locked {
+      background: rgba(86, 114, 135, 0.2);
+      color: var(--locked);
+      border: 1px solid var(--locked);
+    }
+
+    /* PROMPT QUESTION BLOCK WITH LEFT BRACKET ACCENT */
+    .question-box {
+      background: var(--panel-inner);
+      border-left: 3px solid var(--line);
+      padding: 14px 18px;
+      border-radius: 0 6px 6px 0;
       color: var(--white);
-      font-size: clamp(13px, 1.1vw, 14px);
+      font-size: 14.5px;
       line-height: 1.6;
-      margin-bottom: 16px;
+      position: relative;
     }
 
-    .problem-content h2 {
-      font-family: 'Space Grotesk', sans-serif;
+    .question-code-snippet {
+      margin-top: 8px;
+      background: rgba(4, 18, 29, 0.8);
+      padding: 8px 12px;
+      border-radius: 4px;
+      color: #7dd3fc;
+      font-family: 'DM Mono', monospace;
+      font-size: 13.5px;
+      word-break: break-all;
+      border: 1px dashed rgba(74, 168, 233, 0.3);
+    }
+
+    /* INPUT ROW */
+    .submission-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-top: 4px;
+    }
+
+    .answer-input {
+      flex: 1;
+      background: rgba(4, 18, 29, 0.9);
+      border: 1.5px solid var(--line-subtle);
+      border-radius: 6px;
+      padding: 12px 16px;
+      color: var(--white);
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .answer-input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 12px rgba(88, 170, 235, 0.3);
+    }
+
+    .answer-input.input-success {
+      border-color: var(--green) !important;
+      background: rgba(6, 78, 59, 0.2);
+    }
+
+    .answer-input.input-error {
+      border-color: var(--red) !important;
+      animation: shake 0.3s ease;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+
+    .btn-submit-flag {
+      background: var(--blue);
+      color: #04121d;
+      border: 1.5px solid var(--blue);
+      border-radius: 6px;
+      padding: 12px 24px;
+      font-family: 'DM Mono', monospace;
       font-size: 14px;
       font-weight: 700;
-      margin: 14px 0 8px;
-      color: var(--blue-light);
-    }
-
-    .example-card {
-      background: var(--panel-inner);
-      border: 1px solid rgba(74, 168, 233, 0.25);
-      border-radius: 6px;
-      padding: 10px 12px;
-      font-family: 'DM Mono', monospace;
-      font-size: 12px;
-      line-height: 1.6;
-      color: var(--white);
-      margin-bottom: 12px;
-    }
-
-    .example-card b {
-      color: var(--blue-light);
-    }
-
-    .example-card code {
-      background: rgba(6, 26, 41, 0.6);
-      padding: 2px 5px;
-      border-radius: 4px;
-      color: #9fe2bf;
-    }
-
-    .example-card p {
-      margin-top: 6px;
-      color: var(--muted);
-      font-size: 11px;
-      font-family: 'Inter', sans-serif;
-    }
-
-    .constraints-list {
-      margin-left: 18px;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.7;
-    }
-
-    .problem-actions {
-      border-top: 1px solid var(--line-subtle);
-      background: var(--head);
-      padding: 10px 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
-    .problem-action-btn {
-      background: transparent;
-      border: 1px solid var(--line-subtle);
-      border-radius: 6px;
-      color: var(--muted);
-      font-family: 'Inter', sans-serif;
-      font-size: 12px;
-      font-weight: 600;
-      padding: 6px 10px;
+      letter-spacing: 0.5px;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      box-shadow: 0 0 12px rgba(88, 170, 235, 0.35);
       transition: all 0.15s ease;
+      white-space: nowrap;
     }
 
-    .problem-action-btn:hover {
-      background: rgba(74, 168, 233, 0.15);
-      color: var(--white);
-      border-color: var(--line);
-    }
-
-    .problem-action-btn.active {
-      color: var(--blue);
-      border-color: var(--blue);
-    }
-
-    /* CENTER: Code Editor Panel */
-    .panel.editor {
-      display: flex;
-      flex-direction: column;
-      position: relative;
-    }
-
-    .editor-top {
-      background: var(--head);
-      border-bottom: 1px solid var(--line-subtle);
-      padding: 8px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .editor-head {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.6px;
-      color: var(--blue);
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .editor-tools {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .language-btn {
-      background: var(--panel-inner);
-      border: 1px solid var(--line-subtle);
-      color: var(--white);
-      font-family: 'DM Mono', monospace;
-      font-size: 12px;
-      font-weight: 500;
-      border-radius: 4px;
-      padding: 4px 10px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .tool-btn {
-      background: transparent;
-      border: 1px solid var(--line-subtle);
-      color: var(--muted);
-      border-radius: 4px;
-      padding: 4px 8px;
-      font-size: 12px;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-
-    .tool-btn:hover {
-      background: rgba(74, 168, 233, 0.15);
-      color: var(--white);
-      border-color: var(--line);
-    }
-
-    .editor-container {
-      flex: 1;
-      min-height: 0;
-      position: relative;
-      background: #061e31;
-    }
-
-    #monaco-root {
-      width: 100%;
-      height: 100%;
-    }
-
-    /* Fallback code editor if Monaco fails */
-    .fallback-editor {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      font-family: 'DM Mono', monospace;
-      font-size: 13px;
-      line-height: 22px;
-      background: #061e31;
-    }
-
-    .gutter {
-      width: 44px;
-      padding: 12px 6px;
-      text-align: right;
-      color: #4a6c88;
-      background: #061a29;
-      user-select: none;
-      border-right: 1px solid rgba(74, 168, 233, 0.15);
-      white-space: pre;
-    }
-
-    .fallback-textarea {
-      flex: 1;
-      background: transparent;
-      border: 0;
-      outline: none;
-      color: var(--white);
-      padding: 12px;
-      resize: none;
-      font-family: inherit;
-      font-size: inherit;
-      line-height: inherit;
-      tab-size: 4;
-      white-space: pre;
-      overflow-x: auto;
-    }
-
-    /* Output Tray */
-    .result-tray {
-      display: none;
-      max-height: 220px;
-      overflow-y: auto;
-      background: #041420;
-      border-top: 1px solid var(--line);
-      padding: 12px 16px;
-      font-family: 'DMMono', monospace;
-      font-size: 12px;
-    }
-
-    .result-title {
-      font-weight: 700;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      color: var(--blue-light);
-    }
-
-    .test-card {
-      background: var(--panel-inner);
-      border: 1px solid rgba(74, 168, 233, 0.2);
-      border-radius: 6px;
-      padding: 8px 10px;
-      margin-bottom: 8px;
-    }
-
-    .test-card.passed {
-      border-left: 4px solid var(--green);
-    }
-
-    .test-card.failed {
-      border-left: 4px solid var(--red);
-    }
-
-    .test-card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .test-card.passed .test-card-header { color: var(--green); }
-    .test-card.failed .test-card-header { color: var(--red); }
-
-    .test-card-details {
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.5;
-    }
-
-    .success-banner {
-      background: rgba(120, 185, 130, 0.15);
-      border: 1px solid var(--green);
-      color: var(--green);
-      padding: 10px;
-      border-radius: 6px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .error-banner {
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid var(--red);
-      color: #ff9999;
-      padding: 10px;
-      border-radius: 6px;
-      margin-bottom: 8px;
-    }
-
-    /* Editor Bottom Control Bar */
-    .editor-bottom {
-      background: var(--head);
-      border-top: 1px solid var(--line-subtle);
-      padding: 10px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .cursor-pos {
-      font-family: 'DMMono', monospace;
-      font-size: 11px;
-      color: var(--muted-dark);
-    }
-
-    .editor-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .btn-test {
-      border: 1px solid var(--line-subtle);
-      background: var(--panel-inner);
-      color: var(--white);
-      font-family: 'Inter', sans-serif;
-      font-weight: 600;
-      font-size: 13px;
-      border-radius: 6px;
-      padding: 8px 18px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.15s ease;
-    }
-
-    .btn-test:hover {
-      background: rgba(74, 168, 233, 0.2);
-      border-color: var(--line);
-      color: #fff;
-    }
-
-    .btn-submit {
-      border: 1px solid var(--line);
-      background: var(--blue);
-      color: #061a29;
-      font-family: 'Inter', sans-serif;
-      font-weight: 700;
-      font-size: 13px;
-      border-radius: 6px;
-      padding: 8px 22px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 0 16px rgba(88, 170, 235, 0.4);
-      transition: all 0.15s ease;
-    }
-
-    .btn-submit:hover {
-      filter: brightness(1.15);
+    .btn-submit-flag:hover:not(:disabled) {
+      background: #72b9f0;
+      box-shadow: 0 0 18px rgba(88, 170, 235, 0.6);
       transform: translateY(-1px);
     }
 
-    .btn-submit:disabled, .btn-test:disabled {
-      opacity: 0.6;
+    .btn-submit-flag:active:not(:disabled) {
+      transform: translateY(1px);
+    }
+
+    .btn-submit-flag:disabled {
+      opacity: 0.5;
       cursor: not-allowed;
-      transform: none;
     }
 
-    /* RIGHT: Clues & Hints Panel */
-    .panel.clues {
-      border-color: var(--line-subtle);
-      transition: all 0.25s ease;
+    .feedback-msg {
+      font-size: 12.5px;
+      font-weight: 600;
+      margin-top: 4px;
+      display: none;
+    }
+    .feedback-msg.show-err {
+      display: block;
+      color: var(--red);
+    }
+    .feedback-msg.show-ok {
+      display: block;
+      color: #6ee7b7;
     }
 
-    .clues-header {
-      background: var(--head);
-      border-bottom: 1px solid var(--line-subtle);
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .clues-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--white);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .hint-badge {
-      background: var(--blue-dim);
-      color: var(--blue-light);
-      border: 1px solid rgba(74, 168, 233, 0.4);
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      font-weight: 700;
-      padding: 2px 7px;
-      border-radius: 12px;
-    }
-
-    .clues-content {
-      padding: 14px;
-      overflow-y: auto;
-      flex: 1;
+    /* RIGHT SIDE OF PHASE CARD (Hints & Points) */
+    .phase-sidebar {
       display: flex;
       flex-direction: column;
       gap: 12px;
+      border-left: 1px solid rgba(74, 168, 233, 0.15);
+      padding-left: 20px;
+    }
+
+    @media (max-width: 900px) {
+      .phase-sidebar {
+        border-left: none;
+        border-top: 1px solid rgba(74, 168, 233, 0.15);
+        padding-left: 0;
+        padding-top: 16px;
+      }
     }
 
     .hint-card {
-      background: var(--panel-inner);
-      border: 1px solid rgba(74, 168, 233, 0.2);
+      background: rgba(6, 26, 41, 0.7);
+      border: 1px solid rgba(245, 158, 11, 0.3);
       border-radius: 6px;
-      padding: 12px;
-      display: grid;
-      grid-template-columns: 24px 1fr auto;
-      gap: 10px;
-      align-items: start;
-    }
-
-    .hint-icon {
-      font-size: 16px;
-      color: var(--locked);
-      display: grid;
-      place-items: center;
-      margin-top: 2px;
-    }
-
-    .hint-icon.unlock {
-      color: var(--green);
-    }
-
-    .hint-body h3 {
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 4px;
-      color: var(--white);
-    }
-
-    .hint-body p {
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.4;
-    }
-
-    .hint-body p.hidden-text {
-      filter: blur(4px);
-      user-select: none;
-      opacity: 0.4;
-    }
-
-    .hint-btn {
-      border: 0;
-      border-radius: 4px;
-      padding: 5px 10px;
-      font-weight: 700;
-      font-size: 11px;
-      color: #fff;
-      background: rgba(74, 168, 233, 0.25);
-      border: 1px solid rgba(74, 168, 233, 0.4);
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-
-    .hint-btn.unlocked {
-      background: rgba(120, 185, 130, 0.2);
-      border-color: var(--green);
-      color: var(--green);
-    }
-
-    .hint-btn.unlock-btn {
-      background: var(--blue);
-      border-color: var(--line);
-      color: #061a29;
-    }
-
-    .hint-btn:hover {
-      filter: brightness(1.15);
-    }
-
-    .hint-footer {
-      margin-top: 14px;
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.5;
-      padding: 10px;
-      background: rgba(6, 26, 41, 0.6);
-      border-radius: 6px;
-      border-left: 3px solid var(--blue);
-    }
-
-    .collapse-btn {
-      margin-top: 10px;
-      width: 100%;
-      border: 1px solid var(--line-subtle);
-      border-radius: 6px;
-      background: transparent;
-      color: var(--muted);
-      font-family: 'Inter', sans-serif;
-      font-weight: 600;
-      font-size: 12px;
-      padding: 8px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: all 0.15s ease;
-    }
-
-    .collapse-btn:hover {
-      background: rgba(74, 168, 233, 0.15);
-      color: var(--white);
-      border-color: var(--line);
-    }
-
-    /* AUXILIARY & MODALS */
-    .auxiliary-panel {
-      position: absolute;
-      top: clamp(66px, 9.5vh, 88px);
-      left: clamp(14px, 1.8vw, 24px);
-      right: clamp(14px, 1.8vw, 24px);
-      bottom: clamp(10px, 1.5vh, 18px);
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: clamp(18px, 2.5vh, 28px);
-      overflow-y: auto;
-      z-index: 10;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    }
-
-    .submissions-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-    }
-
-    .submissions-table th {
-      text-align: left;
       padding: 12px 14px;
-      color: var(--blue-light);
-      border-bottom: 1px solid var(--line);
-      font-size: 11px;
-      text-transform: uppercase;
-      font-family: 'DMMono', monospace;
+      transition: all 0.2s ease;
     }
 
-    .success-table td, .submissions-table td {
-      padding: 14px;
-      border-bottom: 1px solid var(--line-subtle);
+    .hint-card.hint-locked {
+      border-color: rgba(86, 114, 135, 0.25);
+      background: rgba(4, 18, 29, 0.5);
     }
 
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-weight: 700;
-      font-size: 11px;
-    }
-
-    .status-pill.solved {
-      background: rgba(120, 185, 130, 0.15);
-      color: var(--green);
-      border: 1px solid var(--green);
-    }
-
-    .status-pill.failed {
-      background: rgba(239, 68, 68, 0.15);
-      color: var(--red);
-      border: 1px solid var(--red);
-    }
-
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(4, 18, 29, 0.85);
-      backdrop-filter: blur(4px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 100;
-      padding: 20px;
-    }
-
-    .modal-box {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      width: min(540px, 94ww);
-      max-height: 85vh;
-      overflow-y: auto;
-      padding: 24px;
-      position: relative;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
-    }
-
-    .modal-header {
+    .hint-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 18px;
-      border-bottom: 1px solid var(--line-subtle);
-      padding-bottom: 12px;
+      margin-bottom: 6px;
     }
 
-    .close-modal {
-      background: none;
-      border: 0;
-      color: var(--muted);
-      font-size: 22px;
+    .hint-title {
+      color: #fbbf24;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hint-title.locked-title {
+      color: var(--locked);
+    }
+
+    .btn-toggle-hint {
+      background: transparent;
+      border: 1px solid rgba(245, 158, 11, 0.5);
+      color: #fbbf24;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
       cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: 'DM Mono', monospace;
     }
 
-    .close-modal:hover {
-      color: var(--white);
+    .btn-toggle-hint:hover {
+      background: rgba(245, 158, 11, 0.2);
+      color: #fde68a;
     }
 
-    @media (max-width: 1050px) {
-      .workspace { grid-template-columns: minmax(0, 36fr) minmax(0, 64fr); }
-      .panel.clues { position: fixed; right: 16px; top: 80px; bottom: 16px; width: min(340px, 85vw); z-index: 20; }
-      .workspace.clues-hidden .panel.clues { display: none; }
+    .hint-body {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
     }
-    @media (max-width: 768px) {
-      body { overflow: auto; }
-      .shell { height: auto; min-height: 100vh; padding: 10px; display: block; }
-      .topbar { padding: 12px; flex-wrap: wrap; gap: 12px; }
-      .tabs { width: 100%; order: 3; justify-content: space-around; gap: 10px; }
-      .workspace { margin-top: 14px; display: grid; grid-template-columns: 1fr !important; gap: 14px; height: auto; }
-      .panel { height: 550px; }
-      .panel.clues { position: relative; inset: auto; width: 100%; }
+
+    .meta-metrics {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(4, 18, 29, 0.6);
+      border: 1px solid var(--line-subtle);
+      border-radius: 6px;
+      padding: 10px 14px;
+    }
+
+    .metric-group {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .metric-label {
+      font-size: 10px;
+      color: var(--muted-dark);
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .metric-val {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--green);
     }
   </style>
 </head>
 <body>
-  <div class="shell">
+
+  <div class="app-container">
+    <!-- TOP HEADER -->
     <header class="topbar">
-      <a class="brand" href="dashboard.html" title="Back to Dashboard">
+      <div class="brand-wrap">
         <img src="logo-graphic-geeks.png" alt="Graphic Geeks" class="topbar-brand-logo">
-        <span>CYBER HUNT</span>
-        <span class="brand-tag">STAGE 01</span>
-      </a>
-      <nav class="tabs" aria-label="Workspace Tabs">
-        <button class="active" id="problemTab">Problem</button>
-        <button id="submissionsTab">Submissions</button>
-        <button id="discussionsTab">Discussions</button>
-      </nav>
+        <span class="brand-title">CYBER HUNT</span>
+        <span class="brand-tag">PHASE ARENA</span>
+      </div>
+
+      <!-- LIVE EVENT TIMER -->
+      <div class="timer-pill" title="Live Event Countdown">
+        <span class="timer-icon">&#9201;</span>
+        <span class="timer-label">TIME REMAINING:</span>
+        <span class="timer-display" id="eventCountdown">01:59:59</span>
+      </div>
+
+      <!-- TOP ACTIONS -->
       <div class="top-actions">
         <a class="nav-btn-link" href="dashboard.html" title="Back to Stages Dashboard">&larr; Dashboard</a>
-        <button class="clues-trigger" id="cluesButton" title="Toggle Clues Panel">
-          <span>&#128161;</span> Clues
-        </button>
-        <button class="icon-btn" id="settingsButton" aria-label="Settings" title="Editor Settings">&#9881;</button>
-        <div class="avatar" id="avatar" title="View Profile">U</div>
+        <div class="score-badge-box">
+          <span>&#9733;</span>
+          <span id="currentScore">0 PTS</span>
+        </div>
         <a class="topbar-era-wrap" href="https://geu.ac.in" target="_blank" rel="noopener" title="Graphic Era University">
-          <img src="logo-graphic-era.png" alt="Graphic Era University" class="topbar-era-logo" width="30" height="30">
+          <img src="logo-graphic-era.png" alt="Graphic Era University" class="topbar-era-logo" width="32" height="32">
         </a>
-        <button class="icon-btn" id="moreButton" aria-label="More Options" title="More Options">&hellip;</button>
       </div>
     </header>
 
-    <main class="workspace" id="workspace">
-      <!-- LEFT: Problem Panel -->
-      <section class="panel problem" aria-label="Problem Statement">
-        <div class="problem-content">
-          <div class="eyebrow"><span>&#9678;</span> PROBLEM STATEMENT</div>
-          <div class="problem-header">
-            <h1>Two Sum</h1>
-            <span class="badge">Easy</span>
-          </div>
-          <p class="tags">Tags: Array &bull; Hash Table &bull; Core Algorithm</p>
-          <p class="problem-copy">
-            Given an array of integers <i>nums</i> and an integer <i>target</i>, return the indices of the two numbers such that they add up to <b>target</b>.
-          </p>
-          <h2>Example 1:</h2>
-          <div class="example-card">
-            <b>Input:</b> <code>nums = [2,7,11,15]</code>, <code>target = 9</code><br>
-            <b>Output:</b> <code>[0,1]</code>
-            <p>Because nums[0] + nums[1] == 9, we return [0, 1].</p>
-          </div>
-          <h2>Example 2:</h2>
-          <div class="example-card">
-            <b>Input:</b> <code>nums = [3,2,4]</code>, <code>target = 6</code><br>
-            <b>Output:</b> <code>[1,2]</code>
-          </div>
-          <h2>Constraints:</h2>
-          <ul class="constraints-list">
-            <li>2 &le; nums.length &le; 10<sup>4</sup></li>
-            <li>-10<sup>9</sup> &le; nums[i] &le; 10<sup>9</sup></li>
-            <li>-10<sup>9</sup> &le; target &le; 10<sup>9</sup></li>
-            <li>Only one valid answer exists.</li>
-          </ul>
-        </div>
-        <div class="problem-actions">
-          <button class="problem-action-btn" id="copyProblemBtn" title="Copy Problem Statement"><span>&#128203;</span> Copy</button>
-          <button class="problem-action-btn" id="likeBtn" title="Like Challenge"><span id="likeHeart">&#9825;</span> <span id="likeCount">142</span></button>
-          <button class="problem-action-btn" id="bookmarkBtn" title="Bookmark Challenge"><span id="bookmarkIcon">&#9734;</span> Save</button>
-        </div>
-      </section>
-
-      <!-- CENTER: Code Editor Panel -->
-      <section class="panel editor" aria-label="Code Editor">
-        <div class="editor-top">
-          <span class="editor-head">&#9654; CODE EDITOR</span>
-          <div class="editor-tools">
-            <button class="language-btn" id="languageButton" title="Python 3.12">Python 3 &bull;</button>
-            <button class="tool-btn" id="focusEditor" title="Focus Editor">&#8862;</button>
-            <button class="tool-btn" id="resetEditor" title="Reset Starter Code">&#8634; Reset</button>
-          </div>
-        </div>
-        <div class="editor-container" id="editorContainer">
-          <div id="monaco-root"></div>
-          <div class="fallback-editor" id="fallbackEditor" style="display:none;">
-            <div class="gutter" id="fallbackGutter">1\n2\n3\n4\n5</div>
-            <textarea class="fallback-textarea" id="fallbackCode" spellcheck="false" aria-label="Python Code EDITOR">class Solution:
-    def twoSum(self, nums: list[int], target: int) -> list[int]:
-        # Write your solution here
-        pass</textarea>
-          </div>
-        </div>
-        <div class="result-tray" id="resultTray">
-          <div class="result-title">
-            <span>EXECUTION OUTPUT</span>
-            <button id="closeResultBtn" style="background:none;border:0;color:var(--muted);cursor:pointer;font-size:16px;">&times;</button>
-          </div>
-          <div id="resultContent"></div>
-        </div>
-        <div class="editor-bottom">
-          <span class="cursor-pos" id="cursorPosition">Ln 1, Col 1</span>
-          <div class="editor-actions">
-            <button class="btn-test" id="testRunBtn" title="Run visible tests without final submission">
-              <span>&#9654;</span> Test Run
-            </button>
-            <button class="btn-submit" id="submitBtn" title="Submit solution against all test cases">
-              <span>&#10003;</span> Submit
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <!-- RIGHT: Clues & Hints Panel -->
-      <section class="panel clues" aria-label="Clues and Hints">
-        <div class="clues-header">
-          <div class="clues-title">
-            <span>&#128161;</span> Hints &amp; Clues
-          </div>
-          <span class="hint-badge" id="hintCountBadge">2 Remaining</span>
-        </div>
-        <div class="clues-content">
-          <div class="hint-card">
-            <div class="hint-icon unlock" id="hintOneIcon">&#128275;</div>
-            <div class="hint-body">
-              <h3>Hint 1 (Free)</h3>
-              <p id="hintOneText">A really brute force way would be to search for all possible pairs of numbers, but that would be O(n&sup2;). Can you do better using a hash table?</p>
-            </div>
-            <button class="hint-btn unlocked" id="hintOneToggle">Hide</button>
-          </div>
-
-          <div class="hint-card">
-            <div class="hint-icon" id="hintTwoIcon">&#128274;</span></div>
-            <div class="hint-body">
-              <h3>Hint 2</h3>
-              <p class="hidden-text" id="hintTwoText">As you iterate through the array, for each element x, calculate its complement: <code>target - x</code>. Check if that complement exists in your hash map.</p>
-            </div>
-            <button class="hint-btn unlock-btn" id="hintTwoBtn">&minus;10 pts</button>
-          </div>
-
-          <div class="hint-card">
-            <div class="hint-icon" id="hintThreeIcon">&#128274;</span></div>
-            <div class="hint-body">
-              <h3>Hint 3</h3>
-              <p class="hidden-text" id="hintThreeText">You can do this in a single pass: insert elements into the hash table as you look back to see if its complement already exists in the dictionary!</p>
-            </div>
-            <button class="hint-btn unlock-btn" id="hintThreeBtn">&minus;10 pts</button>
-          </div>
-
-          <div class="hint-footer">
-            <b>Points Note:</b> Unlocking locked hints deducts 10 points from your Stage score. Free hints do not affect score.
-          </div>
-
-          <button class="collapse-btn" id="collapseCluesBtn">&times; Close Clues Panel</button>
-        </div>
-      </section>
-    </main>
-
-    <!-- Full Submissions / Discussions View Panel -->
-    <section class="auxiliary-panel" id="auxiliaryPanel" hidden>
-      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; border-bottom:1px solid var(--line-subtle); padding-bottom:12px;">
-        <h2 style="font-family:'Space Grotesk',sans-serif; font-size:22px; color:var(--white);" id="auxiliaryTitle">Submissions History</h2>
-        <button id="closeAuxBtn" style="background:var(--panel-inner); border:1px solid var(--line-subtle); color:var(--white); padding:6px 14px; border-radius:6px; cursor:pointer; font-weight:600; font-size:13px;">&times; Back to Editor</button>
+    <!-- STAGES PROGRESS ROW (Reference Image) -->
+    <section class="stages-progress-bar" id="stagesProgressBar">
+      <div class="stage-pill-card active" id="stagePill1">
+        <span class="stage-pill-icon">&#128275;</span>
+        <span class="stage-pill-title">Stage 1:</span>
+        <span class="stage-pill-status">[Active]</span>
       </div>
-      <div id="auxiliaryContent"></div>
+      <div class="stage-pill-card locked" id="stagePill2">
+        <span class="stage-pill-icon">&#128274;</span>
+        <span class="stage-pill-title">Stage 2:</span>
+        <span class="stage-pill-status">[Locked]</span>
+      </div>
+      <div class="stage-pill-card locked" id="stagePill3">
+        <span class="stage-pill-icon">&#128274;</span>
+        <span class="stage-pill-title">Stage 3:</span>
+        <span class="stage-pill-status">[Locked]</span>
+      </div>
+      <div class="stage-pill-card final" id="stagePill4">
+        <span class="stage-pill-icon">&#128681;</span>
+        <span class="stage-pill-title">Stage 4:</span>
+        <span class="stage-pill-status">[Final]</span>
+      </div>
     </section>
-  </div>
 
-  <!-- Settings Modal -->
-  <div class="modal-backdrop" id="settingsModal" style="display:none;">
-    <div class="modal-box">
-      <div class="modal-header">
-        <h3 style="font-family:'Space Grotesk',sans-serif; color:var(--white);">&#9881; Editor Settings</h3>
-        <button class="close-modal" id="closeSettingsModal">&times;</button>
+    <!-- EVENT CHALLENGES SECTION HEADER -->
+    <div class="section-title-wrap">
+      <div class="section-title">
+        <span class="cmd-prompt">&gt;_</span> EVENT CHALLENGES (PHASES 1 - 6)
       </div>
-      <div style="display:flex; flex-direction:column; gap:16px;">
-        <div>
-          <label style="display:block; margin-bottom:6px; font-size:13px; color:var(--muted);">Font Size (px)</label>
-          <select id="settingGfontSize" style="width:100%; padding:8px; background:var(--panel-inner); color:#fff; border:1px solid var(--line-subtle); border-radius:6px;">
-            <option value="12">12px</option>
-            <option value="14" selected>14px (Default)</option>
-            <option value="16">16px</option>
-            <option value="18">18px</option>
-          </select>
-        </div>
-        <div>
-          <label style="display:block; margin-bottom:6px; font-size:13px; color:var(--muted);">Tab Indentation Size</label>
-          <select id="settingTabSize" style="width:100%; padding:8px; background:var(--panel-inner); color:#fff; border:1px solid var(--line-subtle); border-radius:6px;">
-            <option value="4" selected>4 Spaces (Python PEP8)</option>
-            <option value="2">2 Spaces</option>
-          </select>
-        </div>
-        <div>
-          <label style="display:block; margin-bottom:6px; font-size:13px; color:var(--muted);">Word Wrap</label>
-          <select id="settingWordWrap" style="width:100%; padding:8px; background:var(--panel-inner); color:#fff; border:1px solid var(--line-subtle); border-radius:6px;">
-            <option value="on" selected>On</option>
-            <option value="off">Off</option>
-          </select>
-        </div>
-        <button id="saveSettingsBtn" style="background:var(--blue); color:#061a29; border:1px solid var(--line); border-radius:6px; padding:10px; font-weight:700; cursor:pointer; margin-top:8px;">Save Preferences</button>
+      <div style="font-size: 12px; color: var(--muted);">
+        Sequential Security Decryption Matrix
       </div>
     </div>
+
+    <!-- CHALLENGES LIST -->
+    <main class="challenges-list" id="challengesContainer">
+      <!-- Generated via JS -->
+    </main>
   </div>
 
-  <!-- Profile Modal -->
-  <div class="modal-backdrop" id="profileModal" style="display:none;">
-    <div class="modal-box">
-      <div class="modal-header">
-        <h3 style="font-family:'Space Grotesk',sans-serif; color:var(--white);">&#128100; Participant Profile</h3>
-        <button class="close-modal" id="closeProfileModal">&times;</button>
-      </div>
-      <div style="text-align:center; padding:10px 0 20px;">
-        <div style="width:64px; height:64px; border-radius:50%; background:var(--panel-inner); color:var(--blue-light); font-size:28px; font-weight:700; display:grid; place-items:center; margin:0 auto 12px; border:2px solid var(--line);" id="profileAvatarBig">U</div>
-        <h2 style="font-size:20px; font-family:'Space Grotesk',sans-serif; color:var(--white);" id="profileUsername">Participant</h2>
-        <p style="color:var(--muted); font-size:13px;">Cyber Hunt 2026 Contestant</p>
-      </div>
-      <div style="background:var(--panel-inner); border-radius:8px; padding:14px; display:grid; grid-template-columns:1fr 1fr; gap:12px; text-align:center; margin-bottom:16px; border:1px solid var(--line-subtle);">
-        <div>
-          <div style="color:var(--muted); font-size:11px; text-transform:uppercase; font-family:'DM Mono',monospace;">Current Score</div>
-          <div style="font-size:24px; font-weight:800; color:var(--blue-light);" id="profileScore">100 pts</div>
-        </div>
-        <div>
-          <div style="color:var(--muted); font-size:11px; text-transform:uppercase; font-family:'DMMono',monospace;">Stage Status</div>
-          <div style="font-size:24px; font-weight:800; color:var(--green);" id="profileStatus">In Progress</div>
-        </div>
-      </div>
-      <div style="display:flex; gap:10px;">
-        <button id="logoutBtn" style="flex:1; background:#3b1818; border:1px solid var(--red); color:#ffc4c4; border-radius:6px; padding:10px; font-weight:700; cursor:pointer;">Log Out</button>
-        <button id="closeProfileBtn" style="flex:1; background:var(--panel-inner); border:1px solid var(--line-subtle); color:#fff; border-radius:6px; padding:10px; font-weight:700; cursor:pointer;">Close</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- View Code Modal -->
-  <div class="modal-backdrop" id="codeModal" style="display:none;">
-    <div class="modal-box" style="width:min(68ppx, 94ww);">
-      <div class="modal-header">
-        <h3 id="codeModalTitle" style="font-family:'Space Grotesk',sans-serif; color:var(--white);">Submission Code</h3>
-        <button class="close-modal" id="closeCodeModal">&times;</button>
-      </div>
-      <pre id="codeModalContent" style="background:#041420; padding:16px; border-radius:6px; border:1px solid var(--line-subtle); overflow-x:auto; font-family:'DMMono',monospace; font-size:13px; line-height:1.6; color:#d8e5ee;"></pre>
-    </div>
-  </div>
   <script>
-    /* Participant State */
-    let participant = localStorage.getItem('cyber_current_user') || 'guest';
-    let userPoints = Number(localStorage.getItem('cyber_hunt_points') || 100);
-    localStorage.setItem('cyber_hunt_points', userPoints);
-
-    const starterCode = `class Solution:
-    def twoSum(self, nums: list[int], target: int) -> list[int]:
-        # Write your solution here
-        pass
-`;
-
-    /* Elements */
-    const workspace = document.getElementById('workspace');
-    const cluesButton = document.getElementById('cluesButton');
-    const collapseCluesBtn = document.getElementById('collapseCluesBtn');
-    const cursorPosition = document.getElementById('cursorPosition');
-    const testRunBtn = document.getElementById('testRunBtn');
-    const submitBtn = document.getElementById('submitBtn');
-    const resultTray = document.getElementById('resultTray');
-    const resultContent = document.getElementById('resultContent');
-    const closeResultBtn = document.getElementById('closeResultBtn');
-    const avatar = document.getElementById('avatar');
-    const avatarBig = document.getElementById('profileAvatarBig');
-    const profileUsername = document.getElementById('profileUsername');
-    const profileScore = document.getElementById('profileScore');
-    const profileStatus = document.getElementById('profileStatus');
-    const fallbackEditor = document.getElementById('fallbackEditor');
-    const fallbackCode = document.getElementById('fallbackCode');
-    const fallbackGutter = document.getElementById('fallbackGutter');
-
-    /* Avatar init */
-    const initialLetter = (participant.charAt(0) || 'UM').toUpperCase();
-    avatar.textContent = initialLetter;
-    if (avatarBig) avatarBig.textContent = initialLetter;
-    if (profileUsername) profileUsername.textContent = participant;
-    if (profileScore) profileScore.textContent = userPoints + ' pts';
-
-    /* Clues toggle */
-    function toggleClues() {
-      workspace.classList.toggle('clues-hidden');
-    }
-    cluesButton.onclick = toggleClues;
-    collapseCluesBtn.onclick = toggleClues;
-
-    /* Editor Management */
-    let monacoInstance = null;
-    let isMonacoReady = false;
-
-    function getEditorCode() {
-      if (isMonacoReady && monacoInstance) {
-        return monacoInstance.getValue();
+    // CTF CHALLENGE PHASES DEFINITIONS
+    const CHALLENGES = [
+      {
+        id: 1,
+        title: "PHASE 1: Cryptic Cipher",
+        question: "Decode the following base64 string to retrieve the access key:",
+        snippet: "R3JhcGhpY0dlZWtzMjAyNg==",
+        hint: "Standard Base64 encoding. Use an online decoder or browser console atob().",
+        points: 50,
+        acceptedAnswers: ["graphicgeeks2026", "graphic geeks 2026", "graphicgeeks"]
+      },
+      {
+        id: 2,
+        title: "PHASE 2: Web Forensics",
+        question: "Inspect the network request headers of the target server. What is the value of the hidden 'X-Flag' parameter?",
+        snippet: "GET /api/v1/auth/stage2 HTTP/1.1 -> Response Header: X-Flag: GEU_HEADER_INTRUSION_KEY",
+        hint: "Check Developer Tools > Network Tab > Response Headers or inspect the simulated header parameter above.",
+        points: 100,
+        acceptedAnswers: ["geu_header_intrusion_key", "geuheaderintrusionkey"]
+      },
+      {
+        id: 3,
+        title: "PHASE 3: Binary Matrix",
+        question: "Convert the 8-bit binary ASCII sequence into plaintext:",
+        snippet: "01000011 01011001 01000010 01000101 01010010",
+        hint: "8-bit binary ASCII representation. Each byte represents a single character.",
+        points: 100,
+        acceptedAnswers: ["cyber"]
+      },
+      {
+        id: 4,
+        title: "PHASE 4: Cryptographic Hash",
+        question: "An embedded MD5 checksum hash was recovered from security logs: 5d41402abc4b2a76b9719d911017c592. What was the original plaintext word?",
+        snippet: "MD5: 5d41402abc4b2a76b9719d911017c592",
+        hint: "Standard MD5 hash lookup. A very common 5-letter English greeting word.",
+        points: 150,
+        acceptedAnswers: ["hello"]
+      },
+      {
+        id: 5,
+        title: "PHASE 5: Database Auth Bypass",
+        question: "Identify the standard numeric tautology operand used to complete this SQL injection login bypass: ' OR '1'='___' --",
+        snippet: "SELECT * FROM participants WHERE username = 'admin' AND pass = '' OR '1'='1' --",
+        hint: "Standard tautology logic condition: 1 equals 1.",
+        points: 200,
+        acceptedAnswers: ["1", "'1'='1'"]
+      },
+      {
+        id: 6,
+        title: "PHASE 6: Master Flag (Final Escape Room Key)",
+        question: "Combine the recovered digital keys to formulate the final Graphic Era escape room flag:",
+        snippet: "CYBERHUNT{GEU_VICTORY_2026}",
+        hint: "Type the master flag formatted as CYBERHUNT{GEU_VICTORY_2026}.",
+        points: 500,
+        acceptedAnswers: ["cyberhunt{geu_victory_2026}", "geu_victory_2026"]
       }
-      return fallbackCode.value;
+    ];
+
+    // STATE INITIALIZATION
+    let userState = {
+      revealedHints: JSON.parse(localStorage.getItem('cyber_revealed_hints')) || [],
+      solvedPhases: JSON.parse(localStorage.getItem('cyber_solved_phases')) || [],
+      score: parseInt(localStorage.getItem('cyber_total_score'), 10) || 0
+    };
+
+    // COUNTDOWN TIMER LOGIC (2 Hours default, persistent)
+    let eventDurationSeconds = parseInt(localStorage.getItem('cyber_timer_remaining'), 10);
+    if (isNaN(eventDurationSeconds) || eventDurationSeconds <= 0) {
+      eventDurationSeconds = 2 * 60 * 60; // 2 hours
     }
 
-    function setEditorCode(code) {
-      if (isMonacoReady && monacoInstance) {
-        monacoInstance.setValue(code);
+    const timerDisplay = document.getElementById('eventCountdown');
+
+    function updateTimer() {
+      if (eventDurationSeconds <= 0) {
+        timerDisplay.textContent = "00:00:00 - TIME EXPIRED";
+        timerDisplay.style.color = "var(--red)";
+        return;
+      }
+      eventDurationSeconds--;
+      localStorage.setItem('cyber_timer_remaining', eventDurationSeconds);
+
+      const hours = String(Math.floor(eventDurationSeconds / 3600)).padStart(2, '0');
+      const minutes = String(Math.floor((eventDurationSeconds % 3600) / 60)).padStart(2, '0');
+      const seconds = String(eventDurationSeconds % 60).padStart(2, '0');
+      timerDisplay.textContent = `${hours}:${minutes}:${seconds}`;
+    }
+
+    setInterval(updateTimer, 1000);
+    updateTimer();
+
+    window.toggleHint = function(phaseId) {
+      const idx = userState.revealedHints.indexOf(phaseId);
+      if (idx > -1) {
+        userState.revealedHints.splice(idx, 1);
       } else {
-        fallbackCode.value = code;
-        updateFallbackGutter();
+        userState.revealedHints.push(phaseId);
       }
-    }
-
-    function updateCursorLabel(line, col) {
-      cursorPosition.textContent = `Ln ${line}, Col ${col}`;
-    }
-
-    /* Monaco Setup */
-    if (window.require) {
-      require.config({ paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs' } });
-      require(['vs/editor/editor.main'], function () {
-        try {
-          monaco.editor.defineTheme('cyberBlueTheme', {
-            base: 'vs-dark',
-            inherit: true,
-            rules: [
-              { token: 'keyword', foreground: '58aaeb', fontStyle: 'bold' },
-              { token: 'type', foreground: '72b9f0' },
-              { token: 'comment', foreground: '5f8ba8', fontStyle: 'italic' },
-              { token: 'string', foreground: '78b982' },
-              { token: 'number', foreground: 'f0c674' },
-              { token: 'identifier', foreground: 'edf2f4' }
-            ],
-            colors: {
-              'editor.background': '#061e31',
-              'editor.foreground': '#edf2f4',
-              'editorLineNumber.foreground': '#4a6c88',
-              'editorLineNumber.activeForeground': '#72b9f0',
-              'editor.selectionBackground': '#58aaeb33',
-              'editor.lineHighlightBackground': '#092c4488',
-              'editorCursor.foreground': '#58aaeb'
-            }
-          });
-
-          monacoInstance = monaco.editor.create(document.getElementById('monaco-root'), {
-            value: starterCode,
-            language: 'python',
-            theme: 'ryberBlueTheme',
-            fontSize: 14,
-            fontFamily: "'DMMono', monospace",
-            lineHeight: 22,
-            tabSize: 4,
-            insertSpaces: true,
-            automaticLayout: true,
-            minimap: { enabled: false },
-            scrollBeyondLastLine: false,
-            smoothScrolling: true,
-            renderLineHighlight: 'all',
-            padding: { top: 12, bottom: 12 }
-          });
-
-          isMonacoReady = true;
-
-          monacoInstance.onDidChangeCursorPosition(e => {
-            updateCursorLabel(e.position.lineNumber, e.position.column);
-          });
-        } catch (err) {
-          enableFallback();
-        }
-      }, function() {
-        enableFallback();
-      });
-    } else {
-      enableFallback();
-    }
-
-    function enableFallback() {
-      document.getElementById('monaco-root').style.display = 'none';
-      fallbackEditor.style.display = 'flex';
-      fallbackCode.value = starterCode;
-      updateFallbackGutter();
-      fallbackCode.addEventListener('input', updateFallbackGutter);
-      fallbackCode.addEventListener('keyup', () => {
-        const textLines = fallbackCode.value.substr(0, fallbackCode.selectionStart).split('\n');
-        updateCursorLabel(textLines.length, textLines[textLines.length - 1].length + 1);
-      });
-    }
-
-    function updateFallbackGutter() {
-      const lineCount = (fallbackCode.value.match(/\n/g) || []).length + 1;
-      let lines = [];
-      for (let i = 1; i <= Math.max(lineCount, 8); i++) {
-        lines.push(i);
-      }
-      fallbackGutter.textContent = lines.join('\n');
-    }
-
-    document.getElementById('resetEditor').onclick = () => {
-      if (confirm('Reset editor to initial starter code? Any unsaved edits will be discarded.')) {
-        setEditorCode(starterCode);
-      }
+      localStorage.setItem('cyber_revealed_hints', JSON.stringify(userState.revealedHints));
+      renderApp();
     };
 
-    document.getElementById('focusEditor').onclick = () => {
-      if (isMonacoReady && monacoInstance) monacoInstance.focus();
-      else fallbackCode.focus();
-    };
+    // RENDER CHALLENGES & STAGES
+    function renderApp() {
+      const container = document.getElementById('challengesContainer');
+      container.innerHTML = '';
 
-    /* Output Drawer Handling */
-    function showOutputTray(html) {
-      resultContent.innerHTML = html;
-      resultTray.style.display = 'block';
-    }
+      // Determine highest active phase
+      const solvedSet = new Set(userState.solvedPhases);
+      let activePhaseId = 1;
+      while (solvedSet.has(activePhaseId) && activePhaseId <= CHALLENGES.length) {
+        activePhaseId++;
+      }
 
-    closeResultBtn.onclick = () => {
-      resultTray.style.display = 'none';
-    };
+      // Update Top Stages Progress Bar
+      updateStagePills(solvedSet, activePhaseId);
 
-    /* Run / Submit execution handler */
-    async function runCode(isSubmit = false) {
-      const code = getEditorCode();
-      const endpoint = isSubmit ? '/api/challenges/two-sum/submit' : '/api/challenges/two-sum/run';
-      const activeBtn = isSubmit ? submitBtn : testRunBtn;
-      
-      activeBtn.disabled = true;
-      activeBtn.innerHTML = `<span>&#8987;</span> ${isSubmit ? 'Submitting...' : 'Running...'}`;
+      // Update Score
+      document.getElementById('currentScore').textContent = `${userState.score} PTS`;
 
-      showOutputTray('<div style="color:var(--muted); font-family:monospace;">Sending solution to sandbox runner...</div>');
+      // Render Each Phase Card
+      CHALLENGES.forEach(c => {
+        const isSolved = solvedSet.has(c.id);
+        const isActive = (c.id === activePhaseId);
+        const isLocked = (!isSolved && c.id > activePhaseId);
+        const isHintRevealed = userState.revealedHints.includes(c.id);
 
-      try {
-        const response = await fetch(endpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ code, participant })
-        });
+        const card = document.createElement('article');
+        card.className = `phase-card ${isSolved ? 'solved-phase' : ''} ${isActive ? 'active-phase' : ''} ${isLocked ? 'locked-phase' : ''}`;
+        card.id = `phaseCard_${c.id}`;
 
-        const data = await response.json();
-
-        if (!response.ok) {
-          showOutputTray(`<div class="error-banner"><b>Server Error:</b> ${escapeHtml(data.error || 'Unknown execution error')}</div>`);
-          return;
-        }
-
-        let outputHtml = '';
-
-        if (!isSubmit) {
-          outputHtml += `
-            <div style="margin-bottom:8px; font-weight:700; color:${data.passedAll ? 'var(--green)' : 'var(--red)'};">
-              ${data.passedAll ? '&#10003; ALL PUBLIC TESTS PASSED' : '&#10007; TEST RUN FAILED'}
+        let hintHtml = '';
+        if (isLocked) {
+          hintHtml = `
+            <div class="hint-card hint-locked">
+              <div class="hint-header">
+                <div class="hint-title locked-title">
+                  <span>&#128274;</span> HINT LOCKED
+                </div>
+              </div>
+              <div class="hint-body" style="color: var(--locked); font-style: italic;">
+                Complete previous phases to unlock this hint.
+              </div>
             </div>
           `;
         } else {
-          if (data.solved) {
-            outputHtml += `
-              <div class="success-banner">
-                &#10003; STAGE 1 SOLVED! All hidden validation test cases passed. +100 Points Awarded!
+          hintHtml = `
+            <div class="hint-card">
+              <div class="hint-header">
+                <div class="hint-title">
+                  <span>&#128161;</span> HINT
+                </div>
+                <button class="btn-toggle-hint" onclick="toggleHint(${c.id})">
+                  ${isHintRevealed ? 'Hide' : 'Reveal'}
+                </button>
               </div>
-            `;
-            userPoints += (data.awarded || 100);
-            localStorage.setItem('cyber_hunt_points', userPoints);
-            if (profileScore) profileScore.textContent = userPoints + ' pts';
-            if (profileStatus) profileStatus.textContent = 'Stage 1 Completed';
-          } else {
-            outputHtml += `
-              <div class="error-banner">
-                <b>&#10007; SUBMISSION FAILED:</b> Solution failed one or more hidden validation tests.
-              </div>
-            `;
-          }
-        }
-
-        if (data.visibleResults && data.visibleResults.length > 0) {
-          outputHtml += data.visibleResults.map((tc, idx) => `
-            <div class="test-card ${tc.passed ? 'passed' : 'failed'}">
-              <div class="test-card-header">
-                <span>${tc.passed ? '&#10003;' : '&#10007;'}</span>
-                <span>Test Case ${idx + 1} &bull; ${tc.passed ? 'Passed' : 'Failed'}</span>
-              </div>
-              <div class="test-card-details">
-                <b>Input:</b> nums = ${JSON.stringify(tc.input.nums)}, target = ${tc.input.target}<br>
-                <b>Expected:</b> ${JSON.stringify(tc.expected)} | <b>Actual:</b> ${escapeHtml(JSON.stringify(tc.actual))}
-              </div>
+              ${isHintRevealed ? `
+                <div class="hint-body">${c.hint}</div>
+              ` : `
+                <div class="hint-body" style="color: var(--muted-dark); font-style: italic;">
+                  Click 'Reveal' to view clue hint.
+                </div>
+              `}
             </div>
-          `).join('');
-        }
-
-        showOutputTray(outputHtml);
-      } catch (err) {
-        showOutputTray(`<div class="error-banner">API Network Error: Could not connect to backend server on http://localhost:3000.</div>`);
-      } finally {
-        activeBtn.disabled = false;
-        activeBtn.innerHTML = isSubmit ? '<span>&#10003;</span> Submit' : '<span>&#9654;</span> Test Run';
-      }
-    }
-
-    testRunBtn.onclick = () => runCode(false);
-    submitBtn.onclick = () => runCode(true);
-
-    function escapeHtml(str) {
-      return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace/"/g, '&quot;');
-    }
-
-    /* Clues & Hints */
-    let unlockedHints = JSON.parse(localStorage.getItem('cyber_unlocked_hints') || '[1]');
-    
-    function updateHintsUI() {
-      const totalLocked = 2;
-      const unlockedCount = unlockedHints.filter(h => h > 1).length;
-      const remaining = totalLocked - unlockedCount;
-      document.getElementById('hintCountBadge').textContent = `${remaining} Remaining`;
-
-      const hint1Text = document.getElementById('hintOneText');
-      const hint1Btn = document.getElementById('hintOneToggle');
-      hint1Btn.onclick = () => {
-        const isHidden = hint1Text.classList.toggle('hidden-text');
-        hint1Btn.textContent = isHidden ? 'Reveal' : 'Hide';
-      };
-
-      setupHint(2, document.getElementById('hintTwoBtn'), document.getElementById('hintTwoText'), document.getElementById('hintTwoIcon'));
-      setupHint(3, document.getElementById('hintThreeBtn'), document.getElementById('hintThreeText'), document.getElementById('hintThreeIcon'));
-    }
-
-    function setupHint(id, btn, textEl, iconEl) {
-      if (unlockedHints.includes(id)) {
-        textEl.classList.remove('hidden-text');
-        iconEl.textContent = '&#128275;';
-        iconEl.classList.add('unlock');
-        btn.textContent = 'Hide';
-        btn.className = 'hint-btn unlocked';
-        btn.onclick = () => {
-          const isHidden = textEl.classList.toggle('hidden-text');
-          btn.textContent = isHidden ? 'Reveal' : 'Hide';
-        };
-      } else {
-        textEl.classList.add('hidden-text');
-        iconEl.textContent = '&#128274;';
-        iconEl.classList.remove('unlock');
-        btn.textContent = '-10 pts';
-        btn.className = 'hint-btn unlock-btn';
-        btn.onclick = () => {
-          if (userPoints < 10) {
-            alert('Insufficient points! You need at least 10 points to unlock this hint.');
-            return;
-          }
-          if (confirm(`Unlock Hint ${id} for 10 points? (Current Points: ${userPoints})`)) {
-            userPoints -= 10;
-            localStorage.setItem('cyber_hunt_points', userPoints);
-            unlockedHints.push(id);
-            localStorage.setItem('cyber_unlocked_hints', JSON.stringify(unlockedHints));
-            if (profileScore) profileScore.textContent = userPoints + ' pts';
-            updateHintsUI();
-            showOutputTray(`<div style="color:var(--green); font-family:monospace;">&#10003; Hint ${id} unlocked! 10 points deducted. Remaining: ${userPoints} pts.</div>`);
-          }
-        };
-      }
-    }
-
-    updateHintsUI();
-
-    /* Problem Actions */
-    document.getElementById('copyProblemBtn').onclick = async () => {
-      const problemText = `Two Sum (Easy)\n\nGiven an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.\n\nExample:\nInput: nums = [2,7,11,15], target = 9\nOutput: [0,1]`;
-      try {
-        await navigator.clipboard.writeText(problemText);
-        showOutputTray('<div style="color:var(--green); font-family:monospace;">&#10003; Problem statement copied to clipboard!</div>');
-      } catch {
-        alert('Problem copied to clipboard.');
-      }
-    };
-
-    const likeBtn = document.getElementById('likeBtn');
-    const likeHeart = document.getElementById('likeHeart');
-    const likeCount = document.getElementById('likeCount');
-    let isLiked = false;
-    likeBtn.onclick = () => {
-      isLiked = !isLiked;
-      likeBtn.classList.toggle('active', isLiked);
-      likeHeart.innerHTML = isLiked ? '&#9829;' : '&#9825;';
-      likeCount.textContent = isLiked ? 143 : 142;
-    };
-
-    const bookmarkBtn = document.getElementById('bookmarkBtn');
-    const bookmarkIcon = document.getElementById('bookmarkIcon');
-    let isSaved = false;
-    bookmarkBtn.onclick = () => {
-      isSaved = !isSaved;
-      bookmarkIcon.innerHTML = isSaved ? '&#9733;' : '&#9734;';
-      bookmarkBtn.classList.toggle('active', isSaved);
-      showOutputTray(`<div style="color:var(--blue-light); font-family:monospace;">${isSaved ? '&#9733; Challenge saved to bookmarks.' : '&#9734; Challenge removed from bookmarks.'}</div>`);
-    };
-
-    /* Navigation Tabs */
-    const problemTab = document.getElementById('problemTab');
-    const submissionsTab = document.getElementById('submissionsTab');
-    const discussionsTab = document.getElementById('discussionsTab');
-    const auxiliaryPanel = document.getElementById('auxiliaryPanel');
-    const auxiliaryTitle = document.getElementById('auxiliaryTitle');
-    const auxiliaryContent = document.getElementById('auxiliaryContent');
-    const closeAuxBtn = document.getElementById('closeAuxBtn');
-
-    function setActiveTab(activeName) {
-      [problemTab, submissionsTab, discussionsTab].forEach(tab => tab.classList.remove('active'));
-      if (activeName === 'problem') {
-        problemTab.classList.add('active');
-        auxiliaryPanel.hidden = true;
-      } else if (activeName === 'submissions') {
-        submissionsTab.classList.add('active');
-        auxiliaryPanel.hidden = false;
-        loadSubmissionsView();
-      } else if (activeName === 'discussions') {
-        discussionsTab.classList.add('active');
-        auxiliaryPanel.hidden = false;
-        loadDiscussionsView();
-      }
-    }
-
-    problemTab.onclick = () => setActiveTab('problem');
-    closeAuxBtn.onclick = () => setActiveTab('problem');
-    submissionsTab.onclick = () => setActiveTab('submissions');
-    discussionsTab.onclick = () => setActiveTab('discussions');
-
-    async function loadSubmissionsView() {
-      auxiliaryTitle.textContent = 'Submissions History';
-      auxiliaryContent.innerHTML = '<p style="color:var(--muted);">Loading recorded submissions...</p>';
-      try {
-        const res = await fetch(`/api/submissions?participant=${encodeURIComponent(participant)}`);
-        const submissions = await res.json();
-
-        if (!submissions || submissions.length === 0) {
-          auxiliaryContent.innerHTML = '<p style="color:var(--muted); margin-top:20px;">No submissions recorded yet for this challenge. Click <b>Submit</b> in the editor when ready.</p>';
-          return;
-        }
-
-        let tableHtml = `
-          <table class="submissions-table">
-            <thead>
-              <tr>
-                <th>Status</th>
-                <th>Timestamp</th>
-                <th>Points</th>
-                <th>Result Detail</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-        `;
-
-        submissions.slice().reverse().forEach((sub, i) => {
-          const dateStr = new Date(sub.timestamp).toLocaleString();
-          const isSolved = Boolean(sub.solved);
-          tableHtml += `
-            <tr>
-              <td><span class="status-pill ${isSolved ? 'solved' : 'failed'}">${isSolved ? '&#10003; Solved' : '&#10007; Failed'}</span></td>
-              <td style="color:var(--muted); font-family:'DM Mono',monospace;">${dateStr}</td>
-              <td style="font-weight:700; color:${sub.awarded ? 'var(--green)' : 'var(--muted)'};">+ + ${sub.awarded || 0} + ' pts'</td>
-              <td style="color:var(--muted); font-family:'DM Mono',monospace; font-size:12px;">${sub.result?.error ? 'Runtime Error' : (isSolved ? 'Passed all test cases' : 'Validation Failed')}</td>
-              <td><button class="view-code-btn" data-index="${submissions.length - 1 - i}" style="background:var(--panel-inner); border:1px solid var(--line-subtle); color:var(--white); border-radius:4px; padding:4px 10px; cursor:pointer; font-size:12px;">View Code</button></td>
-            </tr>
           `;
-        });
+        }
 
-        tableHtml += '</tbody></table>';
-        auxiliaryContent.innerHTML = tableHtml;
+        card.innerHTML = `
+          <div class="phase-card-inner">
+            <div class="phase-main">
+              <div class="phase-header">
+                <h2 class="phase-title">${c.title}</h2>
+                <span class="phase-status-badge ${isSolved ? 'solved' : (isActive ? 'active' : 'locked')}">
+                  ${isSolved ? '&#10003; SOLVED' : (isActive ? 'ACTIVE' : '&#128274; LOCKED')}
+                </span>
+              </div>
 
-        document.querySelectorAll('.view-code-btn').forEach(btn => {
-          btn.knoclick = () => {
-            const idx = Number(btn-dataset.index);
-            const sub = submissions[idx];
-            if (sub) {
-              document.getElementById('codeModalTitle').textContent = `Submitted Code &bull; ${new Date(sub.timestamp).toLocaleTimeString()}`;
-              document.getElementById('codeModalContent').textContent = sub.code || '# No code content';
-              document.getElementById('codeModal').style.display = 'flex';
-            }
-          };
-        });
-      } catch (err) {
-        auxiliaryContent.innerHTML = '<p style="color:var(--red);">Could not load submissions. Ensure server is running.</p>';
-      }
-    }
+              <div class="question-box">
+                <div>${c.question}</div>
+                ${c.snippet ? `<div class="question-code-snippet">${c.snippet}</div>` : ''}
+              </div>
 
-    function loadDiscussionsView() {
-      auxiliaryTitle.textContent = 'Challenge Discussions & Tips';
-      auxiliaryContent.innerHTML = `
-        <div style="margin-bottom:24px; background:var(--panel-inner); padding:16px; border-radius:8px; border:1px solid var(--line-subtle);">
-          <h3 style="font-size:15px; margin-bottom:8px; color:var(--white); font-family:'Space Grotesk',sans-serif;">Ask a Question or Share an Approach (No Direct Flags)</h3>
-          <textarea id="discussInput" placeholder="Type your thought or algorithmic idea here..." style="width:100%; height:80px; background:#041420; border:1px solid var(--line-subtle); border-radius:6px; color:#fff; padding:10px; font-family:inherit; resize:none;"></textarea>
-          <div style="text-align:right; margin-top:8px;">
-            <button id="postDiscussBtn" style="background:var(--blue); color:#061a29; border:1px solid var(--line); border-radius:6px; padding:8px 18px; font-weight:700; cursor:pointer;">Post Comment</button>
-          </div>
-        </div>
-        <div id="discussFeed" style="display:flex; flex-direction:column; gap:14px;">
-          <div style="background:var(--panel-inner); border:1px solid var(--line-subtle); border-radius:8px; padding:14px;">
-            <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-              <b style="color:var(--blue-light);">@cyber_master</b>
-              <span style="color:var(--muted); font-size:12px; font-family:'DM Mono',monospace;">10 mins ago</span>
+              <div class="submission-row">
+                <input 
+                  type="text" 
+                  class="answer-input ${isSolved ? 'input-success' : ''}" 
+                  id="input_${c.id}" 
+                  placeholder="${isSolved ? 'Solved: Access Granted' : 'Type your answer here...'}" 
+                  value="${isSolved ? '&#10003; ANSWER VERIFIED' : ''}"
+                  ${isSolved || isLocked ? 'disabled' : ''}
+                  autocomplete="off"
+                />
+                <button 
+                  class="btn-submit-flag" 
+                  id="btn_${c.id}" 
+                  onclick="submitAnswer(${c.id})"
+                  ${isSolved || isLocked ? 'disabled' : ''}
+                >
+                  ${isSolved ? 'SOLVED' : 'SUBMIT'}
+                </button>
+              </div>
+
+              <div class="feedback-msg" id="feedback_${c.id}"></div>
             </div>
-            <p style="color:#d8e5ee; font-size:13px; line-height:1.5;">Remember that for Two Sum, a two-pointer approach only works if the array is sorted. A hash table gives O(n) without modifying the original indices!</p>
-          </div>
-          <div style="background:var(--panel-inner); border:1px solid var(--line-subtle); border-radius:8px; padding:14px;">
-            <div style="display:flex; justify-content:bpace-between; margin-bottom:6px;">
-              <b style="color:var(--blue-light);">@alice_geu</b>
-              <span style="color:var(--muted); font-size:12px; font-family:'DMMono',monospace;">25 mins ago</span>
-            </div>
-            <p style="color:#d8e5ee; font-size:13px; line-height:1.5;">Make sure to handle duplicates correctly: checking if complement is already in the dictionary before inserting the current index!</p>
-          </div>
-        </div>
-      `;
 
-      document.getElementById('postDiscussBtn').onclick = () => {
-        const input = document.getElementById('discussInput');
-        const text = input.value.trim();
-        if (!text) return;
-        const feed = document.getElementById('discussFeed');
-        const newPost = document.createElement('div');
-        newPost.style.cssText = 'background:var(--panel-inner); border:1px solid var(--line-subtle); border-radius:8px; padding:14px;';
-        newPost.innerHTML = `
-          <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-            <b style="color:var(--blue-light);">@${escapeHtml(participant)}</b>
-            <span style="color:var(--muted); font-size:12px; font-family:'DMMono',monospace;">Just now</span>
+            <div class="phase-sidebar">
+              ${hintHtml}
+
+              <div class="meta-metrics">
+                <div class="metric-group">
+                  <span class="metric-label">Points Gained</span>
+                  <span class="metric-val">+${c.points}</span>
+                </div>
+                <div class="metric-group" style="text-align: right;">
+                  <span class="metric-label">Status</span>
+                  <span style="font-size: 12px; font-weight: 700; color: ${isSolved ? 'var(--green)' : (isActive ? 'var(--blue-light)' : 'var(--locked)')};">
+                    ${isSolved ? 'Completed' : (isActive ? 'In Progress' : 'Locked')}
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
-          <p style="color:#d8e5ee; font-size:13px; line-height:1.5;">${escapeHtml(text)}</p>
         `;
-        feed.prepend(newPost);
-        input.value = '';
-      };
+
+        container.appendChild(card);
+      });
     }
 
-    /* Modals */
-    const settingsButton = document.getElementById('settingsButton');
-    const settingsModal = document.getElementById('settingsModal');
-    const closeSettingsModal = document.getElementById('closeSettingsModal');
-    const saveSettingsBtn = document.getElementById('saveSettingsBtn');
+    function updateStagePills(solvedSet, activePhaseId) {
+      const stagePill1 = document.getElementById('stagePill1');
+      const stagePill2 = document.getElementById('stagePill2');
+      const stagePill3 = document.getElementById('stagePill3');
+      const stagePill4 = document.getElementById('stagePill4');
 
-    settingsButton.onclick = () => settingsModal.style.display = 'flex';
-    closeSettingsModal.onclick = () => settingsModal.style.display = 'none';
-
-    saveSettingsBtn.onclick = () => {
-      const fontSize = Number(document.getElementById('settingGfontSize').value);
-      const tabSize = Number(document.getElementById('settingTabSize').value);
-      const wordWrap = document.getElementById('settingWordWrap').value;
-
-      if (isMonacoReady && monacoInstance) {
-        monacoInstance.updateOptions({ fontSize, tabSize, wordWrap });
+      // Stage 1
+      if (solvedSet.has(1) && solvedSet.has(2)) {
+        stagePill1.className = "stage-pill-card solved";
+        stagePill1.querySelector('.stage-pill-status').textContent = "[Solved]";
+      } else {
+        stagePill1.className = "stage-pill-card active";
+        stagePill1.querySelector('.stage-pill-status').textContent = "[Active]";
       }
-      if (fallbackCode) {
-        fallbackCode.style.fontSize = fontSize + 'px';
-        fallbackCode.style.tabSize = tabSize;
+
+      // Stage 2
+      if (solvedSet.has(3) && solvedSet.has(4)) {
+        stagePill2.className = "stage-pill-card solved";
+        stagePill2.querySelector('.stage-pill-icon').innerHTML = "&#128275;";
+        stagePill2.querySelector('.stage-pill-status').textContent = "[Solved]";
+      } else if (solvedSet.has(1) && solvedSet.has(2)) {
+        stagePill2.className = "stage-pill-card active";
+        stagePill2.querySelector('.stage-pill-icon').innerHTML = "&#128275;";
+        stagePill2.querySelector('.stage-pill-status').textContent = "[Active]";
+      } else {
+        stagePill2.className = "stage-pill-card locked";
+        stagePill2.querySelector('.stage-pill-icon').innerHTML = "&#128274;";
+        stagePill2.querySelector('.stage-pill-status').textContent = "[Locked]";
       }
-      settingsModal.style.display = 'none';
-      showOutputTray('<div style="color:var(--green); font-family:monospace;">&#10003; Editor preferences saved.</div>');
+
+      // Stage 3
+      if (solvedSet.has(5)) {
+        stagePill3.className = "stage-pill-card solved";
+        stagePill3.querySelector('.stage-pill-icon').innerHTML = "&#128275;";
+        stagePill3.querySelector('.stage-pill-status').textContent = "[Solved]";
+      } else if (solvedSet.has(3) && solvedSet.has(4)) {
+        stagePill3.className = "stage-pill-card active";
+        stagePill3.querySelector('.stage-pill-icon').innerHTML = "&#128275;";
+        stagePill3.querySelector('.stage-pill-status').textContent = "[Active]";
+      } else {
+        stagePill3.className = "stage-pill-card locked";
+        stagePill3.querySelector('.stage-pill-icon').innerHTML = "&#128274;";
+        stagePill3.querySelector('.stage-pill-status').textContent = "[Locked]";
+      }
+
+      // Stage 4 Final
+      if (solvedSet.has(6)) {
+        stagePill4.className = "stage-pill-card solved";
+        stagePill4.querySelector('.stage-pill-status').textContent = "[Victory]";
+      } else if (solvedSet.has(5)) {
+        stagePill4.className = "stage-pill-card active";
+        stagePill4.querySelector('.stage-pill-status').textContent = "[Final Active]";
+      } else {
+        stagePill4.className = "stage-pill-card final";
+        stagePill4.querySelector('.stage-pill-status').textContent = "[Final]";
+      }
+    }
+
+    // SUBMIT & VALIDATION HANDLER
+    window.submitAnswer = function(phaseId) {
+      const challenge = CHALLENGES.find(c => c.id === phaseId);
+      if (!challenge) return;
+
+      const input = document.getElementById(`input_${phaseId}`);
+      const feedback = document.getElementById(`feedback_${phaseId}`);
+      const val = input.value.trim().toLowerCase();
+
+      if (!val) {
+        input.classList.add('input-error');
+        feedback.className = "feedback-msg show-err";
+        feedback.textContent = "Please enter an answer.";
+        setTimeout(() => input.classList.remove('input-error'), 500);
+        return;
+      }
+
+      const isCorrect = challenge.acceptedAnswers.some(ans => ans.toLowerCase() === val);
+
+      if (isCorrect) {
+        feedback.className = "feedback-msg show-ok";
+        feedback.innerHTML = `&#10003; Correct! Access key accepted. +${challenge.points} PTS awarded.`;
+
+        if (!userState.solvedPhases.includes(phaseId)) {
+          userState.solvedPhases.push(phaseId);
+          userState.score += challenge.points;
+          localStorage.setItem('cyber_solved_phases', JSON.stringify(userState.solvedPhases));
+          localStorage.setItem('cyber_total_score', userState.score);
+        }
+
+        setTimeout(() => {
+          renderApp();
+        }, 600);
+      } else {
+        input.classList.add('input-error');
+        feedback.className = "feedback-msg show-err";
+        feedback.textContent = "Incorrect access key / answer. Please analyze clues and try again.";
+        setTimeout(() => input.classList.remove('input-error'), 600);
+      }
     };
 
-    const profileModal = document.getElementById('profileModal');
-    const closeProfileModal = document.getElementById('closeProfileModal');
-    const closeProfileBtn = document.getElementById('closeProfileBtn');
-    const logoutBtn = document.getElementById('logoutBtn');
-
-    avatar.onclick = () => {
-      if (profileScore) profileScore.textContent = userPoints + ' pts';
-      profileModal.style.display = 'flex';
-    };
-    closeProfileModal.onclick = () => profileModal.style.display = 'none';
-    closeProfileBtn.onclick = () => profileModal.style.display = 'none';
-
-    logoutBtn.onclick = () => {
-      localStorage.removeItem('cyber_current_user');
-      window.location.href = 'landing.html';
-    };
-
-    document.getElementById('closeCodeModal').onclick = () => {
-      document.getElementById('codeModal').style.display = 'none';
-    };
-
-    document.getElementById('moreButton').onclick = () => {
-      const choice = prompt('Options:\n1. View Submissions\n2. Copy Problem\n3. Reset Code\n\nEnter 1, 2, or 3:');
-      if (choice === '1') setActiveTab('submissions');
-      else if (choice === '2') document.getElementById('copyProblemBtn').click();
-      else if (choice === '3') document.getElementById('resetEditor').click();
-    };
+    // INITIAL RENDER
+    renderApp();
   </script>
 </body>
 </html>
