@@ -84,6 +84,20 @@
       flex-shrink: 0;
     }
 
+    
+    .brand-logo-img {
+      width: 32px;
+      height: 32px;
+      max-width: 32px;
+      max-height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: inline-block;
+      flex-shrink: 0;
+      box-shadow: 0 0 10px rgba(88, 170, 235, 0.4);
+      border: 1.5px solid var(--panel-border);
+      vertical-align: middle;
+    }
     .brand {
       display: inline-flex;
       align-items: center;
@@ -167,6 +181,33 @@
     .nav-links .nav-cta:hover {
       background: #6bb9f3;
       color: #061a29;
+    }
+
+    
+    .nav-era-logo-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      flex-shrink: 0;
+      margin-left: 6px;
+    }
+    .nav-era-logo {
+      width: 32px;
+      height: 32px;
+      max-width: 32px;
+      max-height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid var(--panel-border);
+      box-shadow: 0 0 10px rgba(88, 170, 235, 0.4);
+      flex-shrink: 0;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: block;
+    }
+    .nav-era-logo:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 14px rgba(88, 170, 235, 0.7);
     }
 
     .arrow-disc {
@@ -592,16 +633,7 @@
     <!-- Top Navigation Header -->
     <header class="nav">
       <a class="brand" href="landing.html" aria-label="Cyber Hunt Home">
-        <span class="target-icon" aria-hidden="true">
-          <svg viewBox="0 0 32 32" stroke-width="2" stroke-linecap="round">
-            <circle cx="16" cy="16" r="11" />
-            <circle cx="16" cy="16" r="4" />
-            <line x1="16" y1="1" x2="16" y2="7" />
-            <line x1="16" y1="25" x2="16" y2="31" />
-            <line x1="1" y1="16" x2="7" y2="16" />
-            <line x1="25" y1="16" x2="31" y2="16" />
-          </svg>
-        </span>
+        <img src="logo-graphic-geeks.png" alt="Graphic Geeks" class="brand-logo-img" width="32" height="32">
         <span>CYBER HUNT</span>
       </a>
 
@@ -610,14 +642,13 @@
       <nav class="nav-links" aria-label="Main Navigation">
         <a class="active" href="landing.html">Home</a>
         <a href="#about" onclick="alert('CYBER HUNT 2026: An immersive technical capture-the-flag escape room hosted at Graphic Era University.'); return false;">About</a>
-        <a href="#rules" onclick="alert('RULES:\n1. Teams of 3 participants.\n2. Solve multi-phase cyber challenges sequentially.\n3. No unauthorized network intrusion outside the sandbox environment.'); return false;">Rules</a>
+        <a href="#rules" onclick="alert('RULES:\n1. Solve multi-phase cyber challenges sequentially.\n3. No unauthorized network intrusion outside the sandbox environment.'); return false;">Rules</a>
         <a href="Final/login.html?mode=login">Login</a>
         <a class="nav-cta" href="Final/login.html?mode=signup">Join Now</a>
-        <a class="arrow-disc" href="Final/login.html?mode=signup" aria-label="Join Now">
-          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
+        <a class="nav-era-logo-wrap" href="https://geu.ac.in" target="_blank" rel="noopener" title="Graphic Era University">
+          <img src="logo-graphic-era.png" alt="Graphic Era University" class="nav-era-logo" width="32" height="32">
         </a>
+        
       </nav>
     </header>
 
@@ -669,7 +700,7 @@
 
           <!-- College Photo -->
           <div class="photo-container">
-            <img src="university-building.jpeg" alt="Graphic Era University Building">
+            <img src="hero-collage.png" alt="Graphic Era University Building">
             <div class="photo-grid-lines" aria-hidden="true">
               <span></span><span></span><span></span><span></span>
               <span></span><span></span><span></span><span></span>
@@ -709,20 +740,7 @@
           <span>Seminar Hall, CSIT</span>
         </div>
 
-        <span class="meta-divider" aria-hidden="true"></span>
-
-        <!-- Team Size -->
-        <div class="meta-item">
-          <span class="meta-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-              <circle cx="9" cy="7" r="4"></circle>
-              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-            </svg>
-          </span>
-          <span>Teams of 3</span>
-        </div>
+        
       </div>
 
       <!-- Handwritten Note -->

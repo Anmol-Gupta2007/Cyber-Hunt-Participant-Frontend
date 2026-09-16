@@ -73,6 +73,43 @@
     .corner-mark.br { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; }
 
     /* Top Navigation Header */
+    
+    .brand-logo-img {
+      width: 32px;
+      height: 32px;
+      max-width: 32px;
+      max-height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid var(--panel-border);
+      box-shadow: 0 0 10px rgba(88, 170, 235, 0.4);
+      flex-shrink: 0;
+      display: inline-block;
+    }
+    .header-era-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      text-decoration: none;
+    }
+    .header-era-logo {
+      width: 32px;
+      height: 32px;
+      max-width: 32px;
+      max-height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid var(--panel-border);
+      box-shadow: 0 0 10px rgba(88, 170, 235, 0.4);
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+      display: block;
+    }
+    .header-era-logo:hover {
+      transform: scale(1.08);
+    }
+
     header {
       height: clamp(56px, 7.5vh, 70px);
       border-bottom: 1.5px solid var(--blue-dim);
@@ -495,16 +532,7 @@
     <!-- Top Header -->
     <header>
       <a class="brand" href="landing.html" title="Cyber Hunt Home">
-        <span class="target-icon">
-          <svg viewBox="0 0 32 32" stroke-width="2" stroke-linecap="round">
-            <circle cx="16" cy="16" r="11" />
-            <circle cx="16" cy="16" r="4" />
-            <line x1="16" y1="1" x2="16" y2="7" />
-            <line x1="16" y1="25" x2="16" y2="31" />
-            <line x1="1" y1="16" x2="7" y2="16" />
-            <line x1="25" y1="16" x2="31" y2="16" />
-          </svg>
-        </span>
+        <img src="logo-graphic-geeks.png" alt="Graphic Geeks" class="brand-logo-img">
         <span>CYBER HUNT</span>
       </a>
 
@@ -517,6 +545,9 @@
         <div class="score-badge" id="headerScoreBadge">100 PTS</div>
         <div class="avatar-circle" id="headerAvatar">A</div>
         <a class="logout-btn" href="landing.html" id="logoutLink">Logout</a>
+        <a href="https://geu.ac.in" target="_blank" rel="noopener" title="Graphic Era University">
+          <img src="logo-graphic-era.png" alt="Graphic Era University" class="header-era-logo">
+        </a>
       </div>
     </header>
 
@@ -525,7 +556,7 @@
       <!-- Left Column: Active Stage 1 & Locked Future Stages -->
       <section class="stages-column">
         <div class="banner">
-          <div class="uni-label">GRAPHIC ERA UNIVERSITY • THE DIGITAL ESCAPE ROOM</div>
+          <div class="uni-label">GRAPHIC ERA UNIVERSITY &bull; THE DIGITAL ESCAPE ROOM</div>
           <h1 class="banner-title">Participant Dashboard</h1>
           <p class="banner-sub">Complete multi-phase security challenges sequentially in the live sandbox environment.</p>
         </div>
@@ -538,7 +569,7 @@
           </div>
 
           <h2 class="stage-title">Stage 1: Two Sum (Algorithmic Security)</h2>
-          <div class="stage-tags">Tags: Array • Hash Table • Sandbox Python Runtime • Easy</div>
+          <div class="stage-tags">Tags: Array &bull; Hash Table &bull; Sandbox Python Runtime &bull; Easy</div>
 
           <p class="stage-desc">
             An algorithmic access key is locked within the mainframe checksum validation matrix. 
@@ -558,29 +589,29 @@
         <div class="locked-stages-header">UPCOMING STAGES (LOCKED)</div>
         <div class="locked-stages-grid">
           <div class="stage-card-locked">
-            <div class="locked-badge">?? LOCKED • STAGE 2</div>
+            <div class="locked-badge">&#128274; LOCKED &bull; STAGE 2</div>
             <div class="locked-title">Web Forensics</div>
-            <div class="locked-pts">100 Points · HTTP Headers</div>
+            <div class="locked-pts">100 Points &bull; HTTP Headers</div>
           </div>
           <div class="stage-card-locked">
-            <div class="locked-badge">?? LOCKED • STAGE 3</div>
+            <div class="locked-badge">&#128274; LOCKED &bull; STAGE 3</div>
             <div class="locked-title">Steganography</div>
-            <div class="locked-pts">150 Points · Image Metadata</div>
+            <div class="locked-pts">150 Points &bull; Image Metadata</div>
           </div>
           <div class="stage-card-locked">
-            <div class="locked-badge">?? LOCKED • STAGE 4</div>
+            <div class="locked-badge">&#128274; LOCKED &bull; STAGE 4</div>
             <div class="locked-title">Reverse Engineering</div>
-            <div class="locked-pts">200 Points · Binary Analysis</div>
+            <div class="locked-pts">200 Points &bull; Binary Analysis</div>
           </div>
           <div class="stage-card-locked">
-            <div class="locked-badge">?? LOCKED • STAGE 5</div>
+            <div class="locked-badge">&#128274; LOCKED &bull; STAGE 5</div>
             <div class="locked-title">SQL Injection</div>
-            <div class="locked-pts">250 Points · Database Auth</div>
+            <div class="locked-pts">250 Points &bull; Database Auth</div>
           </div>
           <div class="stage-card-locked">
-            <div class="locked-badge">?? LOCKED • STAGE 6</div>
+            <div class="locked-badge">&#128274; LOCKED &bull; STAGE 6</div>
             <div class="locked-title">Mainframe Crack</div>
-            <div class="locked-pts">500 Points · SHA-256</div>
+            <div class="locked-pts">500 Points &bull; SHA-256</div>
           </div>
         </div>
       </section>
@@ -630,7 +661,7 @@
     <!-- Footer -->
     <footer>
       <div>REAL PROBLEMS. REAL SKILLS. ONE MISSION.</div>
-      <div>GRAPHIC GEEKS • GRAPHIC ERA UNIVERSITY</div>
+      <div>GRAPHIC GEEKS &bull; GRAPHIC ERA UNIVERSITY</div>
       <div><a href="landing.html">Event Home</a></div>
     </footer>
   </main>
