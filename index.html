@@ -110,6 +110,42 @@
       transform: scale(1.08);
     }
 
+    
+    .timer-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(6, 26, 41, 0.85);
+      border: 1.5px solid var(--blue);
+      box-shadow: 0 0 15px rgba(88, 170, 235, 0.25);
+      padding: 6px 16px;
+      border-radius: 6px;
+      font-family: 'DM Mono', monospace;
+    }
+    .timer-icon {
+      color: var(--blue-light);
+      font-size: 16px;
+      animation: pulse-icon 2s infinite ease-in-out;
+    }
+    @keyframes pulse-icon {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.15); opacity: 1; filter: drop-shadow(0 0 6px var(--blue)); }
+    }
+    .timer-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .timer-display {
+      font-size: 16px;
+      font-weight: 700;
+      color: #38bdf8;
+      letter-spacing: 1.5px;
+      text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+    }
+
     header {
       height: clamp(56px, 7.5vh, 70px);
       border-bottom: 1.5px solid var(--blue-dim);
@@ -536,6 +572,12 @@
         <span>CYBER HUNT</span>
       </a>
 
+      <div class="timer-pill" title="Live Event Countdown">
+        <span class="timer-icon">&#9201;</span>
+        <span class="timer-label">TIME REMAINING:</span>
+        <span class="timer-display" id="dashEventCountdown">01:59:59</span>
+      </div>
+
       <div class="header-user-info">
         <div class="student-badge">
           <label>STUDENT:</label>
@@ -568,13 +610,12 @@
             <span class="points-tag">+100 Points</span>
           </div>
 
-          <h2 class="stage-title">Stage 1: Two Sum (Algorithmic Security)</h2>
-          <div class="stage-tags">Tags: Array &bull; Hash Table &bull; Sandbox Python Runtime &bull; Easy</div>
+          <h2 class="stage-title">Stage 1: Phase 1: Cryptic Cipher</h2>
+          <div class="stage-tags">Tags: Cryptography &bull; Base64 &bull; One-Word Flag &bull; CTF</div>
 
           <p class="stage-desc">
             An algorithmic access key is locked within the mainframe checksum validation matrix. 
-            Write an optimized Python 3 algorithm to identify the array indices that sum to the target value. 
-            Test your code against public test cases and submit to run against hidden security validation tests.
+            Decode the encrypted base64 payload to retrieve the initial access key and unlock subsequent forensic stages.
           </p>
 
           <div class="stage-actions">
@@ -692,6 +733,35 @@
       localStorage.removeItem('cyber_current_user');
       window.location.href = 'landing.html';
     };
+  
+    // Live Event Countdown Sync
+    let dashTimerSeconds = parseInt(localStorage.getItem('cyber_timer_remaining'), 10);
+    if (isNaN(dashTimerSeconds) || dashTimerSeconds <= 0) {
+      dashTimerSeconds = 2 * 60 * 60;
+    }
+    const dashTimerEl = document.getElementById('dashEventCountdown');
+    function updateDashTimer() {
+      if (!dashTimerEl) return;
+      if (dashTimerSeconds <= 0) {
+        dashTimerEl.textContent = "00:00:00 - EXPIRED";
+        return;
+      }
+      dashTimerSeconds--;
+      localStorage.setItem('cyber_timer_remaining', dashTimerSeconds);
+      const h = String(Math.floor(dashTimerSeconds / 3600)).padStart(2, '0');
+      const m = String(Math.floor((dashTimerSeconds % 3600) / 60)).padStart(2, '0');
+      const s = String(dashTimerSeconds % 60).padStart(2, '0');
+      dashTimerEl.textContent = `${h}:${m}:${s}`;
+    }
+    setInterval(updateDashTimer, 1000);
+    updateDashTimer();
+
+    // Sync score from localStorage
+    const savedScore = localStorage.getItem('cyber_total_score');
+    if (savedScore && document.getElementById('headerScoreBadge')) {
+      document.getElementById('headerScoreBadge').textContent = `${savedScore} PTS`;
+    }
+
   </script>
 </body>
 </html>
