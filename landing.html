@@ -368,7 +368,7 @@
       position: relative;
       width: 100%;
       height: 100%;
-      max-height: 480px;
+      max-height: 540px; /* Increased from 480px */
       display: flex;
       align-items: center;
       justify-content: center;
@@ -384,15 +384,15 @@
       opacity: 0.75;
     }
 
-    .orbit-ring.one {
-      width: clamp(340px, 42vw, 540px);
-      height: clamp(140px, 18vw, 220px);
+   .orbit-ring.one {
+      width: clamp(400px, 48vw, 640px);
+      height: clamp(160px, 22vw, 260px);
       transform: rotate(-28deg);
     }
 
     .orbit-ring.two {
-      width: clamp(360px, 44vw, 560px);
-      height: clamp(130px, 17vw, 210px);
+      width: clamp(420px, 50vw, 660px);
+      height: clamp(150px, 20vw, 240px);
       transform: rotate(22deg);
       border-color: rgba(88, 170, 235, 0.6);
     }
@@ -422,15 +422,16 @@
     }
 
     /* College Photo Frame */
+    /* College Photo Frame */
     .photo-container {
       position: relative;
       z-index: 3;
-      width: clamp(260px, 28vw, 420px);
+      width: clamp(320px, 36vw, 560px); /* Increased size */
       aspect-ratio: 1.38 / 1;
       transform: rotate(-3.5deg);
       border-radius: 3px;
       overflow: hidden;
-      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.55), 0 0 0 1.5px rgba(88, 170, 235, 0.5);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6), 0 0 0 1.5px rgba(88, 170, 235, 0.5);
     }
 
     .photo-container img {
