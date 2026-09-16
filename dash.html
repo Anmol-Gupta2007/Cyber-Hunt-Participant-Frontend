@@ -1,0 +1,526 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>CYBER HUNT - Graphic Geeks</title> 
+    <!-- Google Fonts for Cyberpunk Aesthetic --> 
+    <link href="https://googleapis.com" rel="stylesheet"> 
+    <!-- FontAwesome Icons --> 
+    <link rel="stylesheet" href="https://cloudflare.com"> 
+    <style> 
+        :root { 
+            --bg-color: #030712; 
+            --card-bg: rgba(10, 18, 30, 0.85); 
+            --cyan: #00f0ff; 
+            --green: #22c55e; 
+            --red: #ef4444; 
+            --yellow: #eab308; 
+            --text-main: #ffffff; 
+            --text-dim: #94a3b8; 
+            --border-cyan: rgba(0, 240, 255, 0.3); 
+        } 
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Rajdhani', sans-serif; 
+        } 
+        body { 
+            background-color: var(--bg-color); 
+            background-image: radial-gradient(circle at 10% 20%, rgba(0, 240, 255, 0.05) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(0, 240, 255, 0.05) 0%, transparent 40%); 
+            color: var(--text-main); 
+            min-height: 100vh; 
+            padding: 20px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+        } 
+        .dashboard-container { 
+            width: 100%; 
+            max-width: 1280px; 
+            background: rgba(4, 9, 20, 0.95); 
+            border: 1px solid var(--border-cyan); 
+            border-radius: 12px; 
+            padding: 24px; 
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.1); 
+        } 
+        /* --- Header Section --- */ 
+        header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 20px; 
+        } 
+        .university-logo { 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+        } 
+        .university-logo .logo-img { 
+            width: 45px; 
+            height: 45px; 
+            background: #e11d48; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-weight: bold; 
+            font-size: 18px; 
+        } 
+        .university-text h2 { 
+            font-size: 20px; 
+            font-weight: 700; 
+        } 
+        .university-text p { 
+            font-size: 11px; 
+            color: var(--text-dim); 
+            text-transform: uppercase; 
+        } 
+        /* Student Input Field */ 
+        .student-input-container { 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            background: rgba(0, 240, 255, 0.05); 
+            padding: 8px 16px; 
+            border-radius: 8px; 
+            border: 1px solid var(--border-cyan); 
+        } 
+        .student-input-container label { 
+            font-size: 14px; 
+            color: var(--cyan); 
+            font-weight: 700; 
+            letter-spacing: 1px; 
+        } 
+        .student-input-container input { 
+            background: transparent; 
+            border: none; 
+            border-bottom: 1px solid var(--cyan); 
+            color: #fff; 
+            padding: 4px 8px; 
+            outline: none; 
+            font-size: 16px; 
+            font-weight: 600; 
+        } 
+        .user-profile { 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            background: rgba(0, 240, 255, 0.05); 
+            padding: 8px 16px; 
+            border-radius: 30px; 
+            border: 1px solid var(--border-cyan); 
+        } 
+        .avatar { 
+            width: 36px; 
+            height: 36px; 
+            border-radius: 50%; 
+            background: #0284c7; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+        } 
+        /* --- Title Banner --- */ 
+        .banner { 
+            text-align: center; 
+            margin: 10px 0 25px 0; 
+        } 
+        .banner h1 { 
+            font-family: 'Orbitron', sans-serif; 
+            font-size: 48px; 
+            font-weight: 900; 
+            letter-spacing: 6px; 
+            color: var(--cyan); 
+            text-shadow: 0 0 15px rgba(0, 240, 255, 0.6); 
+        } 
+        /* --- Phase Section Headers --- */ 
+        .section-title { 
+            font-family: 'Orbitron', sans-serif; 
+            font-size: 20px; 
+            color: var(--cyan); 
+            margin: 30px 0 15px 0; 
+            border-bottom: 1px solid var(--border-cyan); 
+            padding-bottom: 8px; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+        } 
+        /* --- 6 Phases Container --- */ 
+        .phases-grid { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 20px; 
+        } 
+        .phase-card { 
+            background: var(--card-bg); 
+            border: 1px solid var(--border-cyan); 
+            border-radius: 10px; 
+            padding: 20px; 
+            display: grid; 
+            grid-template-columns: 1fr 280px; 
+            gap: 20px; 
+            position: relative; 
+        } 
+        .phase-main { 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+        } 
+        .phase-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 10px; 
+        } 
+        .phase-title { 
+            font-family: 'Orbitron', sans-serif; 
+            font-size: 16px; 
+            color: var(--cyan); 
+        } 
+        .question-text { 
+            font-size: 16px; 
+            color: #e2e8f0; 
+            margin-bottom: 15px; 
+            background: rgba(0, 0, 0, 0.3); 
+            padding: 12px; 
+            border-radius: 6px; 
+            border-left: 3px solid var(--cyan); 
+        } 
+        /* Answer Input & Submit */ 
+        .answer-box { 
+            display: flex; 
+            gap: 10px; 
+        } 
+        .answer-box input { 
+            flex: 1; 
+            background: rgba(0, 0, 0, 0.5); 
+            border: 1px solid var(--border-cyan); 
+            border-radius: 6px; 
+            padding: 10px 14px; 
+            color: #fff; 
+            font-size: 14px; 
+            outline: none; 
+        } 
+        .answer-box input:focus { 
+            border-color: var(--cyan); 
+            box-shadow: 0 0 8px rgba(0, 240, 255, 0.4); 
+        } 
+        .submit-btn { 
+            background: var(--cyan); 
+            color: #000; 
+            border: none; 
+            padding: 0 20px; 
+            border-radius: 6px; 
+            font-weight: 700; 
+            font-family: 'Orbitron', sans-serif; 
+            cursor: pointer; 
+            transition: all 0.2s ease; 
+        } 
+        .submit-btn:hover { 
+            background: #fff; 
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.6); 
+        } 
+        /* Extreme Right Sidebar Inside Phase Card */ 
+        .phase-sidebar { 
+            background: rgba(0, 0, 0, 0.4); 
+            border-left: 1px solid var(--border-cyan); 
+            padding-left: 15px; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+        } 
+        .hint-box { 
+            background: rgba(234, 179, 8, 0.1); 
+            border: 1px dashed var(--yellow); 
+            border-radius: 6px; 
+            padding: 10px; 
+            margin-bottom: 10px; 
+        } 
+        .hint-title { 
+            color: var(--yellow); 
+            font-size: 12px; 
+            font-weight: 700; 
+            display: flex; 
+            align-items: center; 
+            gap: 5px; 
+            margin-bottom: 5px; 
+        } 
+        .hint-text { 
+            font-size: 12px; 
+            color: #cbd5e1; 
+        } 
+        .phase-stats { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            background: rgba(255, 255, 255, 0.03); 
+            padding: 8px 12px; 
+            border-radius: 6px; 
+        } 
+        .stat-item { 
+            text-align: center; 
+        } 
+        .stat-label { 
+            font-size: 10px; 
+            color: var(--text-dim); 
+            text-transform: uppercase; 
+        } 
+        .stat-val { 
+            font-family: 'Orbitron', sans-serif; 
+            font-size: 16px; 
+            font-weight: 700; 
+            color: var(--green); 
+        } 
+        .stat-val.rank { 
+            color: var(--cyan); 
+        } 
+        /* Footer */ 
+        footer { 
+            margin-top: 30px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-top: 1px solid var(--border-cyan); 
+            padding-top: 15px; 
+        } 
+        .footer-brand { 
+            text-align: center; 
+            margin: 0 auto; 
+        } 
+        .footer-brand h3 { 
+            font-family: 'Orbitron', sans-serif; 
+            font-size: 18px; 
+        } 
+    </style> 
+</head> 
+<body> 
+    <div class="dashboard-container"> 
+        <!-- Header --> 
+        <header> 
+            <div class="university-logo"> 
+                <div class="logo-img">GE</div> 
+                <div class="university-text"> 
+                    <h2>Graphic Era</h2> 
+                    <p>Deemed to be University</p> 
+                </div> 
+            </div> 
+            <!-- Added Student Name Input --> 
+            <div class="student-input-container"> 
+                <label for="studentName"><i class="fa-solid fa-user-graduate"></i> STUDENT NAME:</label> 
+                <label id="display_name"></label> 
+            <!-- Added Student Name Input --> 
+            <div class="student-input-container"> 
+                <label for="studentName"><i class="fa-solid fa-user-graduate"></i> STUDENT NAME:</label> 
+                <label id="display_name"></label> 
+            </div> 
+            <div class="user-profile"> 
+                <div class="avatar"><i class="fa-solid fa-ninja"></i></div> 
+                <div> 
+                    <h4 style="color: var(--cyan); font-size: 14px;">Alice</h4> 
+                    <p style="font-size: 11px; color: var(--text-dim);">Graphic Geeks</p> 
+                </div> 
+            </div> 
+        </header> 
+        
+        <div class="banner"> 
+            <h1>CYBER HUNT</h1> 
+            <p style="letter-spacing: 4px; color: var(--text-dim); font-size: 14px;">THE DIGITAL ESCAPE ROOM</p> 
+        </div> 
+        
+        <div class="section-title"> 
+            <i class="fa-solid fa-terminal"></i> EVENT CHALLENGES (PHASES 1 - 6) 
+        </div> 
+        
+            <div class="phase-card"> 
+                <div class="phase-main"> 
+                    <div class="phase-header"> 
+                        <span class="phase-title">PHASE 1: Cryptic Cipher</span> 
+                    </div> 
+                    <div class="question-text"> 
+                        Decode the following base64 string to retrieve the access key: <code>R3JhcGhpY0dlZWtzMjAyNg==</code> 
+                    </div> 
+                    <div class="answer-box"> 
+                        <input type="text" placeholder="Type your answer here..."> 
+                        <button class="submit-btn">SUBMIT</button> 
+                    </div> 
+                </div> 
+                <div class="phase-sidebar"> 
+                    <div class="hint-box"> 
+                        <div class="hint-title"><i class="fa-regular fa-lightbulb"></i> HINT</div> 
+                        <div class="hint-text">Standard Base64 encoding. Use an online decoder or browser console.</div> 
+                    </div> 
+                    <div class="phase-stats"> 
+                        <div class="stat-item"> 
+                            <div class="stat-label">Points Gained</div> 
+                            <div class="stat-val">+50</div> 
+                        </div> 
+                        <div class="stat-item"> 
+                            <div class="stat-label">Current Rank</div> 
+                            <div class="stat-val rank">#4</div> 
+                        </div> 
+                    </div> 
+                </div> 
+            </div> 
+            
+            <div class="phase-card"> 
+                <div class="phase-main"> 
+                    <div class="phase-header"> 
+                        <span class="phase-title">PHASE 2: Web Forensics</span> 
+                    </div> 
+                    <div class="question-text"> 
+                        Inspect the network request headers of the target server. What is the value of the hidden "X-Flag" parameter? 
+                    </div> 
+                    <div class="answer-box"> 
+                        <input type="text" placeholder="Type your answer here..."> 
+                        <button class="submit-btn">SUBMIT</button> 
+                    </div> 
+                </div> 
+                <div class="phase-sidebar"> 
+                    <div class="hint-box"> 
+                        <div class="hint-title"><i class="fa-regular fa-lightbulb"></i> HINT</div> 
+                        <div class="hint-text">Check Developer Tools > Network Tab > Response Headers.</div> 
+                    </div> 
+                    <div class="phase-stats"> 
+                        <div class="stat-item"> 
+                            <div class="stat-label">Points Gained</div> 
+                            <div class="stat-val">+100</div> 
+                        </div> 
+                        <div class="stat-item"> 
+                            <div class="stat-label">Current Rank</div> 
+                            <div class="stat-val rank">#2</div> 
+                        </div> 
+                    </div> 
+                </div> 
+            </div> 
+            
+            <div class="phase-card"> 
+                <div class="phase-main"> 
+                    <div class="phase-header"> 
+                        <span class="phase-title">PHASE 3: Steganography</span> 
+                    </div> 
+                    <div class="question-text"> 
+                        Extract the hidden text file contained within the provided system image. What is the root password? 
+                    </div> 
+                    <div class="answer-box"> 
+                        <input type="text" placeholder="Type your answer here..."> 
+                        <button class="submit-btn">SUBMIT</button> 
+                    </div> 
+                </div> 
+                <div class="phase-sidebar"> 
+                    <div class="hint-box"> 
+                        <div class="hint-title"><i class="fa-regular fa-lightbulb"></i> HINT</div> 
+                        <div class="hint-text">Use steghide or check metadata info via ExifTool.</div> 
+                    </div> 
+                    <div class="phase-stats"> 
+                        <div class="stat-item"> 
+                            <div class="stat-label">Points Gained</div> 
+                            <div class="stat-val">+150</div> 
+                        </div> 
+                        <div class="stat-item"> 
+                            <div class="stat-label">Current Rank</div> 
+                            <div class="stat-val rank">#3</div> 
+                        </div> 
+                    </div> 
+                </div> 
+            </div> 
+            
+            <div class="phase-card"> 
+                <div class="phase-main"> 
+                    <div class="phase-header"> 
+                        <span class="phase-title">PHASE 4: Reverse Engineering</span> 
+                    </div> 
+                    <div class="question-text"> 
+                        Bypass the execution check in the provided binary executable. Identify the success string printed upon activation. 
+                    </div> 
+                    <div class="answer-box"> 
+                        <input type="text" placeholder="Type your answer here..."> 
+                        <button class="submit-btn">SUBMIT</button> 
+                    </div> 
+                </div> 
+                <div class="phase-sidebar"> 
+                    <div class="hint-box"> 
+                        <div class="hint-title"><i class="fa-regular fa-lightbulb"></i> HINT</div> 
+                        <div class="hint-text">Decompile using Ghidra or trace main functions in Cutter.</div> 
+                    </div> 
+                    <div class="phase-stats"> 
+                        <div class="stat-item"> 
+                            <div class="stat-label">Points Gained</div> 
+                            <div class="stat-val">+200</div> 
+                        </div> 
+                        <div class="stat-item"> 
+                            <div class="stat-label">Current Rank</div> 
+                            <div class="stat-val rank">#1</div> 
+                        </div> 
+                    </div> 
+                </div> 
+            </div> 
+            
+            <div class="phase-card"> 
+                <div class="phase-main"> 
+                    <div class="phase-header"> 
+                        <span class="phase-title">PHASE 5: SQL Injection</span> 
+                    </div> 
+                    <div class="question-text"> 
+                        Bypass the admin authentication form using SQL payload injection. Retrieve the admin account username. 
+                    </div> 
+                    <div class="answer-box"> 
+                        <input type="text" placeholder="Type your answer here..."> 
+                        <button class="submit-btn">SUBMIT</button> 
+                    </div> 
+                </div> 
+                <div class="phase-sidebar"> 
+                    <div class="hint-box"> 
+                        <div class="hint-title"><i class="fa-regular fa-lightbulb"></i> HINT</div> 
+                        <div class="hint-text">Try classic OR injection syntax: ' OR '1'='1.</div> 
+                    </div> 
+                    <div class="phase-stats"> 
+                        <div class="stat-item"> 
+                            <div class="stat-label">Points Gained</div> 
+                            <div class="stat-val">+250</div> 
+                        </div> 
+                        <div class="stat-item"> 
+                            <div class="stat-label">Current Rank</div> 
+                            <div class="stat-val rank">#1</div> 
+                        </div> 
+                    </div> 
+                </div> 
+            </div> 
+            
+            <div class="phase-card"> 
+                <div class="phase-main"> 
+                    <div class="phase-header"> 
+                        <span class="phase-title">PHASE 6: Final Mainframe Crack</span> 
+                    </div> 
+                    <div class="question-text"> 
+                        Combine all previous phase keys into the decryption algorithm to derive the final victory flag string. 
+                    </div> 
+                    <div class="answer-box"> 
+                        <input type="text" placeholder="Type your answer here..."> 
+                        <button class="submit-btn">SUBMIT</button> 
+                    </div> 
+                </div> 
+                <div class="phase-sidebar"> 
+                    <div class="hint-box"> 
+                        <div class="hint-title"><i class="fa-regular fa-lightbulb"></i> HINT</div> 
+                        <div class="hint-text">Concatenate keys 1 through 5 using SHA-256 hashing.</div> 
+                    </div> 
+        </div> 
+
+        <footer> 
+            <div style="font-size: 12px; color: var(--text-dim);"> 
+                REAL PROBLEMS. REAL SKILLS. ONE MISSION. 
+            </div> 
+            <div class="footer-brand"> 
+                <h3>GRAPHIC GEEKS</h3> 
+                <p style="font-size: 11px; color: var(--text-dim);">Presents</p> 
+            </div> 
+            <div> 
+                <a href="#" style="color: var(--text-main); text-decoration: none; font-size: 13px;"> 
+                    <i class="fa-brands fa-instagram"></i> graphic_geeks_geu 
+                </a> 
+            </div> 
+        </footer> 
+    </div> 
+</body> 
+</html>
