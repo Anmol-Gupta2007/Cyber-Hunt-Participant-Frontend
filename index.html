@@ -309,7 +309,7 @@
       fill: none;
     }
 
-    /* Right Hero Visual Area */
+    /* Right Hero Visual Area - UPDATED FOR SLANTED EFFECT */
     .hero-right {
       position: relative;
       display: flex;
@@ -319,25 +319,77 @@
       z-index: 2;
     }
 
-    .hero-collage-wrapper {
+    .hero-graphic-container {
       position: relative;
       width: 100%;
       max-width: clamp(340px, 44vw, 560px);
+      aspect-ratio: 1.1 / 1;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
+      margin: 0 auto;
     }
 
-    .hero-collage-img {
-      width: 100%;
-      height: auto;
-      max-height: clamp(320px, 48vh, 490px);
-      object-fit: contain;
-      display: block;
+    /* Glowing orbital rings */
+    .orbit {
+      position: absolute;
+      border: 1.5px solid var(--blue);
+      border-radius: 50%;
+      z-index: 1;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .orbit-1 {
+      width: 130%;
+      height: 40%;
+      transform: rotate(-20deg);
+    }
+
+    .orbit-2 {
+      width: 50%;
+      height: 110%;
+      transform: rotate(35deg);
+      border-color: var(--blue-light);
+    }
+
+    /* Corner tech brackets */
+    .bracket {
+      position: absolute;
+      width: clamp(20px, 3vw, 40px);
+      height: clamp(20px, 3vw, 40px);
+      border-color: rgba(255, 255, 255, 0.6);
+      border-style: solid;
+      z-index: 5;
+      pointer-events: none;
+    }
+    
+    .bracket.top-left { 
+      top: 5%; 
+      left: 5%; 
+      border-width: 2px 0 0 2px; 
+    }
+    
+    .bracket.bottom-right { 
+      bottom: 5%; 
+      right: 5%; 
+      border-width: 0 2px 2px 0; 
+    }
+
+    /* Slanted image cutout effect */
+    .building-cutout {
+      position: relative;
+      width: 90%;
+      height: 90%;
+      object-fit: cover;
+      z-index: 10;
+      /* CSS Polygon to create the slanted corners */
+      clip-path: polygon(20% 10%, 100% 25%, 85% 100%, 0% 90%);
+      filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.5));
       transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .hero-collage-img:hover {
+    .building-cutout:hover {
       transform: scale(1.02);
     }
 
@@ -439,10 +491,6 @@
       .hero-right {
         order: -1;
         min-height: 280px;
-      }
-
-      .hero-collage-wrapper {
-        width: clamp(260px, 70vw, 380px);
       }
 
       .bottom-bar {
@@ -549,9 +597,17 @@
         </div>
       </div>
 
+      <!-- UPDATED SECTION: Right Hero Visual Area -->
       <div class="hero-right">
-        <div class="hero-collage-wrapper">
-          <img src="hero-collage.png" alt="Graphic Era University Cyber Hunt" class="hero-collage-img">
+        <div class="hero-graphic-container">
+          <!-- Tech Background Elements -->
+          <div class="orbit orbit-1"></div>
+          <div class="orbit orbit-2"></div>
+          <div class="bracket top-left"></div>
+          <div class="bracket bottom-right"></div>
+
+          <!-- Replace 'university-building.jpeg' with your actual file path if needed -->
+          <img src="university-building.jpeg" alt="Graphic Era University Cyber Hunt" class="building-cutout">
         </div>
       </div>
     </section>
