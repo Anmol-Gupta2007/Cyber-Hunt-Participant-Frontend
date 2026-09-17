@@ -355,19 +355,21 @@
       flex-shrink: 0;
     }
 
-    .event-meta {
+.event-meta {
       display: flex;
       align-items: center;
-      gap: clamp(14px, 2.5vw, 36px);
+      gap: clamp(16px, 2.5vw, 40px);
       font-family: 'DM Mono', monospace;
-      font-size: clamp(12px, 1.1vw, 15px);
+      /* Increased font size from 12-15px to 17-22px */
+      font-size: clamp(17px, 1.4vw, 22px);
+      font-weight: 500;
       color: var(--white);
     }
 
     .meta-item {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px; /* Slight extra breathing room */
       white-space: nowrap;
     }
 
@@ -379,16 +381,17 @@
     }
 
     .meta-icon svg {
-      width: clamp(18px, 1.6vw, 20px);
-      height: clamp(18px, 1.6vw, 20px);
+      /* Scaled the icons up from 18-20px to 22-26px to match the new text size */
+      width: clamp(22px, 1.8vw, 26px);
+      height: clamp(22px, 1.8vw, 26px);
       stroke: var(--blue);
       fill: none;
       stroke-width: 2;
     }
 
     .meta-divider {
-      width: 1.5px;
-      height: 24px;
+      width: 2px;
+      height: 30px; /* Lengthened divider slightly to balance the taller text */
       background: var(--blue-dim);
     }
 
@@ -567,7 +570,7 @@
               <line x1="16" y1="2" x2="16" y2="6"></line>
               <line x1="8" y1="2" x2="8" y2="6"></line>
               <line x1="3" y1="10" x2="21" y2="10"></line>
-            </svg>
+            </svg> 
           </span>
           <span>19 Sep 2026</span>
         </div>
