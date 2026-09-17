@@ -410,6 +410,237 @@
       gap: 16px;
     }
 
+    /* STAGE 6 SETUP PAGE */
+    .stage6-setup-card {
+      background: var(--panel);
+      border: 1.5px solid var(--line);
+      border-radius: 8px;
+      padding: 42px 34px;
+      min-height: 480px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 18px;
+      box-shadow: 0 0 30px rgba(74, 168, 233, 0.18);
+    }
+
+    .stage6-setup-kicker {
+      color: var(--blue-light);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    .stage6-setup-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(24px, 3vw, 34px);
+      color: var(--white);
+    }
+
+    .stage6-setup-copy {
+      max-width: 650px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .difficulty-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(130px, 1fr));
+      gap: 12px;
+      width: min(680px, 100%);
+      margin-top: 8px;
+    }
+
+    .difficulty-btn {
+      background: var(--panel-inner);
+      border: 1.5px solid var(--line-subtle);
+      border-radius: 7px;
+      color: var(--white);
+      padding: 16px 12px;
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .difficulty-btn:hover {
+      border-color: var(--blue-light);
+      background: rgba(88, 170, 235, 0.18);
+      transform: translateY(-2px);
+    }
+
+    .difficulty-btn.selected {
+      border-color: var(--green);
+      background: rgba(16, 185, 129, 0.14);
+      color: #6ee7b7;
+    }
+
+    .stage6-locked-choice {
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      background: rgba(245, 158, 11, 0.08);
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-size: 12px;
+    }
+
+    /* STAGE 6 QUESTION SELECTION MODAL */
+    .stage6-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 22px;
+      background: rgba(2, 10, 17, 0.84);
+      backdrop-filter: blur(5px);
+    }
+
+    .stage6-modal {
+      width: min(900px, 100%);
+      max-height: min(760px, 92vh);
+      overflow: auto;
+      background: var(--panel);
+      border: 1.5px solid var(--blue);
+      border-radius: 10px;
+      padding: 26px;
+      box-shadow: 0 0 45px rgba(74, 168, 233, 0.3);
+    }
+
+    .stage6-modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .stage6-modal-title {
+      font-family: 'Space Grotesk', sans-serif;
+      color: var(--white);
+      font-size: 22px;
+    }
+
+    .stage6-modal-subtitle {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      margin-top: 6px;
+    }
+
+    .stage6-selection-count {
+      flex-shrink: 0;
+      color: #6ee7b7;
+      border: 1px solid var(--green);
+      border-radius: 5px;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .stage6-question-options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .stage6-question-option {
+      appearance: none;
+      width: 100%;
+      text-align: left;
+      background: rgba(4, 18, 29, 0.72);
+      border: 1.5px solid var(--line-subtle);
+      border-radius: 7px;
+      color: var(--white);
+      padding: 16px;
+      cursor: pointer;
+      font-family: 'DM Mono', monospace;
+      transition: all 0.15s ease;
+    }
+
+    .stage6-question-option:hover:not(:disabled) {
+      border-color: var(--blue);
+      background: rgba(88, 170, 235, 0.12);
+    }
+
+    .stage6-question-option.selected {
+      border-color: var(--green);
+      background: rgba(16, 185, 129, 0.14);
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.16);
+    }
+
+    .stage6-question-option:disabled:not(.selected) {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .stage6-option-check {
+      color: var(--green);
+      float: right;
+      font-weight: 700;
+    }
+
+    .stage6-modal-warning {
+      margin-top: 18px;
+      padding: 12px 14px;
+      border-left: 3px solid var(--yellow);
+      border-radius: 0 5px 5px 0;
+      background: rgba(245, 158, 11, 0.09);
+      color: #fde68a;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .stage6-modal-footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .stage6-confirm-btn {
+      background: var(--green);
+      border: 1.5px solid var(--green);
+      border-radius: 6px;
+      color: #04121d;
+      padding: 11px 18px;
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .stage6-confirm-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .stage6-reopen-btn {
+      background: transparent;
+      border: 1px solid var(--line-subtle);
+      border-radius: 5px;
+      color: var(--blue-light);
+      padding: 9px 13px;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 680px) {
+      .difficulty-grid,
+      .stage6-question-options { grid-template-columns: 1fr; }
+      .stage6-modal-header { flex-direction: column; }
+      .stage6-modal-footer { justify-content: stretch; }
+      .stage6-confirm-btn { width: 100%; }
+    }
+
     .cleared-icon {
       font-size: 56px;
       color: var(--green);
@@ -667,6 +898,34 @@
     .btn-hint-toggle:hover {
       background: rgba(245, 158, 11, 0.2);
       color: #fde68a;
+    }
+
+    .btn-skip-question {
+      width: 100%;
+      margin-top: 14px;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.6);
+      border-radius: 5px;
+      color: #fca5a5;
+      padding: 9px 10px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-skip-question:hover {
+      background: rgba(239, 68, 68, 0.22);
+      border-color: var(--red);
+      color: #fecaca;
+    }
+
+    .hint-penalty-notice {
+      margin-top: 10px;
+      color: #fca5a5;
+      font-size: 11px;
+      font-weight: 700;
     }
 
     .hint-text {
@@ -974,7 +1233,14 @@
     let userSolvedQuestions = JSON.parse(localStorage.getItem('cyber_solved_questions')) || [];
     let userSolvedStages = JSON.parse(localStorage.getItem('cyber_solved_stages')) || [];
     let userScore = parseInt(localStorage.getItem('cyber_total_score'), 10) || 0;
-    let revealedHints = JSON.parse(localStorage.getItem('cyber_revealed_hints')) || [];
+    let usedHints = JSON.parse(localStorage.getItem('cyber_used_hints')) || {};
+    let skippedQuestions = JSON.parse(localStorage.getItem('cyber_skipped_questions')) || [];
+    let stage6Difficulty = localStorage.getItem('cyber_stage6_difficulty') || '';
+    let stage6Selection = JSON.parse(localStorage.getItem('cyber_stage6_selection')) || [];
+    let stage6SelectionLocked = localStorage.getItem('cyber_stage6_selection_locked') === 'true';
+    let stage6ModalOpen = false;
+    let stage6DraftSelection = [];
+    let hintPenaltyNotice = null;
 
     // Migrate any legacy solved phases
     const legacyPhases = JSON.parse(localStorage.getItem('cyber_solved_phases')) || [];
@@ -992,12 +1258,66 @@
       localStorage.setItem('cyber_solved_stages', JSON.stringify(userSolvedStages));
     }
 
+    // Stage 6 is a two-question final round selected from four questions.
+    function getStageQuestionSet(stage) {
+      if (stage.id === 6 && stage6SelectionLocked) {
+        return stage.questions.filter(q => stage6Selection.includes(q.qId));
+      }
+      return stage.questions;
+    }
+
+    function isStageCompleted(stage) {
+      if (stage.id === 6 && !stage6SelectionLocked) return false;
+      const questionSet = getStageQuestionSet(stage);
+      return questionSet.length > 0 && questionSet.every(q => isQuestionComplete(q.qId));
+    }
+
+    function isQuestionComplete(qId) {
+      return userSolvedQuestions.includes(qId) || skippedQuestions.includes(qId);
+    }
+
+    function getQuestionHints(question) {
+      if (Array.isArray(question.hints) && question.hints.length >= 3) {
+        return question.hints.slice(0, 3);
+      }
+      return [
+        question.hint,
+        `Break the problem down using the clue: ${question.hint}`,
+        `Final clue: focus on the exact answer format requested in the question.`
+      ];
+    }
+
+    function getHintCost(stageId, hintNumber) {
+      const costs = stageId === 6 ? [20, 40, 80] : [10, 20, 40];
+      return costs[hintNumber - 1] || 0;
+    }
+
+    function getQuestionHintPenalty(stageId, qId) {
+      const hintCount = Math.min(Number(usedHints[qId] || 0), 3);
+      let penalty = 0;
+      for (let hintNumber = 1; hintNumber <= hintCount; hintNumber++) {
+        penalty += getHintCost(stageId, hintNumber);
+      }
+      return penalty;
+    }
+
+    function getQuestionNetPoints(stage, question) {
+      return question.points - getQuestionHintPenalty(stage.id, question.qId);
+    }
+
+    function findQuestion(qId) {
+      for (const stage of STAGES) {
+        const question = stage.questions.find(q => q.qId === qId);
+        if (question) return { question, stage };
+      }
+      return null;
+    }
+
     // Determine current active stage
     function getActiveStageId() {
       for (let i = 0; i < STAGES.length; i++) {
         const st = STAGES[i];
-        const allSolved = st.questions.every(q => userSolvedQuestions.includes(q.qId));
-        if (!allSolved) {
+        if (!isStageCompleted(st)) {
           return st.id;
         }
       }
@@ -1039,15 +1359,79 @@
     setInterval(updateTimer, 1000);
     updateTimer();
 
-    // HINT REVEAL TOGGLE
-    window.toggleHint = function(qId) {
-      const idx = revealedHints.indexOf(qId);
-      if (idx > -1) {
-        revealedHints.splice(idx, 1);
-      } else {
-        revealedHints.push(qId);
+    // HINTS: each question can use three hints, with stage-specific deductions.
+    window.useHint = function(qId) {
+      const found = findQuestion(qId);
+      if (!found) return;
+
+      const currentHintNumber = Number(usedHints[qId] || 0);
+      if (currentHintNumber >= 3 || isQuestionComplete(qId)) return;
+
+      const nextHintNumber = currentHintNumber + 1;
+      const deduction = getHintCost(found.stage.id, nextHintNumber);
+      usedHints[qId] = nextHintNumber;
+      userScore = Number(userScore) - deduction;
+      localStorage.setItem('cyber_used_hints', JSON.stringify(usedHints));
+      localStorage.setItem('cyber_total_score', userScore);
+      hintPenaltyNotice = { qId, amount: deduction };
+
+      // Update the visible total immediately, before the full question re-render.
+      const scoreElement = document.getElementById('currentScore');
+      if (scoreElement) scoreElement.textContent = `${userScore} PTS`;
+      renderApp();
+    };
+
+    // Skip is available only after all three hints have been used.
+    window.skipToNextQuestion = function(qId) {
+      const found = findQuestion(qId);
+      if (!found || userSolvedQuestions.includes(qId) || skippedQuestions.includes(qId)) return;
+      if (Number(usedHints[qId] || 0) < 3) return;
+
+      skippedQuestions.push(qId);
+      localStorage.setItem('cyber_skipped_questions', JSON.stringify(skippedQuestions));
+
+      const playableQuestions = getStageQuestionSet(found.stage);
+      const nextQuestion = playableQuestions.find(q => !isQuestionComplete(q.qId));
+      currentFocusedQId = nextQuestion ? nextQuestion.qId : null;
+      hintPenaltyNotice = null;
+      renderApp();
+    };
+
+    // STAGE 6 SETUP FLOW
+    window.chooseStage6Difficulty = function(difficulty) {
+      if (stage6SelectionLocked) return;
+      stage6Difficulty = difficulty;
+      stage6DraftSelection = [];
+      localStorage.setItem('cyber_stage6_difficulty', stage6Difficulty);
+      stage6ModalOpen = true;
+      renderApp();
+    };
+
+    window.openStage6QuestionModal = function() {
+      if (stage6SelectionLocked || !stage6Difficulty) return;
+      stage6DraftSelection = [];
+      stage6ModalOpen = true;
+      renderApp();
+    };
+
+    window.toggleStage6Question = function(qId) {
+      if (stage6SelectionLocked) return;
+      if (stage6DraftSelection.includes(qId)) {
+        stage6DraftSelection = stage6DraftSelection.filter(id => id !== qId);
+      } else if (stage6DraftSelection.length < 2) {
+        stage6DraftSelection.push(qId);
       }
-      localStorage.setItem('cyber_revealed_hints', JSON.stringify(revealedHints));
+      renderApp();
+    };
+
+    window.confirmStage6Selection = function() {
+      if (stage6SelectionLocked || stage6DraftSelection.length !== 2) return;
+      stage6Selection = [...stage6DraftSelection];
+      stage6SelectionLocked = true;
+      stage6ModalOpen = false;
+      currentFocusedQId = stage6Selection.find(qId => !userSolvedQuestions.includes(qId)) || stage6Selection[0];
+      localStorage.setItem('cyber_stage6_selection', JSON.stringify(stage6Selection));
+      localStorage.setItem('cyber_stage6_selection_locked', 'true');
       renderApp();
     };
 
@@ -1081,8 +1465,8 @@
       nav.innerHTML = '';
 
       STAGES.forEach(st => {
-        const isStageCompleted = st.questions.every(q => userSolvedQuestions.includes(q.qId));
-        const isStageActive = (st.id === activeStageId && !isStageCompleted);
+        const isStageDone = isStageCompleted(st);
+        const isStageActive = (st.id === activeStageId && !isStageDone);
         const isStageLocked = (st.id > activeStageId);
         const isFinal = (st.id === 6);
         const isSelected = (st.id === currentViewStageId);
@@ -1091,7 +1475,7 @@
         let status = '[Locked]';
         let icon = '&#128274;';
 
-        if (isStageCompleted) {
+        if (isStageDone) {
           cls = 'completed-stage';
           status = '[Completed]';
           icon = '&#10003;';
@@ -1128,9 +1512,91 @@
     let currentFocusedQId = null;
 
     window.selectQuestionInStage = function(qId) {
+      if (skippedQuestions.includes(qId)) return;
       currentFocusedQId = qId;
       renderApp();
     };
+
+    function renderStage6Setup(currentStage, container, headerTitle, progressSub) {
+      headerTitle.innerHTML = `<span class="cmd-prompt">&gt;_</span> STAGE 6: CODING ROUND (FINAL SELECTION)`;
+      progressSub.textContent = 'Choose a difficulty, then lock in exactly 2 questions from the 4-question pool.';
+
+      const selectedDifficulty = stage6Difficulty
+        ? stage6Difficulty.charAt(0).toUpperCase() + stage6Difficulty.slice(1)
+        : '';
+
+      container.innerHTML = `
+        <section class="stage6-setup-card">
+          <div class="stage6-setup-kicker">Final Round // Stage 6</div>
+          <h1 class="stage6-setup-title">Choose Your Coding Difficulty</h1>
+          <p class="stage6-setup-copy">
+            Select a difficulty level to open the final question selection.
+            You must choose 2 questions out of 4, and the selection cannot be changed after confirmation.
+          </p>
+          ${stage6Difficulty ? `
+            <div class="stage6-locked-choice">
+              Difficulty locked for this round: <strong>${selectedDifficulty}</strong>
+            </div>
+            <button class="stage6-reopen-btn" onclick="openStage6QuestionModal()">
+              Choose 2 Questions
+            </button>
+          ` : `
+            <div class="difficulty-grid">
+              ${['easy', 'medium', 'hard'].map(level => `
+                <button class="difficulty-btn" onclick="chooseStage6Difficulty('${level}')">
+                  ${level.toUpperCase()}
+                </button>
+              `).join('')}
+            </div>
+          `}
+        </section>
+      `;
+
+      if (stage6ModalOpen && stage6Difficulty && !stage6SelectionLocked) {
+        const questionOptions = currentStage.questions.map((q, index) => {
+          const selected = stage6DraftSelection.includes(q.qId);
+          const atLimit = stage6DraftSelection.length >= 2 && !selected;
+          return `
+            <button
+              type="button"
+              class="stage6-question-option ${selected ? 'selected' : ''}"
+              onclick="toggleStage6Question('${q.qId}')"
+              ${atLimit ? 'disabled' : ''}
+            >
+              ${selected ? '<span class="stage6-option-check">&#10003; SELECTED</span>' : ''}
+              <strong>QUESTION ${index + 1}</strong><br>
+              <span style="display:block; margin-top:8px; line-height:1.5; color:var(--muted);">${q.title.replace(/^CHALLENGE /, '')}</span>
+            </button>
+          `;
+        }).join('');
+
+        container.insertAdjacentHTML('beforeend', `
+          <div class="stage6-modal-backdrop">
+            <section class="stage6-modal" role="dialog" aria-modal="true" aria-labelledby="stage6ModalTitle">
+              <div class="stage6-modal-header">
+                <div>
+                  <h2 class="stage6-modal-title" id="stage6ModalTitle">Select Final Questions</h2>
+                  <p class="stage6-modal-subtitle">
+                    Difficulty: <strong style="color:#6ee7b7;">${selectedDifficulty}</strong>.
+                    Choose exactly 2 of the 4 questions below.
+                  </p>
+                </div>
+                <div class="stage6-selection-count">${stage6DraftSelection.length} / 2 SELECTED</div>
+              </div>
+              <div class="stage6-question-options">${questionOptions}</div>
+              <div class="stage6-modal-warning">
+                &#9888; Once you confirm these 2 questions, your selection cannot be changed further.
+              </div>
+              <div class="stage6-modal-footer">
+                <button class="stage6-confirm-btn" onclick="confirmStage6Selection()" ${stage6DraftSelection.length !== 2 ? 'disabled' : ''}>
+                  CONFIRM 2 QUESTIONS
+                </button>
+              </div>
+            </section>
+          </div>
+        `);
+      }
+    }
 
     function renderQuestions() {
       const currentStage = STAGES.find(s => s.id === currentViewStageId);
@@ -1138,28 +1604,31 @@
 
       const headerTitle = document.getElementById('stageHeaderTitle');
       const progressSub = document.getElementById('stageProgressSub');
-      const solvedInStage = currentStage.questions.filter(q => userSolvedQuestions.includes(q.qId)).length;
-      const allStageSolved = (solvedInStage === currentStage.questions.length);
-
       headerTitle.innerHTML = `<span class="cmd-prompt">&gt;_</span> STAGE ${currentStage.id}: ${currentStage.topic.toUpperCase()} (${currentStage.questions.length} CHALLENGES)`;
-      progressSub.textContent = `Completed ${solvedInStage} of ${currentStage.questions.length} challenges in this stage.`;
 
       const container = document.getElementById('questionsContainer');
       container.innerHTML = '';
 
+      if (currentStage.id === 6 && !stage6SelectionLocked) {
+        renderStage6Setup(currentStage, container, headerTitle, progressSub);
+        return;
+      }
+
+      const stageQuestions = getStageQuestionSet(currentStage);
+      const solvedInStage = stageQuestions.filter(q => isQuestionComplete(q.qId)).length;
+      const allStageSolved = isStageCompleted(currentStage);
+
+      headerTitle.innerHTML = `<span class="cmd-prompt">&gt;_</span> STAGE ${currentStage.id}: ${currentStage.topic.toUpperCase()} (${stageQuestions.length} CHALLENGES)`;
+      progressSub.textContent = `Completed or skipped ${solvedInStage} of ${stageQuestions.length} challenges in this stage.`;
+
       // Determine the active question in this stage if not manually selected
       let activeQInStage = null;
-      for (let i = 0; i < currentStage.questions.length; i++) {
-        const q = currentStage.questions[i];
-        if (!userSolvedQuestions.includes(q.qId)) {
+      for (let i = 0; i < stageQuestions.length; i++) {
+        const q = stageQuestions[i];
+        if (!isQuestionComplete(q.qId)) {
           activeQInStage = q.qId;
           break;
         }
-      }
-
-      // If user hasn't selected a specific question, default to the active unsolved question or the last question
-      if (!currentFocusedQId || !currentStage.questions.some(q => q.qId === currentFocusedQId)) {
-        currentFocusedQId = activeQInStage || currentStage.questions[currentStage.questions.length - 1].qId;
       }
 
       // If all questions are solved AND user hasn't explicitly clicked a question pill to review, show Stage Cleared Victory Screen
@@ -1170,7 +1639,7 @@
           <div class="cleared-icon">&#9733;</div>
           <h2 class="cleared-title">STAGE ${currentStage.id}: ${currentStage.topic.toUpperCase()} CLEARED!</h2>
           <p class="cleared-desc">
-            All ${currentStage.questions.length} security decryption challenges in this stage have been successfully solved.
+            All ${stageQuestions.length} security decryption challenges in this stage have been completed or skipped.
             Authentication credentials have been verified and recorded.
           </p>
           ${currentStage.id < STAGES.length ? `
@@ -1187,12 +1656,21 @@
         return;
       }
 
+      // If user hasn't selected a specific question, default to the active unsolved question or the last question
+      if (!currentFocusedQId || !stageQuestions.some(q => q.qId === currentFocusedQId)) {
+        currentFocusedQId = activeQInStage || stageQuestions[stageQuestions.length - 1].qId;
+      } else if (skippedQuestions.includes(currentFocusedQId) && activeQInStage) {
+        currentFocusedQId = activeQInStage;
+      }
+
       // RENDER ONLY THE ONE ACTIVE QUESTION CARD (Taking full space of 2)
-      const targetQ = currentStage.questions.find(q => q.qId === currentFocusedQId) || currentStage.questions[0];
+      const targetQ = stageQuestions.find(q => q.qId === currentFocusedQId) || stageQuestions[0];
       const isSolved = userSolvedQuestions.includes(targetQ.qId);
+      const isSkipped = skippedQuestions.includes(targetQ.qId);
+      const questionHintPenalty = getQuestionHintPenalty(currentStage.id, targetQ.qId);
+      const questionNetPoints = getQuestionNetPoints(currentStage, targetQ);
       const isActive = (targetQ.qId === activeQInStage);
-      const isLocked = (!isSolved && targetQ.qId !== activeQInStage && currentViewStageId === activeStageId && targetQ.qId > activeQInStage);
-      const isHintRevealed = revealedHints.includes(targetQ.qId);
+      const isLocked = (isSkipped || (!isSolved && targetQ.qId !== activeQInStage && currentViewStageId === activeStageId && targetQ.qId > activeQInStage));
 
       const card = document.createElement('article');
       card.className = `question-card ${isSolved ? 'solved-q' : ''} ${isActive ? 'active-q' : ''}`;
@@ -1200,15 +1678,17 @@
 
       // Step pills within this stage
       let stepPillsHtml = '<div class="q-step-row">';
-      currentStage.questions.forEach((q, idx) => {
+      stageQuestions.forEach((q, idx) => {
         const qSolved = userSolvedQuestions.includes(q.qId);
+        const qSkipped = skippedQuestions.includes(q.qId);
         const qActive = (q.qId === activeQInStage);
         const qFocused = (q.qId === targetQ.qId);
-        const qLocked = (!qSolved && !qActive && currentViewStageId === activeStageId && q.qId > activeQInStage);
+        const qLocked = qSkipped || (!qSolved && !qActive && currentViewStageId === activeStageId && q.qId > activeQInStage);
 
         let pCls = '';
         let icon = `${idx + 1}`;
         if (qSolved) { pCls = 'solved'; icon = '&#10003;'; }
+        else if (qSkipped) { pCls = 'locked'; icon = '&#9197;'; }
         else if (qActive) { pCls = 'active'; icon = '&#9679;'; }
         else if (qLocked) { pCls = 'locked'; icon = '&#128274;'; }
 
@@ -1224,7 +1704,7 @@
           >
             <span>${icon}</span>
             <span>Challenge ${idx + 1}</span>
-            ${qSolved ? '<span style="color:#6ee7b7; font-size:10px;">[Solved]</span>' : (qActive ? '<span style="color:#38bdf8; font-size:10px;">[Active]</span>' : '')}
+            ${qSolved ? '<span style="color:#6ee7b7; font-size:10px;">[Solved]</span>' : (qSkipped ? '<span style="color:#fca5a5; font-size:10px;">[Skipped]</span>' : (qActive ? '<span style="color:#38bdf8; font-size:10px;">[Active]</span>' : ''))}
           </button>
         `;
       });
@@ -1243,21 +1723,51 @@
           </div>
         `;
       } else {
+        const hints = getQuestionHints(targetQ);
+        const hintCount = Number(usedHints[targetQ.qId] || 0);
+        const hintCosts = [1, 2, 3].map(number => getHintCost(currentStage.id, number));
+        const usedHintMarkup = hints
+          .slice(0, hintCount)
+          .map((hint, index) => `
+            <div class="hint-text" style="margin-top: ${index ? '10px' : '0'};">
+              <strong style="color:#fbbf24;">Hint ${index + 1}:</strong> ${hint}
+            </div>
+          `).join('');
+        const nextHintMarkup = hintCount < 3
+          ? `
+            <button class="btn-hint-toggle" onclick="useHint('${targetQ.qId}')">
+              Use Hint ${hintCount + 1} (-${hintCosts[hintCount]} pts)
+            </button>
+          `
+          : `<span style="color:var(--muted-dark); font-size:11px;">All 3 hints used</span>`;
+        const skipMarkup = !isSolved && hintCount >= 3
+          ? `
+            <button class="btn-skip-question" onclick="skipToNextQuestion('${targetQ.qId}')">
+              &#9197; SKIP TO NEXT QUESTION
+            </button>
+            <div class="hint-text" style="color:var(--muted-dark); margin-top:8px; font-style:italic;">
+              This question will be locked permanently after skipping.
+            </div>
+          `
+          : '';
+        const penaltyMarkup = hintPenaltyNotice && hintPenaltyNotice.qId === targetQ.qId
+          ? `<div class="hint-penalty-notice">Score updated: -${hintPenaltyNotice.amount} PTS &rarr; Total ${userScore} PTS</div>`
+          : '';
+
         hintHtml = `
           <div class="hint-box">
             <div class="hint-top">
-              <span class="hint-label">&#128161; HINT</span>
-              <button class="btn-hint-toggle" onclick="toggleHint('${targetQ.qId}')">
-                ${isHintRevealed ? 'Hide' : 'Reveal'}
-              </button>
+              <span class="hint-label">&#128161; HINTS (${hintCount}/3)</span>
+              ${nextHintMarkup}
             </div>
-            ${isHintRevealed ? `
-              <div class="hint-text">${targetQ.hint}</div>
-            ` : `
+            ${usedHintMarkup || `
               <div class="hint-text" style="color: var(--muted-dark); font-style: italic;">
-                Click 'Reveal' to view decryption clue.
+                Use a hint when needed. Hint deductions:
+                ${hintCosts[0]}, ${hintCosts[1]}, and ${hintCosts[2]} points.
               </div>
             `}
+            ${penaltyMarkup}
+            ${skipMarkup}
           </div>
         `;
       }
@@ -1308,8 +1818,15 @@
 
             <div class="metrics-box">
               <div class="metric-item">
-                <span class="metric-title">Points Gained</span>
-                <span class="metric-value">+${targetQ.points}</span>
+                <span class="metric-title">Points Gained (Net)</span>
+                <span class="metric-value" style="color: ${isSkipped ? 'var(--muted-dark)' : (questionNetPoints < 0 ? 'var(--red)' : 'var(--green)')};">
+                  ${isSkipped ? '0' : `${questionNetPoints >= 0 ? '+' : ''}${questionNetPoints}`}
+                </span>
+                ${questionHintPenalty > 0 ? `
+                  <span style="font-size: 10px; color: var(--red); margin-top: 3px;">
+                    Base +${targetQ.points} / Hints -${questionHintPenalty}
+                  </span>
+                ` : ''}
               </div>
               <div class="metric-item" style="text-align: right;">
                 <span class="metric-title">Status</span>
@@ -1322,10 +1839,10 @@
             <div style="background: rgba(4, 18, 29, 0.4); border: 1px solid var(--line-subtle); border-radius: 6px; padding: 12px 16px; font-size: 12px; color: var(--muted);">
               <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
                 <span>Stage Progress</span>
-                <span style="color: var(--white); font-weight: 700;">${solvedInStage} / ${currentStage.questions.length}</span>
+                <span style="color: var(--white); font-weight: 700;">${solvedInStage} / ${stageQuestions.length}</span>
               </div>
               <div style="width: 100%; height: 6px; background: rgba(6, 26, 41, 0.8); border-radius: 3px; overflow: hidden;">
-                <div style="width: ${(solvedInStage / currentStage.questions.length) * 100}%; height: 100%; background: var(--blue); transition: width 0.3s ease;"></div>
+                <div style="width: ${(solvedInStage / stageQuestions.length) * 100}%; height: 100%; background: var(--blue); transition: width 0.3s ease;"></div>
               </div>
             </div>
           </div>
@@ -1349,6 +1866,11 @@
       }
       if (!targetQ) return;
 
+      const playableQuestions = getStageQuestionSet(targetStage);
+      if (targetStage.id === 6 && !stage6SelectionLocked) return;
+      if (!playableQuestions.some(q => q.qId === qId)) return;
+      if (skippedQuestions.includes(qId)) return;
+
       const input = document.getElementById(`input_${qId}`);
       const feedback = document.getElementById(`feedback_${qId}`);
       const val = input.value.trim().toLowerCase();
@@ -1364,8 +1886,10 @@
       const isCorrect = targetQ.acceptedAnswers.some(ans => ans.toLowerCase() === val);
 
       if (isCorrect) {
+        const hintPenalty = getQuestionHintPenalty(targetStage.id, qId);
+        const netPoints = getQuestionNetPoints(targetStage, targetQ);
         feedback.className = "feedback-banner ok";
-        feedback.innerHTML = `&#10003; Correct! Access token verified. +${targetQ.points} PTS awarded.`;
+        feedback.innerHTML = `&#10003; Correct! Access token verified. Base +${targetQ.points} PTS${hintPenalty ? `, hints -${hintPenalty} PTS` : ''}, net ${netPoints >= 0 ? '+' : ''}${netPoints} PTS.`;
 
         if (!userSolvedQuestions.includes(qId)) {
           userSolvedQuestions.push(qId);
@@ -1373,15 +1897,15 @@
           localStorage.setItem('cyber_solved_questions', JSON.stringify(userSolvedQuestions));
           localStorage.setItem('cyber_total_score', userScore);
 
-          // Check if all questions in stage are solved
-          const allStageSolved = targetStage.questions.every(q => userSolvedQuestions.includes(q.qId));
+          // Check if all playable questions in this stage are solved.
+          const allStageSolved = playableQuestions.every(q => isQuestionComplete(q.qId));
           if (allStageSolved && !userSolvedStages.includes(targetStage.id)) {
             userSolvedStages.push(targetStage.id);
             localStorage.setItem('cyber_solved_stages', JSON.stringify(userSolvedStages));
           }
 
           // Advance to next unsolved question in this stage after brief delay
-          let nextUnsolved = targetStage.questions.find(q => !userSolvedQuestions.includes(q.qId));
+          let nextUnsolved = playableQuestions.find(q => !isQuestionComplete(q.qId));
           if (nextUnsolved) {
             currentFocusedQId = nextUnsolved.qId;
           } else {
