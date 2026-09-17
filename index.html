@@ -223,7 +223,7 @@
 
     .hero-title {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(48px, 6.5vw, 98px);
+      font-size: clamp(58px, 7.5vw, 98px);
       line-height: 0.88;
       font-weight: 800;
       letter-spacing: -3px;
@@ -322,16 +322,18 @@
     .hero-collage-wrapper {
       position: relative;
       width: 100%;
-      max-width: clamp(340px, 44vw, 560px);
+      /* Increased from 560px to 750px (and increased the vw percentage) */
+      max-width: clamp(400px, 55vw, 750px); 
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    .hero-collage-img {
+   .hero-collage-img {
       width: 100%;
       height: auto;
-      max-height: clamp(320px, 48vh, 490px);
+      /* Increased from 490px to 700px */
+      max-height: clamp(400px, 60vh, 700px); 
       object-fit: contain;
       display: block;
       transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
