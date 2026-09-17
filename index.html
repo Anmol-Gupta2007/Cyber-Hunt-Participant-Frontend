@@ -309,7 +309,7 @@
       fill: none;
     }
 
-    /* Right Hero Visual Area - EXACT HUD REPLICA */
+    /* Right Hero Visual Area */
     .hero-right {
       position: relative;
       display: flex;
@@ -319,112 +319,25 @@
       z-index: 2;
     }
 
-    .hero-graphic-container {
+    .hero-collage-wrapper {
       position: relative;
       width: 100%;
-      max-width: 500px;
-      aspect-ratio: 1.1 / 1;
+      max-width: clamp(340px, 44vw, 560px);
       display: flex;
-      justify-content: center;
       align-items: center;
-      margin: 0 auto;
+      justify-content: center;
     }
 
-    /* Subtle Grid Overlay Behind Image */
-    .tech-grid {
-      position: absolute;
-      top: 5%;
-      left: 15%;
-      right: -10%;
-      bottom: 5%;
-      background-image: 
-        linear-gradient(rgba(114, 185, 240, 0.25) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(114, 185, 240, 0.25) 1px, transparent 1px);
-      background-size: 45px 45px;
-      z-index: 1;
-      pointer-events: none;
-      mask-image: radial-gradient(circle, black 40%, transparent 100%);
-      -webkit-mask-image: radial-gradient(circle, black 40%, transparent 100%);
-    }
-
-    /* Corner Brackets */
-    .bracket {
-      position: absolute;
-      border-color: rgba(255, 255, 255, 0.85);
-      border-style: solid;
-      z-index: 5;
-      pointer-events: none;
-    }
-    .bracket.tl { top: 5%; left: 10%; width: 35px; height: 35px; border-width: 2.5px 0 0 2.5px; }
-    .bracket.br { bottom: 12%; right: 10%; width: 25px; height: 25px; border-width: 0 2.5px 2.5px 0; }
-    .bracket.bl { bottom: 2%; left: 0%; width: 25px; height: 25px; border-width: 0 0 2.5px 2.5px; }
-    .bracket.ml { top: 32%; left: -2%; width: 15px; height: 15px; border-width: 2px 0 0 2px; }
-
-    /* Tech UI / Data Boxes */
-    .hud-ui {
-      position: absolute;
-      top: 24%;
-      right: -8%;
-      width: 130px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      z-index: 4;
-      pointer-events: none;
-    }
-    .hud-box {
-      background: rgba(6, 35, 56, 0.7);
-      border: 1px solid var(--blue);
-      padding: 6px;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      backdrop-filter: blur(4px);
-    }
-    .hud-bar { height: 4px; background: var(--blue-light); width: 85%; }
-    .hud-bar.short { width: 45%; }
-    
-    .hud-text-row {
-      display: flex;
-      justify-content: flex-end;
-      font-size: 10px;
-      color: var(--blue-light);
-      font-family: 'DM Mono', monospace;
-      font-weight: 700;
-    }
-
-    /* Glowing Orbital Rings */
-    .orbit {
-      position: absolute;
-      border-radius: 50%;
-      z-index: 15;
-      pointer-events: none;
-    }
-    .orbit-1 {
-      width: 145%;
-      height: 55%;
-      transform: rotate(-18deg);
-      border: 1.5px solid rgba(114, 185, 240, 0.6);
-    }
-    .orbit-2 {
-      width: 55%;
-      height: 120%;
-      transform: rotate(35deg);
-      border: 2px solid rgba(88, 170, 235, 0.85);
-    }
-
-    /* Perfect Slanted Cutout */
-    .building-cutout {
-      position: relative;
-      width: 88%;
-      height: 88%;
-      object-fit: cover;
-      z-index: 10;
-      clip-path: polygon(15% 18%, 95% 8%, 88% 95%, 12% 85%);
+    .hero-collage-img {
+      width: 100%;
+      height: auto;
+      max-height: clamp(320px, 48vh, 490px);
+      object-fit: contain;
+      display: block;
       transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .building-cutout:hover {
+    .hero-collage-img:hover {
       transform: scale(1.02);
     }
 
@@ -528,6 +441,10 @@
         min-height: 280px;
       }
 
+      .hero-collage-wrapper {
+        width: clamp(260px, 70vw, 380px);
+      }
+
       .bottom-bar {
         flex-direction: column;
         align-items: flex-start;
@@ -570,10 +487,6 @@
 
       .btn {
         width: 100%;
-      }
-      
-      .hud-ui {
-        display: none;
       }
     }
   </style>
@@ -636,41 +549,9 @@
         </div>
       </div>
 
-      <!-- EXACT HUD REPLICA SECTION -->
       <div class="hero-right">
-        <div class="hero-graphic-container">
-          
-          <!-- Background Grid Overlay -->
-          <div class="tech-grid"></div>
-
-          <!-- White Corner Brackets -->
-          <div class="bracket tl"></div>
-          <div class="bracket br"></div>
-          <div class="bracket bl"></div>
-          <div class="bracket ml"></div>
-
-          <!-- Tech UI HUD Data Boxes on the right -->
-          <div class="hud-ui">
-            <div class="hud-box" style="padding: 8px;">
-              <div class="hud-bar"></div>
-              <div class="hud-bar short"></div>
-            </div>
-            <div class="hud-text-row">
-              <span style="border: 1px solid var(--blue-dim); padding: 2px 6px;">30.00</span>
-            </div>
-            <div class="hud-text-row">
-              <div style="text-align: right; line-height: 1.2;">
-                0.00<br>9.00
-              </div>
-            </div>
-          </div>
-
-          <!-- Glowing Orbital Rings overlapping image -->
-          <div class="orbit orbit-1"></div>
-          <div class="orbit orbit-2"></div>
-
-          <!-- The University Image Slanted Cutout -->
-          <img src="university-building.jpeg" alt="Graphic Era University Cyber Hunt" class="building-cutout">
+        <div class="hero-collage-wrapper">
+          <img src="hero-collage.png" alt="Graphic Era University Cyber Hunt" class="hero-collage-img">
         </div>
       </div>
     </section>
