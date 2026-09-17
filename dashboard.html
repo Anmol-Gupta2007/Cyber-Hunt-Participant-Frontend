@@ -414,6 +414,28 @@
       }
     }
 
+    
+    .stage-card-completed {
+      background: rgba(16, 185, 129, 0.08);
+      border: 1.5px solid rgba(16, 185, 129, 0.45);
+      border-radius: 6px;
+      padding: 12px 10px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .stage-card-completed:hover {
+      border-color: #10b981;
+      background: rgba(16, 185, 129, 0.18);
+      transform: translateY(-2px);
+    }
+    .completed-badge {
+      font-size: 11px;
+      font-weight: 700;
+      color: #6ee7b7;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+
     .stage-card-locked {
       background: rgba(6, 26, 41, 0.5);
       border: 1px dashed var(--locked);
@@ -1066,17 +1088,17 @@
           <p class="banner-sub">Complete multi-phase security challenges sequentially in the live sandbox environment.</p>
         </div>
 
-        <!-- STAGE 1 ACTIVE CARD -->
-        <article class="stage-card-active">
+        <!-- STAGE ACTIVE CARD -->
+        <article class="stage-card-active" id="activeStageCard">
           <div class="stage-top-meta">
-            <span class="active-pill">&#9889; STAGE 1 ACTIVE</span>
-            <span class="points-tag">+100 Points</span>
+            <span class="active-pill" id="activeStagePill">&#9889; STAGE 1 ACTIVE</span>
+            <span class="points-tag" id="activeStagePointsTag">+100 Points</span>
           </div>
 
-          <h2 class="stage-title">Stage 1: Hidden Clue</h2>
-          <div class="stage-tags">Tags: Forensics &bull; Steganography &bull; Inspection &bull; Clue Discovery</div>
+          <h2 class="stage-title" id="activeStageTitle">Stage 1: Hidden Clue</h2>
+          <div class="stage-tags" id="activeStageTags">Tags: Forensics &bull; Steganography &bull; Inspection &bull; Clue Discovery</div>
 
-          <p class="stage-desc">
+          <p class="stage-desc" id="activeStageDesc">
             An unauthorized intrusion has been detected across university infrastructure. 
             Inspect hidden source comments, image metadata, and server clues to locate the secret access key and proceed through the investigation.
           </p>
@@ -1089,9 +1111,9 @@
           </div>
         </article>
 
-        <!-- LOCKED STAGES 2 - 6 -->
-        <div class="locked-stages-header">UPCOMING STAGES (LOCKED)</div>
-        <div class="locked-stages-grid">
+        <!-- UPCOMING / COMPLETED STAGES GRID -->
+        <div class="locked-stages-header" id="stagesGridHeader">ALL STAGES (PROGRESSION)</div>
+        <div class="locked-stages-grid" id="stagesGrid">
           <div class="stage-card-locked" onclick="openDifficultyModal(2, 'Password Puzzles')" title="Click to view difficulty">
             <div class="locked-badge">&#128274; STAGE 2</div>
             <div class="locked-title" style="font-size: 13px; font-weight: 700; color: var(--white); margin: 4px 0;">Password Puzzles</div>
@@ -1172,28 +1194,25 @@
 
   <script>
     const user = localStorage.getItem('cyber_current_user') || 'Alice';
-    const score = Number(localStorage.getItem('cyber_hunt_points') || 100);
-
     document.getElementById('studentDisplayName').textContent = user;
-    document.getElementById('headerScoreBadge').textContent = score + ' PTS';
-    document.getElementById('statsScore').textContent = score;
     document.getElementById('headerAvatar').textContent = (user.charAt(0) || 'U').toUpperCase();
 
-    // Check if challenge is solved
-    fetch(`/api/submissions?participant=${encodeURIComponent(user)}`)
-      .then(r => r.json())
-      .then(subs => {
-        const solved = subs && subs.some(s => s.solved);
-        if (solved) {
-          document.getElementById('statsStage1').textContent = 'Solved ?';
-          document.getElementById('statsCompleted').textContent = '1 / 6';
-        }
-      })
-      .catch(() => {});
+    // UNIFIED SCORE SYNCHRONIZATION (Fix: -210 PTS vs 100 PTS mismatch)
+    const savedScore = localStorage.getItem('cyber_total_score');
+    const scoreVal = (savedScore !== null && !isNaN(Number(savedScore))) 
+      ? Number(savedScore) 
+      : Number(localStorage.getItem('cyber_hunt_points') || 100);
+
+    document.getElementById('headerScoreBadge').textContent = `${scoreVal} PTS`;
+    document.getElementById('statsScore').textContent = scoreVal;
+    localStorage.setItem('cyber_hunt_points', scoreVal);
+    localStorage.setItem('cyber_total_score', String(scoreVal));
 
     document.getElementById('logoutLink').onclick = (e) => {
       e.preventDefault();
       localStorage.removeItem('cyber_current_user');
+      sessionStorage.removeItem('cyber_breach_shown');
+      localStorage.removeItem('cyber_breach_shown');
       window.location.href = 'landing.html';
     };
   
@@ -1219,21 +1238,215 @@
     setInterval(updateDashTimer, 1000);
     updateDashTimer();
 
-    // Sync score from localStorage
-    const savedScore = localStorage.getItem('cyber_total_score');
-    if (savedScore && document.getElementById('headerScoreBadge')) {
-      document.getElementById('headerScoreBadge').textContent = `${savedScore} PTS`;
+    // 6 STAGES CONFIGURATION FOR DASHBOARD
+    const DASH_STAGES = [
+      { 
+        id: 1, 
+        name: "Hidden Clue", 
+        qCount: 3, 
+        tags: "Forensics • Steganography • Inspection • Clue Discovery", 
+        desc: "An unauthorized intrusion has been detected across university infrastructure. Inspect hidden source comments, image metadata, and server clues to locate the secret access key and proceed through the investigation." 
+      },
+      { 
+        id: 2, 
+        name: "Password Puzzles", 
+        qCount: 3, 
+        tags: "Cryptic Auth • Hashes • Obfuscation • Password Cracking", 
+        desc: "Decipher scrambled authentication tokens, crack hashed admin passwords, and bypass custom security gateways to infiltrate the next tier." 
+      },
+      { 
+        id: 3, 
+        name: "Open Source Intelligence Challenge", 
+        qCount: 3, 
+        tags: "Reconnaissance • Domain Intel • Public Artifacts • Footprinting", 
+        desc: "Gather public records, examine autonomous system numbers, trace domain footprints, and discover hidden university threat intelligence." 
+      },
+      { 
+        id: 4, 
+        name: "Encoding/Decoding", 
+        qCount: 4, 
+        tags: "Multi-Cipher • Base64 • Hex • ROT13 • Binary Stream", 
+        desc: "Intercepted cyber transmissions are heavily encoded. Decode nested Base64, Hexadecimal, ROT13, and raw binary payloads to uncover hacker communications." 
+      },
+      { 
+        id: 5, 
+        name: "Web Vulnerabilities", 
+        qCount: 4, 
+        tags: "Web Security • SQLi • XSS • Auth Bypass • Path Traversal", 
+        desc: "Explore vulnerable web endpoints. Identify SQL injection exploits, session cookie hijacking, Cross-Site Scripting vectors, and directory traversal vulnerabilities." 
+      },
+      { 
+        id: 6, 
+        name: "Coding Round", 
+        qCount: 4, 
+        tags: "Master Code • Algorithms • Logic • Bitwise • System Exploit", 
+        desc: "The final barrier. Solve algorithmic time-complexity puzzles, bitwise logic problems, and reconstruct the master CTF flag to claim complete victory." 
+      }
+    ];
+
+    // DYNAMIC DASHBOARD STAGE PROGRESSION
+    function updateDashboardStageProgression() {
+      let solvedStages = JSON.parse(localStorage.getItem('cyber_solved_stages') || '[]');
+      let solvedQuestions = JSON.parse(localStorage.getItem('cyber_solved_questions') || '[]');
+      let skippedQuestions = JSON.parse(localStorage.getItem('cyber_skipped_questions') || '[]');
+
+      // Check which stages have all questions solved or skipped
+      DASH_STAGES.forEach(st => {
+        if (solvedStages.includes(st.id)) return;
+        let allDone = true;
+        if (st.id === 6) {
+          const stage6Selection = JSON.parse(localStorage.getItem('cyber_stage6_selection') || '[]');
+          if (stage6Selection.length === 2 && stage6Selection.every(id => solvedQuestions.includes(id) || skippedQuestions.includes(id))) {
+            allDone = true;
+          } else {
+            allDone = false;
+          }
+        } else {
+          for (let q = 1; q <= st.qCount; q++) {
+            const qId = `${st.id}-${q}`;
+            if (!solvedQuestions.includes(qId) && !skippedQuestions.includes(qId)) {
+              allDone = false;
+              break;
+            }
+          }
+        }
+        if (allDone && !solvedStages.includes(st.id)) {
+          solvedStages.push(st.id);
+        }
+      });
+      localStorage.setItem('cyber_solved_stages', JSON.stringify(solvedStages));
+
+      // Find first unsolved stage
+      const activeStage = DASH_STAGES.find(st => !solvedStages.includes(st.id));
+
+      // Update Participant Stats Sidebar
+      const statsStage1El = document.getElementById('statsStage1');
+      if (statsStage1El) {
+        if (activeStage) {
+          statsStage1El.textContent = `Stage ${activeStage.id} Active`;
+          statsStage1El.className = "stat-val success";
+        } else {
+          statsStage1El.textContent = "All Solved ✓";
+          statsStage1El.className = "stat-val success";
+        }
+      }
+      const statsCompletedEl = document.getElementById('statsCompleted');
+      if (statsCompletedEl) {
+        statsCompletedEl.textContent = `${solvedStages.length} / 6`;
+      }
+
+      // Update Main Active Stage Card
+      if (activeStage) {
+        const diff = localStorage.getItem(`cyber_stage_diff_${activeStage.id}`) || localStorage.getItem(`cyber_diff_phase_${activeStage.id}`) || 'easy';
+        const diffPts = diff === 'hard' ? 150 : (diff === 'medium' ? 100 : 50);
+
+        const pill = document.getElementById('activeStagePill');
+        if (pill) pill.textContent = `⚡ STAGE ${activeStage.id} ACTIVE`;
+
+        const ptsTag = document.getElementById('activeStagePointsTag');
+        if (ptsTag) ptsTag.textContent = `+${diffPts} Points`;
+
+        const title = document.getElementById('activeStageTitle');
+        if (title) title.textContent = `Stage ${activeStage.id}: ${activeStage.name}`;
+
+        const tags = document.getElementById('activeStageTags');
+        if (tags) tags.textContent = `Tags: ${activeStage.tags}`;
+
+        const desc = document.getElementById('activeStageDesc');
+        if (desc) desc.textContent = activeStage.desc;
+
+        const btn = document.getElementById('startChallengeBtn');
+        if (btn) {
+          btn.innerHTML = `<span>START CHALLENGE</span><span style="font-size: 16px;">&rarr;</span>`;
+          btn.onclick = () => openDifficultyModal(activeStage.id, activeStage.name);
+        }
+      } else {
+        // All Stages Completed!
+        const pill = document.getElementById('activeStagePill');
+        if (pill) pill.textContent = `✨ ALL 6 STAGES COMPLETED`;
+
+        const ptsTag = document.getElementById('activeStagePointsTag');
+        if (ptsTag) ptsTag.textContent = `VICTORY`;
+
+        const title = document.getElementById('activeStageTitle');
+        if (title) title.textContent = `Cyber Hunt Decrypted!`;
+
+        const tags = document.getElementById('activeStageTags');
+        if (tags) tags.textContent = `All 6 Cybersecurity Phases Cleared`;
+
+        const desc = document.getElementById('activeStageDesc');
+        if (desc) desc.textContent = `Outstanding work! You have solved every challenge across all six phases. Your score is submitted to the leaderboard.`;
+
+        const btn = document.getElementById('startChallengeBtn');
+        if (btn) {
+          btn.innerHTML = `<span>REVIEW WORKSPACE</span><span style="font-size: 16px;">&rarr;</span>`;
+          btn.onclick = () => window.location.href = `challenge-workspace.html?phase=1`;
+        }
+      }
+
+      // Update Grid Cards
+      const grid = document.getElementById('stagesGrid');
+      if (grid) {
+        grid.innerHTML = '';
+        const currentActiveId = activeStage ? activeStage.id : 7;
+
+        DASH_STAGES.forEach(st => {
+          const isDone = solvedStages.includes(st.id);
+          const isCur = (st.id === currentActiveId);
+
+          const card = document.createElement('div');
+          if (isDone) {
+            card.className = "stage-card-completed";
+            card.title = `Stage ${st.id} Solved. Click to review in workspace.`;
+            card.onclick = () => window.location.href = `challenge-workspace.html?phase=${st.id}`;
+            card.innerHTML = `
+              <div class="completed-badge">&#10003; STAGE ${st.id} COMPLETED</div>
+              <div class="locked-title" style="font-size: 13px; font-weight: 700; color: #6ee7b7; margin: 4px 0;">${st.name}</div>
+              <div class="locked-pts" style="font-size: 11px; color: #a7f3d0;">Solved &bull; Click to review</div>
+            `;
+          } else if (isCur) {
+            card.className = "stage-card-locked";
+            card.style.borderColor = "var(--blue)";
+            card.style.background = "rgba(88, 170, 235, 0.12)";
+            card.style.cursor = "pointer";
+            card.title = `Stage ${st.id} is currently active. Click to choose difficulty.`;
+            card.onclick = () => openDifficultyModal(st.id, st.name);
+            card.innerHTML = `
+              <div class="locked-badge" style="color: var(--blue-light);">&#9889; STAGE ${st.id} ACTIVE</div>
+              <div class="locked-title" style="font-size: 13px; font-weight: 700; color: var(--white); margin: 4px 0;">${st.name}</div>
+              <div class="locked-pts" style="font-size: 11px; color: var(--blue-light);">50 - 150 PTS &bull; Current</div>
+            `;
+          } else {
+            card.className = "stage-card-locked";
+            card.title = `Stage ${st.id} Locked. Click to view difficulty options.`;
+            card.onclick = () => openDifficultyModal(st.id, st.name);
+            card.innerHTML = `
+              <div class="locked-badge">&#128274; STAGE ${st.id}</div>
+              <div class="locked-title" style="font-size: 13px; font-weight: 700; color: var(--white); margin: 4px 0;">${st.name}</div>
+              <div class="locked-pts" style="font-size: 11px; color: var(--text-muted);">50 - 150 PTS &bull; Locked</div>
+            `;
+          }
+          grid.appendChild(card);
+        });
+      }
     }
 
-  
-    // SECURITY BREACH POPUP AFTER 3 SECONDS WITH HARD SHAKE EFFECT
+    updateDashboardStageProgression();
+
+    // SECURITY BREACH POPUP (SHOW ONLY ONCE RIGHT AFTER LOGIN)
     function triggerBreachPopup() {
+      if (sessionStorage.getItem('cyber_breach_shown') === 'true' || localStorage.getItem('cyber_breach_shown') === 'true') {
+        return;
+      }
+
       setTimeout(() => {
         const overlay = document.getElementById('breachModalOverlay');
         const modal = document.getElementById('breachModal');
         if (overlay && modal) {
           overlay.classList.add('active', 'flash-shake');
           modal.classList.add('hard-shake');
+          sessionStorage.setItem('cyber_breach_shown', 'true');
+          localStorage.setItem('cyber_breach_shown', 'true');
           setTimeout(() => {
             modal.classList.remove('hard-shake');
             overlay.classList.remove('flash-shake');
@@ -1243,6 +1456,8 @@
     }
 
     window.closeBreachModal = function() {
+      sessionStorage.setItem('cyber_breach_shown', 'true');
+      localStorage.setItem('cyber_breach_shown', 'true');
       const overlay = document.getElementById('breachModalOverlay');
       if (overlay) overlay.classList.remove('active');
     };
@@ -1263,12 +1478,11 @@
 
     window.selectDifficulty = function(level) {
       localStorage.setItem(`cyber_diff_phase_${selectedPhaseId}`, level);
+      localStorage.setItem(`cyber_stage_diff_${selectedPhaseId}`, level);
       closeDiffModal();
       window.location.href = `challenge-workspace.html?phase=${selectedPhaseId}&diff=${level}`;
     };
-
   </script>
-
   <!-- SECURITY BREACH MODAL -->
   <div class="modal-overlay" id="breachModalOverlay">
     <!-- VHS / VCR RETRO CRT OVERLAY -->

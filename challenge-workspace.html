@@ -947,6 +947,147 @@
     .metric-item { display: flex; flex-direction: column; gap: 2px; }
     .metric-title { font-size: 10.5px; color: var(--muted-dark); text-transform: uppercase; font-weight: 700; }
     .metric-value { font-size: 16px; font-weight: 700; color: var(--green); }
+
+    /* DIFFICULTY MODAL & SWITCHER */
+    .diff-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(2, 10, 17, 0.88);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      padding: 20px;
+    }
+    .diff-modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .diff-modal-card {
+      background: #062338;
+      border: 1.5px solid var(--blue);
+      border-radius: 8px;
+      width: 100%;
+      max-width: 520px;
+      box-shadow: 0 0 45px rgba(74, 168, 233, 0.35);
+      position: relative;
+      overflow: hidden;
+      transform: scale(0.95);
+      transition: transform 0.2s ease;
+    }
+    .diff-modal-overlay.active .diff-modal-card {
+      transform: scale(1);
+    }
+    .diff-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1.5px solid rgba(74, 168, 233, 0.3);
+    }
+    .diff-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--blue-light);
+      letter-spacing: 0.5px;
+    }
+    .modal-close-btn {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-size: 24px;
+      cursor: pointer;
+      line-height: 1;
+      padding: 2px 6px;
+      transition: color 0.15s ease;
+    }
+    .modal-close-btn:hover {
+      color: var(--white);
+    }
+    .diff-body {
+      padding: 22px 20px;
+    }
+    .diff-phase-name {
+      font-size: 14px;
+      color: var(--white);
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+    .diff-options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .diff-card-btn {
+      background: rgba(4, 18, 29, 0.75);
+      border: 1.5px solid rgba(74, 168, 233, 0.3);
+      border-radius: 6px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: var(--white);
+      font-family: 'DM Mono', monospace;
+      text-align: left;
+    }
+    .diff-card-btn:hover {
+      border-color: var(--blue);
+      background: rgba(88, 170, 235, 0.15);
+      transform: translateX(4px);
+      box-shadow: 0 0 15px rgba(88, 170, 235, 0.25);
+    }
+    .diff-badge {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+    .diff-badge.easy { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; border: 1px solid #10b981; }
+    .diff-badge.med { background: rgba(88, 170, 235, 0.2); color: #72b9f0; border: 1px solid #58aaeb; }
+    .diff-badge.hard { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid #ef4444; }
+    .diff-points-val {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .diff-subtext {
+      font-size: 11.5px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    .diff-chip-btn {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(88, 170, 235, 0.14);
+      border: 1px solid var(--blue);
+      color: var(--blue-light);
+      font-family: 'DM Mono', monospace;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-left: 12px;
+      cursor: pointer;
+      vertical-align: middle;
+      transition: all 0.2s ease;
+    }
+    .diff-chip-btn:hover {
+      background: var(--blue);
+      color: #030d16;
+      box-shadow: 0 0 12px rgba(88, 170, 235, 0.4);
+    }
   </style>
 </head>
 <body>
@@ -992,6 +1133,46 @@
 
     <!-- QUESTIONS LIST (Roomy, takes space of 2) -->
     <main class="questions-list" id="questionsContainer"></main>
+  </div>
+
+  <!-- DIFFICULTY SELECTION MODAL -->
+  <div class="diff-modal-overlay" id="wsDiffModalOverlay">
+    <div class="diff-modal-card" id="wsDiffModal">
+      <div class="diff-header">
+        <span class="diff-title">STAGE DIFFICULTY CONFIGURATION</span>
+        <button type="button" class="modal-close-btn" onclick="closeWorkspaceDiffModal()">&times;</button>
+      </div>
+      <div class="diff-body">
+        <div class="diff-phase-name" id="wsDiffModalStageTitle">Stage 1: Hidden Clue</div>
+        <div style="font-size: 12px; color: var(--muted); margin-bottom: 14px;">Select difficulty level for this stage:</div>
+
+        <div class="diff-options-grid">
+          <div class="diff-card-btn" onclick="chooseWorkspaceDifficulty('easy')">
+            <div>
+              <span class="diff-badge easy">EASY</span>
+              <div class="diff-subtext">Standard clue discovery & guided prompt</div>
+            </div>
+            <div class="diff-points-val" style="color: #6ee7b7;">50 PTS</div>
+          </div>
+
+          <div class="diff-card-btn" onclick="chooseWorkspaceDifficulty('medium')">
+            <div>
+              <span class="diff-badge med">MEDIUM</span>
+              <div class="diff-subtext">Intermediate forensic depth & puzzles</div>
+            </div>
+            <div class="diff-points-val" style="color: #72b9f0;">100 PTS</div>
+          </div>
+
+          <div class="diff-card-btn" onclick="chooseWorkspaceDifficulty('hard')">
+            <div>
+              <span class="diff-badge hard">HARD</span>
+              <div class="diff-subtext">Cryptographic challenge & deep analysis</div>
+            </div>
+            <div class="diff-points-val" style="color: #fca5a5;">150 PTS</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -1232,8 +1413,14 @@
     // STATE
     let userSolvedQuestions = JSON.parse(localStorage.getItem('cyber_solved_questions')) || [];
     let userSolvedStages = JSON.parse(localStorage.getItem('cyber_solved_stages')) || [];
-    const storedScore = Number(localStorage.getItem('cyber_total_score'));
-    let userScore = Number.isFinite(storedScore) ? storedScore : 0;
+    const rawTotalScore = localStorage.getItem('cyber_total_score');
+    const rawHuntPoints = localStorage.getItem('cyber_hunt_points');
+    let userScore = 100;
+    if (rawTotalScore !== null && !isNaN(Number(rawTotalScore))) {
+      userScore = Number(rawTotalScore);
+    } else if (rawHuntPoints !== null && !isNaN(Number(rawHuntPoints))) {
+      userScore = Number(rawHuntPoints);
+    }
     let usedHints = JSON.parse(localStorage.getItem('cyber_used_hints')) || {};
     let skippedQuestions = JSON.parse(localStorage.getItem('cyber_skipped_questions')) || [];
     let stage6Difficulty = localStorage.getItem('cyber_stage6_difficulty') || '';
@@ -1242,6 +1429,59 @@
     let stage6ModalOpen = false;
     let stage6DraftSelection = [];
     let hintPenaltyNotice = null;
+    let pendingDiffStageId = null;
+
+    // Difficulty helpers
+    function getStageDifficulty(stageId) {
+      if (stageId === 6 && stage6Difficulty) return stage6Difficulty;
+      return localStorage.getItem(`cyber_stage_diff_${stageId}`) || 
+             localStorage.getItem(`cyber_diff_phase_${stageId}`) || 
+             '';
+    }
+
+    function getStageBasePoints(stageId) {
+      const diff = getStageDifficulty(stageId) || 'easy';
+      if (diff === 'hard') return 150;
+      if (diff === 'medium') return 100;
+      return 50;
+    }
+
+    window.openWorkspaceDiffModal = function(stageId) {
+      const stage = STAGES.find(s => s.id === stageId);
+      if (!stage) return;
+      pendingDiffStageId = stageId;
+      const titleEl = document.getElementById('wsDiffModalStageTitle');
+      if (titleEl) {
+        titleEl.textContent = `Stage ${stage.id}: ${stage.title}`;
+      }
+      const overlay = document.getElementById('wsDiffModalOverlay');
+      if (overlay) {
+        overlay.classList.add('active');
+      }
+    };
+
+    window.closeWorkspaceDiffModal = function() {
+      const overlay = document.getElementById('wsDiffModalOverlay');
+      if (overlay) {
+        overlay.classList.remove('active');
+      }
+      pendingDiffStageId = null;
+    };
+
+    window.chooseWorkspaceDifficulty = function(level) {
+      if (!pendingDiffStageId) return;
+      const stId = pendingDiffStageId;
+      localStorage.setItem(`cyber_stage_diff_${stId}`, level);
+      localStorage.setItem(`cyber_diff_phase_${stId}`, level);
+      if (stId === 6) {
+        stage6Difficulty = level;
+        localStorage.setItem('cyber_stage6_difficulty', level);
+      }
+      closeWorkspaceDiffModal();
+      currentViewStageId = stId;
+      currentFocusedQId = null;
+      renderApp();
+    };
 
     // Migrate any legacy solved phases
     const legacyPhases = JSON.parse(localStorage.getItem('cyber_solved_phases')) || [];
@@ -1303,7 +1543,8 @@
     }
 
     function getQuestionNetPoints(stage, question) {
-      return question.points - getQuestionHintPenalty(stage.id, question.qId);
+      const basePoints = getStageBasePoints(stage.id);
+      return basePoints - getQuestionHintPenalty(stage.id, question.qId);
     }
 
     function findQuestion(qId) {
@@ -1328,9 +1569,18 @@
     let activeStageId = getActiveStageId();
     let currentViewStageId = activeStageId;
 
-    // Check URL query param for initial view stage
+    // Check URL query param for initial view stage & difficulty
     const urlParams = new URLSearchParams(window.location.search);
     const paramStage = parseInt(urlParams.get('stage') || urlParams.get('phase'), 10);
+    const paramDiff = urlParams.get('diff');
+    if (paramStage && paramDiff) {
+      localStorage.setItem(`cyber_stage_diff_${paramStage}`, paramDiff);
+      localStorage.setItem(`cyber_diff_phase_${paramStage}`, paramDiff);
+      if (paramStage === 6) {
+        stage6Difficulty = paramDiff;
+        localStorage.setItem('cyber_stage6_difficulty', paramDiff);
+      }
+    }
     if (paramStage && paramStage >= 1 && paramStage <= STAGES.length) {
       if (paramStage <= activeStageId) {
         currentViewStageId = paramStage;
@@ -1373,7 +1623,8 @@
       usedHints[qId] = nextHintNumber;
       userScore = Number(userScore) - deduction;
       localStorage.setItem('cyber_used_hints', JSON.stringify(usedHints));
-      localStorage.setItem('cyber_total_score', userScore);
+      localStorage.setItem('cyber_total_score', String(userScore));
+      localStorage.setItem('cyber_hunt_points', String(userScore));
       hintPenaltyNotice = { qId, amount: deduction };
 
       // Update the visible total immediately, before the full question re-render.
@@ -1392,6 +1643,7 @@
       localStorage.setItem('cyber_skipped_questions', JSON.stringify(skippedQuestions));
       // Preserve negative totals too; they are valid scores and must survive navigation.
       localStorage.setItem('cyber_total_score', String(userScore));
+      localStorage.setItem('cyber_hunt_points', String(userScore));
       const scoreElement = document.getElementById('currentScore');
       if (scoreElement) scoreElement.textContent = `${userScore} PTS`;
 
@@ -1408,6 +1660,8 @@
       stage6Difficulty = difficulty;
       stage6DraftSelection = [];
       localStorage.setItem('cyber_stage6_difficulty', stage6Difficulty);
+      localStorage.setItem('cyber_stage_diff_6', stage6Difficulty);
+      localStorage.setItem('cyber_diff_phase_6', stage6Difficulty);
       stage6ModalOpen = true;
       renderApp();
     };
@@ -1443,7 +1697,12 @@
     // SELECT STAGE TAB
     window.selectStage = function(stageId) {
       if (stageId <= activeStageId) {
+        if (stageId !== 6 && !getStageDifficulty(stageId)) {
+          openWorkspaceDiffModal(stageId);
+          return;
+        }
         currentViewStageId = stageId;
+        currentFocusedQId = null;
         renderApp();
       }
     };
@@ -1630,7 +1889,15 @@
       const solvedInStage = stageQuestions.filter(q => isQuestionComplete(q.qId)).length;
       const allStageSolved = isStageCompleted(currentStage);
 
-      headerTitle.innerHTML = `<span class="cmd-prompt">&gt;_</span> STAGE ${currentStage.id}: ${currentStage.topic.toUpperCase()} (${stageQuestions.length} CHALLENGES)`;
+      const currentDiff = (getStageDifficulty(currentStage.id) || 'easy').toUpperCase();
+      const basePts = getStageBasePoints(currentStage.id);
+
+      headerTitle.innerHTML = `
+        <span class="cmd-prompt">&gt;_</span> STAGE ${currentStage.id}: ${currentStage.topic.toUpperCase()} (${stageQuestions.length} CHALLENGES)
+        <button type="button" class="diff-chip-btn" onclick="openWorkspaceDiffModal(${currentStage.id})" title="Click to change difficulty level">
+          &#9889; ${currentDiff} (+${basePts} PTS) <span style="font-size:10px; margin-left:4px; opacity:0.8;">&#9998; CHANGE</span>
+        </button>
+      `;
       progressSub.textContent = `Completed or skipped ${solvedInStage} of ${stageQuestions.length} challenges in this stage.`;
 
       // Determine the active question in this stage if not manually selected
@@ -1679,6 +1946,7 @@
       const targetQ = stageQuestions.find(q => q.qId === currentFocusedQId) || stageQuestions[0];
       const isSolved = userSolvedQuestions.includes(targetQ.qId);
       const isSkipped = skippedQuestions.includes(targetQ.qId);
+      const basePoints = getStageBasePoints(currentStage.id);
       const questionHintPenalty = getQuestionHintPenalty(currentStage.id, targetQ.qId);
       const questionNetPoints = getQuestionNetPoints(currentStage, targetQ);
       const isActive = (targetQ.qId === activeQInStage);
@@ -1836,9 +2104,13 @@
                 </span>
                 ${questionHintPenalty > 0 ? `
                   <span style="font-size: 10px; color: var(--red); margin-top: 3px;">
-                    Base +${targetQ.points} / Hints -${questionHintPenalty}
+                    Base +${basePoints} / Hints -${questionHintPenalty}
                   </span>
-                ` : ''}
+                ` : `
+                  <span style="font-size: 10px; color: var(--muted-dark); margin-top: 3px;">
+                    Base +${basePoints} PTS
+                  </span>
+                `}
               </div>
               <div class="metric-item">
                 <span class="metric-title">Total Score</span>
@@ -1904,16 +2176,18 @@
       const isCorrect = targetQ.acceptedAnswers.some(ans => ans.toLowerCase() === val);
 
       if (isCorrect) {
+        const basePoints = getStageBasePoints(targetStage.id);
         const hintPenalty = getQuestionHintPenalty(targetStage.id, qId);
         const netPoints = getQuestionNetPoints(targetStage, targetQ);
         feedback.className = "feedback-banner ok";
-        feedback.innerHTML = `&#10003; Correct! Access token verified. Base +${targetQ.points} PTS${hintPenalty ? `, hints -${hintPenalty} PTS` : ''}, net ${netPoints >= 0 ? '+' : ''}${netPoints} PTS.`;
+        feedback.innerHTML = `&#10003; Correct! Access token verified. Base +${basePoints} PTS${hintPenalty ? `, hints -${hintPenalty} PTS` : ''}, net ${netPoints >= 0 ? '+' : ''}${netPoints} PTS.`;
 
         if (!userSolvedQuestions.includes(qId)) {
           userSolvedQuestions.push(qId);
-          userScore += targetQ.points;
+          userScore += basePoints;
           localStorage.setItem('cyber_solved_questions', JSON.stringify(userSolvedQuestions));
-          localStorage.setItem('cyber_total_score', userScore);
+          localStorage.setItem('cyber_total_score', String(userScore));
+          localStorage.setItem('cyber_hunt_points', String(userScore));
 
           // Check if all playable questions in this stage are solved.
           const allStageSolved = playableQuestions.every(q => isQuestionComplete(q.qId));
@@ -1944,6 +2218,13 @@
     };
 
     renderApp();
+
+    // If active stage difficulty is not set yet, prompt difficulty modal
+    if (currentViewStageId !== 6 && !getStageDifficulty(currentViewStageId)) {
+      setTimeout(() => {
+        openWorkspaceDiffModal(currentViewStageId);
+      }, 150);
+    }
   </script>
 </body>
 </html>
