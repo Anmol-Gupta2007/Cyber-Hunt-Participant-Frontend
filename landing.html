@@ -84,7 +84,6 @@
       flex-shrink: 0;
     }
 
-    
     .brand-logo-img {
       width: 32px;
       height: 32px;
@@ -98,6 +97,7 @@
       border: 1.5px solid var(--panel-border);
       vertical-align: middle;
     }
+
     .brand {
       display: inline-flex;
       align-items: center;
@@ -111,25 +111,6 @@
       white-space: nowrap;
     }
 
-    /* Crosshair / Target Logo */
-    .target-icon {
-      width: 32px;
-      height: 32px;
-      position: relative;
-      display: grid;
-      place-items: center;
-      color: var(--blue);
-      flex-shrink: 0;
-    }
-
-    .target-icon svg {
-      width: 100%;
-      height: 100%;
-      stroke: var(--blue);
-      fill: none;
-    }
-
-    /* Connecting horizontal blue line */
     .nav-divider-line {
       height: 2px;
       flex: 1;
@@ -183,7 +164,6 @@
       color: #061a29;
     }
 
-    
     .nav-era-logo-wrap {
       display: inline-flex;
       align-items: center;
@@ -192,6 +172,7 @@
       flex-shrink: 0;
       margin-left: 6px;
     }
+
     .nav-era-logo {
       width: 32px;
       height: 32px;
@@ -205,35 +186,10 @@
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       display: block;
     }
+
     .nav-era-logo:hover {
       transform: scale(1.08);
       box-shadow: 0 0 14px rgba(88, 170, 235, 0.7);
-    }
-
-    .arrow-disc {
-      width: 30px;
-      height: 30px;
-      border: 1.5px solid var(--blue);
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      color: var(--blue);
-      text-decoration: none;
-      transition: background 0.15s ease, color 0.15s ease;
-      flex-shrink: 0;
-    }
-
-    .arrow-disc svg {
-      width: 14px;
-      height: 14px;
-      stroke: currentColor;
-      stroke-width: 2.5;
-      fill: none;
-    }
-
-    .arrow-disc:hover {
-      background: var(--blue);
-      color: #061a29;
     }
 
     /* Main Hero Workspace */
@@ -241,13 +197,12 @@
       flex: 1;
       min-height: 0;
       display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
       padding: clamp(16px, 2.5vh, 32px) clamp(24px, 3.5vw, 48px) clamp(16px, 2.2vh, 26px);
       gap: clamp(16px, 2.5vw, 36px);
       position: relative;
     }
 
-    /* Left Hero Content */
     .hero-left {
       display: flex;
       flex-direction: column;
@@ -435,7 +390,6 @@
       background: var(--blue-dim);
     }
 
-    /* Handwritten "Solve More Together." text */
     .handwriting {
       color: var(--blue);
       font-family: 'Caveat', cursive;
@@ -484,7 +438,7 @@
 
       .hero-right {
         order: -1;
-        min-height: 240px;
+        min-height: 280px;
       }
 
       .hero-collage-wrapper {
@@ -518,8 +472,7 @@
       }
 
       .nav-divider-line,
-      .nav-links a:not(.active):not(.nav-cta),
-      .arrow-disc {
+      .nav-links a:not(.active):not(.nav-cta) {
         display: none;
       }
 
@@ -541,13 +494,11 @@
 <body>
 
   <main class="site-frame" id="home">
-    <!-- Outer Frame Corner Brackets -->
     <span class="frame-corner tl" aria-hidden="true"></span>
     <span class="frame-corner tr" aria-hidden="true"></span>
     <span class="frame-corner bl" aria-hidden="true"></span>
     <span class="frame-corner br" aria-hidden="true"></span>
 
-    <!-- Top Navigation Header -->
     <header class="nav">
       <a class="brand" href="landing.html" aria-label="Cyber Hunt Home">
         <img src="logo-graphic-geeks.png" alt="Graphic Geeks" class="brand-logo-img" width="32" height="32">
@@ -565,13 +516,10 @@
         <a class="nav-era-logo-wrap" href="https://geu.ac.in" target="_blank" rel="noopener" title="Graphic Era University">
           <img src="logo-graphic-era.png" alt="Graphic Era University" class="nav-era-logo" width="32" height="32">
         </a>
-        
       </nav>
     </header>
 
-    <!-- Main Hero Body -->
     <section class="hero-container">
-      <!-- Left Hero Column -->
       <div class="hero-left">
         <div class="uni-label">GRAPHIC ERA UNIVERSITY</div>
         <h1 class="hero-title">
@@ -601,7 +549,6 @@
         </div>
       </div>
 
-      <!-- Right Hero Column -->
       <div class="hero-right">
         <div class="hero-collage-wrapper">
           <img src="hero-collage.png" alt="Graphic Era University Cyber Hunt" class="hero-collage-img">
@@ -609,10 +556,8 @@
       </div>
     </section>
 
-    <!-- Bottom Metadata Bar -->
     <footer class="bottom-bar">
       <div class="event-meta">
-        <!-- Date -->
         <div class="meta-item">
           <span class="meta-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
@@ -627,7 +572,6 @@
 
         <span class="meta-divider" aria-hidden="true"></span>
 
-        <!-- Location -->
         <div class="meta-item">
           <span class="meta-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
@@ -637,11 +581,8 @@
           </span>
           <span>Seminar Hall, CSIT</span>
         </div>
-
-        
       </div>
 
-      <!-- Handwritten Note -->
       <div class="handwriting">
         Solve<br>More<br>Together.
         <span class="handwriting-underline" aria-hidden="true"></span>
