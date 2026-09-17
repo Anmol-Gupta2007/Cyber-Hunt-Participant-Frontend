@@ -1232,7 +1232,8 @@
     // STATE
     let userSolvedQuestions = JSON.parse(localStorage.getItem('cyber_solved_questions')) || [];
     let userSolvedStages = JSON.parse(localStorage.getItem('cyber_solved_stages')) || [];
-    let userScore = parseInt(localStorage.getItem('cyber_total_score'), 10) || 0;
+    const storedScore = Number(localStorage.getItem('cyber_total_score'));
+    let userScore = Number.isFinite(storedScore) ? storedScore : 0;
     let usedHints = JSON.parse(localStorage.getItem('cyber_used_hints')) || {};
     let skippedQuestions = JSON.parse(localStorage.getItem('cyber_skipped_questions')) || [];
     let stage6Difficulty = localStorage.getItem('cyber_stage6_difficulty') || '';
@@ -1389,6 +1390,10 @@
 
       skippedQuestions.push(qId);
       localStorage.setItem('cyber_skipped_questions', JSON.stringify(skippedQuestions));
+      // Preserve negative totals too; they are valid scores and must survive navigation.
+      localStorage.setItem('cyber_total_score', String(userScore));
+      const scoreElement = document.getElementById('currentScore');
+      if (scoreElement) scoreElement.textContent = `${userScore} PTS`;
 
       const playableQuestions = getStageQuestionSet(found.stage);
       const nextQuestion = playableQuestions.find(q => !isQuestionComplete(q.qId));
@@ -1451,7 +1456,14 @@
       }
 
       // Update Score
-      document.getElementById('currentScore').textContent = `${userScore} PTS`;
+      const scoreElement = document.getElementById('currentScore');
+      scoreElement.textContent = `${userScore} PTS`;
+      scoreElement.style.color = userScore < 0 ? '#fca5a5' : '#6ee7b7';
+      const scoreBadge = scoreElement.closest ? scoreElement.closest('.score-badge-box') : null;
+      if (scoreBadge) {
+        scoreBadge.style.borderColor = userScore < 0 ? 'var(--red)' : 'var(--green)';
+        scoreBadge.style.background = userScore < 0 ? 'rgba(239, 68, 68, 0.15)' : 'rgba(16, 185, 129, 0.15)';
+      }
 
       // 1. Render Top 6 Stages Nav (Image 4 layout)
       renderStagesNav();
@@ -1827,6 +1839,12 @@
                     Base +${targetQ.points} / Hints -${questionHintPenalty}
                   </span>
                 ` : ''}
+              </div>
+              <div class="metric-item">
+                <span class="metric-title">Total Score</span>
+                <span class="metric-value" style="color: ${userScore < 0 ? 'var(--red)' : 'var(--green)'};">
+                  ${userScore} PTS
+                </span>
               </div>
               <div class="metric-item" style="text-align: right;">
                 <span class="metric-title">Status</span>
