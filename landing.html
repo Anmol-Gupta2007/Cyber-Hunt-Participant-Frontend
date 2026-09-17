@@ -84,7 +84,6 @@
       flex-shrink: 0;
     }
 
-    
     .brand-logo-img {
       width: 32px;
       height: 32px;
@@ -98,6 +97,7 @@
       border: 1.5px solid var(--panel-border);
       vertical-align: middle;
     }
+
     .brand {
       display: inline-flex;
       align-items: center;
@@ -111,25 +111,6 @@
       white-space: nowrap;
     }
 
-    /* Crosshair / Target Logo */
-    .target-icon {
-      width: 32px;
-      height: 32px;
-      position: relative;
-      display: grid;
-      place-items: center;
-      color: var(--blue);
-      flex-shrink: 0;
-    }
-
-    .target-icon svg {
-      width: 100%;
-      height: 100%;
-      stroke: var(--blue);
-      fill: none;
-    }
-
-    /* Connecting horizontal blue line */
     .nav-divider-line {
       height: 2px;
       flex: 1;
@@ -183,7 +164,6 @@
       color: #061a29;
     }
 
-    
     .nav-era-logo-wrap {
       display: inline-flex;
       align-items: center;
@@ -192,6 +172,7 @@
       flex-shrink: 0;
       margin-left: 6px;
     }
+
     .nav-era-logo {
       width: 32px;
       height: 32px;
@@ -205,35 +186,10 @@
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       display: block;
     }
+
     .nav-era-logo:hover {
       transform: scale(1.08);
       box-shadow: 0 0 14px rgba(88, 170, 235, 0.7);
-    }
-
-    .arrow-disc {
-      width: 30px;
-      height: 30px;
-      border: 1.5px solid var(--blue);
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      color: var(--blue);
-      text-decoration: none;
-      transition: background 0.15s ease, color 0.15s ease;
-      flex-shrink: 0;
-    }
-
-    .arrow-disc svg {
-      width: 14px;
-      height: 14px;
-      stroke: currentColor;
-      stroke-width: 2.5;
-      fill: none;
-    }
-
-    .arrow-disc:hover {
-      background: var(--blue);
-      color: #061a29;
     }
 
     /* Main Hero Workspace */
@@ -241,13 +197,12 @@
       flex: 1;
       min-height: 0;
       display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
       padding: clamp(16px, 2.5vh, 32px) clamp(24px, 3.5vw, 48px) clamp(16px, 2.2vh, 26px);
       gap: clamp(16px, 2.5vw, 36px);
       position: relative;
     }
 
-    /* Left Hero Content */
     .hero-left {
       display: flex;
       flex-direction: column;
@@ -368,47 +323,47 @@
       position: relative;
       width: 100%;
       height: 100%;
-      max-height: 540px; /* Increased from 480px */
+      max-height: 520px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    /* Elliptical Orbit Rings (behind photograph) */
+    /* Background Orbit Rings: Scaled down */
     .orbit-ring {
       position: absolute;
       border: 1.5px solid var(--blue);
       border-radius: 50%;
       pointer-events: none;
       z-index: 1;
-      opacity: 0.75;
+      opacity: 0.65;
     }
 
-   .orbit-ring.one {
-      width: clamp(400px, 48vw, 640px);
-      height: clamp(160px, 22vw, 260px);
+    .orbit-ring.one {
+      width: clamp(340px, 36vw, 480px);
+      height: clamp(140px, 15vw, 190px);
       transform: rotate(-28deg);
     }
 
     .orbit-ring.two {
-      width: clamp(420px, 50vw, 660px);
-      height: clamp(150px, 20vw, 240px);
+      width: clamp(360px, 38vw, 500px);
+      height: clamp(130px, 14vw, 180px);
       transform: rotate(22deg);
-      border-color: rgba(88, 170, 235, 0.6);
+      border-color: rgba(88, 170, 235, 0.45);
     }
 
-    /* HUD Tech Grid Box */
+    /* HUD Grid: Made more compact */
     .hud-grid {
       position: absolute;
-      right: clamp(10px, 2vw, 35px);
-      top: clamp(10px, 2vh, 30px);
-      width: clamp(180px, 22vw, 280px);
-      height: clamp(120px, 14vw, 170px);
-      border-top: 1px solid rgba(88, 170, 235, 0.6);
-      border-right: 1px solid rgba(88, 170, 235, 0.35);
+      right: clamp(10px, 2vw, 30px);
+      top: clamp(8px, 1.8vh, 24px);
+      width: clamp(140px, 16vw, 220px);
+      height: clamp(90px, 10vw, 130px);
+      border-top: 1px solid rgba(88, 170, 235, 0.5);
+      border-right: 1px solid rgba(88, 170, 235, 0.3);
       pointer-events: none;
       z-index: 1;
-      opacity: 0.6;
+      opacity: 0.5;
     }
 
     .hud-grid::before {
@@ -416,22 +371,21 @@
       position: absolute;
       inset: 0;
       background-image: 
-        linear-gradient(to right, rgba(88, 170, 235, 0.3) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(88, 170, 235, 0.3) 1px, transparent 1px);
-      background-size: clamp(40px, 5vw, 60px) clamp(30px, 4vw, 45px);
+        linear-gradient(to right, rgba(88, 170, 235, 0.25) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(88, 170, 235, 0.25) 1px, transparent 1px);
+      background-size: 32px 24px;
     }
 
-    /* College Photo Frame */
-    /* College Photo Frame */
+    /* College Photo Frame: Made Bigger & Prominent */
     .photo-container {
       position: relative;
       z-index: 3;
-      width: clamp(320px, 36vw, 560px); /* Increased size */
-      aspect-ratio: 1.38 / 1;
-      transform: rotate(-3.5deg);
-      border-radius: 3px;
+      width: clamp(380px, 42vw, 590px);
+      aspect-ratio: 1.36 / 1;
+      transform: rotate(-3deg);
+      border-radius: 4px;
       overflow: hidden;
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6), 0 0 0 1.5px rgba(88, 170, 235, 0.5);
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.7), 0 0 0 2px rgba(88, 170, 235, 0.65);
     }
 
     .photo-container img {
@@ -453,22 +407,22 @@
     }
 
     .photo-grid-lines span {
-      border-right: 1px solid rgba(220, 240, 255, 0.45);
-      border-bottom: 1px solid rgba(220, 240, 255, 0.45);
+      border-right: 1px solid rgba(220, 240, 255, 0.35);
+      border-bottom: 1px solid rgba(220, 240, 255, 0.35);
     }
 
-    /* Corner Technical Brackets around the photo art */
+    /* Technical Brackets tight to the photo */
     .art-bracket {
       position: absolute;
-      width: 24px;
-      height: 24px;
+      width: 28px;
+      height: 28px;
       border-color: var(--blue);
       border-style: solid;
       pointer-events: none;
       z-index: 4;
     }
-    .art-bracket.top-left { top: 20px; left: 15px; border-width: 2.5px 0 0 2.5px; }
-    .art-bracket.bottom-right { bottom: 20px; right: 15px; border-width: 0 2.5px 2.5px 0; border-color: #edf2f4; }
+    .art-bracket.top-left { top: 6px; left: 8px; border-width: 3px 0 0 3px; }
+    .art-bracket.bottom-right { bottom: 6px; right: 8px; border-width: 0 3px 3px 0; border-color: #edf2f4; }
 
     /* Bottom Area */
     .bottom-bar {
@@ -519,7 +473,6 @@
       background: var(--blue-dim);
     }
 
-    /* Handwritten "Solve More Together." text */
     .handwriting {
       color: var(--blue);
       font-family: 'Caveat', cursive;
@@ -568,11 +521,11 @@
 
       .hero-right {
         order: -1;
-        min-height: 240px;
+        min-height: 280px;
       }
 
       .photo-container {
-        width: clamp(260px, 70vw, 380px);
+        width: clamp(280px, 78vw, 440px);
       }
 
       .bottom-bar {
@@ -602,8 +555,7 @@
       }
 
       .nav-divider-line,
-      .nav-links a:not(.active):not(.nav-cta),
-      .arrow-disc {
+      .nav-links a:not(.active):not(.nav-cta) {
         display: none;
       }
 
@@ -625,13 +577,11 @@
 <body>
 
   <main class="site-frame" id="home">
-    <!-- Outer Frame Corner Brackets -->
     <span class="frame-corner tl" aria-hidden="true"></span>
     <span class="frame-corner tr" aria-hidden="true"></span>
     <span class="frame-corner bl" aria-hidden="true"></span>
     <span class="frame-corner br" aria-hidden="true"></span>
 
-    <!-- Top Navigation Header -->
     <header class="nav">
       <a class="brand" href="landing.html" aria-label="Cyber Hunt Home">
         <img src="logo-graphic-geeks.png" alt="Graphic Geeks" class="brand-logo-img" width="32" height="32">
@@ -649,13 +599,10 @@
         <a class="nav-era-logo-wrap" href="https://geu.ac.in" target="_blank" rel="noopener" title="Graphic Era University">
           <img src="logo-graphic-era.png" alt="Graphic Era University" class="nav-era-logo" width="32" height="32">
         </a>
-        
       </nav>
     </header>
 
-    <!-- Main Hero Body -->
     <section class="hero-container">
-      <!-- Left Hero Column -->
       <div class="hero-left">
         <div class="uni-label">GRAPHIC ERA UNIVERSITY</div>
         <h1 class="hero-title">
@@ -685,21 +632,16 @@
         </div>
       </div>
 
-      <!-- Right Hero Column -->
       <div class="hero-right">
         <div class="art-stage">
-          <!-- Behind photo orbit rings -->
           <div class="orbit-ring one" aria-hidden="true"></div>
           <div class="orbit-ring two" aria-hidden="true"></div>
 
-          <!-- Technical Grid HUD -->
           <div class="hud-grid" aria-hidden="true"></div>
 
-          <!-- Corner Brackets -->
           <span class="art-bracket top-left" aria-hidden="true"></span>
           <span class="art-bracket bottom-right" aria-hidden="true"></span>
 
-          <!-- College Photo -->
           <div class="photo-container">
             <img src="hero-collage.png" alt="Graphic Era University Building">
             <div class="photo-grid-lines" aria-hidden="true">
@@ -712,10 +654,8 @@
       </div>
     </section>
 
-    <!-- Bottom Metadata Bar -->
     <footer class="bottom-bar">
       <div class="event-meta">
-        <!-- Date -->
         <div class="meta-item">
           <span class="meta-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
@@ -730,7 +670,6 @@
 
         <span class="meta-divider" aria-hidden="true"></span>
 
-        <!-- Location -->
         <div class="meta-item">
           <span class="meta-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
@@ -740,11 +679,8 @@
           </span>
           <span>Seminar Hall, CSIT</span>
         </div>
-
-        
       </div>
 
-      <!-- Handwritten Note -->
       <div class="handwriting">
         Solve<br>More<br>Together.
         <span class="handwriting-underline" aria-hidden="true"></span>
