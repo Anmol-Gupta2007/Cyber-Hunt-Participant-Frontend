@@ -319,110 +319,27 @@
       z-index: 2;
     }
 
-    .art-stage {
+    .hero-collage-wrapper {
       position: relative;
       width: 100%;
-      height: 100%;
-      max-height: 520px;
+      max-width: clamp(340px, 44vw, 560px);
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    /* Background Orbit Rings: Scaled down */
-    .orbit-ring {
-      position: absolute;
-      border: 1.5px solid var(--blue);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 1;
-      opacity: 0.65;
-    }
-
-    .orbit-ring.one {
-      width: clamp(340px, 36vw, 480px);
-      height: clamp(140px, 15vw, 190px);
-      transform: rotate(-28deg);
-    }
-
-    .orbit-ring.two {
-      width: clamp(360px, 38vw, 500px);
-      height: clamp(130px, 14vw, 180px);
-      transform: rotate(22deg);
-      border-color: rgba(88, 170, 235, 0.45);
-    }
-
-    /* HUD Grid: Made more compact */
-    .hud-grid {
-      position: absolute;
-      right: clamp(10px, 2vw, 30px);
-      top: clamp(8px, 1.8vh, 24px);
-      width: clamp(140px, 16vw, 220px);
-      height: clamp(90px, 10vw, 130px);
-      border-top: 1px solid rgba(88, 170, 235, 0.5);
-      border-right: 1px solid rgba(88, 170, 235, 0.3);
-      pointer-events: none;
-      z-index: 1;
-      opacity: 0.5;
-    }
-
-    .hud-grid::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image: 
-        linear-gradient(to right, rgba(88, 170, 235, 0.25) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(88, 170, 235, 0.25) 1px, transparent 1px);
-      background-size: 32px 24px;
-    }
-
-    /* College Photo Frame: Made Bigger & Prominent */
-    .photo-container {
-      position: relative;
-      z-index: 3;
-      width: clamp(380px, 42vw, 590px);
-      aspect-ratio: 1.36 / 1;
-      transform: rotate(-3deg);
-      border-radius: 4px;
-      overflow: hidden;
-      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.7), 0 0 0 2px rgba(88, 170, 235, 0.65);
-    }
-
-    .photo-container img {
+    .hero-collage-img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
+      height: auto;
+      max-height: clamp(320px, 48vh, 490px);
+      object-fit: contain;
       display: block;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* Photo Grid Overlay */
-    .photo-grid-lines {
-      position: absolute;
-      inset: 0;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-template-rows: repeat(3, 1fr);
-      pointer-events: none;
+    .hero-collage-img:hover {
+      transform: scale(1.02);
     }
-
-    .photo-grid-lines span {
-      border-right: 1px solid rgba(220, 240, 255, 0.35);
-      border-bottom: 1px solid rgba(220, 240, 255, 0.35);
-    }
-
-    /* Technical Brackets tight to the photo */
-    .art-bracket {
-      position: absolute;
-      width: 28px;
-      height: 28px;
-      border-color: var(--blue);
-      border-style: solid;
-      pointer-events: none;
-      z-index: 4;
-    }
-    .art-bracket.top-left { top: 6px; left: 8px; border-width: 3px 0 0 3px; }
-    .art-bracket.bottom-right { bottom: 6px; right: 8px; border-width: 0 3px 3px 0; border-color: #edf2f4; }
 
     /* Bottom Area */
     .bottom-bar {
@@ -524,8 +441,8 @@
         min-height: 280px;
       }
 
-      .photo-container {
-        width: clamp(280px, 78vw, 440px);
+      .hero-collage-wrapper {
+        width: clamp(260px, 70vw, 380px);
       }
 
       .bottom-bar {
@@ -633,23 +550,8 @@
       </div>
 
       <div class="hero-right">
-        <div class="art-stage">
-          <div class="orbit-ring one" aria-hidden="true"></div>
-          <div class="orbit-ring two" aria-hidden="true"></div>
-
-          <div class="hud-grid" aria-hidden="true"></div>
-
-          <span class="art-bracket top-left" aria-hidden="true"></span>
-          <span class="art-bracket bottom-right" aria-hidden="true"></span>
-
-          <div class="photo-container">
-            <img src="hero-collage.png" alt="Graphic Era University Building">
-            <div class="photo-grid-lines" aria-hidden="true">
-              <span></span><span></span><span></span><span></span>
-              <span></span><span></span><span></span><span></span>
-              <span></span><span></span><span></span><span></span>
-            </div>
-          </div>
+        <div class="hero-collage-wrapper">
+          <img src="hero-collage.png" alt="Graphic Era University Cyber Hunt" class="hero-collage-img">
         </div>
       </div>
     </section>

@@ -246,7 +246,7 @@ const server = createServer(async (req, res) => {
   }
 
   if (req.method === 'GET') {
-    const relative = url.pathname === '/' ? 'challenge-workspace.html' : decodeURIComponent(url.pathname).replace(/^\/+/, '');
+    const relative = url.pathname === '/' ? 'landing.html' : decodeURIComponent(url.pathname).replace(/^\/+/, '');
     if (['challenge-data.json', 'submissions.json'].includes(relative)) {
       return send(res, 403, { error: 'Protected challenge data.' });
     }

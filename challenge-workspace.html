@@ -31,14 +31,9 @@
       --locked: #567287;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     html, body {
-      height: 100%;
       min-height: 100vh;
       background: var(--bg);
       background-image: 
@@ -53,8 +48,8 @@
       display: flex;
       flex-direction: column;
       min-height: 100vh;
-      padding: 12px 18px;
-      gap: 14px;
+      padding: 14px 20px 40px;
+      gap: 16px;
       max-width: 1560px;
       margin: 0 auto;
     }
@@ -65,7 +60,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 10px 20px;
+      padding: 10px 22px;
       border-radius: 8px;
       border: 1.5px solid var(--line-subtle);
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
@@ -82,8 +77,8 @@
     }
 
     .topbar-brand-logo {
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
       object-fit: cover;
       border: 1.5px solid var(--line);
@@ -110,7 +105,7 @@
       letter-spacing: 0.5px;
     }
 
-    /* LIVE EVENT TIMER */
+    /* TIMER */
     .timer-pill {
       display: flex;
       align-items: center;
@@ -200,8 +195,8 @@
     }
 
     .topbar-era-logo {
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
       object-fit: cover;
       border: 1.5px solid var(--line);
@@ -209,83 +204,84 @@
       transition: transform 0.2s ease;
     }
 
-    .topbar-era-logo:hover {
-      transform: scale(1.08);
-    }
+    .topbar-era-logo:hover { transform: scale(1.08); }
 
-    /* STAGES PROGRESS ROW (Reference Image Top Section) */
-    .stages-progress-bar {
+    /* 6 STAGES NAVIGATION ROW (Image 4 layout) */
+    .stages-nav-row {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(6, 1fr);
       gap: 12px;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
-    .stage-pill-card {
+    .stage-nav-card {
       background: var(--panel);
       border: 1.5px solid var(--line-subtle);
       border-radius: 8px;
-      padding: 14px 18px;
+      padding: 14px 10px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 4px;
       position: relative;
       transition: all 0.2s ease;
       cursor: pointer;
-      text-decoration: none;
+      user-select: none;
+      text-align: center;
     }
 
-    .stage-pill-card.active {
+    .stage-nav-card.active-stage {
       border-color: var(--green);
       background: rgba(16, 185, 129, 0.08);
-      box-shadow: 0 0 20px rgba(16, 185, 129, 0.25), inset 0 0 15px rgba(16, 185, 129, 0.1);
+      box-shadow: 0 0 16px rgba(16, 185, 129, 0.25), inset 0 0 10px rgba(16, 185, 129, 0.1);
     }
 
-    .stage-pill-card.solved {
+    .stage-nav-card.completed-stage {
       border-color: var(--blue);
       background: rgba(88, 170, 235, 0.08);
     }
 
-    .stage-pill-card.locked {
-      border-color: rgba(74, 168, 233, 0.15);
+    .stage-nav-card.locked-stage {
+      border-color: rgba(74, 168, 233, 0.12);
       background: rgba(6, 26, 41, 0.5);
-      opacity: 0.7;
+      opacity: 0.65;
+      cursor: not-allowed;
     }
 
-    .stage-pill-card.final {
-      border-color: rgba(239, 68, 68, 0.4);
-      background: rgba(69, 10, 10, 0.2);
+    .stage-nav-card.selected-view {
+      outline: 2px solid var(--blue-light);
+      transform: translateY(-2px);
     }
 
-    .stage-pill-icon {
-      font-size: 20px;
-    }
-
-    .stage-pill-title {
-      font-size: 13px;
+    .stage-nav-icon { font-size: 20px; }
+    .stage-nav-title {
+      font-size: 12.5px;
       font-weight: 700;
       color: var(--white);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
     }
 
-    .stage-pill-status {
-      font-size: 12px;
+    .stage-nav-sub {
+      font-size: 11px;
       font-weight: 600;
       letter-spacing: 0.5px;
     }
 
-    .stage-pill-card.active .stage-pill-status { color: var(--green); }
-    .stage-pill-card.solved .stage-pill-status { color: var(--blue-light); }
-    .stage-pill-card.locked .stage-pill-status { color: var(--locked); }
-    .stage-pill-card.final .stage-pill-status { color: var(--red); }
+    .stage-nav-card.active-stage .stage-nav-sub { color: var(--green); }
+    .stage-nav-card.completed-stage .stage-nav-sub { color: var(--blue-light); }
+    .stage-nav-card.locked-stage .stage-nav-sub { color: var(--locked); }
+    .stage-nav-card.final-stage .stage-nav-sub { color: var(--red); }
 
     /* SECTION HEADER */
     .section-title-wrap {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 6px 0;
+      padding: 8px 0;
       border-bottom: 1px solid var(--line-subtle);
       margin-bottom: 8px;
     }
@@ -301,143 +297,248 @@
       letter-spacing: 0.5px;
     }
 
-    .section-title .cmd-prompt {
-      color: var(--blue);
+    .section-title .cmd-prompt { color: var(--blue); }
+
+    /* QUESTIONS LIST (Roomy, Taking space of 2 as in Image 4) */
+    .questions-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
 
-    /* CHALLENGES CONTAINER */
-    .challenges-list {
+    /* SINGLE QUESTION HERO CARD (Takes space of 2 questions - Image 4 layout) */
+    .question-card {
+      background: var(--panel);
+      border: 1.5px solid var(--line);
+      border-radius: 8px;
+      padding: 30px 34px;
+      position: relative;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5), inset 0 0 25px rgba(6, 26, 41, 0.7);
+      transition: all 0.2s ease;
+      min-height: 480px; /* Space of 2 questions dedicated to 1 */
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .question-card.active-q {
+      border-color: var(--line);
+      box-shadow: 0 0 30px rgba(74, 168, 233, 0.25), inset 0 0 25px rgba(6, 26, 41, 0.7);
+    }
+
+    .question-card.solved-q {
+      border-color: rgba(16, 185, 129, 0.6);
+      background: rgba(6, 35, 56, 0.9);
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.2), inset 0 0 25px rgba(6, 35, 56, 0.6);
+    }
+
+    .question-card-inner {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 32px;
+      align-items: start;
+      height: 100%;
+    }
+
+    @media (max-width: 960px) {
+      .question-card-inner { grid-template-columns: 1fr; }
+      .stages-nav-row { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* STEP PROGRESS PILLS ROW (Question navigation within current stage) */
+    .q-step-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .q-step-pill {
+      background: rgba(4, 18, 29, 0.8);
+      border: 1px solid var(--line-subtle);
+      border-radius: 4px;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .q-step-pill:hover:not(.locked) {
+      border-color: var(--line);
+      color: var(--white);
+      background: rgba(74, 168, 233, 0.15);
+    }
+
+    .q-step-pill.active {
+      border-color: var(--blue);
+      background: rgba(88, 170, 235, 0.25);
+      color: var(--white);
+      box-shadow: 0 0 10px rgba(88, 170, 235, 0.3);
+    }
+
+    .q-step-pill.solved {
+      border-color: var(--green);
+      background: rgba(16, 185, 129, 0.15);
+      color: #6ee7b7;
+    }
+
+    .q-step-pill.locked {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    /* STAGE ALL SOLVED VICTORY CARD */
+    .stage-cleared-card {
+      background: var(--panel);
+      border: 1.5px solid var(--green);
+      border-radius: 8px;
+      padding: 40px;
+      text-align: center;
+      box-shadow: 0 0 35px rgba(16, 185, 129, 0.25);
+      min-height: 440px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .cleared-icon {
+      font-size: 56px;
+      color: var(--green);
+      filter: drop-shadow(0 0 16px rgba(16, 185, 129, 0.6));
+    }
+
+    .cleared-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.5px;
+    }
+
+    .cleared-desc {
+      font-size: 15px;
+      color: var(--muted);
+      max-width: 540px;
+      line-height: 1.6;
+    }
+
+    .btn-next-stage {
+      background: var(--green);
+      color: #04121d;
+      border: 1.5px solid var(--green);
+      border-radius: 6px;
+      padding: 14px 32px;
+      font-family: 'DM Mono', monospace;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+      transition: all 0.2s ease;
+      margin-top: 10px;
+    }
+
+    .btn-next-stage:hover {
+      background: #34d399;
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.7);
+    }
+
+    /* LEFT MAIN COLUMN OF QUESTION CARD */
+    .question-main {
       display: flex;
       flex-direction: column;
       gap: 16px;
     }
 
-    /* CHALLENGE PHASE CARD */
-    .phase-card {
-      background: var(--panel);
-      border: 1.5px solid var(--line-subtle);
-      border-radius: 8px;
-      padding: 20px 24px;
-      position: relative;
-      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .phase-card.active-phase {
-      border-color: var(--line);
-      box-shadow: 0 0 25px rgba(74, 168, 233, 0.2), inset 0 0 20px rgba(6, 26, 41, 0.6);
-    }
-
-    .phase-card.solved-phase {
-      border-color: rgba(16, 185, 129, 0.5);
-      background: rgba(6, 35, 56, 0.85);
-    }
-
-    .phase-card.locked-phase {
-      opacity: 0.55;
-      filter: grayscale(0.4);
-      pointer-events: none;
-    }
-
-    .phase-card-inner {
-      display: grid;
-      grid-template-columns: 1fr 280px;
-      gap: 24px;
-    }
-
-    @media (max-width: 900px) {
-      .phase-card-inner {
-        grid-template-columns: 1fr;
-      }
-      .stages-progress-bar {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    /* LEFT SIDE OF PHASE CARD */
-    .phase-main {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .phase-header {
+    .question-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
-    .phase-title {
+    .question-title {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 17px;
+      font-size: 18px;
       font-weight: 700;
       color: var(--blue-light);
       letter-spacing: 0.5px;
     }
 
-    .phase-status-badge {
+    .question-status-badge {
       font-size: 12px;
       font-weight: 700;
-      padding: 3px 8px;
+      padding: 4px 10px;
       border-radius: 4px;
+      letter-spacing: 0.5px;
     }
 
-    .phase-status-badge.solved {
+    .question-status-badge.solved {
       background: rgba(16, 185, 129, 0.2);
       color: #6ee7b7;
       border: 1px solid var(--green);
     }
 
-    .phase-status-badge.active {
+    .question-status-badge.active {
       background: rgba(88, 170, 235, 0.2);
       color: var(--blue-light);
       border: 1px solid var(--blue);
     }
 
-    .phase-status-badge.locked {
+    .question-status-badge.locked {
       background: rgba(86, 114, 135, 0.2);
       color: var(--locked);
       border: 1px solid var(--locked);
     }
 
-    /* PROMPT QUESTION BLOCK WITH LEFT BRACKET ACCENT */
-    .question-box {
+    /* QUESTION PROMPT WITH CYAN ACCENT BAR */
+    .question-prompt-box {
       background: var(--panel-inner);
-      border-left: 3px solid var(--line);
-      padding: 14px 18px;
+      border-left: 3.5px solid var(--line);
+      padding: 16px 20px;
       border-radius: 0 6px 6px 0;
       color: var(--white);
-      font-size: 14.5px;
+      font-size: 15px;
       line-height: 1.6;
-      position: relative;
     }
 
-    .question-code-snippet {
-      margin-top: 8px;
-      background: rgba(4, 18, 29, 0.8);
-      padding: 8px 12px;
+    .question-code-block {
+      margin-top: 10px;
+      background: rgba(4, 18, 29, 0.85);
+      padding: 10px 14px;
       border-radius: 4px;
       color: #7dd3fc;
       font-family: 'DM Mono', monospace;
-      font-size: 13.5px;
+      font-size: 14px;
       word-break: break-all;
-      border: 1px dashed rgba(74, 168, 233, 0.3);
+      border: 1px dashed rgba(74, 168, 233, 0.35);
     }
 
-    /* INPUT ROW */
-    .submission-row {
+    /* INPUT ROW (Image 4) */
+    .question-input-row {
       display: flex;
       gap: 12px;
       align-items: center;
-      margin-top: 4px;
+      margin-top: 6px;
     }
 
-    .answer-input {
+    .answer-text-input {
       flex: 1;
-      background: rgba(4, 18, 29, 0.9);
+      background: rgba(4, 18, 29, 0.95);
       border: 1.5px solid var(--line-subtle);
       border-radius: 6px;
-      padding: 12px 16px;
+      padding: 13px 18px;
       color: var(--white);
       font-family: 'DM Mono', monospace;
       font-size: 14px;
@@ -445,112 +546,101 @@
       transition: border-color 0.15s ease, box-shadow 0.15s ease;
     }
 
-    .answer-input:focus {
+    .answer-text-input:focus {
       border-color: var(--blue);
-      box-shadow: 0 0 12px rgba(88, 170, 235, 0.3);
+      box-shadow: 0 0 14px rgba(88, 170, 235, 0.35);
     }
 
-    .answer-input.input-success {
+    .answer-text-input.input-correct {
       border-color: var(--green) !important;
-      background: rgba(6, 78, 59, 0.2);
+      background: rgba(6, 78, 59, 0.25);
     }
 
-    .answer-input.input-error {
+    .answer-text-input.input-wrong {
       border-color: var(--red) !important;
-      animation: shake 0.3s ease;
+      animation: shake 0.35s ease;
     }
 
     @keyframes shake {
       0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-6px); }
-      75% { transform: translateX(6px); }
+      25% { transform: translateX(-7px); }
+      75% { transform: translateX(7px); }
     }
 
-    .btn-submit-flag {
+    .btn-submit-answer {
       background: var(--blue);
       color: #04121d;
       border: 1.5px solid var(--blue);
       border-radius: 6px;
-      padding: 12px 24px;
+      padding: 13px 28px;
       font-family: 'DM Mono', monospace;
       font-size: 14px;
       font-weight: 700;
       letter-spacing: 0.5px;
       cursor: pointer;
-      box-shadow: 0 0 12px rgba(88, 170, 235, 0.35);
+      box-shadow: 0 0 14px rgba(88, 170, 235, 0.35);
       transition: all 0.15s ease;
       white-space: nowrap;
     }
 
-    .btn-submit-flag:hover:not(:disabled) {
+    .btn-submit-answer:hover:not(:disabled) {
       background: #72b9f0;
-      box-shadow: 0 0 18px rgba(88, 170, 235, 0.6);
+      box-shadow: 0 0 20px rgba(88, 170, 235, 0.6);
       transform: translateY(-1px);
     }
 
-    .btn-submit-flag:active:not(:disabled) {
-      transform: translateY(1px);
-    }
-
-    .btn-submit-flag:disabled {
+    .btn-submit-answer:disabled {
       opacity: 0.5;
       cursor: not-allowed;
     }
 
-    .feedback-msg {
-      font-size: 12.5px;
+    .feedback-banner {
+      font-size: 13px;
       font-weight: 600;
       margin-top: 4px;
       display: none;
     }
-    .feedback-msg.show-err {
-      display: block;
-      color: var(--red);
-    }
-    .feedback-msg.show-ok {
-      display: block;
-      color: #6ee7b7;
-    }
+    .feedback-banner.err { display: block; color: var(--red); }
+    .feedback-banner.ok { display: block; color: #6ee7b7; }
 
-    /* RIGHT SIDE OF PHASE CARD (Hints & Points) */
-    .phase-sidebar {
+    /* RIGHT SIDEBAR (HINT & POINTS) */
+    .question-side {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
       border-left: 1px solid rgba(74, 168, 233, 0.15);
-      padding-left: 20px;
+      padding-left: 24px;
     }
 
-    @media (max-width: 900px) {
-      .phase-sidebar {
+    @media (max-width: 960px) {
+      .question-side {
         border-left: none;
         border-top: 1px solid rgba(74, 168, 233, 0.15);
         padding-left: 0;
-        padding-top: 16px;
+        padding-top: 18px;
       }
     }
 
-    .hint-card {
+    .hint-box {
       background: rgba(6, 26, 41, 0.7);
       border: 1px solid rgba(245, 158, 11, 0.3);
       border-radius: 6px;
-      padding: 12px 14px;
-      transition: all 0.2s ease;
+      padding: 14px 16px;
     }
 
-    .hint-card.hint-locked {
+    .hint-box.locked-hint {
       border-color: rgba(86, 114, 135, 0.25);
       background: rgba(4, 18, 29, 0.5);
     }
 
-    .hint-header {
+    .hint-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
-    .hint-title {
+    .hint-label {
       color: #fbbf24;
       font-size: 12px;
       font-weight: 700;
@@ -559,83 +649,63 @@
       gap: 6px;
     }
 
-    .hint-title.locked-title {
-      color: var(--locked);
-    }
+    .hint-label.locked-lbl { color: var(--locked); }
 
-    .btn-toggle-hint {
+    .btn-hint-toggle {
       background: transparent;
       border: 1px solid rgba(245, 158, 11, 0.5);
       color: #fbbf24;
       font-size: 11px;
       font-weight: 700;
-      padding: 2px 8px;
+      padding: 3px 10px;
       border-radius: 4px;
       cursor: pointer;
-      transition: all 0.15s ease;
       font-family: 'DM Mono', monospace;
+      transition: all 0.15s ease;
     }
 
-    .btn-toggle-hint:hover {
+    .btn-hint-toggle:hover {
       background: rgba(245, 158, 11, 0.2);
       color: #fde68a;
     }
 
-    .hint-body {
-      font-size: 12px;
+    .hint-text {
+      font-size: 12.5px;
       color: var(--muted);
       line-height: 1.5;
     }
 
-    .meta-metrics {
+    .metrics-box {
       display: flex;
       align-items: center;
       justify-content: space-between;
       background: rgba(4, 18, 29, 0.6);
       border: 1px solid var(--line-subtle);
       border-radius: 6px;
-      padding: 10px 14px;
+      padding: 12px 16px;
     }
 
-    .metric-group {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .metric-label {
-      font-size: 10px;
-      color: var(--muted-dark);
-      text-transform: uppercase;
-      font-weight: 700;
-    }
-
-    .metric-val {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--green);
-    }
+    .metric-item { display: flex; flex-direction: column; gap: 2px; }
+    .metric-title { font-size: 10.5px; color: var(--muted-dark); text-transform: uppercase; font-weight: 700; }
+    .metric-value { font-size: 16px; font-weight: 700; color: var(--green); }
   </style>
 </head>
 <body>
 
   <div class="app-container">
-    <!-- TOP HEADER -->
     <header class="topbar">
       <div class="brand-wrap">
         <img src="logo-graphic-geeks.png" alt="Graphic Geeks" class="topbar-brand-logo">
         <span class="brand-title">CYBER HUNT</span>
-        <span class="brand-tag">PHASE ARENA</span>
+        <span class="brand-tag">CHALLENGE ARENA</span>
       </div>
 
-      <!-- LIVE EVENT TIMER -->
       <div class="timer-pill" title="Live Event Countdown">
         <span class="timer-icon">&#9201;</span>
         <span class="timer-label">TIME REMAINING:</span>
         <span class="timer-display" id="eventCountdown">01:59:59</span>
       </div>
 
-      <!-- TOP ACTIONS -->
       <div class="top-actions">
         <a class="nav-btn-link" href="dashboard.html" title="Back to Stages Dashboard">&larr; Dashboard</a>
         <div class="score-badge-box">
@@ -643,380 +713,694 @@
           <span id="currentScore">0 PTS</span>
         </div>
         <a class="topbar-era-wrap" href="https://geu.ac.in" target="_blank" rel="noopener" title="Graphic Era University">
-          <img src="logo-graphic-era.png" alt="Graphic Era University" class="topbar-era-logo" width="32" height="32">
+          <img src="logo-graphic-era.png" alt="Graphic Era University" class="topbar-era-logo" width="34" height="34">
         </a>
       </div>
     </header>
 
-    <!-- STAGES PROGRESS ROW (Reference Image) -->
-    <section class="stages-progress-bar" id="stagesProgressBar">
-      <div class="stage-pill-card active" id="stagePill1">
-        <span class="stage-pill-icon">&#128275;</span>
-        <span class="stage-pill-title">Stage 1:</span>
-        <span class="stage-pill-status">[Active]</span>
-      </div>
-      <div class="stage-pill-card locked" id="stagePill2">
-        <span class="stage-pill-icon">&#128274;</span>
-        <span class="stage-pill-title">Stage 2:</span>
-        <span class="stage-pill-status">[Locked]</span>
-      </div>
-      <div class="stage-pill-card locked" id="stagePill3">
-        <span class="stage-pill-icon">&#128274;</span>
-        <span class="stage-pill-title">Stage 3:</span>
-        <span class="stage-pill-status">[Locked]</span>
-      </div>
-      <div class="stage-pill-card final" id="stagePill4">
-        <span class="stage-pill-icon">&#128681;</span>
-        <span class="stage-pill-title">Stage 4:</span>
-        <span class="stage-pill-status">[Final]</span>
-      </div>
-    </section>
+    <!-- 6 STAGES NAVIGATION ROW (Image 4 layout) -->
+    <nav class="stages-nav-row" id="stagesNavRow"></nav>
 
-    <!-- EVENT CHALLENGES SECTION HEADER -->
+    <!-- SECTION TITLE HEADER -->
     <div class="section-title-wrap">
-      <div class="section-title">
-        <span class="cmd-prompt">&gt;_</span> EVENT CHALLENGES (PHASES 1 - 6)
+      <div class="section-title" id="stageHeaderTitle">
+        <span class="cmd-prompt">&gt;_</span> STAGE 1: HIDDEN CLUE (3 CHALLENGES)
       </div>
-      <div style="font-size: 12px; color: var(--muted);">
-        Sequential Security Decryption Matrix
+      <div style="font-size: 12px; color: var(--muted);" id="stageProgressSub">
+        Solve all challenges sequentially to unlock the next stage.
       </div>
     </div>
 
-    <!-- CHALLENGES LIST -->
-    <main class="challenges-list" id="challengesContainer">
-      <!-- Generated via JS -->
-    </main>
+    <!-- QUESTIONS LIST (Roomy, takes space of 2) -->
+    <main class="questions-list" id="questionsContainer"></main>
   </div>
 
   <script>
-    // CTF CHALLENGE PHASES DEFINITIONS
-    const CHALLENGES = [
+    const STAGES = [
       {
         id: 1,
-        title: "PHASE 1: Cryptic Cipher",
-        question: "Decode the following base64 string to retrieve the access key:",
-        snippet: "R3JhcGhpY0dlZWtzMjAyNg==",
-        hint: "Standard Base64 encoding. Use an online decoder or browser console atob().",
-        points: 50,
-        acceptedAnswers: ["graphicgeeks2026", "graphic geeks 2026", "graphicgeeks"]
+        title: "Hidden Clue",
+        topic: "Hidden Clue",
+        questions: [
+          {
+            qId: "1-1",
+            title: "CHALLENGE 1.1: HTML Source Comment Inspection",
+            question: "Inspect the hidden comment in the target portal metadata to discover the infiltration token:",
+            snippet: "<!-- GEU_CLUE_FOUND: admin_shadow_portal -->",
+            hint: "Check HTML source comments or search for 'GEU_CLUE_FOUND'.",
+            points: 50,
+            acceptedAnswers: ["admin_shadow_portal", "admin shadow portal"]
+          },
+          {
+            qId: "1-2",
+            title: "CHALLENGE 1.2: EXIF Metadata Steganography",
+            question: "Analyze the hidden steganographic EXIF author tag of the campus emblem to locate the clue token:",
+            snippet: "Emblem EXIF Author Tag: Key{hidden_emblem_trace_2026}",
+            hint: "Look at the emblem author metadata parameter key value.",
+            points: 50,
+            acceptedAnswers: ["hidden_emblem_trace_2026", "key{hidden_emblem_trace_2026}"]
+          },
+          {
+            qId: "1-3",
+            title: "CHALLENGE 1.3: Hidden CSS Class Token",
+            question: "An obfuscated style class on the student portal login element holds an authorization key:",
+            snippet: '<div class="auth-box token-geu_clue_alpha_99" style="display:none;"></div>',
+            hint: "Extract the secret token value appended to the class attribute.",
+            points: 50,
+            acceptedAnswers: ["geu_clue_alpha_99"]
+          }
+        ]
       },
       {
         id: 2,
-        title: "PHASE 2: Web Forensics",
-        question: "Inspect the network request headers of the target server. What is the value of the hidden 'X-Flag' parameter?",
-        snippet: "GET /api/v1/auth/stage2 HTTP/1.1 -> Response Header: X-Flag: GEU_HEADER_INTRUSION_KEY",
-        hint: "Check Developer Tools > Network Tab > Response Headers or inspect the simulated header parameter above.",
-        points: 100,
-        acceptedAnswers: ["geu_header_intrusion_key", "geuheaderintrusionkey"]
+        title: "Password Puzzles",
+        topic: "Password puzzles",
+        questions: [
+          {
+            qId: "2-1",
+            title: "CHALLENGE 2.1: Geographic Riddle Password",
+            question: "Solve the administrator's password riddle: 'I am the capital of Graphic Era University\'s state, typed completely in lowercase.'",
+            snippet: "Clue: State is Uttarakhand.",
+            hint: "Capital city of Uttarakhand in lowercase.",
+            points: 50,
+            acceptedAnswers: ["dehradun"]
+          },
+          {
+            qId: "2-2",
+            title: "CHALLENGE 2.2: Leetspeak Password Pattern",
+            question: "Reverse the leetspeak password pattern used by the attacker: 'p@$$w0rd_g3u_2026'",
+            snippet: "Pattern: p@$$w0rd_g3u_2026 -> alphanumeric word:",
+            hint: "Convert @ to a, $ to s, 0 to o, 3 to e.",
+            points: 100,
+            acceptedAnswers: ["password_geu_2026", "passwordgeu2026"]
+          },
+          {
+            qId: "2-3",
+            title: "CHALLENGE 2.3: Salted Hash Cracking",
+            question: "Crack the single-round salted MD5 password hash recovered from the intrusion dump:",
+            snippet: "MD5: 5d41402abc4b2a76b9719d911017c592",
+            hint: "Common 5-letter English greeting word.",
+            points: 150,
+            acceptedAnswers: ["hello"]
+          }
+        ]
       },
       {
         id: 3,
-        title: "PHASE 3: Binary Matrix",
-        question: "Convert the 8-bit binary ASCII sequence into plaintext:",
-        snippet: "01000011 01011001 01000010 01000101 01010010",
-        hint: "8-bit binary ASCII representation. Each byte represents a single character.",
-        points: 100,
-        acceptedAnswers: ["cyber"]
+        title: "Open Source Intelligence Challenge",
+        topic: "Open Source Intelligence Challenge",
+        questions: [
+          {
+            qId: "3-1",
+            title: "CHALLENGE 3.1: Academic TLD Verification",
+            question: "What is the primary official two-part top-level domain extension used by Graphic Era University\'s web portal?",
+            snippet: "Official domain: https://geu.ac.in",
+            hint: "The country-code academic TLD (e.g. ac.in).",
+            points: 50,
+            acceptedAnswers: ["ac.in", ".ac.in", "geu.ac.in"]
+          },
+          {
+            qId: "3-2",
+            title: "CHALLENGE 3.2: Autonomous System Number (ASN)",
+            question: "Identify the BGP Autonomous System Number (ASN) routing the regional campus subnet from traceroute records:",
+            snippet: "BGP Route: AS45671 (National Informatics Subnet)",
+            hint: "Format as AS45671 or 45671.",
+            points: 100,
+            acceptedAnswers: ["as45671", "45671"]
+          },
+          {
+            qId: "3-3",
+            title: "CHALLENGE 3.3: WHOIS Registrar Audit",
+            question: "Reconstruct the accredited national registrar name listed on the target server\'s WHOIS intrusion record:",
+            snippet: "WHOIS Registrar: ERNET-IN / National Academic Registry",
+            hint: "Type ERNET or ERNET-IN.",
+            points: 150,
+            acceptedAnswers: ["ernet", "ernet-in"]
+          }
+        ]
       },
       {
         id: 4,
-        title: "PHASE 4: Cryptographic Hash",
-        question: "An embedded MD5 checksum hash was recovered from security logs: 5d41402abc4b2a76b9719d911017c592. What was the original plaintext word?",
-        snippet: "MD5: 5d41402abc4b2a76b9719d911017c592",
-        hint: "Standard MD5 hash lookup. A very common 5-letter English greeting word.",
-        points: 150,
-        acceptedAnswers: ["hello"]
+        title: "Encoding/Decoding",
+        topic: "Encoding/Decoding",
+        questions: [
+          {
+            qId: "4-1",
+            title: "CHALLENGE 4.1: Base64 Decryption",
+            question: "Decode the base64 encoded payload to retrieve the initial stage access flag:",
+            snippet: "R3JhcGhpY0dlZWtzMjAyNg==",
+            hint: "Standard Base64 encoding. Use an online tool or atob().",
+            points: 50,
+            acceptedAnswers: ["graphicgeeks2026", "graphic geeks 2026"]
+          },
+          {
+            qId: "4-2",
+            title: "CHALLENGE 4.2: Hexadecimal Byte Stream",
+            question: "Decode the hexadecimal byte stream into ASCII plaintext characters:",
+            snippet: "43 59 42 45 52 48 55 4e 54",
+            hint: "Convert hexadecimal byte pairs (43=C, 59=Y...) to text.",
+            points: 100,
+            acceptedAnswers: ["cyberhunt"]
+          },
+          {
+            qId: "4-3",
+            title: "CHALLENGE 4.3: ROT13 Shift Cipher",
+            question: "Decrypt the ROT13 cipher string intercepted from internal terminal communications:",
+            snippet: "ROT13: TRH_IREVSVRQ_CEBGRPGBE",
+            hint: "Rotate each letter back by 13 positions in the alphabet.",
+            points: 100,
+            acceptedAnswers: ["geu_verified_protector", "geu verified protector"]
+          },
+          {
+            qId: "4-4",
+            title: "CHALLENGE 4.4: 8-Bit Binary ASCII Sequence",
+            question: "Convert the 8-bit binary ASCII sequence into plaintext:",
+            snippet: "01010011 01000101 01000011 01010101 01010010 01000101",
+            hint: "Binary ASCII: 01010011 = S, 01000101 = E...",
+            points: 150,
+            acceptedAnswers: ["secure"]
+          }
+        ]
       },
       {
         id: 5,
-        title: "PHASE 5: Database Auth Bypass",
-        question: "Identify the standard numeric tautology operand used to complete this SQL injection login bypass: ' OR '1'='___' --",
-        snippet: "SELECT * FROM participants WHERE username = 'admin' AND pass = '' OR '1'='1' --",
-        hint: "Standard tautology logic condition: 1 equals 1.",
-        points: 200,
-        acceptedAnswers: ["1", "'1'='1'"]
+        title: "Web Vulnerabilities",
+        topic: "Web Vulnerablitites",
+        questions: [
+          {
+            qId: "5-1",
+            title: "CHALLENGE 5.1: SQL Injection Tautology",
+            question: "Identify the standard numeric operand in this classic SQL injection authentication bypass: ' OR '1'='___' --",
+            snippet: "SELECT * FROM users WHERE user='admin' AND pass='' OR '1'='1' --",
+            hint: "Tautology condition: 1 equals 1.",
+            points: 50,
+            acceptedAnswers: ["1", "'1'='1'"]
+          },
+          {
+            qId: "5-2",
+            title: "CHALLENGE 5.2: Insecure Cookie Session Leak",
+            question: "What HTTP response header parameter did the intruder hijack to exfiltrate session data?",
+            snippet: "Injected Header: Set-Cookie: session_admin_token=b7f8e91; Path=/",
+            hint: "Header name: Set-Cookie or Cookie.",
+            points: 100,
+            acceptedAnswers: ["set-cookie", "cookie"]
+          },
+          {
+            qId: "5-3",
+            title: "CHALLENGE 5.3: Cross-Site Scripting (XSS)",
+            question: "Name the client-side injection vulnerability class executing arbitrary scripts inside victim browsers (3-letter acronym):",
+            snippet: "Payload: <img src=x onerror=\"alert(document.cookie)\">",
+            hint: "Cross-Site Scripting (3-letter acronym).",
+            points: 100,
+            acceptedAnswers: ["xss", "cross-site scripting"]
+          },
+          {
+            qId: "5-4",
+            title: "CHALLENGE 5.4: Directory Path Traversal",
+            question: "What 2-character dot notation sequence is repeated to traverse upward out of the webroot directory?",
+            snippet: "GET /view?file=../../../../etc/passwd HTTP/1.1",
+            hint: "Parent directory relative reference: ..",
+            points: 150,
+            acceptedAnswers: ["..", "../"]
+          }
+        ]
       },
       {
         id: 6,
-        title: "PHASE 6: Master Flag (Final Escape Room Key)",
-        question: "Combine the recovered digital keys to formulate the final Graphic Era escape room flag:",
-        snippet: "CYBERHUNT{GEU_VICTORY_2026}",
-        hint: "Type the master flag formatted as CYBERHUNT{GEU_VICTORY_2026}.",
-        points: 500,
-        acceptedAnswers: ["cyberhunt{geu_victory_2026}", "geu_victory_2026"]
+        title: "Coding Round",
+        topic: "Coding Round",
+        questions: [
+          {
+            qId: "6-1",
+            title: "CHALLENGE 6.1: Hash Map Lookup Complexity",
+            question: "What is the average-case time complexity of looking up a key inside an optimized hash table/dictionary?",
+            snippet: "def lookup(key): return map[key]  # Complexity: O(?)",
+            hint: "Constant time complexity formatted as O(1) or 1.",
+            points: 50,
+            acceptedAnswers: ["o(1)", "1", "constant"]
+          },
+          {
+            qId: "6-2",
+            title: "CHALLENGE 6.2: Bitwise Logic Evaluation",
+            question: "Given two integers 13 and 29, what is the output of their bitwise XOR operation (13 ^ 29)?",
+            snippet: "13 (01101) XOR 29 (11101) = ?",
+            hint: "Perform bitwise XOR: 01101 ^ 11101 = 10000 in decimal (16).",
+            points: 100,
+            acceptedAnswers: ["16"]
+          },
+          {
+            qId: "6-3",
+            title: "CHALLENGE 6.3: Binary Search Complexity",
+            question: "In a binary search algorithm operating on a sorted array of length N, what is the maximum number of comparisons in Big-O notation?",
+            snippet: "def binary_search(arr, target): # Complexity: O(?)",
+            hint: "Logarithmic time complexity formatted as O(log n) or log n.",
+            points: 100,
+            acceptedAnswers: ["o(log n)", "log n"]
+          },
+          {
+            qId: "6-4",
+            title: "CHALLENGE 6.4: Master Escape Room Flag",
+            question: "Reconstruct the final master flag to secure Graphic Era University and complete Cyber Hunt 2026:",
+            snippet: "MASTER_FLAG: CYBERHUNT{GEU_VICTORY_2026}",
+            hint: "Format: CYBERHUNT{GEU_VICTORY_2026}.",
+            points: 150,
+            acceptedAnswers: ["cyberhunt{geu_victory_2026}", "geu_victory_2026"]
+          }
+        ]
       }
     ];
 
-    // STATE INITIALIZATION
-    let userState = {
-      revealedHints: JSON.parse(localStorage.getItem('cyber_revealed_hints')) || [],
-      solvedPhases: JSON.parse(localStorage.getItem('cyber_solved_phases')) || [],
-      score: parseInt(localStorage.getItem('cyber_total_score'), 10) || 0
-    };
+    // STATE
+    let userSolvedQuestions = JSON.parse(localStorage.getItem('cyber_solved_questions')) || [];
+    let userSolvedStages = JSON.parse(localStorage.getItem('cyber_solved_stages')) || [];
+    let userScore = parseInt(localStorage.getItem('cyber_total_score'), 10) || 0;
+    let revealedHints = JSON.parse(localStorage.getItem('cyber_revealed_hints')) || [];
 
-    // COUNTDOWN TIMER LOGIC (2 Hours default, persistent)
+    // Migrate any legacy solved phases
+    const legacyPhases = JSON.parse(localStorage.getItem('cyber_solved_phases')) || [];
+    if (legacyPhases.length > 0) {
+      legacyPhases.forEach(pId => {
+        if (!userSolvedStages.includes(pId)) userSolvedStages.push(pId);
+        const stage = STAGES.find(s => s.id === pId);
+        if (stage) {
+          stage.questions.forEach(q => {
+            if (!userSolvedQuestions.includes(q.qId)) userSolvedQuestions.push(q.qId);
+          });
+        }
+      });
+      localStorage.setItem('cyber_solved_questions', JSON.stringify(userSolvedQuestions));
+      localStorage.setItem('cyber_solved_stages', JSON.stringify(userSolvedStages));
+    }
+
+    // Determine current active stage
+    function getActiveStageId() {
+      for (let i = 0; i < STAGES.length; i++) {
+        const st = STAGES[i];
+        const allSolved = st.questions.every(q => userSolvedQuestions.includes(q.qId));
+        if (!allSolved) {
+          return st.id;
+        }
+      }
+      return STAGES.length;
+    }
+
+    let activeStageId = getActiveStageId();
+    let currentViewStageId = activeStageId;
+
+    // Check URL query param for initial view stage
+    const urlParams = new URLSearchParams(window.location.search);
+    const paramStage = parseInt(urlParams.get('stage') || urlParams.get('phase'), 10);
+    if (paramStage && paramStage >= 1 && paramStage <= STAGES.length) {
+      if (paramStage <= activeStageId) {
+        currentViewStageId = paramStage;
+      }
+    }
+
+    // LIVE EVENT COUNTDOWN TIMER (2 Hours, persistent)
     let eventDurationSeconds = parseInt(localStorage.getItem('cyber_timer_remaining'), 10);
     if (isNaN(eventDurationSeconds) || eventDurationSeconds <= 0) {
-      eventDurationSeconds = 2 * 60 * 60; // 2 hours
+      eventDurationSeconds = 2 * 60 * 60;
     }
 
     const timerDisplay = document.getElementById('eventCountdown');
-
     function updateTimer() {
       if (eventDurationSeconds <= 0) {
-        timerDisplay.textContent = "00:00:00 - TIME EXPIRED";
+        timerDisplay.textContent = "00:00:00 - EXPIRED";
         timerDisplay.style.color = "var(--red)";
         return;
       }
       eventDurationSeconds--;
       localStorage.setItem('cyber_timer_remaining', eventDurationSeconds);
-
-      const hours = String(Math.floor(eventDurationSeconds / 3600)).padStart(2, '0');
-      const minutes = String(Math.floor((eventDurationSeconds % 3600) / 60)).padStart(2, '0');
-      const seconds = String(eventDurationSeconds % 60).padStart(2, '0');
-      timerDisplay.textContent = `${hours}:${minutes}:${seconds}`;
+      const h = String(Math.floor(eventDurationSeconds / 3600)).padStart(2, '0');
+      const m = String(Math.floor((eventDurationSeconds % 3600) / 60)).padStart(2, '0');
+      const s = String(eventDurationSeconds % 60).padStart(2, '0');
+      timerDisplay.textContent = `${h}:${m}:${s}`;
     }
-
     setInterval(updateTimer, 1000);
     updateTimer();
 
-    window.toggleHint = function(phaseId) {
-      const idx = userState.revealedHints.indexOf(phaseId);
+    // HINT REVEAL TOGGLE
+    window.toggleHint = function(qId) {
+      const idx = revealedHints.indexOf(qId);
       if (idx > -1) {
-        userState.revealedHints.splice(idx, 1);
+        revealedHints.splice(idx, 1);
       } else {
-        userState.revealedHints.push(phaseId);
+        revealedHints.push(qId);
       }
-      localStorage.setItem('cyber_revealed_hints', JSON.stringify(userState.revealedHints));
+      localStorage.setItem('cyber_revealed_hints', JSON.stringify(revealedHints));
       renderApp();
     };
 
-    // RENDER CHALLENGES & STAGES
-    function renderApp() {
-      const container = document.getElementById('challengesContainer');
-      container.innerHTML = '';
+    // SELECT STAGE TAB
+    window.selectStage = function(stageId) {
+      if (stageId <= activeStageId) {
+        currentViewStageId = stageId;
+        renderApp();
+      }
+    };
 
-      // Determine highest active phase
-      const solvedSet = new Set(userState.solvedPhases);
-      let activePhaseId = 1;
-      while (solvedSet.has(activePhaseId) && activePhaseId <= CHALLENGES.length) {
-        activePhaseId++;
+    // RENDER APPLICATION
+    function renderApp() {
+      activeStageId = getActiveStageId();
+      if (currentViewStageId > activeStageId) {
+        currentViewStageId = activeStageId;
       }
 
-      // Update Top Stages Progress Bar
-      updateStagePills(solvedSet, activePhaseId);
-
       // Update Score
-      document.getElementById('currentScore').textContent = `${userState.score} PTS`;
+      document.getElementById('currentScore').textContent = `${userScore} PTS`;
 
-      // Render Each Phase Card
-      CHALLENGES.forEach(c => {
-        const isSolved = solvedSet.has(c.id);
-        const isActive = (c.id === activePhaseId);
-        const isLocked = (!isSolved && c.id > activePhaseId);
-        const isHintRevealed = userState.revealedHints.includes(c.id);
+      // 1. Render Top 6 Stages Nav (Image 4 layout)
+      renderStagesNav();
 
-        const card = document.createElement('article');
-        card.className = `phase-card ${isSolved ? 'solved-phase' : ''} ${isActive ? 'active-phase' : ''} ${isLocked ? 'locked-phase' : ''}`;
-        card.id = `phaseCard_${c.id}`;
+      // 2. Render Current Stage Questions
+      renderQuestions();
+    }
 
-        let hintHtml = '';
-        if (isLocked) {
-          hintHtml = `
-            <div class="hint-card hint-locked">
-              <div class="hint-header">
-                <div class="hint-title locked-title">
-                  <span>&#128274;</span> HINT LOCKED
-                </div>
-              </div>
-              <div class="hint-body" style="color: var(--locked); font-style: italic;">
-                Complete previous phases to unlock this hint.
-              </div>
-            </div>
-          `;
-        } else {
-          hintHtml = `
-            <div class="hint-card">
-              <div class="hint-header">
-                <div class="hint-title">
-                  <span>&#128161;</span> HINT
-                </div>
-                <button class="btn-toggle-hint" onclick="toggleHint(${c.id})">
-                  ${isHintRevealed ? 'Hide' : 'Reveal'}
-                </button>
-              </div>
-              ${isHintRevealed ? `
-                <div class="hint-body">${c.hint}</div>
-              ` : `
-                <div class="hint-body" style="color: var(--muted-dark); font-style: italic;">
-                  Click 'Reveal' to view clue hint.
-                </div>
-              `}
-            </div>
-          `;
+    function renderStagesNav() {
+      const nav = document.getElementById('stagesNavRow');
+      nav.innerHTML = '';
+
+      STAGES.forEach(st => {
+        const isStageCompleted = st.questions.every(q => userSolvedQuestions.includes(q.qId));
+        const isStageActive = (st.id === activeStageId && !isStageCompleted);
+        const isStageLocked = (st.id > activeStageId);
+        const isFinal = (st.id === 6);
+        const isSelected = (st.id === currentViewStageId);
+
+        let cls = 'locked-stage';
+        let status = '[Locked]';
+        let icon = '&#128274;';
+
+        if (isStageCompleted) {
+          cls = 'completed-stage';
+          status = '[Completed]';
+          icon = '&#10003;';
+        } else if (isStageActive) {
+          cls = isFinal ? 'active-stage final-stage' : 'active-stage';
+          status = '[Active]';
+          icon = '&#128275;';
+        } else if (isFinal) {
+          cls = 'locked-stage final-stage';
+          status = '[Final]';
+          icon = '&#128681;';
         }
 
+        if (isSelected) {
+          cls += ' selected-view';
+        }
+
+        const card = document.createElement('div');
+        card.className = `stage-nav-card ${cls}`;
+        card.title = isStageLocked ? "Stage Locked - Complete previous stages" : `View Stage ${st.id}: ${st.title}`;
+        card.onclick = () => selectStage(st.id);
+
         card.innerHTML = `
-          <div class="phase-card-inner">
-            <div class="phase-main">
-              <div class="phase-header">
-                <h2 class="phase-title">${c.title}</h2>
-                <span class="phase-status-badge ${isSolved ? 'solved' : (isActive ? 'active' : 'locked')}">
-                  ${isSolved ? '&#10003; SOLVED' : (isActive ? 'ACTIVE' : '&#128274; LOCKED')}
-                </span>
-              </div>
-
-              <div class="question-box">
-                <div>${c.question}</div>
-                ${c.snippet ? `<div class="question-code-snippet">${c.snippet}</div>` : ''}
-              </div>
-
-              <div class="submission-row">
-                <input 
-                  type="text" 
-                  class="answer-input ${isSolved ? 'input-success' : ''}" 
-                  id="input_${c.id}" 
-                  placeholder="${isSolved ? 'Solved: Access Granted' : 'Type your answer here...'}" 
-                  value="${isSolved ? '&#10003; ANSWER VERIFIED' : ''}"
-                  ${isSolved || isLocked ? 'disabled' : ''}
-                  autocomplete="off"
-                />
-                <button 
-                  class="btn-submit-flag" 
-                  id="btn_${c.id}" 
-                  onclick="submitAnswer(${c.id})"
-                  ${isSolved || isLocked ? 'disabled' : ''}
-                >
-                  ${isSolved ? 'SOLVED' : 'SUBMIT'}
-                </button>
-              </div>
-
-              <div class="feedback-msg" id="feedback_${c.id}"></div>
-            </div>
-
-            <div class="phase-sidebar">
-              ${hintHtml}
-
-              <div class="meta-metrics">
-                <div class="metric-group">
-                  <span class="metric-label">Points Gained</span>
-                  <span class="metric-val">+${c.points}</span>
-                </div>
-                <div class="metric-group" style="text-align: right;">
-                  <span class="metric-label">Status</span>
-                  <span style="font-size: 12px; font-weight: 700; color: ${isSolved ? 'var(--green)' : (isActive ? 'var(--blue-light)' : 'var(--locked)')};">
-                    ${isSolved ? 'Completed' : (isActive ? 'In Progress' : 'Locked')}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <span class="stage-nav-icon">${icon}</span>
+          <span class="stage-nav-title">Stage ${st.id}: ${st.title}</span>
+          <span class="stage-nav-sub">${status}</span>
         `;
 
-        container.appendChild(card);
+        nav.appendChild(card);
       });
     }
 
-    function updateStagePills(solvedSet, activePhaseId) {
-      const stagePill1 = document.getElementById('stagePill1');
-      const stagePill2 = document.getElementById('stagePill2');
-      const stagePill3 = document.getElementById('stagePill3');
-      const stagePill4 = document.getElementById('stagePill4');
+    // Tracking current focused question in current view stage
+    let currentFocusedQId = null;
 
-      // Stage 1
-      if (solvedSet.has(1) && solvedSet.has(2)) {
-        stagePill1.className = "stage-pill-card solved";
-        stagePill1.querySelector('.stage-pill-status').textContent = "[Solved]";
-      } else {
-        stagePill1.className = "stage-pill-card active";
-        stagePill1.querySelector('.stage-pill-status').textContent = "[Active]";
+    window.selectQuestionInStage = function(qId) {
+      currentFocusedQId = qId;
+      renderApp();
+    };
+
+    function renderQuestions() {
+      const currentStage = STAGES.find(s => s.id === currentViewStageId);
+      if (!currentStage) return;
+
+      const headerTitle = document.getElementById('stageHeaderTitle');
+      const progressSub = document.getElementById('stageProgressSub');
+      const solvedInStage = currentStage.questions.filter(q => userSolvedQuestions.includes(q.qId)).length;
+      const allStageSolved = (solvedInStage === currentStage.questions.length);
+
+      headerTitle.innerHTML = `<span class="cmd-prompt">&gt;_</span> STAGE ${currentStage.id}: ${currentStage.topic.toUpperCase()} (${currentStage.questions.length} CHALLENGES)`;
+      progressSub.textContent = `Completed ${solvedInStage} of ${currentStage.questions.length} challenges in this stage.`;
+
+      const container = document.getElementById('questionsContainer');
+      container.innerHTML = '';
+
+      // Determine the active question in this stage if not manually selected
+      let activeQInStage = null;
+      for (let i = 0; i < currentStage.questions.length; i++) {
+        const q = currentStage.questions[i];
+        if (!userSolvedQuestions.includes(q.qId)) {
+          activeQInStage = q.qId;
+          break;
+        }
       }
 
-      // Stage 2
-      if (solvedSet.has(3) && solvedSet.has(4)) {
-        stagePill2.className = "stage-pill-card solved";
-        stagePill2.querySelector('.stage-pill-icon').innerHTML = "&#128275;";
-        stagePill2.querySelector('.stage-pill-status').textContent = "[Solved]";
-      } else if (solvedSet.has(1) && solvedSet.has(2)) {
-        stagePill2.className = "stage-pill-card active";
-        stagePill2.querySelector('.stage-pill-icon').innerHTML = "&#128275;";
-        stagePill2.querySelector('.stage-pill-status').textContent = "[Active]";
-      } else {
-        stagePill2.className = "stage-pill-card locked";
-        stagePill2.querySelector('.stage-pill-icon').innerHTML = "&#128274;";
-        stagePill2.querySelector('.stage-pill-status').textContent = "[Locked]";
+      // If user hasn't selected a specific question, default to the active unsolved question or the last question
+      if (!currentFocusedQId || !currentStage.questions.some(q => q.qId === currentFocusedQId)) {
+        currentFocusedQId = activeQInStage || currentStage.questions[currentStage.questions.length - 1].qId;
       }
 
-      // Stage 3
-      if (solvedSet.has(5)) {
-        stagePill3.className = "stage-pill-card solved";
-        stagePill3.querySelector('.stage-pill-icon').innerHTML = "&#128275;";
-        stagePill3.querySelector('.stage-pill-status').textContent = "[Solved]";
-      } else if (solvedSet.has(3) && solvedSet.has(4)) {
-        stagePill3.className = "stage-pill-card active";
-        stagePill3.querySelector('.stage-pill-icon').innerHTML = "&#128275;";
-        stagePill3.querySelector('.stage-pill-status').textContent = "[Active]";
-      } else {
-        stagePill3.className = "stage-pill-card locked";
-        stagePill3.querySelector('.stage-pill-icon').innerHTML = "&#128274;";
-        stagePill3.querySelector('.stage-pill-status').textContent = "[Locked]";
-      }
-
-      // Stage 4 Final
-      if (solvedSet.has(6)) {
-        stagePill4.className = "stage-pill-card solved";
-        stagePill4.querySelector('.stage-pill-status').textContent = "[Victory]";
-      } else if (solvedSet.has(5)) {
-        stagePill4.className = "stage-pill-card active";
-        stagePill4.querySelector('.stage-pill-status').textContent = "[Final Active]";
-      } else {
-        stagePill4.className = "stage-pill-card final";
-        stagePill4.querySelector('.stage-pill-status').textContent = "[Final]";
-      }
-    }
-
-    // SUBMIT & VALIDATION HANDLER
-    window.submitAnswer = function(phaseId) {
-      const challenge = CHALLENGES.find(c => c.id === phaseId);
-      if (!challenge) return;
-
-      const input = document.getElementById(`input_${phaseId}`);
-      const feedback = document.getElementById(`feedback_${phaseId}`);
-      const val = input.value.trim().toLowerCase();
-
-      if (!val) {
-        input.classList.add('input-error');
-        feedback.className = "feedback-msg show-err";
-        feedback.textContent = "Please enter an answer.";
-        setTimeout(() => input.classList.remove('input-error'), 500);
+      // If all questions are solved AND user hasn't explicitly clicked a question pill to review, show Stage Cleared Victory Screen
+      if (allStageSolved && !currentFocusedQId) {
+        const clearedCard = document.createElement('div');
+        clearedCard.className = 'stage-cleared-card';
+        clearedCard.innerHTML = `
+          <div class="cleared-icon">&#9733;</div>
+          <h2 class="cleared-title">STAGE ${currentStage.id}: ${currentStage.topic.toUpperCase()} CLEARED!</h2>
+          <p class="cleared-desc">
+            All ${currentStage.questions.length} security decryption challenges in this stage have been successfully solved.
+            Authentication credentials have been verified and recorded.
+          </p>
+          ${currentStage.id < STAGES.length ? `
+            <button class="btn-next-stage" onclick="selectStage(${currentStage.id + 1})">
+              PROCEED TO STAGE ${currentStage.id + 1} &rarr;
+            </button>
+          ` : `
+            <div style="color: var(--green); font-weight: 700; font-size: 18px; margin-top: 10px;">
+              &#127881; ALL CYBER HUNT 2026 STAGES SUCCESSFULLY COMPLETED!
+            </div>
+          `}
+        `;
+        container.appendChild(clearedCard);
         return;
       }
 
-      const isCorrect = challenge.acceptedAnswers.some(ans => ans.toLowerCase() === val);
+      // RENDER ONLY THE ONE ACTIVE QUESTION CARD (Taking full space of 2)
+      const targetQ = currentStage.questions.find(q => q.qId === currentFocusedQId) || currentStage.questions[0];
+      const isSolved = userSolvedQuestions.includes(targetQ.qId);
+      const isActive = (targetQ.qId === activeQInStage);
+      const isLocked = (!isSolved && targetQ.qId !== activeQInStage && currentViewStageId === activeStageId && targetQ.qId > activeQInStage);
+      const isHintRevealed = revealedHints.includes(targetQ.qId);
+
+      const card = document.createElement('article');
+      card.className = `question-card ${isSolved ? 'solved-q' : ''} ${isActive ? 'active-q' : ''}`;
+      card.id = `qCard_${targetQ.qId}`;
+
+      // Step pills within this stage
+      let stepPillsHtml = '<div class="q-step-row">';
+      currentStage.questions.forEach((q, idx) => {
+        const qSolved = userSolvedQuestions.includes(q.qId);
+        const qActive = (q.qId === activeQInStage);
+        const qFocused = (q.qId === targetQ.qId);
+        const qLocked = (!qSolved && !qActive && currentViewStageId === activeStageId && q.qId > activeQInStage);
+
+        let pCls = '';
+        let icon = `${idx + 1}`;
+        if (qSolved) { pCls = 'solved'; icon = '&#10003;'; }
+        else if (qActive) { pCls = 'active'; icon = '&#9679;'; }
+        else if (qLocked) { pCls = 'locked'; icon = '&#128274;'; }
+
+        if (qFocused) { pCls += ' active'; }
+
+        stepPillsHtml += `
+          <button 
+            type="button" 
+            class="q-step-pill ${pCls}" 
+            ${qLocked ? 'disabled' : ''} 
+            onclick="selectQuestionInStage('${q.qId}')"
+            title="Challenge ${idx + 1}: ${q.title}"
+          >
+            <span>${icon}</span>
+            <span>Challenge ${idx + 1}</span>
+            ${qSolved ? '<span style="color:#6ee7b7; font-size:10px;">[Solved]</span>' : (qActive ? '<span style="color:#38bdf8; font-size:10px;">[Active]</span>' : '')}
+          </button>
+        `;
+      });
+      stepPillsHtml += '</div>';
+
+      let hintHtml = '';
+      if (isLocked) {
+        hintHtml = `
+          <div class="hint-box locked-hint">
+            <div class="hint-top">
+              <span class="hint-label locked-lbl">&#128274; HINT LOCKED</span>
+            </div>
+            <div class="hint-text" style="color: var(--locked); font-style: italic;">
+              Complete previous challenge to unlock clue hint.
+            </div>
+          </div>
+        `;
+      } else {
+        hintHtml = `
+          <div class="hint-box">
+            <div class="hint-top">
+              <span class="hint-label">&#128161; HINT</span>
+              <button class="btn-hint-toggle" onclick="toggleHint('${targetQ.qId}')">
+                ${isHintRevealed ? 'Hide' : 'Reveal'}
+              </button>
+            </div>
+            ${isHintRevealed ? `
+              <div class="hint-text">${targetQ.hint}</div>
+            ` : `
+              <div class="hint-text" style="color: var(--muted-dark); font-style: italic;">
+                Click 'Reveal' to view decryption clue.
+              </div>
+            `}
+          </div>
+        `;
+      }
+
+      card.innerHTML = `
+        <!-- Question Step Progress Row -->
+        ${stepPillsHtml}
+
+        <div class="question-card-inner">
+          <div class="question-main">
+            <div class="question-header">
+              <h2 class="question-title">${targetQ.title}</h2>
+              <span class="question-status-badge ${isSolved ? 'solved' : (isActive ? 'active' : 'locked')}">
+                ${isSolved ? '&#10003; SOLVED' : (isActive ? 'ACTIVE MISSION' : '&#128274; LOCKED')}
+              </span>
+            </div>
+
+            <div class="question-prompt-box">
+              <div style="font-size: 15.5px; margin-bottom: 6px;">${targetQ.question}</div>
+              ${targetQ.snippet ? `<div class="question-code-block">${targetQ.snippet}</div>` : ''}
+            </div>
+
+            <div class="question-input-row">
+              <input 
+                type="text" 
+                class="answer-text-input ${isSolved ? 'input-correct' : ''}" 
+                id="input_${targetQ.qId}" 
+                placeholder="${isSolved ? 'Access Granted: Challenge Decrypted' : 'Type your one-word answer here...'}" 
+                value="${isSolved ? '&#10003; ANSWER VERIFIED' : ''}" 
+                ${isSolved || isLocked ? 'disabled' : ''} 
+                autocomplete="off"
+              />
+              <button 
+                class="btn-submit-answer" 
+                id="btn_${targetQ.qId}" 
+                onclick="submitAnswer('${targetQ.qId}')" 
+                ${isSolved || isLocked ? 'disabled' : ''}
+              >
+                ${isSolved ? 'SOLVED' : 'SUBMIT ANSWER'}
+              </button>
+            </div>
+
+            <div class="feedback-banner" id="feedback_${targetQ.qId}"></div>
+          </div>
+
+          <div class="question-side">
+            ${hintHtml}
+
+            <div class="metrics-box">
+              <div class="metric-item">
+                <span class="metric-title">Points Gained</span>
+                <span class="metric-value">+${targetQ.points}</span>
+              </div>
+              <div class="metric-item" style="text-align: right;">
+                <span class="metric-title">Status</span>
+                <span style="font-size: 13px; font-weight: 700; color: ${isSolved ? 'var(--green)' : (isActive ? 'var(--blue-light)' : 'var(--locked)')};">
+                  ${isSolved ? 'Completed' : (isActive ? 'In Progress' : 'Locked')}
+                </span>
+              </div>
+            </div>
+
+            <div style="background: rgba(4, 18, 29, 0.4); border: 1px solid var(--line-subtle); border-radius: 6px; padding: 12px 16px; font-size: 12px; color: var(--muted);">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                <span>Stage Progress</span>
+                <span style="color: var(--white); font-weight: 700;">${solvedInStage} / ${currentStage.questions.length}</span>
+              </div>
+              <div style="width: 100%; height: 6px; background: rgba(6, 26, 41, 0.8); border-radius: 3px; overflow: hidden;">
+                <div style="width: ${(solvedInStage / currentStage.questions.length) * 100}%; height: 100%; background: var(--blue); transition: width 0.3s ease;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      container.appendChild(card);
+    }
+
+    // SUBMISSION & VALIDATION
+    window.submitAnswer = function(qId) {
+      let targetQ = null;
+      let targetStage = null;
+      for (const st of STAGES) {
+        const found = st.questions.find(q => q.qId === qId);
+        if (found) {
+          targetQ = found;
+          targetStage = st;
+          break;
+        }
+      }
+      if (!targetQ) return;
+
+      const input = document.getElementById(`input_${qId}`);
+      const feedback = document.getElementById(`feedback_${qId}`);
+      const val = input.value.trim().toLowerCase();
+
+      if (!val) {
+        input.classList.add('input-wrong');
+        feedback.className = "feedback-banner err";
+        feedback.textContent = "Please enter an answer.";
+        setTimeout(() => input.classList.remove('input-wrong'), 500);
+        return;
+      }
+
+      const isCorrect = targetQ.acceptedAnswers.some(ans => ans.toLowerCase() === val);
 
       if (isCorrect) {
-        feedback.className = "feedback-msg show-ok";
-        feedback.innerHTML = `&#10003; Correct! Access key accepted. +${challenge.points} PTS awarded.`;
+        feedback.className = "feedback-banner ok";
+        feedback.innerHTML = `&#10003; Correct! Access token verified. +${targetQ.points} PTS awarded.`;
 
-        if (!userState.solvedPhases.includes(phaseId)) {
-          userState.solvedPhases.push(phaseId);
-          userState.score += challenge.points;
-          localStorage.setItem('cyber_solved_phases', JSON.stringify(userState.solvedPhases));
-          localStorage.setItem('cyber_total_score', userState.score);
+        if (!userSolvedQuestions.includes(qId)) {
+          userSolvedQuestions.push(qId);
+          userScore += targetQ.points;
+          localStorage.setItem('cyber_solved_questions', JSON.stringify(userSolvedQuestions));
+          localStorage.setItem('cyber_total_score', userScore);
+
+          // Check if all questions in stage are solved
+          const allStageSolved = targetStage.questions.every(q => userSolvedQuestions.includes(q.qId));
+          if (allStageSolved && !userSolvedStages.includes(targetStage.id)) {
+            userSolvedStages.push(targetStage.id);
+            localStorage.setItem('cyber_solved_stages', JSON.stringify(userSolvedStages));
+          }
+
+          // Advance to next unsolved question in this stage after brief delay
+          let nextUnsolved = targetStage.questions.find(q => !userSolvedQuestions.includes(q.qId));
+          if (nextUnsolved) {
+            currentFocusedQId = nextUnsolved.qId;
+          } else {
+            // Stage completed! Show cleared screen or advance stage
+            currentFocusedQId = null;
+          }
         }
 
         setTimeout(() => {
           renderApp();
-        }, 600);
+        }, 700);
       } else {
-        input.classList.add('input-error');
-        feedback.className = "feedback-msg show-err";
-        feedback.textContent = "Incorrect access key / answer. Please analyze clues and try again.";
-        setTimeout(() => input.classList.remove('input-error'), 600);
+        input.classList.add('input-wrong');
+        feedback.className = "feedback-banner err";
+        feedback.textContent = "Incorrect answer. Recheck clues or hint.";
+        setTimeout(() => input.classList.remove('input-wrong'), 600);
       }
     };
 
-    // INITIAL RENDER
     renderApp();
   </script>
 </body>
