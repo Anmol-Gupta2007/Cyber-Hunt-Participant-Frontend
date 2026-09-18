@@ -1,1566 +1,4594 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
   <title>Cyber Hunt | Participant Dashboard</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+  <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700;800&display=swap"
+    rel="stylesheet">
+
 
   <style>
+
     :root {
+
       --bg: #061a29;
       --panel: #062338;
       --panel-inner: #092c44;
       --panel-border: #4aa8e9;
+
       --blue: #58aaeb;
       --blue-light: #72b9f0;
-      --blue-dim: rgba(88, 170, 235, 0.45);
+
+      --blue-dim:
+        rgba(88, 170, 235, 0.45);
+
       --white: #edf2f4;
+
       --text-muted: #b0c9db;
+
       --green: #78b982;
-      --green-dim: rgba(120, 185, 130, 0.2);
+
+      --green-dim:
+        rgba(120, 185, 130, 0.2);
+
       --locked: #607383;
     }
 
+
     * {
+
       box-sizing: border-box;
+
       margin: 0;
       padding: 0;
+
     }
+
 
     body {
+
       min-height: 100vh;
+
       background-color: var(--bg);
-      background-image: 
-        radial-gradient(circle at 10% 20%, rgba(88, 170, 235, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(88, 170, 235, 0.08) 0%, transparent 40%);
+
+      background-image:
+        radial-gradient(
+          circle at 10% 20%,
+          rgba(88, 170, 235, 0.08) 0%,
+          transparent 40%
+        ),
+
+        radial-gradient(
+          circle at 90% 80%,
+          rgba(88, 170, 235, 0.08) 0%,
+          transparent 40%
+        );
+
       color: var(--white);
-      font-family: 'DM Mono', monospace;
-      padding: clamp(14px, 2vh, 24px) clamp(16px, 2.5vw, 36px);
+
+      font-family:
+        'DM Mono',
+        monospace;
+
+      padding:
+        clamp(14px, 2vh, 24px)
+        clamp(16px, 2.5vw, 36px);
+
       display: flex;
+
       flex-direction: column;
+
       align-items: center;
+
     }
+
 
     .dashboard-container {
+
       width: 100%;
+
       max-width: 1380px;
+
       background: var(--panel);
-      border: 2px solid var(--panel-border);
+
+      border:
+        2px solid
+        var(--panel-border);
+
       border-radius: 8px;
-      box-shadow: 0 0 35px rgba(74, 168, 233, 0.18), inset 0 0 50px rgba(6, 26, 41, 0.5);
+
+      box-shadow:
+        0 0 35px
+        rgba(74, 168, 233, 0.18),
+
+        inset 0 0 50px
+        rgba(6, 26, 41, 0.5);
+
       position: relative;
+
       overflow: hidden;
+
       display: flex;
+
       flex-direction: column;
+
     }
 
-    /* Corner Marks */
+
+    /* =====================================================
+       CORNER MARKS
+       ===================================================== */
+
     .corner-mark {
+
       position: absolute;
+
       width: 16px;
       height: 16px;
-      border-color: var(--blue);
+
+      border-color:
+        var(--blue);
+
       border-style: solid;
+
       pointer-events: none;
+
       z-index: 10;
-    }
-    .corner-mark.tl { top: 10px; left: 10px; border-width: 2px 0 0 2px; }
-    .corner-mark.tr { top: 10px; right: 10px; border-width: 2px 2px 0 0; }
-    .corner-mark.bl { bottom: 10px; left: 10px; border-width: 0 0 2px 2px; }
-    .corner-mark.br { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; }
 
-    /* Top Navigation Header */
-    
+    }
+
+
+    .corner-mark.tl {
+
+      top: 10px;
+      left: 10px;
+
+      border-width:
+        2px 0 0 2px;
+
+    }
+
+
+    .corner-mark.tr {
+
+      top: 10px;
+      right: 10px;
+
+      border-width:
+        2px 2px 0 0;
+
+    }
+
+
+    .corner-mark.bl {
+
+      bottom: 10px;
+      left: 10px;
+
+      border-width:
+        0 0 2px 2px;
+
+    }
+
+
+    .corner-mark.br {
+
+      bottom: 10px;
+      right: 10px;
+
+      border-width:
+        0 2px 2px 0;
+
+    }
+
+
+    /* =====================================================
+       HEADER
+       ===================================================== */
+
     .brand-logo-img {
+
       width: 32px;
       height: 32px;
+
       max-width: 32px;
       max-height: 32px;
+
       border-radius: 50%;
+
       object-fit: cover;
-      border: 1.5px solid var(--panel-border);
-      box-shadow: 0 0 10px rgba(88, 170, 235, 0.4);
+
+      border:
+        1.5px solid
+        var(--panel-border);
+
+      box-shadow:
+        0 0 10px
+        rgba(88, 170, 235, 0.4);
+
       flex-shrink: 0;
+
       display: inline-block;
-    }
-    .header-era-wrap {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      text-decoration: none;
-    }
-    .header-era-logo {
-      width: 32px;
-      height: 32px;
-      max-width: 32px;
-      max-height: 32px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 1.5px solid var(--panel-border);
-      box-shadow: 0 0 10px rgba(88, 170, 235, 0.4);
-      flex-shrink: 0;
-      transition: transform 0.2s ease;
-      display: block;
-    }
-    .header-era-logo:hover {
-      transform: scale(1.08);
+
     }
 
-    
-    .timer-pill {
-      display: flex;
+
+    .header-era-wrap {
+
+      display: inline-flex;
+
       align-items: center;
+
+      justify-content: center;
+
+      flex-shrink: 0;
+
+      text-decoration: none;
+
+    }
+
+
+    .header-era-logo {
+
+      width: 32px;
+      height: 32px;
+
+      max-width: 32px;
+      max-height: 32px;
+
+      border-radius: 50%;
+
+      object-fit: cover;
+
+      border:
+        1.5px solid
+        var(--panel-border);
+
+      box-shadow:
+        0 0 10px
+        rgba(88, 170, 235, 0.4);
+
+      flex-shrink: 0;
+
+      transition:
+        transform 0.2s ease;
+
+      display: block;
+
+    }
+
+
+    .header-era-logo:hover {
+
+      transform:
+        scale(1.08);
+
+    }
+
+
+    .timer-pill {
+
+      display: flex;
+
+      align-items: center;
+
       gap: 10px;
-      background: rgba(6, 26, 41, 0.85);
-      border: 1.5px solid var(--blue);
-      box-shadow: 0 0 15px rgba(88, 170, 235, 0.25);
-      padding: 6px 16px;
+
+      background:
+        rgba(6, 26, 41, 0.85);
+
+      border:
+        1.5px solid
+        var(--blue);
+
+      box-shadow:
+        0 0 15px
+        rgba(88, 170, 235, 0.25);
+
+      padding:
+        6px 16px;
+
       border-radius: 6px;
-      font-family: 'DM Mono', monospace;
+
+      font-family:
+        'DM Mono',
+        monospace;
+
     }
+
+
     .timer-icon {
-      color: var(--blue-light);
+
+      color:
+        var(--blue-light);
+
       font-size: 16px;
-      animation: pulse-icon 2s infinite ease-in-out;
+
+      animation:
+        pulse-icon
+        2s
+        infinite
+        ease-in-out;
+
     }
+
+
     @keyframes pulse-icon {
-      0%, 100% { transform: scale(1); opacity: 0.9; }
-      50% { transform: scale(1.15); opacity: 1; filter: drop-shadow(0 0 6px var(--blue)); }
+
+      0%,
+      100% {
+
+        transform: scale(1);
+        opacity: 0.9;
+
+      }
+
+      50% {
+
+        transform: scale(1.15);
+
+        opacity: 1;
+
+        filter:
+          drop-shadow(
+            0 0 6px
+            var(--blue)
+          );
+
+      }
+
     }
+
+
     .timer-label {
+
       font-size: 11px;
+
       font-weight: 600;
-      color: var(--text-muted);
+
+      color:
+        var(--text-muted);
+
       letter-spacing: 1px;
+
       text-transform: uppercase;
+
     }
+
+
     .timer-display {
+
       font-size: 16px;
+
       font-weight: 700;
+
       color: #38bdf8;
+
       letter-spacing: 1.5px;
-      text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+
+      text-shadow:
+        0 0 10px
+        rgba(56, 189, 248, 0.5);
+
     }
+
 
     header {
-      height: clamp(56px, 7.5vh, 70px);
-      border-bottom: 1.5px solid var(--blue-dim);
+
+      height:
+        clamp(56px, 7.5vh, 70px);
+
+      border-bottom:
+        1.5px solid
+        var(--blue-dim);
+
       display: flex;
+
       align-items: center;
+
       justify-content: space-between;
-      padding: 0 clamp(16px, 2.5vw, 32px);
-      background: rgba(6, 26, 41, 0.6);
+
+      padding:
+        0
+        clamp(16px, 2.5vw, 32px);
+
+      background:
+        rgba(6, 26, 41, 0.6);
+
       flex-shrink: 0;
+
     }
+
 
     .brand {
+
       display: inline-flex;
+
       align-items: center;
+
       gap: 12px;
+
       text-decoration: none;
+
       color: var(--white);
-      font-family: 'Space Grotesk', sans-serif;
+
+      font-family:
+        'Space Grotesk',
+        sans-serif;
+
       font-weight: 700;
-      font-size: clamp(18px, 1.8vw, 22px);
+
+      font-size:
+        clamp(18px, 1.8vw, 22px);
+
       letter-spacing: -0.5px;
+
     }
+
 
     .target-icon {
+
       width: 28px;
       height: 28px;
+
       display: grid;
+
       place-items: center;
+
       color: var(--blue);
+
       flex-shrink: 0;
+
     }
+
 
     .target-icon svg {
+
       width: 100%;
       height: 100%;
+
       stroke: var(--blue);
+
       fill: none;
+
     }
+
 
     .header-user-info {
+
       display: flex;
+
       align-items: center;
-      gap: clamp(10px, 1.6vw, 20px);
+
+      gap:
+        clamp(10px, 1.6vw, 20px);
+
     }
+
 
     .student-badge {
+
       display: flex;
+
       align-items: center;
+
       gap: 8px;
-      background: var(--panel-inner);
-      border: 1px solid var(--blue-dim);
+
+      background:
+        var(--panel-inner);
+
+      border:
+        1px solid
+        var(--blue-dim);
+
       border-radius: 4px;
-      padding: 6px 12px;
+
+      padding:
+        6px 12px;
+
       font-size: 13px;
+
     }
+
 
     .student-badge label {
+
       color: var(--blue);
+
       font-weight: 700;
+
     }
+
 
     .student-name-val {
+
       color: var(--white);
+
       font-weight: 600;
+
     }
+
 
     .score-badge {
+
       background: var(--blue);
+
       color: #061a29;
+
       font-weight: 800;
-      padding: 6px 14px;
+
+      padding:
+        6px 14px;
+
       border-radius: 4px;
+
       font-size: 13px;
+
     }
+
 
     .avatar-circle {
+
       width: 32px;
       height: 32px;
-      border: 1.5px solid var(--blue);
+
+      border:
+        1.5px solid
+        var(--blue);
+
       border-radius: 50%;
-      background: var(--panel-inner);
-      color: var(--blue-light);
+
+      background:
+        var(--panel-inner);
+
+      color:
+        var(--blue-light);
+
       display: grid;
+
       place-items: center;
+
       font-weight: 700;
+
       font-size: 14px;
+
     }
+
 
     .logout-btn {
-      color: var(--text-muted);
+
+      color:
+        var(--text-muted);
+
       text-decoration: none;
+
       font-size: 13px;
-      padding: 6px 10px;
+
+      padding:
+        6px 10px;
+
       border-radius: 4px;
-      border: 1px solid transparent;
-      transition: all 0.15s ease;
+
+      border:
+        1px solid
+        transparent;
+
+      transition:
+        all 0.15s ease;
+
     }
+
 
     .logout-btn:hover {
+
       color: var(--white);
-      border-color: var(--blue-dim);
+
+      border-color:
+        var(--blue-dim);
+
     }
 
-    /* Main Dashboard Body */
+
+    /* =====================================================
+       MAIN DASHBOARD
+       ===================================================== */
+
     .dashboard-body {
-      padding: clamp(18px, 2.5vh, 32px) clamp(16px, 2.5vw, 36px);
+
+      padding:
+        clamp(18px, 2.5vh, 32px)
+        clamp(16px, 2.5vw, 36px);
+
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 340px;
-      gap: clamp(18px, 2.2vw, 32px);
+
+      grid-template-columns:
+        minmax(0, 1fr)
+        340px;
+
+      gap:
+        clamp(18px, 2.2vw, 32px);
+
     }
 
-    /* Left Stages Column */
+
     .stages-column {
+
       display: flex;
+
       flex-direction: column;
+
       gap: 20px;
+
     }
+
 
     .banner {
+
       margin-bottom: 8px;
+
     }
+
 
     .uni-label {
+
       color: var(--blue);
+
       font-size: 13px;
+
       letter-spacing: 2px;
+
       font-weight: 600;
+
       margin-bottom: 6px;
+
       text-transform: uppercase;
+
     }
+
 
     .banner-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(28px, 3.2vw, 42px);
+
+      font-family:
+        'Space Grotesk',
+        sans-serif;
+
+      font-size:
+        clamp(28px, 3.2vw, 42px);
+
       font-weight: 800;
+
       letter-spacing: -1px;
+
       line-height: 1.1;
+
       color: var(--white);
+
       margin-bottom: 6px;
+
     }
+
 
     .banner-sub {
-      color: var(--text-muted);
+
+      color:
+        var(--text-muted);
+
       font-size: 13.5px;
-      font-family: 'Inter', sans-serif;
+
+      font-family:
+        'Inter',
+        sans-serif;
+
     }
 
-    /* Active Stage 1 Card */
+
+    /* =====================================================
+       ACTIVE STAGE
+       ===================================================== */
+
     .stage-card-active {
-      background: var(--panel-inner);
-      border: 2px solid var(--panel-border);
+
+      background:
+        var(--panel-inner);
+
+      border:
+        2px solid
+        var(--panel-border);
+
       border-radius: 8px;
-      padding: clamp(20px, 2.5vh, 28px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(88, 170, 235, 0.08);
+
+      padding:
+        clamp(20px, 2.5vh, 28px);
+
+      box-shadow:
+        0 8px 24px
+        rgba(0, 0, 0, 0.4),
+
+        inset 0 0 20px
+        rgba(88, 170, 235, 0.08);
+
       position: relative;
+
     }
+
 
     .stage-top-meta {
+
       display: flex;
+
       align-items: center;
+
       justify-content: space-between;
+
       margin-bottom: 14px;
+
     }
+
 
     .active-pill {
-      background: var(--green);
+
+      background:
+        var(--green);
+
       color: #0c2b12;
+
       font-weight: 800;
+
       font-size: 11.5px;
+
       letter-spacing: 1px;
-      padding: 4px 10px;
+
+      padding:
+        4px 10px;
+
       border-radius: 4px;
+
       text-transform: uppercase;
+
     }
+
 
     .points-tag {
-      color: var(--blue-light);
+
+      color:
+        var(--blue-light);
+
       font-weight: 700;
+
       font-size: 14px;
+
     }
+
 
     .stage-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(22px, 2.2vw, 28px);
+
+      font-family:
+        'Space Grotesk',
+        sans-serif;
+
+      font-size:
+        clamp(22px, 2.2vw, 28px);
+
       font-weight: 700;
+
       color: var(--white);
+
       margin-bottom: 10px;
+
     }
+
 
     .stage-tags {
+
       font-size: 12.5px;
+
       color: var(--blue);
+
       margin-bottom: 14px;
+
     }
+
 
     .stage-desc {
-      font-family: 'Inter', sans-serif;
+
+      font-family:
+        'Inter',
+        sans-serif;
+
       font-size: 14.5px;
+
       line-height: 1.6;
+
       color: #d6e4ee;
+
       margin-bottom: 24px;
+
       max-width: 680px;
+
     }
+
 
     .stage-actions {
+
       display: flex;
+
       align-items: center;
+
       gap: 16px;
+
     }
+
 
     .start-challenge-btn {
+
       background: var(--blue);
+
       color: #061a29;
-      border: 2px solid var(--blue);
+
+      border:
+        2px solid
+        var(--blue);
+
       border-radius: 4px;
-      font-family: 'DM Mono', monospace;
+
+      font-family:
+        'DM Mono',
+        monospace;
+
       font-size: 15px;
+
       font-weight: 700;
-      padding: 12px 28px;
+
+      padding:
+        12px 28px;
+
       text-decoration: none;
+
       display: inline-flex;
+
       align-items: center;
+
       gap: 10px;
-      box-shadow: 4px 4px 0 #04121d, 6px 6px 0 #3a8ac4;
-      transition: all 0.15s ease;
+
+      box-shadow:
+        4px 4px 0 #04121d,
+        6px 6px 0 #3a8ac4;
+
+      transition:
+        all 0.15s ease;
+
     }
+
 
     .start-challenge-btn:hover {
+
       background: #6bbcf5;
+
       border-color: #6bbcf5;
-      box-shadow: 5px 5px 0 #04121d, 7px 7px 0 #3a8ac4;
-      transform: translateY(-1px);
+
+      box-shadow:
+        5px 5px 0 #04121d,
+        7px 7px 0 #3a8ac4;
+
+      transform:
+        translateY(-1px);
+
     }
+
 
     .start-challenge-btn:active {
-      transform: translateY(2px);
+
+      transform:
+        translateY(2px);
+
     }
 
-    /* Locked Stages Grid */
+
+    /* =====================================================
+       STAGES GRID
+       ===================================================== */
+
     .locked-stages-header {
+
       font-size: 13px;
+
       font-weight: 700;
+
       color: var(--text-muted);
+
       letter-spacing: 1px;
+
       text-transform: uppercase;
+
       margin-top: 10px;
-      border-bottom: 1px solid var(--blue-dim);
+
+      border-bottom:
+        1px solid
+        var(--blue-dim);
+
       padding-bottom: 8px;
+
     }
+
 
     .locked-stages-grid {
+
       display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
+
+      grid-template-columns:
+        repeat(5, minmax(0, 1fr));
+
       gap: 10px;
+
     }
 
-    @media (max-width: 1024px) {
-      .locked-stages-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-    }
 
-    @media (max-width: 680px) {
-      .locked-stages-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    
     .stage-card-completed {
-      background: rgba(16, 185, 129, 0.08);
-      border: 1.5px solid rgba(16, 185, 129, 0.45);
+
+      background:
+        rgba(16, 185, 129, 0.08);
+
+      border:
+        1.5px solid
+        rgba(16, 185, 129, 0.45);
+
       border-radius: 6px;
-      padding: 12px 10px;
+
+      padding:
+        12px 10px;
+
       cursor: pointer;
-      transition: all 0.15s ease;
+
+      transition:
+        all 0.15s ease;
+
     }
+
+
     .stage-card-completed:hover {
+
       border-color: #10b981;
-      background: rgba(16, 185, 129, 0.18);
-      transform: translateY(-2px);
+
+      background:
+        rgba(16, 185, 129, 0.18);
+
+      transform:
+        translateY(-2px);
+
     }
+
+
     .completed-badge {
+
       font-size: 11px;
+
       font-weight: 700;
+
       color: #6ee7b7;
+
       letter-spacing: 0.5px;
+
       margin-bottom: 2px;
+
     }
+
 
     .stage-card-locked {
-      background: rgba(6, 26, 41, 0.5);
-      border: 1px dashed var(--locked);
+
+      background:
+        rgba(6, 26, 41, 0.5);
+
+      border:
+        1px dashed
+        var(--locked);
+
       border-radius: 6px;
-      padding: 12px 10px;
+
+      padding:
+        12px 10px;
+
       opacity: 0.75;
-      transition: all 0.15s ease;
+
+      transition:
+        all 0.15s ease;
+
       cursor: pointer;
-    }
-    .stage-card-locked:hover {
-      opacity: 1;
-      border-color: var(--blue);
-      transform: translateY(-2px);
+
     }
 
+
     .stage-card-locked:hover {
+
       opacity: 0.95;
+
+      border-color:
+        var(--blue);
+
+      transform:
+        translateY(-2px);
+
     }
+
 
     .locked-badge {
+
       font-size: 11px;
+
       color: var(--locked);
+
       font-weight: 700;
+
       display: flex;
+
       align-items: center;
+
       gap: 6px;
+
       margin-bottom: 6px;
+
     }
+
 
     .locked-title {
+
       font-size: 15px;
+
       font-weight: 700;
+
       color: #9cb5c7;
+
       margin-bottom: 4px;
+
     }
+
 
     .locked-pts {
+
       font-size: 12px;
+
       color: var(--locked);
+
     }
 
-    /* Right Stats & Info Sidebar */
+
+    /* =====================================================
+       SIDEBAR
+       ===================================================== */
+
     .sidebar {
+
       display: flex;
+
       flex-direction: column;
+
       gap: 18px;
+
     }
+
 
     .side-card {
-      background: var(--panel-inner);
-      border: 1.5px solid var(--blue-dim);
+
+      background:
+        var(--panel-inner);
+
+      border:
+        1.5px solid
+        var(--blue-dim);
+
       border-radius: 8px;
-      padding: 18px 20px;
+
+      padding:
+        18px 20px;
+
     }
+
 
     .side-card-title {
+
       font-size: 12px;
+
       font-weight: 700;
+
       color: var(--blue);
+
       letter-spacing: 1px;
+
       text-transform: uppercase;
+
       margin-bottom: 12px;
+
       display: flex;
+
       align-items: center;
+
       gap: 8px;
+
     }
+
 
     .stat-row {
+
       display: flex;
+
       justify-content: space-between;
+
       align-items: center;
-      padding: 8px 0;
-      border-bottom: 1px solid rgba(88, 170, 235, 0.15);
+
+      padding:
+        8px 0;
+
+      border-bottom:
+        1px solid
+        rgba(88, 170, 235, 0.15);
+
       font-size: 13.5px;
+
     }
+
 
     .stat-row:last-child {
+
       border-bottom: none;
+
     }
+
 
     .stat-val {
+
       font-weight: 700;
+
       color: var(--white);
+
     }
+
 
     .stat-val.highlight {
-      color: var(--blue-light);
+
+      color:
+        var(--blue-light);
+
     }
+
 
     .stat-val.success {
-      color: var(--green);
+
+      color:
+        var(--green);
+
     }
+
 
     .event-detail-item {
+
       display: flex;
+
       align-items: center;
+
       gap: 10px;
+
       font-size: 13px;
+
       margin-bottom: 10px;
+
       color: #d6e4ee;
+
     }
+
 
     .event-detail-item svg {
+
       width: 16px;
+
       height: 16px;
+
       stroke: var(--blue);
+
       fill: none;
+
       flex-shrink: 0;
+
     }
 
-    /* Footer */
+
+    /* =====================================================
+       FOOTER
+       ===================================================== */
+
     footer {
-      border-top: 1.5px solid var(--blue-dim);
-      padding: 14px clamp(16px, 2.5vw, 32px);
+
+      border-top:
+        1.5px solid
+        var(--blue-dim);
+
+      padding:
+        14px
+        clamp(16px, 2.5vw, 32px);
+
       display: flex;
+
       justify-content: space-between;
+
       align-items: center;
+
       font-size: 12px;
-      color: var(--text-muted);
-      background: rgba(6, 26, 41, 0.6);
+
+      color:
+        var(--text-muted);
+
+      background:
+        rgba(6, 26, 41, 0.6);
+
       flex-shrink: 0;
+
     }
+
 
     footer a {
-      color: var(--blue-light);
+
+      color:
+        var(--blue-light);
+
       text-decoration: none;
+
     }
+
+
+    @media (max-width: 1024px) {
+
+      .locked-stages-grid {
+
+        grid-template-columns:
+          repeat(3, minmax(0, 1fr));
+
+      }
+
+    }
+
 
     @media (max-width: 960px) {
+
       .dashboard-body {
+
         grid-template-columns: 1fr;
+
       }
+
       .sidebar {
+
         order: -1;
+
       }
+
     }
+
+
+    @media (max-width: 680px) {
+
+      .locked-stages-grid {
+
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+
+      }
+
+    }
+
 
     @media (max-width: 640px) {
+
       body {
+
         padding: 0;
+
       }
+
       .dashboard-container {
+
         border-radius: 0;
+
         border: none;
+
       }
+
       .header-user-info {
+
         gap: 8px;
+
       }
+
       .student-badge {
+
         display: none;
+
       }
+
       .stage-actions {
+
         flex-direction: column;
+
         align-items: stretch;
+
       }
+
       .start-challenge-btn {
+
         justify-content: center;
+
       }
+
     }
-  
-        /* ======================================================== */
-    /* SECURITY BREACH MODAL WITH VHS / VCR RETRO EFFECT */
-    /* ======================================================== */
+
+
+    /* ========================================================
+       SECURITY BREACH MODAL WITH VHS / VCR RETRO EFFECT
+       ======================================================== */
+
     .modal-overlay {
+
       position: fixed;
+
       inset: 0;
-      background: rgba(3, 11, 18, 0.9);
-      backdrop-filter: blur(8px);
+
+      background:
+        rgba(3, 11, 18, 0.9);
+
+      backdrop-filter:
+        blur(8px);
+
       z-index: 1000;
+
       display: flex;
+
       align-items: center;
+
       justify-content: center;
+
       padding: 20px;
+
       opacity: 0;
+
       pointer-events: none;
-      transition: opacity 0.35s ease;
+
+      transition:
+        opacity 0.35s ease;
+
       overflow: hidden;
+
     }
+
 
     .modal-overlay.active {
+
       opacity: 1;
+
       pointer-events: auto;
+
     }
 
-    /* VHS / VCR Scanline & Glitch Layers */
+
+    /* VHS */
+
     .vhs-overlay {
+
       position: absolute;
+
       inset: 0;
+
       pointer-events: none;
+
       z-index: 2;
+
       opacity: 0;
-      transition: opacity 0.3s ease;
+
+      transition:
+        opacity 0.3s ease;
+
     }
 
-    .modal-overlay.active .vhs-overlay {
+
+    .modal-overlay.active
+    .vhs-overlay {
+
       opacity: 1;
+
     }
 
-    /* CRT Scanlines */
+
     .vhs-scanlines {
+
       position: absolute;
+
       inset: 0;
-      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.38) 50%);
-      background-size: 100% 4px;
+
+      background:
+        linear-gradient(
+          rgba(18, 16, 16, 0) 50%,
+          rgba(0, 0, 0, 0.38) 50%
+        );
+
+      background-size:
+        100% 4px;
+
       opacity: 0.75;
+
       pointer-events: none;
+
     }
 
-    /* Moving VHS Tracking Glitch Bar */
+
     .vhs-tracking-bar {
+
       position: absolute;
+
       left: 0;
       right: 0;
+
       height: 14px;
-      background: rgba(255, 255, 255, 0.08);
-      box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+
+      background:
+        rgba(255, 255, 255, 0.08);
+
+      box-shadow:
+        0 0 15px
+        rgba(239, 68, 68, 0.3);
+
       filter: blur(1px);
-      animation: vhs-roll 6s linear infinite;
+
+      animation:
+        vhs-roll
+        6s
+        linear
+        infinite;
+
       pointer-events: none;
+
     }
+
 
     @keyframes vhs-roll {
-      0% { top: -20px; opacity: 0; }
-      15% { opacity: 0.8; }
-      85% { opacity: 0.8; }
-      100% { top: 100%; opacity: 0; }
+
+      0% {
+
+        top: -20px;
+        opacity: 0;
+
+      }
+
+      15% {
+
+        opacity: 0.8;
+
+      }
+
+      85% {
+
+        opacity: 0.8;
+
+      }
+
+      100% {
+
+        top: 100%;
+        opacity: 0;
+
+      }
+
     }
 
-    /* Retro VCR On-Screen Display (OSD) */
+
     .vhs-osd-top {
+
       position: absolute;
+
       top: 24px;
       left: 32px;
-      font-family: 'DM Mono', monospace;
+
+      font-family:
+        'DM Mono',
+        monospace;
+
       font-size: 14px;
+
       font-weight: 700;
+
       color: #4ade80;
-      text-shadow: 0 0 8px rgba(74, 222, 128, 0.6);
+
+      text-shadow:
+        0 0 8px
+        rgba(74, 222, 128, 0.6);
+
       letter-spacing: 2px;
+
       user-select: none;
+
     }
+
 
     .vhs-osd-right {
+
       position: absolute;
+
       top: 24px;
       right: 32px;
-      font-family: 'DM Mono', monospace;
+
+      font-family:
+        'DM Mono',
+        monospace;
+
       font-size: 14px;
+
       font-weight: 700;
+
       color: #ef4444;
-      text-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
+
+      text-shadow:
+        0 0 8px
+        rgba(239, 68, 68, 0.6);
+
       letter-spacing: 2px;
+
       user-select: none;
-      animation: vhs-blink 1.2s infinite;
+
+      animation:
+        vhs-blink
+        1.2s
+        infinite;
+
     }
+
 
     @keyframes vhs-blink {
-      0%, 49% { opacity: 1; }
-      50%, 100% { opacity: 0.2; }
+
+      0%,
+      49% {
+
+        opacity: 1;
+
+      }
+
+      50%,
+      100% {
+
+        opacity: 0.2;
+
+      }
+
     }
+
 
     .vhs-osd-bottom {
+
       position: absolute;
+
       bottom: 24px;
       left: 32px;
-      font-family: 'DM Mono', monospace;
+
+      font-family:
+        'DM Mono',
+        monospace;
+
       font-size: 13px;
-      color: rgba(255, 255, 255, 0.5);
+
+      color:
+        rgba(255, 255, 255, 0.5);
+
       letter-spacing: 1.5px;
+
       user-select: none;
+
     }
 
-    /* UNEVEN, RANDOM, TRANSLUCENT HACKED WATERMARKS */
+
+    /* ========================================================
+       HACKED WATERMARKS
+       ======================================================== */
+
     .hacked-watermark-layer {
+
       position: absolute;
+
       inset: 0;
+
       pointer-events: none;
+
       overflow: hidden;
+
       z-index: 1;
+
       opacity: 0;
-      transition: opacity 0.35s ease;
+
+      transition:
+        opacity 0.35s ease;
+
     }
 
-    .modal-overlay.active .hacked-watermark-layer {
+
+    .modal-overlay.active
+    .hacked-watermark-layer {
+
       opacity: 1;
+
     }
+
 
     .hacked-stamp {
+
       position: absolute;
-      font-family: 'Impact', 'Space Grotesk', sans-serif;
+
+      font-family:
+        'Impact',
+        'Space Grotesk',
+        sans-serif;
+
       font-weight: 900;
+
       text-transform: uppercase;
+
       letter-spacing: 6px;
+
       user-select: none;
+
       white-space: nowrap;
-      text-shadow: 0 0 25px rgba(239, 68, 68, 0.4);
+
+      text-shadow:
+        0 0 25px
+        rgba(239, 68, 68, 0.4);
+
     }
 
-    /* Scattered unevenly with translucent styling */
+
     .hacked-stamp.stamp-1 {
+
       top: 5%;
       left: 7%;
-      font-size: clamp(48px, 5.5vw, 82px);
-      transform: rotate(-14deg);
-      color: rgba(220, 38, 38, 0.16);
-      border: 4px dashed rgba(220, 38, 38, 0.18);
-      padding: 6px 24px;
+
+      font-size:
+        clamp(48px, 5.5vw, 82px);
+
+      transform:
+        rotate(-14deg);
+
+      color:
+        rgba(220, 38, 38, 0.16);
+
+      border:
+        4px dashed
+        rgba(220, 38, 38, 0.18);
+
+      padding:
+        6px 24px;
+
     }
+
 
     .hacked-stamp.stamp-2 {
+
       top: 16%;
       right: 14%;
-      font-size: clamp(38px, 4.8vw, 70px);
-      transform: rotate(23deg);
-      color: rgba(239, 68, 68, 0.13);
+
+      font-size:
+        clamp(38px, 4.8vw, 70px);
+
+      transform:
+        rotate(23deg);
+
+      color:
+        rgba(239, 68, 68, 0.13);
+
     }
+
 
     .hacked-stamp.stamp-3 {
+
       bottom: 12%;
       right: 5%;
-      font-size: clamp(52px, 6.5vw, 98px);
-      transform: rotate(-11deg);
-      color: rgba(220, 38, 38, 0.17);
-      border: 4px dashed rgba(220, 38, 38, 0.18);
-      padding: 8px 28px;
+
+      font-size:
+        clamp(52px, 6.5vw, 98px);
+
+      transform:
+        rotate(-11deg);
+
+      color:
+        rgba(220, 38, 38, 0.17);
+
+      border:
+        4px dashed
+        rgba(220, 38, 38, 0.18);
+
+      padding:
+        8px 28px;
+
     }
+
 
     .hacked-stamp.stamp-4 {
+
       bottom: 6%;
       left: 20%;
-      font-size: clamp(36px, 4.2vw, 62px);
-      transform: rotate(15deg);
-      color: rgba(239, 68, 68, 0.12);
+
+      font-size:
+        clamp(36px, 4.2vw, 62px);
+
+      transform:
+        rotate(15deg);
+
+      color:
+        rgba(239, 68, 68, 0.12);
+
     }
+
 
     .hacked-stamp.stamp-5 {
+
       top: 48%;
       left: -2%;
-      font-size: clamp(46px, 5.8vw, 84px);
-      transform: rotate(-32deg);
-      color: rgba(220, 38, 38, 0.14);
+
+      font-size:
+        clamp(46px, 5.8vw, 84px);
+
+      transform:
+        rotate(-32deg);
+
+      color:
+        rgba(220, 38, 38, 0.14);
+
     }
+
 
     .hacked-stamp.stamp-6 {
+
       top: 36%;
       right: 32%;
-      font-size: clamp(34px, 4vw, 58px);
-      transform: rotate(-22deg);
-      color: rgba(239, 68, 68, 0.11);
+
+      font-size:
+        clamp(34px, 4vw, 58px);
+
+      transform:
+        rotate(-22deg);
+
+      color:
+        rgba(239, 68, 68, 0.11);
+
     }
+
 
     .hacked-stamp.stamp-7 {
+
       bottom: 34%;
       left: 36%;
-      font-size: clamp(40px, 4.5vw, 66px);
-      transform: rotate(18deg);
-      color: rgba(239, 68, 68, 0.12);
+
+      font-size:
+        clamp(40px, 4.5vw, 66px);
+
+      transform:
+        rotate(18deg);
+
+      color:
+        rgba(239, 68, 68, 0.12);
+
     }
 
-    /* Red Security Breach Box */
+
+    /* ========================================================
+       BREACH MODAL
+       ======================================================== */
+
     .breach-modal {
-      background: #061e31;
-      border: 1.5px solid #ef4444;
+
+      background:
+        #061e31;
+
+      border:
+        1.5px solid
+        #ef4444;
+
       border-radius: 8px;
+
       width: 100%;
+
       max-width: 540px;
-      box-shadow: 0 0 45px rgba(239, 68, 68, 0.4), inset 0 0 35px rgba(239, 68, 68, 0.08);
+
+      box-shadow:
+        0 0 45px
+        rgba(239, 68, 68, 0.4),
+
+        inset 0 0 35px
+        rgba(239, 68, 68, 0.08);
+
       position: relative;
+
       overflow: hidden;
-      transform: scale(0.95);
-      transition: transform 0.2s ease;
+
+      transform:
+        scale(0.95);
+
+      transition:
+        transform 0.2s ease;
+
       z-index: 10;
+
     }
 
-    .modal-overlay.active .breach-modal {
-      transform: scale(1);
+
+    .modal-overlay.active
+    .breach-modal {
+
+      transform:
+        scale(1);
+
     }
 
-    /* HARD SHAKE ANIMATION */
+
+    /* HARD SHAKE */
+
     @keyframes hard-breach-shake {
-      0% { transform: scale(1) translate(0, 0) rotate(0deg); filter: drop-shadow(0 0 45px rgba(239,68,68,0.5)); }
-      4% { transform: scale(1.08) translate(-36px, -20px) rotate(-4.5deg); filter: drop-shadow(0 0 80px rgba(239,68,68,0.9)); }
-      10% { transform: scale(1.08) translate(38px, 22px) rotate(5deg); }
-      18% { transform: scale(1.06) translate(-32px, 18px) rotate(-4deg); }
-      26% { transform: scale(1.06) translate(32px, -20px) rotate(3.5deg); }
-      34% { transform: scale(1.04) translate(-26px, -14px) rotate(-3deg); }
-      42% { transform: scale(1.04) translate(24px, 15px) rotate(2.5deg); }
-      50% { transform: scale(1.02) translate(-20px, 10px) rotate(-2deg); }
-      58% { transform: scale(1.02) translate(18px, -10px) rotate(2deg); }
-      66% { transform: scale(1.01) translate(-14px, -6px) rotate(-1.2deg); }
-      74% { transform: scale(1.01) translate(12px, 8px) rotate(1.2deg); }
-      82% { transform: scale(1) translate(-8px, 4px) rotate(-0.6deg); }
-      90% { transform: scale(1) translate(5px, -2px) rotate(0.4deg); }
-      100% { transform: scale(1) translate(0, 0) rotate(0deg); filter: drop-shadow(0 0 45px rgba(239,68,68,0.4)); }
+
+      0% {
+
+        transform:
+          scale(1)
+          translate(0, 0)
+          rotate(0deg);
+
+        filter:
+          drop-shadow(
+            0 0 45px
+            rgba(239,68,68,0.5)
+          );
+
+      }
+
+      4% {
+
+        transform:
+          scale(1.08)
+          translate(-36px, -20px)
+          rotate(-4.5deg);
+
+        filter:
+          drop-shadow(
+            0 0 80px
+            rgba(239,68,68,0.9)
+          );
+
+      }
+
+      10% {
+
+        transform:
+          scale(1.08)
+          translate(38px, 22px)
+          rotate(5deg);
+
+      }
+
+      18% {
+
+        transform:
+          scale(1.06)
+          translate(-32px, 18px)
+          rotate(-4deg);
+
+      }
+
+      26% {
+
+        transform:
+          scale(1.06)
+          translate(32px, -20px)
+          rotate(3.5deg);
+
+      }
+
+      34% {
+
+        transform:
+          scale(1.04)
+          translate(-26px, -14px)
+          rotate(-3deg);
+
+      }
+
+      42% {
+
+        transform:
+          scale(1.04)
+          translate(24px, 15px)
+          rotate(2.5deg);
+
+      }
+
+      50% {
+
+        transform:
+          scale(1.02)
+          translate(-20px, 10px)
+          rotate(-2deg);
+
+      }
+
+      58% {
+
+        transform:
+          scale(1.02)
+          translate(18px, -10px)
+          rotate(2deg);
+
+      }
+
+      66% {
+
+        transform:
+          scale(1.01)
+          translate(-14px, -6px)
+          rotate(-1.2deg);
+
+      }
+
+      74% {
+
+        transform:
+          scale(1.01)
+          translate(12px, 8px)
+          rotate(1.2deg);
+
+      }
+
+      82% {
+
+        transform:
+          scale(1)
+          translate(-8px, 4px)
+          rotate(-0.6deg);
+
+      }
+
+      90% {
+
+        transform:
+          scale(1)
+          translate(5px, -2px)
+          rotate(0.4deg);
+
+      }
+
+      100% {
+
+        transform:
+          scale(1)
+          translate(0, 0)
+          rotate(0deg);
+
+        filter:
+          drop-shadow(
+            0 0 45px
+            rgba(239,68,68,0.4)
+          );
+
+      }
+
     }
+
 
     .breach-modal.hard-shake {
-      animation: hard-breach-shake 0.85s cubic-bezier(.36,.07,.19,.97) both;
+
+      animation:
+        hard-breach-shake
+        0.85s
+        cubic-bezier(.36,.07,.19,.97)
+        both;
+
     }
+
 
     @keyframes screen-red-flash {
-      0% { background: rgba(3, 11, 18, 0.9); }
-      8% { background: rgba(90, 10, 10, 0.94); }
-      18% { background: rgba(3, 11, 18, 0.9); }
-      28% { background: rgba(100, 15, 15, 0.95); }
-      40% { background: rgba(3, 11, 18, 0.92); }
-      100% { background: rgba(3, 11, 18, 0.92); }
+
+      0% {
+
+        background:
+          rgba(3, 11, 18, 0.9);
+
+      }
+
+      8% {
+
+        background:
+          rgba(90, 10, 10, 0.94);
+
+      }
+
+      18% {
+
+        background:
+          rgba(3, 11, 18, 0.9);
+
+      }
+
+      28% {
+
+        background:
+          rgba(100, 15, 15, 0.95);
+
+      }
+
+      40% {
+
+        background:
+          rgba(3, 11, 18, 0.92);
+
+      }
+
+      100% {
+
+        background:
+          rgba(3, 11, 18, 0.92);
+
+      }
+
     }
+
+
     .modal-overlay.active.flash-shake {
-      animation: screen-red-flash 0.85s ease forwards;
+
+      animation:
+        screen-red-flash
+        0.85s
+        ease
+        forwards;
+
     }
+
 
     .breach-header {
+
       display: flex;
+
       align-items: center;
+
       justify-content: space-between;
-      padding: 16px 20px;
-      border-bottom: 1px solid rgba(239, 68, 68, 0.35);
+
+      padding:
+        16px 20px;
+
+      border-bottom:
+        1px solid
+        rgba(239, 68, 68, 0.35);
+
     }
+
 
     .breach-title-wrap {
+
       display: flex;
+
       align-items: center;
+
       gap: 12px;
+
     }
+
 
     .breach-icon {
-      color: #ef4444;
+
+      color:
+        #ef4444;
+
       font-size: 24px;
+
       display: flex;
+
       align-items: center;
+
       justify-content: center;
-      animation: pulse-red 1.5s infinite ease-in-out;
+
+      animation:
+        pulse-red
+        1.5s
+        infinite
+        ease-in-out;
+
     }
+
 
     @keyframes pulse-red {
-      0%, 100% { filter: drop-shadow(0 0 4px #ef4444); opacity: 0.9; }
-      50% { filter: drop-shadow(0 0 12px #ef4444); opacity: 1; }
+
+      0%,
+      100% {
+
+        filter:
+          drop-shadow(
+            0 0 4px
+            #ef4444
+          );
+
+        opacity: 0.9;
+
+      }
+
+      50% {
+
+        filter:
+          drop-shadow(
+            0 0 12px
+            #ef4444
+          );
+
+        opacity: 1;
+
+      }
+
     }
+
 
     .breach-title {
-      font-family: 'Space Grotesk', sans-serif;
+
+      font-family:
+        'Space Grotesk',
+        sans-serif;
+
       font-size: 16px;
+
       font-weight: 700;
+
       color: #f87171;
+
       letter-spacing: 1.5px;
+
       text-transform: uppercase;
+
     }
+
 
     .modal-close-btn {
+
       background: transparent;
+
       border: none;
-      color: rgba(239, 68, 68, 0.7);
+
+      color:
+        rgba(239, 68, 68, 0.7);
+
       font-size: 20px;
+
       cursor: pointer;
+
       line-height: 1;
+
       padding: 4px;
-      transition: color 0.15s ease;
+
+      transition:
+        color 0.15s ease;
+
     }
+
 
     .modal-close-btn:hover {
-      color: #ef4444;
+
+      color:
+        #ef4444;
+
     }
+
 
     .breach-body {
-      padding: 24px 22px;
-      color: #edf2f4;
-      font-family: 'DM Mono', monospace;
+
+      padding:
+        24px 22px;
+
+      color:
+        #edf2f4;
+
+      font-family:
+        'DM Mono',
+        monospace;
+
       font-size: 14px;
+
       line-height: 1.7;
+
     }
+
 
     .breach-actions {
-      padding: 0 22px 22px 22px;
+
+      padding:
+        0 22px 22px 22px;
+
     }
+
 
     .breach-btn {
+
       width: 100%;
-      background: rgba(239, 68, 68, 0.12);
-      border: 1.5px solid #ef4444;
-      color: #fca5a5;
-      font-family: 'DM Mono', monospace;
+
+      background:
+        rgba(239, 68, 68, 0.12);
+
+      border:
+        1.5px solid
+        #ef4444;
+
+      color:
+        #fca5a5;
+
+      font-family:
+        'DM Mono',
+        monospace;
+
       font-size: 14px;
+
       font-weight: 700;
+
       letter-spacing: 1.5px;
+
       padding: 13px;
+
       border-radius: 4px;
+
       cursor: pointer;
-      box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
-      transition: all 0.2s ease;
+
+      box-shadow:
+        0 0 15px
+        rgba(239, 68, 68, 0.2);
+
+      transition:
+        all 0.2s ease;
+
       text-transform: uppercase;
+
     }
+
 
     .breach-btn:hover {
-      background: #ef4444;
-      color: #061a29;
-      box-shadow: 0 0 25px rgba(239, 68, 68, 0.6);
+
+      background:
+        #ef4444;
+
+      color:
+        #061a29;
+
+      box-shadow:
+        0 0 25px
+        rgba(239, 68, 68, 0.6);
+
     }
 
-    /* ======================================================== */
-    /* DIFFICULTY SELECTION MODAL */
-    /* ======================================================== */
+
+    /* ========================================================
+       DIFFICULTY MODAL
+       ======================================================== */
+
     .diff-modal {
-      background: #062338;
-      border: 1.5px solid var(--panel-border);
+
+      background:
+        #062338;
+
+      border:
+        1.5px solid
+        var(--panel-border);
+
       border-radius: 8px;
+
       width: 100%;
+
       max-width: 520px;
-      box-shadow: 0 0 45px rgba(74, 168, 233, 0.35);
+
+      box-shadow:
+        0 0 45px
+        rgba(74, 168, 233, 0.35);
+
       position: relative;
+
       overflow: hidden;
-      transform: scale(0.95);
-      transition: transform 0.2s ease;
+
+      transform:
+        scale(0.95);
+
+      transition:
+        transform 0.2s ease;
+
     }
 
-    .modal-overlay.active .diff-modal {
-      transform: scale(1);
+
+    .modal-overlay.active
+    .diff-modal {
+
+      transform:
+        scale(1);
+
     }
+
 
     .diff-header {
+
       display: flex;
+
       align-items: center;
+
       justify-content: space-between;
-      padding: 16px 20px;
-      border-bottom: 1.5px solid var(--blue-dim);
+
+      padding:
+        16px 20px;
+
+      border-bottom:
+        1.5px solid
+        var(--blue-dim);
+
     }
+
 
     .diff-title {
-      font-family: 'Space Grotesk', sans-serif;
+
+      font-family:
+        'Space Grotesk',
+        sans-serif;
+
       font-size: 17px;
+
       font-weight: 700;
-      color: var(--blue-light);
+
+      color:
+        var(--blue-light);
+
       letter-spacing: 0.5px;
+
     }
+
 
     .diff-body {
-      padding: 22px 20px;
+
+      padding:
+        22px 20px;
+
     }
+
 
     .diff-phase-name {
+
       font-size: 14px;
-      color: var(--white);
+
+      color:
+        var(--white);
+
       margin-bottom: 16px;
+
       font-weight: 600;
+
     }
+
 
     .diff-options-grid {
+
       display: flex;
+
       flex-direction: column;
+
       gap: 12px;
+
     }
+
 
     .diff-card-btn {
-      background: var(--panel-inner);
-      border: 1.5px solid var(--blue-dim);
+
+      background:
+        var(--panel-inner);
+
+      border:
+        1.5px solid
+        var(--blue-dim);
+
       border-radius: 6px;
-      padding: 14px 18px;
+
+      padding:
+        14px 18px;
+
       display: flex;
+
       align-items: center;
+
       justify-content: space-between;
+
       cursor: pointer;
-      transition: all 0.2s ease;
-      color: var(--white);
-      font-family: 'DM Mono', monospace;
+
+      transition:
+        all 0.2s ease;
+
+      color:
+        var(--white);
+
+      font-family:
+        'DM Mono',
+        monospace;
+
       text-align: left;
+
     }
+
 
     .diff-card-btn:hover {
-      border-color: var(--blue);
-      background: rgba(88, 170, 235, 0.15);
-      transform: translateX(4px);
-      box-shadow: 0 0 15px rgba(88, 170, 235, 0.25);
+
+      border-color:
+        var(--blue);
+
+      background:
+        rgba(88, 170, 235, 0.15);
+
+      transform:
+        translateX(4px);
+
+      box-shadow:
+        0 0 15px
+        rgba(88, 170, 235, 0.25);
+
     }
+
 
     .diff-badge {
+
       display: inline-block;
+
       font-size: 13px;
+
       font-weight: 700;
-      padding: 4px 10px;
+
+      padding:
+        4px 10px;
+
       border-radius: 4px;
+
       letter-spacing: 0.5px;
+
     }
 
-    .diff-badge.easy { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; border: 1px solid #10b981; }
-    .diff-badge.med { background: rgba(88, 170, 235, 0.2); color: #72b9f0; border: 1px solid #58aaeb; }
-    .diff-badge.hard { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid #ef4444; }
+
+    .diff-badge.easy {
+
+      background:
+        rgba(16, 185, 129, 0.2);
+
+      color:
+        #6ee7b7;
+
+      border:
+        1px solid
+        #10b981;
+
+    }
+
+
+    .diff-badge.med {
+
+      background:
+        rgba(88, 170, 235, 0.2);
+
+      color:
+        #72b9f0;
+
+      border:
+        1px solid
+        #58aaeb;
+
+    }
+
+
+    .diff-badge.hard {
+
+      background:
+        rgba(239, 68, 68, 0.2);
+
+      color:
+        #fca5a5;
+
+      border:
+        1px solid
+        #ef4444;
+
+    }
+
 
     .diff-points-val {
+
       font-size: 16px;
+
       font-weight: 700;
-      color: var(--white);
+
+      color:
+        var(--white);
+
       letter-spacing: 0.5px;
+
     }
 
+
     .diff-subtext {
+
       font-size: 11.5px;
-      color: var(--text-muted);
+
+      color:
+        var(--text-muted);
+
       margin-top: 4px;
+
     }
 
   </style>
+
 </head>
+
+
 <body>
 
   <main class="dashboard-container">
+
     <span class="corner-mark tl"></span>
     <span class="corner-mark tr"></span>
     <span class="corner-mark bl"></span>
     <span class="corner-mark br"></span>
 
-    <!-- Top Header -->
+
+    <!-- =====================================================
+         TOP HEADER
+         ===================================================== -->
+
     <header>
-      <a class="brand" href="landing.html" title="Cyber Hunt Home">
-        <img src="logo-graphic-geeks.png" alt="Graphic Geeks" class="brand-logo-img">
+
+      <a
+        class="brand"
+        href="landing.html"
+        title="Cyber Hunt Home">
+
+        <img
+          src="logo-graphic-geeks.png"
+          alt="Graphic Geeks"
+          class="brand-logo-img">
+
         <span>CYBER HUNT</span>
+
       </a>
 
-      <div class="timer-pill" title="Live Event Countdown">
-        <span class="timer-icon">&#9201;</span>
-        <span class="timer-label">TIME REMAINING:</span>
-        <span class="timer-display" id="dashEventCountdown">01:59:59</span>
+
+      <div
+        class="timer-pill"
+        title="Live Event Countdown">
+
+        <span class="timer-icon">
+          &#9201;
+        </span>
+
+        <span class="timer-label">
+          TIME REMAINING:
+        </span>
+
+        <span
+          class="timer-display"
+          id="dashEventCountdown">
+
+          01:59:59
+
+        </span>
+
       </div>
+
 
       <div class="header-user-info">
+
         <div class="student-badge">
+
           <label>STUDENT:</label>
-          <span class="student-name-val" id="studentDisplayName">Alice</span>
+
+          <span
+            class="student-name-val"
+            id="studentDisplayName">
+
+            Alice
+
+          </span>
+
         </div>
 
-        <div class="score-badge" id="headerScoreBadge">100 PTS</div>
+
+        <div
+          class="score-badge"
+          id="headerScoreBadge">
+
+          100 PTS
+
+        </div>
+
+
         <div class="score-badge">
-            <span>Overall Rank</span>
-            <span class="stat-val">#1</span>
-          </div>
-        <div class="avatar-circle" id="headerAvatar">A</div>
-        <a class="logout-btn" href="landing.html" id="logoutLink">Logout</a>
-        <a href="https://geu.ac.in" target="_blank" rel="noopener" title="Graphic Era University">
-          <img src="logo-graphic-era.png" alt="Graphic Era University" class="header-era-logo">
+
+          <span>Overall Rank</span>
+
+          <span class="stat-val">
+            #1
+          </span>
+
+        </div>
+
+
+        <div
+          class="avatar-circle"
+          id="headerAvatar">
+
+          A
+
+        </div>
+
+
+        <a
+          class="logout-btn"
+          href="landing.html"
+          id="logoutLink">
+
+          Logout
+
         </a>
+
+
+        <a
+          href="https://geu.ac.in"
+          target="_blank"
+          rel="noopener"
+          title="Graphic Era University">
+
+          <img
+            src="logo-graphic-era.png"
+            alt="Graphic Era University"
+            class="header-era-logo">
+
+        </a>
+
       </div>
+
     </header>
 
-    <!-- Main Dashboard Area -->
-    <div class="dashboard-body">
-      <!-- Left Column: Active Stage 1 & Locked Future Stages -->
-      <section class="stages-column">
-        <div class="banner">
-          <div class="uni-label">GRAPHIC ERA UNIVERSITY &bull; THE DIGITAL ESCAPE ROOM</div>
-          <h1 class="banner-title">Participant Dashboard</h1>
-          <p class="banner-sub">Complete multi-phase security challenges sequentially in the live sandbox environment.</p>
-        </div>
 
-        <!-- STAGE ACTIVE CARD -->
-        <article class="stage-card-active" id="activeStageCard">
-          <div class="stage-top-meta">
-            <span class="active-pill" id="activeStagePill">&#9889; STAGE 1 ACTIVE</span>
-            <span class="points-tag" id="activeStagePointsTag">+100 Points</span>
+    <!-- =====================================================
+         MAIN DASHBOARD
+         ===================================================== -->
+
+    <div class="dashboard-body">
+
+
+      <!-- LEFT COLUMN -->
+
+      <section class="stages-column">
+
+
+        <div class="banner">
+
+          <div class="uni-label">
+
+            GRAPHIC ERA UNIVERSITY
+            &bull;
+            THE DIGITAL ESCAPE ROOM
+
           </div>
 
-          <h2 class="stage-title" id="activeStageTitle">Stage 1: Hidden Clue</h2>
-          <div class="stage-tags" id="activeStageTags">Tags: Forensics &bull; Steganography &bull; Inspection &bull; Clue Discovery</div>
 
-          <p class="stage-desc" id="activeStageDesc">
-            An unauthorized intrusion has been detected across university infrastructure. 
-            Inspect hidden source comments, image metadata, and server clues to locate the secret access key and proceed through the investigation.
+          <h1 class="banner-title">
+
+            Participant Dashboard
+
+          </h1>
+
+
+          <p class="banner-sub">
+
+            Complete multi-phase security challenges sequentially in the live sandbox environment.
+
           </p>
 
-          <div class="stage-actions">
-            <button class="start-challenge-btn" id="startChallengeBtn" onclick="openDifficultyModal(1, 'Hidden Clue')">
-              <span>START CHALLENGE</span>
-              <span style="font-size: 16px;">&rarr;</span>
-            </button>
+        </div>
+
+
+        <!-- ACTIVE STAGE -->
+
+        <article
+          class="stage-card-active"
+          id="activeStageCard">
+
+          <div class="stage-top-meta">
+
+            <span
+              class="active-pill"
+              id="activeStagePill">
+
+              &#9889;
+              STAGE 1 ACTIVE
+
+            </span>
+
+
+            <span
+              class="points-tag"
+              id="activeStagePointsTag">
+
+              +100 Points
+
+            </span>
+
           </div>
+
+
+          <h2
+            class="stage-title"
+            id="activeStageTitle">
+
+            Stage 1: Hidden Clue
+
+          </h2>
+
+
+          <div
+            class="stage-tags"
+            id="activeStageTags">
+
+            Tags:
+            Forensics
+            &bull;
+            Steganography
+            &bull;
+            Inspection
+            &bull;
+            Clue Discovery
+
+          </div>
+
+
+          <p
+            class="stage-desc"
+            id="activeStageDesc">
+
+            An unauthorized intrusion has been detected across university infrastructure.
+            Inspect hidden source comments, image metadata, and server clues to locate the secret access key and proceed through the investigation.
+
+          </p>
+
+
+          <div class="stage-actions">
+
+            <button
+              class="start-challenge-btn"
+              id="startChallengeBtn"
+              onclick="openDifficultyModal(1, 'Hidden Clue')">
+
+              <span>
+                START CHALLENGE
+              </span>
+
+              <span style="font-size: 16px;">
+                &rarr;
+              </span>
+
+            </button>
+
+          </div>
+
         </article>
 
-        <!-- UPCOMING / COMPLETED STAGES GRID -->
-        <div class="locked-stages-header" id="stagesGridHeader">ALL STAGES (PROGRESSION)</div>
-        <div class="locked-stages-grid" id="stagesGrid">
-          <div class="stage-card-locked" onclick="openDifficultyModal(2, 'Password Puzzles')" title="Click to view difficulty">
-            <div class="locked-badge">&#128274; STAGE 2</div>
-            <div class="locked-title" style="font-size: 13px; font-weight: 700; color: var(--white); margin: 4px 0;">Password Puzzles</div>
-            <div class="locked-pts" style="font-size: 11px; color: var(--text-muted);">50 - 150 PTS &bull; Cryptic Auth</div>
-          </div>
-          <div class="stage-card-locked" onclick="openDifficultyModal(3, 'Open Source Intelligence Challenge')" title="Click to view difficulty">
-            <div class="locked-badge">&#128274; STAGE 3</div>
-            <div class="locked-title" style="font-size: 13px; font-weight: 700; color: var(--white); margin: 4px 0;">Open Source Intelligence Challenge</div>
-            <div class="locked-pts" style="font-size: 11px; color: var(--text-muted);">50 - 150 PTS &bull; Reconnaissance</div>
-          </div>
-          <div class="stage-card-locked" onclick="openDifficultyModal(4, 'Encoding/Decoding')" title="Click to view difficulty">
-            <div class="locked-badge">&#128274; STAGE 4</div>
-            <div class="locked-title" style="font-size: 13px; font-weight: 700; color: var(--white); margin: 4px 0;">Encoding/Decoding</div>
-            <div class="locked-pts" style="font-size: 11px; color: var(--text-muted);">50 - 150 PTS &bull; Multi-Cipher</div>
-          </div>
-          <div class="stage-card-locked" onclick="openDifficultyModal(5, 'Web Vulnerabilities')" title="Click to view difficulty">
-            <div class="locked-badge">&#128274; STAGE 5</div>
-            <div class="locked-title" style="font-size: 13px; font-weight: 700; color: var(--white); margin: 4px 0;">Web Vulnerabilities</div>
-            <div class="locked-pts" style="font-size: 11px; color: var(--text-muted);">50 - 150 PTS &bull; Web Security</div>
-          </div>
-          <div class="stage-card-locked" onclick="openDifficultyModal(6, 'Coding Round')" title="Click to view difficulty">
-            <div class="locked-badge">&#128274; STAGE 6</div>
-            <div class="locked-title" style="font-size: 13px; font-weight: 700; color: var(--white); margin: 4px 0;">Coding Round</div>
-            <div class="locked-pts" style="font-size: 11px; color: var(--text-muted);">50 - 150 PTS &bull; Master Code</div>
-          </div>
+
+        <!-- STAGES -->
+
+        <div
+          class="locked-stages-header"
+          id="stagesGridHeader">
+
+          ALL STAGES (PROGRESSION)
+
         </div>
+
+
+        <div
+          class="locked-stages-grid"
+          id="stagesGrid">
+
+          <div
+            class="stage-card-locked"
+            onclick="openDifficultyModal(2, 'Password Puzzles')"
+            title="Click to view difficulty">
+
+            <div class="locked-badge">
+              &#128274; STAGE 2
+            </div>
+
+            <div
+              class="locked-title"
+              style="font-size: 13px; font-weight: 700; color: var(--white); margin: 4px 0;">
+
+              Password Puzzles
+
+            </div>
+
+            <div
+              class="locked-pts"
+              style="font-size: 11px; color: var(--text-muted);">
+
+              50 - 150 PTS
+              &bull;
+              Cryptic Auth
+
+            </div>
+
+          </div>
+
+
+          <div
+            class="stage-card-locked"
+            onclick="openDifficultyModal(3, 'Open Source Intelligence Challenge')"
+            title="Click to view difficulty">
+
+            <div class="locked-badge">
+              &#128274; STAGE 3
+            </div>
+
+            <div
+              class="locked-title"
+              style="font-size: 13px; font-weight: 700; color: var(--white); margin: 4px 0;">
+
+              Open Source Intelligence Challenge
+
+            </div>
+
+            <div
+              class="locked-pts"
+              style="font-size: 11px; color: var(--text-muted);">
+
+              50 - 150 PTS
+              &bull;
+              Reconnaissance
+
+            </div>
+
+          </div>
+
+
+          <div
+            class="stage-card-locked"
+            onclick="openDifficultyModal(4, 'Encoding/Decoding')"
+            title="Click to view difficulty">
+
+            <div class="locked-badge">
+              &#128274; STAGE 4
+            </div>
+
+            <div
+              class="locked-title"
+              style="font-size: 13px; font-weight: 700; color: var(--white); margin: 4px 0;">
+
+              Encoding/Decoding
+
+            </div>
+
+            <div
+              class="locked-pts"
+              style="font-size: 11px; color: var(--text-muted);">
+
+              50 - 150 PTS
+              &bull;
+              Multi-Cipher
+
+            </div>
+
+          </div>
+
+
+          <div
+            class="stage-card-locked"
+            onclick="openDifficultyModal(5, 'Web Vulnerabilities')"
+            title="Click to view difficulty">
+
+            <div class="locked-badge">
+              &#128274; STAGE 5
+            </div>
+
+            <div
+              class="locked-title"
+              style="font-size: 13px; font-weight: 700; color: var(--white); margin: 4px 0;">
+
+              Web Vulnerabilities
+
+            </div>
+
+            <div
+              class="locked-pts"
+              style="font-size: 11px; color: var(--text-muted);">
+
+              50 - 150 PTS
+              &bull;
+              Web Security
+
+            </div>
+
+          </div>
+
+
+          <div
+            class="stage-card-locked"
+            onclick="openDifficultyModal(6, 'Coding Round')"
+            title="Click to view difficulty">
+
+            <div class="locked-badge">
+              &#128274; STAGE 6
+            </div>
+
+            <div
+              class="locked-title"
+              style="font-size: 13px; font-weight: 700; color: var(--white); margin: 4px 0;">
+
+              Coding Round
+
+            </div>
+
+            <div
+              class="locked-pts"
+              style="font-size: 11px; color: var(--text-muted);">
+
+              50 - 150 PTS
+              &bull;
+              Master Code
+
+            </div>
+
+          </div>
+
+        </div>
+
       </section>
 
-      <!-- Right Column: Participant Stats & Event Rules -->
+
+      <!-- ===================================================
+           SIDEBAR
+           =================================================== -->
+
       <aside class="sidebar">
-        <!-- Live Stats Card -->
+
+
         <div class="side-card">
-          <div class="side-card-title">?? PARTICIPANT STATS</div>
+
+          <div class="side-card-title">
+
+            ?? PARTICIPANT STATS
+
+          </div>
+
+
           <div class="stat-row">
+
             <span>Score</span>
-            <span class="stat-val highlight" id="statsScore">100</span>
+
+            <span
+              class="stat-val highlight"
+              id="statsScore">
+
+              100
+
+            </span>
+
           </div>
+
+
           <div class="stat-row">
+
             <span>Stage 1 Status</span>
-            <span class="stat-val success" id="statsStage1">Active</span>
+
+            <span
+              class="stat-val success"
+              id="statsStage1">
+
+              Active
+
+            </span>
+
           </div>
+
+
           <div class="stat-row">
+
             <span>Overall Rank</span>
-            <span class="stat-val">#1</span>
+
+            <span class="stat-val">
+
+              #1
+
+            </span>
+
           </div>
+
+
           <div class="stat-row">
+
             <span>Completed Stages</span>
-            <span class="stat-val" id="statsCompleted">0 / 6</span>
+
+            <span
+              class="stat-val"
+              id="statsCompleted">
+
+              0 / 6
+
+            </span>
+
           </div>
+
         </div>
 
-        <!-- Event Metadata Card -->
+
         <div class="side-card">
-          <div class="side-card-title">?? EVENT DETAILS</div>
-          <div class="event-detail-item">
-            <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            <span>19 September 2026</span>
+
+          <div class="side-card-title">
+
+            ?? EVENT DETAILS
+
           </div>
+
+
           <div class="event-detail-item">
-            <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            <span>Seminar Hall, CSIT Block</span>
+
+            <svg
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke-linecap="round">
+
+              <rect
+                x="3"
+                y="4"
+                width="18"
+                height="18"
+                rx="2"
+                ry="2"/>
+
+              <line
+                x1="16"
+                y1="2"
+                x2="16"
+                y2="6"/>
+
+              <line
+                x1="8"
+                y1="2"
+                x2="8"
+                y2="6"/>
+
+              <line
+                x1="3"
+                y1="10"
+                x2="21"
+                y2="10"/>
+
+            </svg>
+
+            <span>
+              19 September 2026
+            </span>
+
           </div>
+
+
           <div class="event-detail-item">
-            <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            <span>Solo</span>
+
+            <svg
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke-linecap="round">
+
+              <path
+                d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+
+              <circle
+                cx="12"
+                cy="10"
+                r="3"/>
+
+            </svg>
+
+            <span>
+              Seminar Hall, CSIT Block
+            </span>
+
           </div>
+
+
+          <div class="event-detail-item">
+
+            <svg
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke-linecap="round">
+
+              <rect
+                x="3"
+                y="4"
+                width="18"
+                height="18"
+                rx="2"
+                ry="2"/>
+
+              <line
+                x1="16"
+                y1="2"
+                x2="16"
+                y2="6"/>
+
+              <line
+                x1="8"
+                y1="2"
+                x2="8"
+                y2="6"/>
+
+              <line
+                x1="3"
+                y1="10"
+                x2="21"
+                y2="10"/>
+
+            </svg>
+
+            <span>
+              Solo
+            </span>
+
+          </div>
+
         </div>
+
       </aside>
+
     </div>
 
-    <!-- Footer -->
+
+    <!-- FOOTER -->
+
     <footer>
-      <div>REAL PROBLEMS. REAL SKILLS. ONE MISSION.</div>
-      <div>GRAPHIC GEEKS &bull; GRAPHIC ERA UNIVERSITY</div>
-      <div><a href="landing.html">Event Home</a></div>
+
+      <div>
+        REAL PROBLEMS. REAL SKILLS. ONE MISSION.
+      </div>
+
+      <div>
+        GRAPHIC GEEKS
+        &bull;
+        GRAPHIC ERA UNIVERSITY
+      </div>
+
+      <div>
+        <a href="landing.html">
+          Event Home
+        </a>
+      </div>
+
     </footer>
+
   </main>
 
+
+  <!-- =====================================================
+       SECURITY BREACH MODAL
+       ===================================================== -->
+
+  <div
+    class="modal-overlay"
+    id="breachModalOverlay">
+
+
+    <!-- VHS OVERLAY -->
+
+    <div
+      class="vhs-overlay"
+      aria-hidden="true">
+
+      <div class="vhs-scanlines"></div>
+
+      <div class="vhs-tracking-bar"></div>
+
+      <div class="vhs-osd-top">
+        PLAY &#9654; 00:23:45 SP
+      </div>
+
+      <div class="vhs-osd-right">
+        &#9679; REC [UNAUTHORIZED]
+      </div>
+
+      <div class="vhs-osd-bottom">
+        TRACKING: AUTO // VCR-99
+      </div>
+
+    </div>
+
+
+    <!-- HACKED WATERMARKS -->
+
+    <div
+      class="hacked-watermark-layer"
+      aria-hidden="true">
+
+      <div class="hacked-stamp stamp-1">
+        HACKED
+      </div>
+
+      <div class="hacked-stamp stamp-2">
+        HACKED
+      </div>
+
+      <div class="hacked-stamp stamp-3">
+        HACKED
+      </div>
+
+      <div class="hacked-stamp stamp-4">
+        HACKED
+      </div>
+
+      <div class="hacked-stamp stamp-5">
+        HACKED
+      </div>
+
+      <div class="hacked-stamp stamp-6">
+        HACKED
+      </div>
+
+      <div class="hacked-stamp stamp-7">
+        HACKED
+      </div>
+
+    </div>
+
+
+    <!-- ACTUAL BREACH BOX -->
+
+    <div
+      class="breach-modal"
+      id="breachModal"
+      style="position: relative; z-index: 10;">
+
+
+      <div class="breach-header">
+
+        <div class="breach-title-wrap">
+
+          <span class="breach-icon">
+            &#9888;
+          </span>
+
+          <span class="breach-title">
+            SECURITY BREACH DETECTED
+          </span>
+
+        </div>
+
+
+        <button
+          class="modal-close-btn"
+          onclick="closeBreachModal()">
+
+          &times;
+
+        </button>
+
+      </div>
+
+
+      <div class="breach-body">
+
+        The CYBER HUNT system has been compromised.
+        Unauthorized access has been detected on the
+        university website. Your investigation is now
+        critical. Proceed with caution.
+
+      </div>
+
+
+      <div class="breach-actions">
+
+        <button
+          class="breach-btn"
+          onclick="closeBreachModal()">
+
+          UNDERSTOOD
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       DIFFICULTY SELECTION MODAL
+       ===================================================== -->
+
+  <div
+    class="modal-overlay"
+    id="diffModalOverlay">
+
+
+    <div
+      class="diff-modal"
+      id="diffModal">
+
+
+      <div class="diff-header">
+
+        <span class="diff-title">
+
+          CHALLENGE CONFIGURATION
+
+        </span>
+
+
+        <button
+          class="modal-close-btn"
+          style="color: var(--text-muted);"
+          onclick="closeDiffModal()">
+
+          &times;
+
+        </button>
+
+      </div>
+
+
+      <div class="diff-body">
+
+        <div
+          class="diff-phase-name"
+          id="diffModalPhaseTitle">
+
+          Phase 1: Hidden Clue
+
+        </div>
+
+
+        <div
+          style="
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+          ">
+
+          Select your difficulty level:
+
+        </div>
+
+
+        <div class="diff-options-grid">
+
+
+          <div
+            class="diff-card-btn"
+            onclick="selectDifficulty('easy')">
+
+            <div>
+
+              <span class="diff-badge easy">
+                EASY
+              </span>
+
+              <div class="diff-subtext">
+
+                Standard clue discovery
+                & guided prompt
+
+              </div>
+
+            </div>
+
+
+            <div
+              class="diff-points-val"
+              style="color: #6ee7b7;">
+
+              50 PTS
+
+            </div>
+
+          </div>
+
+
+          <div
+            class="diff-card-btn"
+            onclick="selectDifficulty('medium')">
+
+            <div>
+
+              <span class="diff-badge med">
+                MEDIUM
+              </span>
+
+              <div class="diff-subtext">
+
+                Intermediate forensic depth
+                & puzzles
+
+              </div>
+
+            </div>
+
+
+            <div
+              class="diff-points-val"
+              style="color: #72b9f0;">
+
+              100 PTS
+
+            </div>
+
+          </div>
+
+
+          <div
+            class="diff-card-btn"
+            onclick="selectDifficulty('hard')">
+
+            <div>
+
+              <span class="diff-badge hard">
+                HARD
+              </span>
+
+              <div class="diff-subtext">
+
+                Cryptographic challenge
+                & deep analysis
+
+              </div>
+
+            </div>
+
+
+            <div
+              class="diff-points-val"
+              style="color: #fca5a5;">
+
+              150 PTS
+
+            </div>
+
+          </div>
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       JAVASCRIPT
+       ===================================================== -->
+
   <script>
-    const user = localStorage.getItem('cyber_current_user') || 'Alice';
-    document.getElementById('studentDisplayName').textContent = user;
-    document.getElementById('headerAvatar').textContent = (user.charAt(0) || 'U').toUpperCase();
 
-    // UNIFIED SCORE SYNCHRONIZATION (Fix: -210 PTS vs 100 PTS mismatch)
-    const savedScore = localStorage.getItem('cyber_total_score');
-    const scoreVal = (savedScore !== null && !isNaN(Number(savedScore))) 
-      ? Number(savedScore) 
-      : Number(localStorage.getItem('cyber_hunt_points') || 100);
+    // =====================================================
+    // CURRENT USER
+    // =====================================================
 
-    document.getElementById('headerScoreBadge').textContent = `${scoreVal} PTS`;
-    document.getElementById('statsScore').textContent = scoreVal;
-    localStorage.setItem('cyber_hunt_points', scoreVal);
-    localStorage.setItem('cyber_total_score', String(scoreVal));
+    const user =
+      localStorage.getItem(
+        'cyber_current_user'
+      ) || 'Alice';
 
-    document.getElementById('logoutLink').onclick = (e) => {
+
+    document.getElementById(
+      'studentDisplayName'
+    ).textContent = user;
+
+
+    document.getElementById(
+      'headerAvatar'
+    ).textContent =
+      (
+        user.charAt(0) || 'U'
+      ).toUpperCase();
+
+
+    // =====================================================
+    // SCORE SYNCHRONIZATION
+    // =====================================================
+
+    const savedScore =
+      localStorage.getItem(
+        'cyber_total_score'
+      );
+
+
+    const scoreVal =
+      (
+        savedScore !== null &&
+        !isNaN(Number(savedScore))
+      )
+        ? Number(savedScore)
+        : Number(
+            localStorage.getItem(
+              'cyber_hunt_points'
+            ) || 100
+          );
+
+
+    document.getElementById(
+      'headerScoreBadge'
+    ).textContent =
+      `${scoreVal} PTS`;
+
+
+    document.getElementById(
+      'statsScore'
+    ).textContent =
+      scoreVal;
+
+
+    localStorage.setItem(
+      'cyber_hunt_points',
+      scoreVal
+    );
+
+
+    localStorage.setItem(
+      'cyber_total_score',
+      String(scoreVal)
+    );
+
+
+    // =====================================================
+    // LOGOUT
+    // =====================================================
+
+    document.getElementById(
+      'logoutLink'
+    ).onclick = (e) => {
+
       e.preventDefault();
-      localStorage.removeItem('cyber_current_user');
-      sessionStorage.removeItem('cyber_breach_shown');
-      localStorage.removeItem('cyber_breach_shown');
-      window.location.href = 'landing.html';
+
+
+      localStorage.removeItem(
+        'cyber_current_user'
+      );
+
+
+      // Clean old popup flag if it exists
+
+      sessionStorage.removeItem(
+        'cyber_show_breach_popup'
+      );
+
+
+      // Old flags from previous version
+
+      sessionStorage.removeItem(
+        'cyber_breach_shown'
+      );
+
+      localStorage.removeItem(
+        'cyber_breach_shown'
+      );
+
+
+      window.location.href =
+        'landing.html';
+
     };
-  
-    // Live Event Countdown Sync
-    let dashTimerSeconds = parseInt(localStorage.getItem('cyber_timer_remaining'), 10);
-    if (isNaN(dashTimerSeconds) || dashTimerSeconds <= 0) {
-      dashTimerSeconds = 2 * 60 * 60;
+
+
+    // =====================================================
+    // LIVE EVENT COUNTDOWN
+    // =====================================================
+
+    let dashTimerSeconds =
+      parseInt(
+        localStorage.getItem(
+          'cyber_timer_remaining'
+        ),
+        10
+      );
+
+
+    if (
+      isNaN(dashTimerSeconds) ||
+      dashTimerSeconds <= 0
+    ) {
+
+      dashTimerSeconds =
+        2 * 60 * 60;
+
     }
-    const dashTimerEl = document.getElementById('dashEventCountdown');
+
+
+    const dashTimerEl =
+      document.getElementById(
+        'dashEventCountdown'
+      );
+
+
     function updateDashTimer() {
-      if (!dashTimerEl) return;
-      if (dashTimerSeconds <= 0) {
-        dashTimerEl.textContent = "00:00:00 - EXPIRED";
+
+      if (!dashTimerEl) {
         return;
       }
+
+
+      if (dashTimerSeconds <= 0) {
+
+        dashTimerEl.textContent =
+          "00:00:00 - EXPIRED";
+
+        return;
+
+      }
+
+
       dashTimerSeconds--;
-      localStorage.setItem('cyber_timer_remaining', dashTimerSeconds);
-      const h = String(Math.floor(dashTimerSeconds / 3600)).padStart(2, '0');
-      const m = String(Math.floor((dashTimerSeconds % 3600) / 60)).padStart(2, '0');
-      const s = String(dashTimerSeconds % 60).padStart(2, '0');
-      dashTimerEl.textContent = `${h}:${m}:${s}`;
+
+
+      localStorage.setItem(
+        'cyber_timer_remaining',
+        dashTimerSeconds
+      );
+
+
+      const h =
+        String(
+          Math.floor(
+            dashTimerSeconds / 3600
+          )
+        ).padStart(2, '0');
+
+
+      const m =
+        String(
+          Math.floor(
+            (dashTimerSeconds % 3600) / 60
+          )
+        ).padStart(2, '0');
+
+
+      const s =
+        String(
+          dashTimerSeconds % 60
+        ).padStart(2, '0');
+
+
+      dashTimerEl.textContent =
+        `${h}:${m}:${s}`;
+
     }
-    setInterval(updateDashTimer, 1000);
+
+
+    setInterval(
+      updateDashTimer,
+      1000
+    );
+
+
     updateDashTimer();
 
-    // 6 STAGES CONFIGURATION FOR DASHBOARD
+
+    // =====================================================
+    // 6 STAGES CONFIGURATION
+    // =====================================================
+
     const DASH_STAGES = [
-      { 
-        id: 1, 
-        name: "Hidden Clue", 
-        qCount: 3, 
-        tags: "Forensics • Steganography • Inspection • Clue Discovery", 
-        desc: "An unauthorized intrusion has been detected across university infrastructure. Inspect hidden source comments, image metadata, and server clues to locate the secret access key and proceed through the investigation." 
+
+      {
+        id: 1,
+        name: "Hidden Clue",
+        qCount: 3,
+
+        tags:
+          "Forensics • Steganography • Inspection • Clue Discovery",
+
+        desc:
+          "An unauthorized intrusion has been detected across university infrastructure. Inspect hidden source comments, image metadata, and server clues to locate the secret access key and proceed through the investigation."
       },
-      { 
-        id: 2, 
-        name: "Password Puzzles", 
-        qCount: 3, 
-        tags: "Cryptic Auth • Hashes • Obfuscation • Password Cracking", 
-        desc: "Decipher scrambled authentication tokens, crack hashed admin passwords, and bypass custom security gateways to infiltrate the next tier." 
+
+      {
+        id: 2,
+        name: "Password Puzzles",
+        qCount: 3,
+
+        tags:
+          "Cryptic Auth • Hashes • Obfuscation • Password Cracking",
+
+        desc:
+          "Decipher scrambled authentication tokens, crack hashed admin passwords, and bypass custom security gateways to infiltrate the next tier."
       },
-      { 
-        id: 3, 
-        name: "Open Source Intelligence Challenge", 
-        qCount: 3, 
-        tags: "Reconnaissance • Domain Intel • Public Artifacts • Footprinting", 
-        desc: "Gather public records, examine autonomous system numbers, trace domain footprints, and discover hidden university threat intelligence." 
+
+      {
+        id: 3,
+        name:
+          "Open Source Intelligence Challenge",
+        qCount: 3,
+
+        tags:
+          "Reconnaissance • Domain Intel • Public Artifacts • Footprinting",
+
+        desc:
+          "Gather public records, examine autonomous system numbers, trace domain footprints, and discover hidden university threat intelligence."
       },
-      { 
-        id: 4, 
-        name: "Encoding/Decoding", 
-        qCount: 4, 
-        tags: "Multi-Cipher • Base64 • Hex • ROT13 • Binary Stream", 
-        desc: "Intercepted cyber transmissions are heavily encoded. Decode nested Base64, Hexadecimal, ROT13, and raw binary payloads to uncover hacker communications." 
+
+      {
+        id: 4,
+        name: "Encoding/Decoding",
+        qCount: 4,
+
+        tags:
+          "Multi-Cipher • Base64 • Hex • ROT13 • Binary Stream",
+
+        desc:
+          "Intercepted cyber transmissions are heavily encoded. Decode nested Base64, Hexadecimal, ROT13, and raw binary payloads to uncover hacker communications."
       },
-      { 
-        id: 5, 
-        name: "Web Vulnerabilities", 
-        qCount: 4, 
-        tags: "Web Security • SQLi • XSS • Auth Bypass • Path Traversal", 
-        desc: "Explore vulnerable web endpoints. Identify SQL injection exploits, session cookie hijacking, Cross-Site Scripting vectors, and directory traversal vulnerabilities." 
+
+      {
+        id: 5,
+        name: "Web Vulnerabilities",
+        qCount: 4,
+
+        tags:
+          "Web Security • SQLi • XSS • Auth Bypass • Path Traversal",
+
+        desc:
+          "Explore vulnerable web endpoints. Identify SQL injection exploits, session cookie hijacking, Cross-Site Scripting vectors, and directory traversal vulnerabilities."
       },
-      { 
-        id: 6, 
-        name: "Coding Round", 
-        qCount: 4, 
-        tags: "Master Code • Algorithms • Logic • Bitwise • System Exploit", 
-        desc: "The final barrier. Solve algorithmic time-complexity puzzles, bitwise logic problems, and reconstruct the master CTF flag to claim complete victory." 
+
+      {
+        id: 6,
+        name: "Coding Round",
+        qCount: 4,
+
+        tags:
+          "Master Code • Algorithms • Logic • Bitwise • System Exploit",
+
+        desc:
+          "The final barrier. Solve algorithmic time-complexity puzzles, bitwise logic problems, and reconstruct the master CTF flag to claim complete victory."
       }
+
     ];
 
-    // DYNAMIC DASHBOARD STAGE PROGRESSION
+
+    // =====================================================
+    // DASHBOARD STAGE PROGRESSION
+    // =====================================================
+
     function updateDashboardStageProgression() {
-      let solvedStages = JSON.parse(localStorage.getItem('cyber_solved_stages') || '[]');
-      let solvedQuestions = JSON.parse(localStorage.getItem('cyber_solved_questions') || '[]');
-      let skippedQuestions = JSON.parse(localStorage.getItem('cyber_skipped_questions') || '[]');
 
-      // Check which stages have all questions solved or skipped
+      let solvedStages =
+        JSON.parse(
+          localStorage.getItem(
+            'cyber_solved_stages'
+          ) || '[]'
+        );
+
+
+      let solvedQuestions =
+        JSON.parse(
+          localStorage.getItem(
+            'cyber_solved_questions'
+          ) || '[]'
+        );
+
+
+      let skippedQuestions =
+        JSON.parse(
+          localStorage.getItem(
+            'cyber_skipped_questions'
+          ) || '[]'
+        );
+
+
       DASH_STAGES.forEach(st => {
-        if (solvedStages.includes(st.id)) return;
+
+        if (
+          solvedStages.includes(st.id)
+        ) {
+          return;
+        }
+
+
         let allDone = true;
+
+
         if (st.id === 6) {
-          const stage6Selection = JSON.parse(localStorage.getItem('cyber_stage6_selection') || '[]');
-          if (stage6Selection.length === 2 && stage6Selection.every(id => solvedQuestions.includes(id) || skippedQuestions.includes(id))) {
+
+          const stage6Selection =
+            JSON.parse(
+              localStorage.getItem(
+                'cyber_stage6_selection'
+              ) || '[]'
+            );
+
+
+          if (
+            stage6Selection.length === 2 &&
+            stage6Selection.every(
+              id =>
+                solvedQuestions.includes(id) ||
+                skippedQuestions.includes(id)
+            )
+          ) {
+
             allDone = true;
-          } else {
+
+          }
+
+          else {
+
             allDone = false;
+
           }
-        } else {
-          for (let q = 1; q <= st.qCount; q++) {
-            const qId = `${st.id}-${q}`;
-            if (!solvedQuestions.includes(qId) && !skippedQuestions.includes(qId)) {
+
+        }
+
+        else {
+
+          for (
+            let q = 1;
+            q <= st.qCount;
+            q++
+          ) {
+
+            const qId =
+              `${st.id}-${q}`;
+
+
+            if (
+              !solvedQuestions.includes(qId) &&
+              !skippedQuestions.includes(qId)
+            ) {
+
               allDone = false;
+
               break;
+
             }
+
           }
+
         }
-        if (allDone && !solvedStages.includes(st.id)) {
+
+
+        if (
+          allDone &&
+          !solvedStages.includes(st.id)
+        ) {
+
           solvedStages.push(st.id);
+
         }
+
       });
-      localStorage.setItem('cyber_solved_stages', JSON.stringify(solvedStages));
 
-      // Find first unsolved stage
-      const activeStage = DASH_STAGES.find(st => !solvedStages.includes(st.id));
 
-      // Update Participant Stats Sidebar
-      const statsStage1El = document.getElementById('statsStage1');
+      localStorage.setItem(
+        'cyber_solved_stages',
+        JSON.stringify(solvedStages)
+      );
+
+
+      const activeStage =
+        DASH_STAGES.find(
+          st =>
+            !solvedStages.includes(st.id)
+        );
+
+
+      // ===================================================
+      // PARTICIPANT STATS
+      // ===================================================
+
+      const statsStage1El =
+        document.getElementById(
+          'statsStage1'
+        );
+
+
       if (statsStage1El) {
+
         if (activeStage) {
-          statsStage1El.textContent = `Stage ${activeStage.id} Active`;
-          statsStage1El.className = "stat-val success";
-        } else {
-          statsStage1El.textContent = "All Solved ✓";
-          statsStage1El.className = "stat-val success";
+
+          statsStage1El.textContent =
+            `Stage ${activeStage.id} Active`;
+
+          statsStage1El.className =
+            "stat-val success";
+
         }
+
+        else {
+
+          statsStage1El.textContent =
+            "All Solved ✓";
+
+          statsStage1El.className =
+            "stat-val success";
+
+        }
+
       }
-      const statsCompletedEl = document.getElementById('statsCompleted');
+
+
+      const statsCompletedEl =
+        document.getElementById(
+          'statsCompleted'
+        );
+
+
       if (statsCompletedEl) {
-        statsCompletedEl.textContent = `${solvedStages.length} / 6`;
+
+        statsCompletedEl.textContent =
+          `${solvedStages.length} / 6`;
+
       }
 
-      // Update Main Active Stage Card
+
+      // ===================================================
+      // ACTIVE STAGE CARD
+      // ===================================================
+
       if (activeStage) {
-        const diff = localStorage.getItem(`cyber_stage_diff_${activeStage.id}`) || localStorage.getItem(`cyber_diff_phase_${activeStage.id}`) || 'easy';
-        const diffPts = diff === 'hard' ? 150 : (diff === 'medium' ? 100 : 50);
 
-        const pill = document.getElementById('activeStagePill');
-        if (pill) pill.textContent = `⚡ STAGE ${activeStage.id} ACTIVE`;
+        const diff =
+          localStorage.getItem(
+            `cyber_stage_diff_${activeStage.id}`
+          ) ||
+          localStorage.getItem(
+            `cyber_diff_phase_${activeStage.id}`
+          ) ||
+          'easy';
 
-        const ptsTag = document.getElementById('activeStagePointsTag');
-        if (ptsTag) ptsTag.textContent = `+${diffPts} Points`;
 
-        const title = document.getElementById('activeStageTitle');
-        if (title) title.textContent = `Stage ${activeStage.id}: ${activeStage.name}`;
+        const diffPts =
+          diff === 'hard'
+            ? 150
+            : (
+                diff === 'medium'
+                  ? 100
+                  : 50
+              );
 
-        const tags = document.getElementById('activeStageTags');
-        if (tags) tags.textContent = `Tags: ${activeStage.tags}`;
 
-        const desc = document.getElementById('activeStageDesc');
-        if (desc) desc.textContent = activeStage.desc;
+        const pill =
+          document.getElementById(
+            'activeStagePill'
+          );
 
-        const btn = document.getElementById('startChallengeBtn');
-        if (btn) {
-          btn.innerHTML = `<span>START CHALLENGE</span><span style="font-size: 16px;">&rarr;</span>`;
-          btn.onclick = () => openDifficultyModal(activeStage.id, activeStage.name);
+
+        if (pill) {
+
+          pill.textContent =
+            `⚡ STAGE ${activeStage.id} ACTIVE`;
+
         }
-      } else {
-        // All Stages Completed!
-        const pill = document.getElementById('activeStagePill');
-        if (pill) pill.textContent = `✨ ALL 6 STAGES COMPLETED`;
 
-        const ptsTag = document.getElementById('activeStagePointsTag');
-        if (ptsTag) ptsTag.textContent = `VICTORY`;
 
-        const title = document.getElementById('activeStageTitle');
-        if (title) title.textContent = `Cyber Hunt Decrypted!`;
+        const ptsTag =
+          document.getElementById(
+            'activeStagePointsTag'
+          );
 
-        const tags = document.getElementById('activeStageTags');
-        if (tags) tags.textContent = `All 6 Cybersecurity Phases Cleared`;
 
-        const desc = document.getElementById('activeStageDesc');
-        if (desc) desc.textContent = `Outstanding work! You have solved every challenge across all six phases. Your score is submitted to the leaderboard.`;
+        if (ptsTag) {
 
-        const btn = document.getElementById('startChallengeBtn');
-        if (btn) {
-          btn.innerHTML = `<span>REVIEW WORKSPACE</span><span style="font-size: 16px;">&rarr;</span>`;
-          btn.onclick = () => window.location.href = `challenge-workspace.html?phase=1`;
+          ptsTag.textContent =
+            `+${diffPts} Points`;
+
         }
+
+
+        const title =
+          document.getElementById(
+            'activeStageTitle'
+          );
+
+
+        if (title) {
+
+          title.textContent =
+            `Stage ${activeStage.id}: ${activeStage.name}`;
+
+        }
+
+
+        const tags =
+          document.getElementById(
+            'activeStageTags'
+          );
+
+
+        if (tags) {
+
+          tags.textContent =
+            `Tags: ${activeStage.tags}`;
+
+        }
+
+
+        const desc =
+          document.getElementById(
+            'activeStageDesc'
+          );
+
+
+        if (desc) {
+
+          desc.textContent =
+            activeStage.desc;
+
+        }
+
+
+        const btn =
+          document.getElementById(
+            'startChallengeBtn'
+          );
+
+
+        if (btn) {
+
+          btn.innerHTML =
+            `<span>START CHALLENGE</span>
+             <span style="font-size: 16px;">&rarr;</span>`;
+
+
+          btn.onclick = () =>
+            openDifficultyModal(
+              activeStage.id,
+              activeStage.name
+            );
+
+        }
+
       }
 
-      // Update Grid Cards
-      const grid = document.getElementById('stagesGrid');
+
+      // ===================================================
+      // ALL STAGES COMPLETED
+      // ===================================================
+
+      else {
+
+        const pill =
+          document.getElementById(
+            'activeStagePill'
+          );
+
+
+        if (pill) {
+
+          pill.textContent =
+            `✨ ALL 6 STAGES COMPLETED`;
+
+        }
+
+
+        const ptsTag =
+          document.getElementById(
+            'activeStagePointsTag'
+          );
+
+
+        if (ptsTag) {
+
+          ptsTag.textContent =
+            `VICTORY`;
+
+        }
+
+
+        const title =
+          document.getElementById(
+            'activeStageTitle'
+          );
+
+
+        if (title) {
+
+          title.textContent =
+            `Cyber Hunt Decrypted!`;
+
+        }
+
+
+        const tags =
+          document.getElementById(
+            'activeStageTags'
+          );
+
+
+        if (tags) {
+
+          tags.textContent =
+            `All 6 Cybersecurity Phases Cleared`;
+
+        }
+
+
+        const desc =
+          document.getElementById(
+            'activeStageDesc'
+          );
+
+
+        if (desc) {
+
+          desc.textContent =
+            `Outstanding work! You have solved every challenge across all six phases. Your score is submitted to the leaderboard.`;
+
+        }
+
+
+        const btn =
+          document.getElementById(
+            'startChallengeBtn'
+          );
+
+
+        if (btn) {
+
+          btn.innerHTML =
+            `<span>REVIEW WORKSPACE</span>
+             <span style="font-size: 16px;">&rarr;</span>`;
+
+
+          btn.onclick = () =>
+            window.location.href =
+              `challenge-workspace.html?phase=1`;
+
+        }
+
+      }
+
+
+      // ===================================================
+      // UPDATE STAGE GRID
+      // ===================================================
+
+      const grid =
+        document.getElementById(
+          'stagesGrid'
+        );
+
+
       if (grid) {
+
         grid.innerHTML = '';
-        const currentActiveId = activeStage ? activeStage.id : 7;
+
+
+        const currentActiveId =
+          activeStage
+            ? activeStage.id
+            : 7;
+
 
         DASH_STAGES.forEach(st => {
-          const isDone = solvedStages.includes(st.id);
-          const isCur = (st.id === currentActiveId);
 
-          const card = document.createElement('div');
+          const isDone =
+            solvedStages.includes(st.id);
+
+
+          const isCur =
+            st.id === currentActiveId;
+
+
+          const card =
+            document.createElement(
+              'div'
+            );
+
+
           if (isDone) {
-            card.className = "stage-card-completed";
-            card.title = `Stage ${st.id} Solved. Click to review in workspace.`;
-            card.onclick = () => window.location.href = `challenge-workspace.html?phase=${st.id}`;
+
+            card.className =
+              "stage-card-completed";
+
+
+            card.title =
+              `Stage ${st.id} Solved. Click to review in workspace.`;
+
+
+            card.onclick = () =>
+              window.location.href =
+                `challenge-workspace.html?phase=${st.id}`;
+
+
             card.innerHTML = `
-              <div class="completed-badge">&#10003; STAGE ${st.id} COMPLETED</div>
-              <div class="locked-title" style="font-size: 13px; font-weight: 700; color: #6ee7b7; margin: 4px 0;">${st.name}</div>
-              <div class="locked-pts" style="font-size: 11px; color: #a7f3d0;">Solved &bull; Click to review</div>
+
+              <div class="completed-badge">
+                &#10003; STAGE ${st.id} COMPLETED
+              </div>
+
+              <div
+                class="locked-title"
+                style="
+                  font-size: 13px;
+                  font-weight: 700;
+                  color: #6ee7b7;
+                  margin: 4px 0;
+                ">
+
+                ${st.name}
+
+              </div>
+
+              <div
+                class="locked-pts"
+                style="
+                  font-size: 11px;
+                  color: #a7f3d0;
+                ">
+
+                Solved
+                &bull;
+                Click to review
+
+              </div>
+
             `;
-          } else if (isCur) {
-            card.className = "stage-card-locked";
-            card.style.borderColor = "var(--blue)";
-            card.style.background = "rgba(88, 170, 235, 0.12)";
-            card.style.cursor = "pointer";
-            card.title = `Stage ${st.id} is currently active. Click to choose difficulty.`;
-            card.onclick = () => openDifficultyModal(st.id, st.name);
-            card.innerHTML = `
-              <div class="locked-badge" style="color: var(--blue-light);">&#9889; STAGE ${st.id} ACTIVE</div>
-              <div class="locked-title" style="font-size: 13px; font-weight: 700; color: var(--white); margin: 4px 0;">${st.name}</div>
-              <div class="locked-pts" style="font-size: 11px; color: var(--blue-light);">50 - 150 PTS &bull; Current</div>
-            `;
-          } else {
-            card.className = "stage-card-locked";
-            card.title = `Stage ${st.id} Locked. Click to view difficulty options.`;
-            card.onclick = () => openDifficultyModal(st.id, st.name);
-            card.innerHTML = `
-              <div class="locked-badge">&#128274; STAGE ${st.id}</div>
-              <div class="locked-title" style="font-size: 13px; font-weight: 700; color: var(--white); margin: 4px 0;">${st.name}</div>
-              <div class="locked-pts" style="font-size: 11px; color: var(--text-muted);">50 - 150 PTS &bull; Locked</div>
-            `;
+
           }
+
+
+          else if (isCur) {
+
+            card.className =
+              "stage-card-locked";
+
+
+            card.style.borderColor =
+              "var(--blue)";
+
+
+            card.style.background =
+              "rgba(88, 170, 235, 0.12)";
+
+
+            card.style.cursor =
+              "pointer";
+
+
+            card.title =
+              `Stage ${st.id} is currently active. Click to choose difficulty.`;
+
+
+            card.onclick = () =>
+              openDifficultyModal(
+                st.id,
+                st.name
+              );
+
+
+            card.innerHTML = `
+
+              <div
+                class="locked-badge"
+                style="color: var(--blue-light);">
+
+                &#9889;
+                STAGE ${st.id} ACTIVE
+
+              </div>
+
+              <div
+                class="locked-title"
+                style="
+                  font-size: 13px;
+                  font-weight: 700;
+                  color: var(--white);
+                  margin: 4px 0;
+                ">
+
+                ${st.name}
+
+              </div>
+
+              <div
+                class="locked-pts"
+                style="
+                  font-size: 11px;
+                  color: var(--blue-light);
+                ">
+
+                50 - 150 PTS
+                &bull;
+                Current
+
+              </div>
+
+            `;
+
+          }
+
+
+          else {
+
+            card.className =
+              "stage-card-locked";
+
+
+            card.title =
+              `Stage ${st.id} Locked. Click to view difficulty options.`;
+
+
+            card.onclick = () =>
+              openDifficultyModal(
+                st.id,
+                st.name
+              );
+
+
+            card.innerHTML = `
+
+              <div class="locked-badge">
+
+                &#128274;
+                STAGE ${st.id}
+
+              </div>
+
+              <div
+                class="locked-title"
+                style="
+                  font-size: 13px;
+                  font-weight: 700;
+                  color: var(--white);
+                  margin: 4px 0;
+                ">
+
+                ${st.name}
+
+              </div>
+
+              <div
+                class="locked-pts"
+                style="
+                  font-size: 11px;
+                  color: var(--text-muted);
+                ">
+
+                50 - 150 PTS
+                &bull;
+                Locked
+
+              </div>
+
+            `;
+
+          }
+
+
           grid.appendChild(card);
+
         });
+
       }
+
     }
+
 
     updateDashboardStageProgression();
 
-    // SECURITY BREACH POPUP (SHOW ONLY ONCE RIGHT AFTER LOGIN)
+
+    // =====================================================
+    // SECURITY BREACH POPUP
+    //
+    // IMPORTANT FIX:
+    // We wait until the COMPLETE dashboard HTML has
+    // loaded before looking for breachModalOverlay.
+    // =====================================================
+
     function triggerBreachPopup() {
-      if (sessionStorage.getItem('cyber_breach_shown') === 'true' || localStorage.getItem('cyber_breach_shown') === 'true') {
+
+      const shouldShowPopup =
+        sessionStorage.getItem(
+          'cyber_show_breach_popup'
+        ) === 'true';
+
+
+      // No login/signup signal = don't show popup
+
+      if (!shouldShowPopup) {
+
         return;
+
       }
 
-      setTimeout(() => {
-        const overlay = document.getElementById('breachModalOverlay');
-        const modal = document.getElementById('breachModal');
-        if (overlay && modal) {
-          overlay.classList.add('active', 'flash-shake');
-          modal.classList.add('hard-shake');
-          sessionStorage.setItem('cyber_breach_shown', 'true');
-          localStorage.setItem('cyber_breach_shown', 'true');
-          setTimeout(() => {
-            modal.classList.remove('hard-shake');
-            overlay.classList.remove('flash-shake');
-          }, 1000);
-        }
-      }, 3000);
+
+      const overlay =
+        document.getElementById(
+          'breachModalOverlay'
+        );
+
+
+      const modal =
+        document.getElementById(
+          'breachModal'
+        );
+
+
+      if (
+        overlay &&
+        modal
+      ) {
+
+        // ==============================================
+        // SHOW IMMEDIATELY
+        // THERE IS NO 3000ms SETTIMEOUT
+        // ==============================================
+
+        overlay.classList.add(
+          'active',
+          'flash-shake'
+        );
+
+
+        modal.classList.add(
+          'hard-shake'
+        );
+
+
+        // ==============================================
+        // Remove the instruction immediately.
+        //
+        // Therefore refreshing dashboard will NOT
+        // trigger popup again.
+        // ==============================================
+
+        sessionStorage.removeItem(
+          'cyber_show_breach_popup'
+        );
+
+
+        // ==============================================
+        // Stop the entrance animation
+        // ==============================================
+
+        setTimeout(
+          () => {
+
+            modal.classList.remove(
+              'hard-shake'
+            );
+
+
+            overlay.classList.remove(
+              'flash-shake'
+            );
+
+          },
+          1000
+        );
+
+      }
+
     }
 
-    window.closeBreachModal = function() {
-      sessionStorage.setItem('cyber_breach_shown', 'true');
-      localStorage.setItem('cyber_breach_shown', 'true');
-      const overlay = document.getElementById('breachModalOverlay');
-      if (overlay) overlay.classList.remove('active');
-    };
 
-    triggerBreachPopup();
+    // =====================================================
+    // CLOSE BREACH POPUP
+    // =====================================================
 
-    // DIFFICULTY MODAL HANDLERS
+    window.closeBreachModal =
+      function() {
+
+        const overlay =
+          document.getElementById(
+            'breachModalOverlay'
+          );
+
+
+        if (overlay) {
+
+          overlay.classList.remove(
+            'active'
+          );
+
+        }
+
+      };
+
+
+    // =====================================================
+    // IMPORTANT:
+    // Run AFTER entire HTML is loaded.
+    // =====================================================
+
+    document.addEventListener(
+      'DOMContentLoaded',
+      function() {
+
+        triggerBreachPopup();
+
+      }
+    );
+
+
+    // =====================================================
+    // DIFFICULTY MODAL
+    // =====================================================
+
     let selectedPhaseId = 1;
-    window.openDifficultyModal = function(phaseId, phaseName) {
-      selectedPhaseId = phaseId;
-      document.getElementById('diffModalPhaseTitle').textContent = `Phase ${phaseId}: ${phaseName}`;
-      document.getElementById('diffModalOverlay').classList.add('active');
-    };
 
-    window.closeDiffModal = function() {
-      document.getElementById('diffModalOverlay').classList.remove('active');
-    };
 
-    window.selectDifficulty = function(level) {
-      localStorage.setItem(`cyber_diff_phase_${selectedPhaseId}`, level);
-      localStorage.setItem(`cyber_stage_diff_${selectedPhaseId}`, level);
-      closeDiffModal();
-      window.location.href = `challenge-workspace.html?phase=${selectedPhaseId}&diff=${level}`;
-    };
+    window.openDifficultyModal =
+      function(
+        phaseId,
+        phaseName
+      ) {
+
+        selectedPhaseId =
+          phaseId;
+
+
+        document.getElementById(
+          'diffModalPhaseTitle'
+        ).textContent =
+          `Phase ${phaseId}: ${phaseName}`;
+
+
+        document.getElementById(
+          'diffModalOverlay'
+        ).classList.add(
+          'active'
+        );
+
+      };
+
+
+    window.closeDiffModal =
+      function() {
+
+        document.getElementById(
+          'diffModalOverlay'
+        ).classList.remove(
+          'active'
+        );
+
+      };
+
+
+    window.selectDifficulty =
+      function(level) {
+
+        localStorage.setItem(
+          `cyber_diff_phase_${selectedPhaseId}`,
+          level
+        );
+
+
+        localStorage.setItem(
+          `cyber_stage_diff_${selectedPhaseId}`,
+          level
+        );
+
+
+        closeDiffModal();
+
+
+        window.location.href =
+          `challenge-workspace.html?phase=${selectedPhaseId}&diff=${level}`;
+
+      };
+
   </script>
-  <!-- SECURITY BREACH MODAL -->
-  <div class="modal-overlay" id="breachModalOverlay">
-    <!-- VHS / VCR RETRO CRT OVERLAY -->
-    <div class="vhs-overlay" aria-hidden="true">
-      <div class="vhs-scanlines"></div>
-      <div class="vhs-tracking-bar"></div>
-      <div class="vhs-osd-top">PLAY &#9654; 00:23:45 SP</div>
-      <div class="vhs-osd-right">&#9679; REC [UNAUTHORIZED]</div>
-      <div class="vhs-osd-bottom">TRACKING: AUTO // VCR-99</div>
-    </div>
-
-    <!-- UNEVEN, RANDOM, TRANSLUCENT HACKED WATERMARKS -->
-    <div class="hacked-watermark-layer" aria-hidden="true">
-      <div class="hacked-stamp stamp-1">HACKED</div>
-      <div class="hacked-stamp stamp-2">HACKED</div>
-      <div class="hacked-stamp stamp-3">HACKED</div>
-      <div class="hacked-stamp stamp-4">HACKED</div>
-      <div class="hacked-stamp stamp-5">HACKED</div>
-      <div class="hacked-stamp stamp-6">HACKED</div>
-      <div class="hacked-stamp stamp-7">HACKED</div>
-    </div>
-
-    <div class="breach-modal" id="breachModal" style="position: relative; z-index: 10;">
-      <div class="breach-header">
-        <div class="breach-title-wrap">
-          <span class="breach-icon">&#9888;</span>
-          <span class="breach-title">SECURITY BREACH DETECTED</span>
-        </div>
-        <button class="modal-close-btn" onclick="closeBreachModal()">&times;</button>
-      </div>
-      <div class="breach-body">
-        The CYBER HUNT system has been compromised. Unauthorized access has been detected on the university website. Your investigation is now critical. Proceed with caution.
-      </div>
-      <div class="breach-actions">
-        <button class="breach-btn" onclick="closeBreachModal()">UNDERSTOOD</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- DIFFICULTY SELECTION MODAL -->
-  <div class="modal-overlay" id="diffModalOverlay">
-    <div class="diff-modal" id="diffModal">
-      <div class="diff-header">
-        <span class="diff-title">CHALLENGE CONFIGURATION</span>
-        <button class="modal-close-btn" style="color: var(--text-muted);" onclick="closeDiffModal()">&times;</button>
-      </div>
-      <div class="diff-body">
-        <div class="diff-phase-name" id="diffModalPhaseTitle">Phase 1: Hidden Clue</div>
-        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">Select your difficulty level:</div>
-
-        <div class="diff-options-grid">
-          <div class="diff-card-btn" onclick="selectDifficulty('easy')">
-            <div>
-              <span class="diff-badge easy">EASY</span>
-              <div class="diff-subtext">Standard clue discovery & guided prompt</div>
-            </div>
-            <div class="diff-points-val" style="color: #6ee7b7;">50 PTS</div>
-          </div>
-
-          <div class="diff-card-btn" onclick="selectDifficulty('medium')">
-            <div>
-              <span class="diff-badge med">MEDIUM</span>
-              <div class="diff-subtext">Intermediate forensic depth & puzzles</div>
-            </div>
-            <div class="diff-points-val" style="color: #72b9f0;">100 PTS</div>
-          </div>
-
-          <div class="diff-card-btn" onclick="selectDifficulty('hard')">
-            <div>
-              <span class="diff-badge hard">HARD</span>
-              <div class="diff-subtext">Cryptographic challenge & deep analysis</div>
-            </div>
-            <div class="diff-points-val" style="color: #fca5a5;">150 PTS</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
 </body>
+
 </html>

@@ -3,11 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="logo-graphic-geeks.png">
   <title>Cyber Hunt | Authentication</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700;800&display=swap"
+    rel="stylesheet">
+
   <style>
     :root {
       --bg: #061a29;
@@ -31,7 +34,7 @@
     body {
       min-height: 100vh;
       background-color: var(--bg);
-      background-image: 
+      background-image:
         radial-gradient(circle at 15% 20%, rgba(88, 170, 235, 0.08) 0%, transparent 40%),
         radial-gradient(circle at 85% 80%, rgba(88, 170, 235, 0.08) 0%, transparent 40%);
       color: var(--white);
@@ -43,8 +46,7 @@
       padding: 20px;
     }
 
-    
-        .brand-header {
+    .brand-header {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -54,6 +56,7 @@
       padding: 0;
       text-align: center;
     }
+
     .header-brand-logo {
       width: 38px;
       height: 38px;
@@ -62,8 +65,6 @@
       border: 1.5px solid var(--panel-border);
       box-shadow: 0 0 10px rgba(88, 170, 235, 0.4);
     }
-    
-
 
     .brand-link {
       display: inline-flex;
@@ -98,12 +99,15 @@
       border-radius: 8px;
       width: 100%;
       max-width: 440px;
-      box-shadow: 0 0 35px rgba(74, 168, 233, 0.18), inset 0 0 40px rgba(6, 26, 41, 0.5);
+      box-shadow:
+        0 0 35px rgba(74, 168, 233, 0.18),
+        inset 0 0 40px rgba(6, 26, 41, 0.5);
       position: relative;
       overflow: hidden;
     }
 
     /* Corner Marks */
+
     .corner-mark {
       position: absolute;
       width: 14px;
@@ -112,10 +116,30 @@
       border-style: solid;
       pointer-events: none;
     }
-    .corner-mark.tl { top: 8px; left: 8px; border-width: 2px 0 0 2px; }
-    .corner-mark.tr { top: 8px; right: 8px; border-width: 2px 2px 0 0; }
-    .corner-mark.bl { bottom: 8px; left: 8px; border-width: 0 0 2px 2px; }
-    .corner-mark.br { bottom: 8px; right: 8px; border-width: 0 2px 2px 0; }
+
+    .corner-mark.tl {
+      top: 8px;
+      left: 8px;
+      border-width: 2px 0 0 2px;
+    }
+
+    .corner-mark.tr {
+      top: 8px;
+      right: 8px;
+      border-width: 2px 2px 0 0;
+    }
+
+    .corner-mark.bl {
+      bottom: 8px;
+      left: 8px;
+      border-width: 0 0 2px 2px;
+    }
+
+    .corner-mark.br {
+      bottom: 8px;
+      right: 8px;
+      border-width: 0 2px 2px 0;
+    }
 
     .tab-header {
       display: flex;
@@ -178,12 +202,15 @@
       font-family: 'DM Mono', monospace;
       font-size: 14.5px;
       outline: none;
-      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
     }
 
     input:focus {
       border-color: var(--blue);
-      box-shadow: 0 0 10px rgba(88, 170, 235, 0.3);
+      box-shadow:
+        0 0 10px rgba(88, 170, 235, 0.3);
     }
 
     input.error-border {
@@ -214,7 +241,9 @@
       letter-spacing: 0.5px;
       cursor: pointer;
       margin-top: 10px;
-      box-shadow: 4px 4px 0 #04121d, 6px 6px 0 #3a8ac4;
+      box-shadow:
+        4px 4px 0 #04121d,
+        6px 6px 0 #3a8ac4;
       transition: all 0.15s ease;
       display: flex;
       align-items: center;
@@ -225,7 +254,9 @@
     .submit-btn:hover:not(:disabled) {
       background: #6bbcf5;
       border-color: #6bbcf5;
-      box-shadow: 5px 5px 0 #04121d, 7px 7px 0 #3a8ac4;
+      box-shadow:
+        5px 5px 0 #04121d,
+        7px 7px 0 #3a8ac4;
     }
 
     .submit-btn:active:not(:disabled) {
@@ -253,158 +284,542 @@
       color: var(--blue-light);
     }
   </style>
+
 </head>
+
 <body>
 
   <div class="brand-header">
+
     <a class="brand-link" href="../landing.html" title="Cyber Hunt Home">
-      <img src="../logo-graphic-geeks.png" alt="Graphic Geeks" class="header-brand-logo" width="34" height="34" onerror="this.src='logo-graphic-geeks.png'">
+
+      <img src="../logo-graphic-geeks.png" alt="Graphic Geeks" class="header-brand-logo" width="34" height="34"
+        onerror="this.src='logo-graphic-geeks.png'">
+
       <span>CYBER HUNT 2026</span>
+
     </a>
+
   </div>
 
+
   <div class="auth-card">
+
     <span class="corner-mark tl"></span>
     <span class="corner-mark tr"></span>
     <span class="corner-mark bl"></span>
     <span class="corner-mark br"></span>
 
+
     <div class="tab-header">
-      <button class="tab-btn" id="loginTab">LOGIN</button>
-      <button class="tab-btn active" id="signUpTab">SIGN UP</button>
+
+      <button class="tab-btn" id="loginTab">
+
+        LOGIN
+
+      </button>
+
+      <button class="tab-btn active" id="signUpTab">
+
+        SIGN UP
+
+      </button>
+
     </div>
+
 
     <div class="form-container">
+
       <form id="authForm">
-        <div class="form-group">
-          <label>Participant Username</label>
-          <div class="input-wrap">
-            <input type="text" id="username" placeholder="e.g. alice_geu" autocomplete="off" required />
-          </div>
-          <div class="error-text" id="usernameError">Username already exists. Please pick another.</div>
-        </div>
 
         <div class="form-group">
-          <label>Password</label>
+
+          <label>Participant Username</label>
+
           <div class="input-wrap">
-            <input type="password" id="password" placeholder="Enter Your Pass" required />
+
+            <input type="text" id="username" placeholder="e.g. alice_geu" autocomplete="off" required />
+
           </div>
+
+          <div class="error-text" id="usernameError">
+
+            Username already exists. Please pick another.
+
+          </div>
+
         </div>
+
+
+        <div class="form-group">
+
+          <label>Password</label>
+
+          <div class="input-wrap">
+
+            <input type="password" id="password" placeholder="Enter Your Pass" required />
+
+          </div>
+
+        </div>
+
 
         <div class="form-group" id="confirmPassGroup">
+
           <label>Confirm Password</label>
+
           <div class="input-wrap">
+
             <input type="password" id="confirmPassword" placeholder="Enter Your Pass" required />
+
           </div>
+
         </div>
 
+
         <button type="submit" class="submit-btn" id="submitBtn">
+
           <span>Sign Up & Enter</span>
+
         </button>
+
       </form>
+
     </div>
+
   </div>
+
 
   <div class="back-home">
-    <a href="../landing.html">&larr; Return to Cyber Hunt Homepage</a>
+
+    <a href="../landing.html">
+
+      &larr; Return to Cyber Hunt Homepage
+
+    </a>
+
   </div>
 
+
   <script>
-    let users = JSON.parse(localStorage.getItem('cyber_users')) || ['admin', 'alice', 'testuser'];
+
+    // =====================================================
+    // USER DATA
+    // =====================================================
+
+    let users =
+      JSON.parse(localStorage.getItem('cyber_users'))
+      || [];
+
+    /*
+      If there are no saved users, keep your original
+      default usernames and give them empty passwords.
+
+      New signups will contain username + password.
+    */
+
+    if (users.length === 0) {
+
+      users = [
+        {
+          username: 'admin',
+          password: ''
+        },
+        {
+          username: 'alice',
+          password: ''
+        },
+        {
+          username: 'testuser',
+          password: ''
+        }
+      ];
+
+    }
+    else {
+
+      /*
+        Convert old username-only data into
+        username + password format.
+      */
+
+      users = users.map(user => {
+
+        if (typeof user === 'string') {
+
+          return {
+            username: user.toLowerCase(),
+            password: ''
+          };
+
+        }
+
+        return user;
+
+      });
+
+    }
+
+
     let mode = 'signup';
 
-    const loginTab = document.getElementById('loginTab');
-    const signUpTab = document.getElementById('signUpTab');
-    const confirmGroup = document.getElementById('confirmPassGroup');
-    const confirmInput = document.getElementById('confirmPassword');
-    const usernameInput = document.getElementById('username');
-    const passwordInput = document.getElementById('password');
-    const usernameError = document.getElementById('usernameError');
-    const submitBtn = document.getElementById('submitBtn');
-    const form = document.getElementById('authForm');
 
-    loginTab.onclick = () => setMode('login');
-    signUpTab.onclick = () => setMode('signup');
+    // =====================================================
+    // ELEMENTS
+    // =====================================================
+
+    const loginTab =
+      document.getElementById('loginTab');
+
+    const signUpTab =
+      document.getElementById('signUpTab');
+
+    const confirmGroup =
+      document.getElementById('confirmPassGroup');
+
+    const confirmInput =
+      document.getElementById('confirmPassword');
+
+    const usernameInput =
+      document.getElementById('username');
+
+    const passwordInput =
+      document.getElementById('password');
+
+    const usernameError =
+      document.getElementById('usernameError');
+
+    const submitBtn =
+      document.getElementById('submitBtn');
+
+    const form =
+      document.getElementById('authForm');
+
+
+    // =====================================================
+    // TAB BUTTONS
+    // =====================================================
+
+    loginTab.onclick = () =>
+      setMode('login');
+
+    signUpTab.onclick = () =>
+      setMode('signup');
+
+
+    // =====================================================
+    // CHANGE LOGIN / SIGNUP MODE
+    // =====================================================
 
     function setMode(newMode) {
+
       mode = newMode;
+
       clearError();
+
+
       if (mode === 'signup') {
+
         signUpTab.classList.add('active');
+
         loginTab.classList.remove('active');
+
         confirmGroup.style.display = 'block';
+
         confirmInput.required = true;
-        submitBtn.innerHTML = '<span>Sign Up & Enter</span>';
+
+        submitBtn.innerHTML =
+          '<span>Sign Up & Enter</span>';
+
         checkUsernameUnique();
-      } else {
-        loginTab.classList.add('active');
-        signUpTab.classList.remove('active');
-        confirmGroup.style.display = 'none';
-        confirmInput.required = false;
-        submitBtn.innerHTML = '<span>Login & Enter</span>';
+
       }
+
+      else {
+
+        loginTab.classList.add('active');
+
+        signUpTab.classList.remove('active');
+
+        confirmGroup.style.display = 'none';
+
+        confirmInput.required = false;
+
+        submitBtn.innerHTML =
+          '<span>Login & Enter</span>';
+
+      }
+
     }
 
-    const initMode = new URLSearchParams(window.location.search).get('mode');
-    setMode(initMode === 'login' ? 'login' : 'signup');
 
-    usernameInput.addEventListener('input', checkUsernameUnique);
+    // =====================================================
+    // INITIAL MODE
+    // =====================================================
+
+    const initMode =
+      new URLSearchParams(window.location.search)
+        .get('mode');
+
+    setMode(
+      initMode === 'login'
+        ? 'login'
+        : 'signup'
+    );
+
+
+    // =====================================================
+    // USERNAME CHECK
+    // =====================================================
+
+    usernameInput.addEventListener(
+      'input',
+      checkUsernameUnique
+    );
+
 
     function checkUsernameUnique() {
-      const enteredName = usernameInput.value.trim().toLowerCase();
-      if (mode === 'signup' && enteredName && users.includes(enteredName)) {
-        usernameInput.classList.add('error-border');
-        usernameError.classList.add('show');
+
+      const enteredName =
+        usernameInput.value
+          .trim()
+          .toLowerCase();
+
+
+      if (
+        mode === 'signup' &&
+        enteredName &&
+        users.some(
+          user => user.username === enteredName
+        )
+      ) {
+
+        usernameInput.classList.add(
+          'error-border'
+        );
+
+        usernameError.classList.add(
+          'show'
+        );
+
         submitBtn.disabled = true;
+
         return false;
-      } else {
-        clearError();
-        return true;
+
       }
+
+      else {
+
+        clearError();
+
+        return true;
+
+      }
+
     }
+
+
+    // =====================================================
+    // CLEAR USERNAME ERROR
+    // =====================================================
 
     function clearError() {
-      usernameInput.classList.remove('error-border');
-      usernameError.classList.remove('show');
+
+      usernameInput.classList.remove(
+        'error-border'
+      );
+
+      usernameError.classList.remove(
+        'show'
+      );
+
       submitBtn.disabled = false;
+
     }
 
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const user = usernameInput.value.trim().toLowerCase();
-      const pass = passwordInput.value;
 
-      if (mode === 'signup') {
-        if (!checkUsernameUnique()) return;
+    // =====================================================
+    // LOGIN / SIGNUP SUBMIT
+    // =====================================================
 
-        if (pass !== confirmInput.value) {
-          alert('Passwords do not match.');
-          return;
+    form.addEventListener(
+      'submit',
+      (e) => {
+
+        e.preventDefault();
+
+
+        const user =
+          usernameInput.value
+            .trim()
+            .toLowerCase();
+
+        const pass =
+          passwordInput.value;
+
+
+        // ================================================
+        // SIGN UP
+        // ================================================
+
+        if (mode === 'signup') {
+
+          if (!checkUsernameUnique()) {
+
+            return;
+
+          }
+
+
+          // Password confirmation
+
+          if (
+            pass !== confirmInput.value
+          ) {
+
+            alert(
+              'Passwords do not match.'
+            );
+
+            return;
+
+          }
+
+
+          // Create user
+
+          users.push({
+
+            username: user,
+
+            password: pass
+
+          });
+
+
+          // Save users
+
+          localStorage.setItem(
+            'cyber_users',
+            JSON.stringify(users)
+          );
+
+
+          // Save current user
+
+          localStorage.setItem(
+            'cyber_current_user',
+            user
+          );
+
+
+          // ==============================================
+          // IMPORTANT:
+          // Tell dashboard to show the security popup.
+          // ==============================================
+
+          sessionStorage.setItem(
+            'cyber_show_breach_popup',
+            'true'
+          );
+
+
+          // NO SUCCESS ALERT HERE.
+          // Dashboard popup will appear immediately.
+
+          redirectToNext();
+
         }
 
-        users.push(user);
-        localStorage.setItem('cyber_users', JSON.stringify(users));
-        localStorage.setItem('cyber_current_user', user);
-        alert(`Account created successfully! Welcome to Cyber Hunt, ${user}.`);
-        redirectToNext();
-      } else {
-        if (!users.includes(user)) {
-          alert('User not found. Please Sign Up first.');
-          return;
+
+        // ================================================
+        // LOGIN
+        // ================================================
+
+        else {
+
+          /*
+            ONLY CHANGE:
+            Check both username AND password.
+          */
+
+          const validUser =
+            users.find(
+              savedUser =>
+                savedUser.username === user &&
+                savedUser.password === pass
+            );
+
+
+          /*
+            If username/password combination is wrong,
+            show ONLY a normal alert popup.
+          */
+
+          if (!validUser) {
+
+            alert(
+              'Invalid input. Please Enter the correct Username and Password'
+            );
+
+            return;
+
+          }
+
+
+          // ==============================================
+          // CORRECT LOGIN
+          // Everything below remains the same.
+          // ==============================================
+
+          // Tell dashboard to show popup
+          localStorage.setItem(
+            'cyber_current_user',
+            user
+          );
+
+          window.location.href = '../dashboard.html';
+
         }
-        localStorage.setItem('cyber_current_user', user);
-        redirectToNext();
+
       }
-    });
+    );
+
+
+    // =====================================================
+    // REDIRECT
+    // =====================================================
 
     function redirectToNext() {
-      const nextPage = new URLSearchParams(window.location.search).get('next');
-      if (nextPage && /^\/[a-zA-Z0-9_./-]+\.html$/.test(nextPage)) {
-        window.location.href = nextPage;
-      } else {
-        window.location.href = '../dashboard.html';
+
+      const nextPage =
+        new URLSearchParams(
+          window.location.search
+        ).get('next');
+
+
+      if (
+        nextPage &&
+        /^\/?[a-zA-Z0-9_./-]+\.html$/.test(nextPage)
+      ) {
+
+        window.location.href =
+          nextPage;
+
       }
+
+      else {
+
+        window.location.href =
+          '../dashboard.html';
+
+      }
+
     }
+
   </script>
+
 </body>
+
 </html>
+```
