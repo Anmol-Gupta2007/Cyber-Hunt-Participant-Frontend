@@ -453,8 +453,8 @@
       box-shadow: 0 0 30px rgba(16, 185, 129, 0.7);
     }
 
-    /* HARD SELECTION CARD */
-    .hard-choice-card {
+    /* STAGE 6 SELECTION CARD */
+    .stage6-choice-card {
       background: var(--panel);
       border: 1.5px solid var(--line);
       border-radius: 8px;
@@ -469,25 +469,25 @@
       box-shadow: 0 0 30px rgba(74, 168, 233, 0.18);
     }
 
-    .hard-choice-card h2 {
+    .stage6-choice-card h2 {
       font-family: 'Space Grotesk', sans-serif;
       color: var(--white);
       font-size: 26px;
     }
 
-    .hard-choice-grid {
+    .stage6-choice-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 16px;
       width: 100%;
       margin: 14px 0;
     }
 
     @media (max-width: 800px) {
-      .hard-choice-grid { grid-template-columns: 1fr; }
+      .stage6-choice-grid { grid-template-columns: 1fr; }
     }
 
-    .hard-pick-box {
+    .stage6-pick-box {
       background: rgba(4, 18, 29, 0.75);
       border: 1.5px solid var(--line-subtle);
       border-radius: 8px;
@@ -498,15 +498,15 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      min-height: 180px;
+      min-height: 160px;
     }
 
-    .hard-pick-box:hover {
+    .stage6-pick-box:hover {
       border-color: var(--blue-light);
       background: rgba(88, 170, 235, 0.1);
     }
 
-    .hard-pick-box.selected {
+    .stage6-pick-box.selected {
       border-color: var(--green);
       background: rgba(16, 185, 129, 0.15);
       box-shadow: 0 0 16px rgba(16, 185, 129, 0.25);
@@ -968,7 +968,7 @@
       </div>
     </div>
 
-    <!-- QUESTIONS LIST / HARD CHOICE SCREEN -->
+    <!-- QUESTIONS LIST / STAGE 6 CHOICE SCREEN -->
     <main class="questions-list" id="questionsContainer"></main>
   </div>
 
@@ -987,7 +987,7 @@
           <div class="diff-card-btn" onclick="chooseWorkspaceDifficulty('easy')">
             <div>
               <span class="diff-badge easy">EASY</span>
-              <div class="diff-subtext">3 Random Challenges &middot; Standard clue discovery</div>
+              <div class="diff-subtext">Standard clue discovery & guided prompt</div>
             </div>
             <div class="diff-points-val" style="color: #6ee7b7;">50 PTS</div>
           </div>
@@ -995,7 +995,7 @@
           <div class="diff-card-btn" onclick="chooseWorkspaceDifficulty('medium')">
             <div>
               <span class="diff-badge med">MEDIUM</span>
-              <div class="diff-subtext">4 Random Challenges &middot; Intermediate forensic depth</div>
+              <div class="diff-subtext">Intermediate forensic depth & puzzles</div>
             </div>
             <div class="diff-points-val" style="color: #72b9f0;">100 PTS</div>
           </div>
@@ -1003,7 +1003,7 @@
           <div class="diff-card-btn" onclick="chooseWorkspaceDifficulty('hard')">
             <div>
               <span class="diff-badge hard">HARD</span>
-              <div class="diff-subtext">Choice of 2 out of 3 Challenges &middot; Advanced depth</div>
+              <div class="diff-subtext">Cryptographic challenge & deep analysis</div>
             </div>
             <div class="diff-points-val" style="color: #fca5a5;">150 PTS</div>
           </div>
@@ -1434,19 +1434,21 @@
       { id: 6, title: "C Coding Round", topic: "C Coding Challenge" }
     ];
 
-    // Quota helper
-    function getQuestionQuota(difficulty) {
-      if (difficulty === 'hard') return { poolCount: 3, playableCount: 2 };
-      if (difficulty === 'medium') return { poolCount: 4, playableCount: 4 };
-      return { poolCount: 3, playableCount: 3 }; // easy
+    // STAGE QUESTION RULES:
+    // Stages 1, 2, 3: 3 questions
+    // Stages 4, 5: 4 questions
+    // Stage 6: Pool of 4 questions, user chooses any 2
+    function getStageQuestionRules(stageId) {
+      if (stageId <= 3) return { poolCount: 3, playableCount: 3, isChoiceRound: false };
+      if (stageId === 4 || stageId === 5) return { poolCount: 4, playableCount: 4, isChoiceRound: false };
+      return { poolCount: 4, playableCount: 2, isChoiceRound: true }; // Stage 6
     }
 
-    // Random generator based on requested difficulty counts
     function generateRandomStagePool(stageId, difficulty) {
       const pool = (QUESTION_BANK[stageId] && QUESTION_BANK[stageId][difficulty]) || [];
       const shuffled = [...pool].sort(() => 0.5 - Math.random());
-      const quota = getQuestionQuota(difficulty);
-      const selected = shuffled.slice(0, quota.poolCount);
+      const rules = getStageQuestionRules(stageId);
+      const selected = shuffled.slice(0, rules.poolCount);
 
       return selected.map((item, idx) => ({
         qId: `${stageId}-${difficulty}-${idx + 1}`,
@@ -1467,11 +1469,10 @@
     let userScore = (rawTotalScore !== null && !isNaN(Number(rawTotalScore))) ? Number(rawTotalScore) : 0;
     let usedHints = JSON.parse(localStorage.getItem('cyber_used_hints')) || {};
     let skippedQuestions = JSON.parse(localStorage.getItem('cyber_skipped_questions')) || [];
-    let hardDraftPicks = {};
+    let stage6DraftPicks = [];
     let hintPenaltyNotice = null;
     let pendingDiffStageId = null;
 
-    // Difficulty and scoring helpers
     function getStageDifficulty(stageId) {
       return localStorage.getItem(`cyber_stage_diff_${stageId}`) || '';
     }
@@ -1496,14 +1497,13 @@
     }
 
     function getStagePlayableQuestions(stageId) {
-      const diff = getStageDifficulty(stageId) || 'easy';
       const pool = getStageCandidatePool(stageId);
-      if (diff === 'hard') {
-        const locked = JSON.parse(localStorage.getItem(`cyber_stage_${stageId}_hard_locked_picks`));
+      if (stageId === 6) {
+        const locked = JSON.parse(localStorage.getItem('cyber_stage_6_locked_picks'));
         if (locked && Array.isArray(locked) && locked.length === 2) {
           return pool.filter(q => locked.includes(q.qId));
         }
-        return []; // Not locked yet; will show choice screen
+        return []; // Not locked yet; will show choice selection screen
       }
       return pool;
     }
@@ -1515,8 +1515,8 @@
     function isStageCompleted(stageId) {
       const diff = getStageDifficulty(stageId);
       if (!diff) return false;
-      if (diff === 'hard') {
-        const locked = JSON.parse(localStorage.getItem(`cyber_stage_${stageId}_hard_locked_picks`));
+      if (stageId === 6) {
+        const locked = JSON.parse(localStorage.getItem('cyber_stage_6_locked_picks'));
         if (!locked || locked.length !== 2) return false;
       }
       const questions = getStagePlayableQuestions(stageId);
@@ -1587,36 +1587,34 @@
       const stId = pendingDiffStageId;
       localStorage.setItem(`cyber_stage_diff_${stId}`, level);
       
-      // Clear previous cached pools and hard choices for clean randomization
+      // Clear previous cached pool and choices for clean random questions
       localStorage.removeItem(`cyber_stage_${stId}_pool_${level}`);
-      localStorage.removeItem(`cyber_stage_${stId}_hard_locked_picks`);
-      delete hardDraftPicks[stId];
+      if (stId === 6) {
+        localStorage.removeItem('cyber_stage_6_locked_picks');
+        stage6DraftPicks = [];
+      }
 
-      getStageCandidatePool(stId); // regenerate
+      getStageCandidatePool(stId);
       closeWorkspaceDiffModal();
       currentViewStageId = stId;
       currentFocusedQId = null;
       renderApp();
     };
 
-    // HARD SELECTION ACTIONS
-    window.toggleHardPick = function(stageId, qId) {
-      if (!hardDraftPicks[stageId]) hardDraftPicks[stageId] = [];
-      let picks = hardDraftPicks[stageId];
-      if (picks.includes(qId)) {
-        picks = picks.filter(id => id !== qId);
-      } else if (picks.length < 2) {
-        picks.push(qId);
+    // STAGE 6 SELECTION ACTIONS
+    window.toggleStage6Pick = function(qId) {
+      if (stage6DraftPicks.includes(qId)) {
+        stage6DraftPicks = stage6DraftPicks.filter(id => id !== qId);
+      } else if (stage6DraftPicks.length < 2) {
+        stage6DraftPicks.push(qId);
       }
-      hardDraftPicks[stageId] = picks;
       renderApp();
     };
 
-    window.confirmHardPicks = function(stageId) {
-      const picks = hardDraftPicks[stageId];
-      if (!picks || picks.length !== 2) return;
-      localStorage.setItem(`cyber_stage_${stageId}_hard_locked_picks`, JSON.stringify(picks));
-      currentFocusedQId = picks[0];
+    window.confirmStage6Picks = function() {
+      if (stage6DraftPicks.length !== 2) return;
+      localStorage.setItem('cyber_stage_6_locked_picks', JSON.stringify(stage6DraftPicks));
+      currentFocusedQId = stage6DraftPicks[0];
       renderApp();
     };
 
@@ -1763,7 +1761,7 @@
       const currentMeta = STAGE_META.find(s => s.id === currentViewStageId);
       if (!currentMeta) return;
 
-      const currentDiff = (getStageDifficulty(currentMeta.id) || 'easy').toLowerCase();
+      const currentDiff = (getStageDifficulty(currentMeta.id) || 'easy').toUpperCase();
       const basePts = getStageBasePoints(currentMeta.id);
 
       const headerTitle = document.getElementById('stageHeaderTitle');
@@ -1771,45 +1769,44 @@
       const container = document.getElementById('questionsContainer');
       container.innerHTML = '';
 
-      // Check if HARD level needs user to pick 2 out of 3
-      if (currentDiff === 'hard') {
-        const lockedPicks = JSON.parse(localStorage.getItem(`cyber_stage_${currentMeta.id}_hard_locked_picks`));
+      // Stage 6 special selection check: Pick any 2 of 4 questions
+      if (currentMeta.id === 6) {
+        const lockedPicks = JSON.parse(localStorage.getItem('cyber_stage_6_locked_picks'));
         if (!lockedPicks || lockedPicks.length !== 2) {
-          const pool = getStageCandidatePool(currentMeta.id);
-          const currentDraft = hardDraftPicks[currentMeta.id] || [];
+          const pool = getStageCandidatePool(6);
 
           headerTitle.innerHTML = `
-            <span class="cmd-prompt">&gt;_</span> STAGE ${currentMeta.id}: ${currentMeta.topic.toUpperCase()} (HARD SELECTION)
-            <button type="button" class="diff-chip-btn" onclick="openWorkspaceDiffModal(${currentMeta.id})" title="Change Difficulty">
-              &#9889; HARD (+150 PTS) <span style="font-size:10px; margin-left:4px; opacity:0.8;">&#9998; CHANGE</span>
+            <span class="cmd-prompt">&gt;_</span> STAGE 6: C CODING ROUND (QUESTION SELECTION)
+            <button type="button" class="diff-chip-btn" onclick="openWorkspaceDiffModal(6)" title="Change Difficulty">
+              &#9889; ${currentDiff} (+${basePts} PTS) <span style="font-size:10px; margin-left:4px; opacity:0.8;">&#9998; CHANGE</span>
             </button>
           `;
-          progressSub.textContent = "Select 2 challenges out of 3 below to initialize this round.";
+          progressSub.textContent = "Select any 2 questions out of 4 below to begin your coding challenge.";
 
           container.innerHTML = `
-            <div class="hard-choice-card">
-              <div style="font-size: 12px; color: var(--blue-light); font-weight: 700; letter-spacing: 1px;">STAGE ${currentMeta.id} // HARD MISSION</div>
-              <h2>Select Any 2 Questions Out Of 3</h2>
-              <p style="color: var(--muted); max-width: 620px; font-size: 14px;">
-                Review the 3 generated puzzles below. Select exactly 2 questions you wish to decrypt. Once confirmed, this selection cannot be altered.
+            <div class="stage6-choice-card">
+              <div style="font-size: 12px; color: var(--blue-light); font-weight: 700; letter-spacing: 1px;">STAGE 6 // FINAL ROUND</div>
+              <h2>Select Any 2 Questions Out Of 4</h2>
+              <p style="color: var(--muted); max-width: 650px; font-size: 14px;">
+                You have 4 randomized coding questions in this pool. Choose exactly 2 challenges to solve. Once confirmed, your selection is locked for this attempt.
               </p>
 
-              <div class="hard-choice-grid">
+              <div class="stage6-choice-grid">
                 ${pool.map((q, i) => {
-                  const isSelected = currentDraft.includes(q.qId);
+                  const isSelected = stage6DraftPicks.includes(q.qId);
                   return `
                     <div 
-                      class="hard-pick-box ${isSelected ? 'selected' : ''}" 
-                      onclick="toggleHardPick(${currentMeta.id}, '${q.qId}')"
+                      class="stage6-pick-box ${isSelected ? 'selected' : ''}" 
+                      onclick="toggleStage6Pick('${q.qId}')"
                     >
                       <div>
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                          <strong style="color: var(--blue-light); font-size: 14px;">Challenge ${i + 1}</strong>${isSelected ? '<span style="color: var(--green); font-weight: 700; font-size: 12px;">&#10003; SELECTED</span>' : ''}
+                          <strong style="color: var(--blue-light); font-size: 14px;">Question ${i + 1}</strong>${isSelected ? '<span style="color: var(--green); font-weight: 700; font-size: 12px;">&#10003; SELECTED</span>' : ''}
                         </div>
-                        <div style="font-size: 13px; color: var(--white); margin-bottom: 8px; line-height: 1.5;">${q.question.slice(0, 110)}...</div>
+                        <div style="font-size: 13px; color: var(--white); margin-bottom: 8px; line-height: 1.5;">${q.question.replace(/\n/g, ' ').slice(0, 110)}...</div>
                       </div>
                       <div style="font-size: 11.5px; color: var(--muted); border-top: 1px dashed rgba(74, 168, 233, 0.25); padding-top: 8px;">
-                        ${q.description || 'Target Cryptographic Puzzle'}
+                        ${q.description || 'C Programming Challenge'}
                       </div>
                     </div>
                   `;
@@ -1819,10 +1816,10 @@
               <button 
                 class="btn-submit-answer" 
                 style="padding: 13px 34px;"
-                onclick="confirmHardPicks(${currentMeta.id})" 
-                ${currentDraft.length !== 2 ? 'disabled' : ''}
+                onclick="confirmStage6Picks()" 
+                ${stage6DraftPicks.length !== 2 ? 'disabled' : ''}
               >
-                CONFIRM & LOCK 2 QUESTIONS (${currentDraft.length}/2)
+                CONFIRM & LOCK 2 QUESTIONS (${stage6DraftPicks.length}/2)
               </button>
             </div>
           `;
@@ -1837,7 +1834,7 @@
       headerTitle.innerHTML = `
         <span class="cmd-prompt">&gt;_</span> STAGE ${currentMeta.id}: ${currentMeta.topic.toUpperCase()} (${stageQuestions.length} CHALLENGES)
         <button type="button" class="diff-chip-btn" onclick="openWorkspaceDiffModal(${currentMeta.id})" title="Change Difficulty & Regenerate Questions">
-          &#9889; ${currentDiff.toUpperCase()} (+${basePts} PTS) <span style="font-size:10px; margin-left:4px; opacity:0.8;">&#9998; CHANGE</span>
+          &#9889; ${currentDiff} (+${basePts} PTS) <span style="font-size:10px; margin-left:4px; opacity:0.8;">&#9998; CHANGE</span>
         </button>
       `;
       progressSub.textContent = `Completed or skipped ${solvedInStage} of ${stageQuestions.length} challenges in this stage.`;
