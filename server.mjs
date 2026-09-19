@@ -10,6 +10,7 @@ import os from 'node:os';
 const root = path.dirname(fileURLToPath(import.meta.url));
 const dataFile = path.join(root, 'challenge-data.json');
 const submissionsFile = path.join(root, 'submissions.json');
+const usersFile = path.join(root, 'users.json');
 
 const challenge = {
   id: 'two-sum',
@@ -202,6 +203,37 @@ const server = createServer(async (req, res) => {
     return res.end();
   }
 
+  // ==========================================
+  // USER DATABASE ENDPOINTS
+  // ==========================================
+  if (req.method === 'GET' && url.pathname === '/api/users') {
+    const list = await readJson(usersFile);
+    return send(res, 200, list);
+  }
+
+  if (req.method === 'POST' && url.pathname === '/api/users') {
+    try {
+      const { username, password } = await readBody(req);
+      if (!username || typeof password === 'undefined') {
+        return send(res, 400, { error: 'Username and password are required.' });
+      }
+
+      const users = await readJson(usersFile);
+      if (users.some(u => u.username.toLowerCase() === username.trim().toLowerCase())) {
+        return send(res, 409, { error: 'Username already exists.' });
+      }
+
+      users.push({ username: username.trim().toLowerCase(), password });
+      await fs.writeFile(usersFile, JSON.stringify(users, null, 2));
+      return send(res, 201, { success: true, message: 'User registered in users.json' });
+    } catch (err) {
+      return send(res, 400, { error: err.message });
+    }
+  }
+
+  // ==========================================
+  // CHALLENGE & SUBMISSION ENDPOINTS
+  // ==========================================
   if (req.method === 'GET' && url.pathname === '/api/challenges/two-sum') {
     const { hiddenTests, ...publicChallenge } = challenge;
     return send(res, 200, publicChallenge);
@@ -245,11 +277,17 @@ const server = createServer(async (req, res) => {
     }
   }
 
+  // ==========================================
+  // STATIC FILE SERVING
+  // ==========================================
   if (req.method === 'GET') {
     const relative = url.pathname === '/' ? 'landing.html' : decodeURIComponent(url.pathname).replace(/^\/+/, '');
-    if (['challenge-data.json', 'submissions.json'].includes(relative)) {
-      return send(res, 403, { error: 'Protected challenge data.' });
+    
+    // Protect internal storage files from being downloaded directly by browser
+    if (['challenge-data.json', 'submissions.json', 'users.json'].includes(relative)) {
+      return send(res, 403, { error: 'Protected data file.' });
     }
+
     const file = path.resolve(root, relative);
     if (!file.startsWith(root)) return send(res, 403, { error: 'Forbidden' });
     try {
@@ -265,11 +303,25 @@ const server = createServer(async (req, res) => {
 });
 
 server.listen(3000, async () => {
+  // Ensure challenge-data.json exists
   try {
     await fs.access(dataFile);
   } catch {
     await fs.writeFile(dataFile, JSON.stringify(challenge, null, 2));
   }
+
+  // Ensure users.json exists
+  try {
+    await fs.access(usersFile);
+  } catch {
+    const initialUsers = [
+      { username: 'admin', password: '' },
+      { username: 'alice', password: '' },
+      { username: 'testuser', password: '' }
+    ];
+    await fs.writeFile(usersFile, JSON.stringify(initialUsers, null, 2));
+  }
+
   console.log('Cyber Hunt server listening on http://localhost:3000');
 });
 
