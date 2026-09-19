@@ -78,21 +78,6 @@
       letter-spacing: -0.5px;
     }
 
-    .target-icon {
-      width: 28px;
-      height: 28px;
-      display: grid;
-      place-items: center;
-      color: var(--blue);
-    }
-
-    .target-icon svg {
-      width: 100%;
-      height: 100%;
-      stroke: var(--blue);
-      fill: none;
-    }
-
     .auth-card {
       background: var(--panel);
       border: 2px solid var(--panel-border);
@@ -105,8 +90,6 @@
       position: relative;
       overflow: hidden;
     }
-
-    /* Corner Marks */
 
     .corner-mark {
       position: absolute;
@@ -284,541 +267,241 @@
       color: var(--blue-light);
     }
   </style>
-
 </head>
 
 <body>
 
   <div class="brand-header">
-
-    <a class="brand-link" href="../landing.html" title="Cyber Hunt Home">
-
-      <img src="../logo-graphic-geeks.png" alt="Graphic Geeks" class="header-brand-logo" width="34" height="34"
+    <a class="brand-link" href="landing.html" title="Cyber Hunt Home">
+      <img src="logo-graphic-geeks.png" alt="Graphic Geeks" class="header-brand-logo" width="34" height="34"
         onerror="this.src='logo-graphic-geeks.png'">
-
       <span>CYBER HUNT 2026</span>
-
     </a>
-
   </div>
 
-
   <div class="auth-card">
-
     <span class="corner-mark tl"></span>
     <span class="corner-mark tr"></span>
     <span class="corner-mark bl"></span>
     <span class="corner-mark br"></span>
 
-
     <div class="tab-header">
-
-      <button class="tab-btn" id="loginTab">
-
-        LOGIN
-
-      </button>
-
-      <button class="tab-btn active" id="signUpTab">
-
-        SIGN UP
-
-      </button>
-
+      <button class="tab-btn" id="loginTab">LOGIN</button>
+      <button class="tab-btn active" id="signUpTab">SIGN UP</button>
     </div>
-
 
     <div class="form-container">
-
       <form id="authForm">
-
         <div class="form-group">
-
           <label>Participant Username</label>
-
           <div class="input-wrap">
-
             <input type="text" id="username" placeholder="e.g. alice_geu" autocomplete="off" required />
-
           </div>
-
           <div class="error-text" id="usernameError">
-
             Username already exists. Please pick another.
-
           </div>
-
         </div>
-
 
         <div class="form-group">
-
           <label>Password</label>
-
           <div class="input-wrap">
-
             <input type="password" id="password" placeholder="Enter Your Pass" required />
-
           </div>
-
         </div>
-
 
         <div class="form-group" id="confirmPassGroup">
-
           <label>Confirm Password</label>
-
           <div class="input-wrap">
-
             <input type="password" id="confirmPassword" placeholder="Enter Your Pass" required />
-
           </div>
-
         </div>
 
-
         <button type="submit" class="submit-btn" id="submitBtn">
-
           <span>Sign Up & Enter</span>
-
         </button>
-
       </form>
-
     </div>
-
   </div>
-
 
   <div class="back-home">
-
-    <a href="../landing.html">
-
-      &larr; Return to Cyber Hunt Homepage
-
-    </a>
-
+    <a href="landing.html">&larr; Return to Cyber Hunt Homepage</a>
   </div>
 
-
   <script>
-
-    // =====================================================
-    // USER DATA
-    // =====================================================
-
-    let users =
-      JSON.parse(localStorage.getItem('cyber_users'))
-      || [];
-
-    /*
-      If there are no saved users, keep your original
-      default usernames and give them empty passwords.
-
-      New signups will contain username + password.
-    */
-
-    if (users.length === 0) {
-
-      users = [
-        {
-          username: 'admin',
-          password: ''
-        },
-        {
-          username: 'alice',
-          password: ''
-        },
-        {
-          username: 'testuser',
-          password: ''
-        }
-      ];
-
-    }
-    else {
-
-      /*
-        Convert old username-only data into
-        username + password format.
-      */
-
-      users = users.map(user => {
-
-        if (typeof user === 'string') {
-
-          return {
-            username: user.toLowerCase(),
-            password: ''
-          };
-
-        }
-
-        return user;
-
-      });
-
-    }
-
-
+    const API_URL = '/api/users';
     let mode = 'signup';
 
+    // UI Elements
+    const loginTab = document.getElementById('loginTab');
+    const signUpTab = document.getElementById('signUpTab');
+    const confirmGroup = document.getElementById('confirmPassGroup');
+    const confirmInput = document.getElementById('confirmPassword');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const usernameError = document.getElementById('usernameError');
+    const submitBtn = document.getElementById('submitBtn');
+    const form = document.getElementById('authForm');
 
-    // =====================================================
-    // ELEMENTS
-    // =====================================================
-
-    const loginTab =
-      document.getElementById('loginTab');
-
-    const signUpTab =
-      document.getElementById('signUpTab');
-
-    const confirmGroup =
-      document.getElementById('confirmPassGroup');
-
-    const confirmInput =
-      document.getElementById('confirmPassword');
-
-    const usernameInput =
-      document.getElementById('username');
-
-    const passwordInput =
-      document.getElementById('password');
-
-    const usernameError =
-      document.getElementById('usernameError');
-
-    const submitBtn =
-      document.getElementById('submitBtn');
-
-    const form =
-      document.getElementById('authForm');
-
-
-    // =====================================================
-    // TAB BUTTONS
-    // =====================================================
-
-    loginTab.onclick = () =>
-      setMode('login');
-
-    signUpTab.onclick = () =>
-      setMode('signup');
-
-
-    // =====================================================
-    // CHANGE LOGIN / SIGNUP MODE
-    // =====================================================
+    // Tab Switching
+    loginTab.onclick = () => setMode('login');
+    signUpTab.onclick = () => setMode('signup');
 
     function setMode(newMode) {
-
       mode = newMode;
-
       clearError();
 
-
       if (mode === 'signup') {
-
         signUpTab.classList.add('active');
-
         loginTab.classList.remove('active');
-
         confirmGroup.style.display = 'block';
-
         confirmInput.required = true;
-
-        submitBtn.innerHTML =
-          '<span>Sign Up & Enter</span>';
-
+        submitBtn.innerHTML = '<span>Sign Up & Enter</span>';
         checkUsernameUnique();
-
-      }
-
-      else {
-
+      } else {
         loginTab.classList.add('active');
-
         signUpTab.classList.remove('active');
-
         confirmGroup.style.display = 'none';
-
         confirmInput.required = false;
-
-        submitBtn.innerHTML =
-          '<span>Login & Enter</span>';
-
+        submitBtn.innerHTML = '<span>Login & Enter</span>';
       }
-
     }
 
+    const initMode = new URLSearchParams(window.location.search).get('mode');
+    setMode(initMode === 'login' ? 'login' : 'signup');
 
-    // =====================================================
-    // INITIAL MODE
-    // =====================================================
-
-    const initMode =
-      new URLSearchParams(window.location.search)
-        .get('mode');
-
-    setMode(
-      initMode === 'login'
-        ? 'login'
-        : 'signup'
-    );
-
-
-    // =====================================================
-    // USERNAME CHECK
-    // =====================================================
-
-    usernameInput.addEventListener(
-      'input',
-      checkUsernameUnique
-    );
-
-
-    function checkUsernameUnique() {
-
-      const enteredName =
-        usernameInput.value
-          .trim()
-          .toLowerCase();
-
-
-      if (
-        mode === 'signup' &&
-        enteredName &&
-        users.some(
-          user => user.username === enteredName
-        )
-      ) {
-
-        usernameInput.classList.add(
-          'error-border'
-        );
-
-        usernameError.classList.add(
-          'show'
-        );
-
-        submitBtn.disabled = true;
-
-        return false;
-
+    // Helper: Fetch user list from backend users.json
+    async function fetchUsersFromServer() {
+      try {
+        const res = await fetch(API_URL);
+        if (!res.ok) throw new Error('Failed to retrieve user list');
+        return await res.json();
+      } catch (err) {
+        console.warn('Could not contact server users endpoint:', err.message);
+        return [];
       }
+    }
 
-      else {
+    // Live uniqueness check during sign-up
+    usernameInput.addEventListener('input', checkUsernameUnique);
 
+    async function checkUsernameUnique() {
+      if (mode !== 'signup') return true;
+
+      const enteredName = usernameInput.value.trim().toLowerCase();
+      if (!enteredName) {
         clearError();
-
         return true;
-
       }
 
+      const users = await fetchUsersFromServer();
+      const isTaken = users.some(u => u.username.toLowerCase() === enteredName);
+
+      if (isTaken) {
+        usernameInput.classList.add('error-border');
+        usernameError.classList.add('show');
+        submitBtn.disabled = true;
+        return false;
+      } else {
+        clearError();
+        return true;
+      }
     }
-
-
-    // =====================================================
-    // CLEAR USERNAME ERROR
-    // =====================================================
 
     function clearError() {
-
-      usernameInput.classList.remove(
-        'error-border'
-      );
-
-      usernameError.classList.remove(
-        'show'
-      );
-
+      usernameInput.classList.remove('error-border');
+      usernameError.classList.remove('show');
       submitBtn.disabled = false;
-
     }
 
+    // Form Submission
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
 
-    // =====================================================
-    // LOGIN / SIGNUP SUBMIT
-    // =====================================================
+      const user = usernameInput.value.trim().toLowerCase();
+      const pass = passwordInput.value;
 
-    form.addEventListener(
-      'submit',
-      (e) => {
+      // ================================================
+      // SIGN UP (Writes to users.json via server.mjs)
+      // ================================================
+      if (mode === 'signup') {
+        const isUnique = await checkUsernameUnique();
+        if (!isUnique) return;
 
-        e.preventDefault();
+        if (pass !== confirmInput.value) {
+          alert('Passwords do not match.');
+          return;
+        }
 
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span>Creating Account...</span>';
 
-        const user =
-          usernameInput.value
-            .trim()
-            .toLowerCase();
-
-        const pass =
-          passwordInput.value;
-
-
-        // ================================================
-        // SIGN UP
-        // ================================================
-
-        if (mode === 'signup') {
-
-          if (!checkUsernameUnique()) {
-
-            return;
-
-          }
-
-
-          // Password confirmation
-
-          if (
-            pass !== confirmInput.value
-          ) {
-
-            alert(
-              'Passwords do not match.'
-            );
-
-            return;
-
-          }
-
-
-          // Create user
-
-          users.push({
-
-            username: user,
-
-            password: pass
-
+        try {
+          const res = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: user, password: pass })
           });
 
+          const data = await res.json();
 
-          // Save users
-
-          localStorage.setItem(
-            'cyber_users',
-            JSON.stringify(users)
-          );
-
-
-          // Save current user
-
-          localStorage.setItem(
-            'cyber_current_user',
-            user
-          );
-
-
-          // ==============================================
-          // IMPORTANT:
-          // Tell dashboard to show the security popup.
-          // ==============================================
-
-          sessionStorage.setItem(
-            'cyber_show_breach_popup',
-            'true'
-          );
-
-
-          // NO SUCCESS ALERT HERE.
-          // Dashboard popup will appear immediately.
-
-          redirectToNext();
-
-        }
-
-
-        // ================================================
-        // LOGIN
-        // ================================================
-
-        else {
-
-          /*
-            ONLY CHANGE:
-            Check both username AND password.
-          */
-
-          const validUser =
-            users.find(
-              savedUser =>
-                savedUser.username === user &&
-                savedUser.password === pass
-            );
-
-
-          /*
-            If username/password combination is wrong,
-            show ONLY a normal alert popup.
-          */
-
-          if (!validUser) {
-
-            alert(
-              'Invalid input. Please Enter the correct Username and Password'
-            );
-
+          if (!res.ok) {
+            alert(data.error || 'Failed to create user account.');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<span>Sign Up & Enter</span>';
             return;
-
           }
 
+          // Store current active session
+          localStorage.setItem('cyber_current_user', user);
+          sessionStorage.setItem('cyber_show_breach_popup', 'true');
 
-          // ==============================================
-          // CORRECT LOGIN
-          // Everything below remains the same.
-          // ==============================================
+          redirectToNext();
+        } catch (err) {
+          alert('Could not connect to server. Ensure server.mjs is running on port 3000.');
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<span>Sign Up & Enter</span>';
+        }
+      }
 
-          // Tell dashboard to show popup
-          localStorage.setItem(
-            'cyber_current_user',
-            user
+      // ================================================
+      // LOGIN (Reads from users.json via server.mjs)
+      // ================================================
+      else {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span>Verifying...</span>';
+
+        try {
+          const users = await fetchUsersFromServer();
+          const validUser = users.find(
+            savedUser => savedUser.username.toLowerCase() === user && savedUser.password === pass
           );
 
-          window.location.href = '../dashboard.html';
+          if (!validUser) {
+            alert('Invalid input. Please Enter the correct Username and Password');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<span>Login & Enter</span>';
+            return;
+          }
 
+          localStorage.setItem('cyber_current_user', user);
+          window.location.href = 'dashboard.html';
+        } catch (err) {
+          alert('Verification failed. Could not contact the server.');
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<span>Login & Enter</span>';
         }
-
       }
-    );
-
-
-    // =====================================================
-    // REDIRECT
-    // =====================================================
+    });
 
     function redirectToNext() {
-
-      const nextPage =
-        new URLSearchParams(
-          window.location.search
-        ).get('next');
-
-
-      if (
-        nextPage &&
-        /^\/?[a-zA-Z0-9_./-]+\.html$/.test(nextPage)
-      ) {
-
-        window.location.href =
-          nextPage;
-
+      const nextPage = new URLSearchParams(window.location.search).get('next');
+      if (nextPage && /^\/?[a-zA-Z0-9_./-]+\.html$/.test(nextPage)) {
+        window.location.href = nextPage;
+      } else {
+        window.location.href = 'dashboard.html';
       }
-
-      else {
-
-        window.location.href =
-          '../dashboard.html';
-
-      }
-
     }
-
   </script>
 
 </body>
-
 </html>
