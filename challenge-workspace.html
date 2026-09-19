@@ -1,1647 +1,2135 @@
-<!DOCTYPE html>
-
+<!doctype html>
 <html lang="en">
-
 <head>
-
-  <meta charset="UTF-8" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <link rel="icon" type="image/png" href="logo-graphic-geeks.png">
-
-  <title>Cyber Hunt | Authentication</title>
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cyber Hunt | Challenge Workspace</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link
-
-    href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700;800&display=swap"
-
-    rel="stylesheet">
-
-
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap">
 
   <style>
-
     :root {
-
       --bg: #061a29;
-
+      --head: #062338;
       --panel: #062338;
-
       --panel-inner: #092c44;
-
-      --panel-border: #4aa8e9;
-
-      --blue: #58aaeb;
-
-      --blue-light: #72b9f0;
-
-      --blue-dim: rgba(88, 170, 235, 0.45);
-
+      --line: #4aa8e9;
+      --line-subtle: rgba(74, 168, 233, 0.28);
       --white: #edf2f4;
-
-      --text-muted: #b0c9db;
-
+      --muted: #b0c9db;
+      --muted-dark: #7a9cb6;
+      --blue: #58aaeb;
+      --blue-light: #72b9f0;
+      --blue-dim: rgba(88, 170, 235, 0.18);
+      --green: #10b981;
+      --green-dark: #064e3b;
+      --green-glow: rgba(16, 185, 129, 0.35);
       --red: #ef4444;
-
+      --red-dark: #450a0a;
+      --yellow: #f59e0b;
+      --locked: #567287;
     }
 
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-
-    * {
-
-      box-sizing: border-box;
-
-      margin: 0;
-
-      padding: 0;
-
-    }
-
-
-
-    body {
-
+    html, body {
       min-height: 100vh;
-
-      background-color: var(--bg);
-
-      background-image:
-
-        radial-gradient(circle at 15% 20%, rgba(88, 170, 235, 0.08) 0%, transparent 40%),
-
-        radial-gradient(circle at 85% 80%, rgba(88, 170, 235, 0.08) 0%, transparent 40%);
-
+      background: var(--bg);
+      background-image: 
+        radial-gradient(circle at 10% 15%, rgba(88, 170, 235, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 85%, rgba(88, 170, 235, 0.08) 0%, transparent 40%);
       color: var(--white);
-
       font-family: 'DM Mono', monospace;
+      overflow-x: hidden;
+    }
 
+    .app-container {
       display: flex;
-
       flex-direction: column;
-
-      justify-content: center;
-
-      align-items: center;
-
-      padding: 20px;
-
+      min-height: 100vh;
+      padding: 14px 20px 40px;
+      gap: 16px;
+      max-width: 1560px;
+      margin: 0 auto;
     }
 
-
-
-    .brand-header {
-
+    /* TOP BAR */
+    .topbar {
+      background: var(--head);
       display: flex;
-
       align-items: center;
-
-      justify-content: center;
-
-      width: 100%;
-
-      max-width: 440px;
-
-      margin: 0 auto 24px auto;
-
-      padding: 0;
-
-      text-align: center;
-
-    }
-
-
-
-    .header-brand-logo {
-
-      width: 38px;
-
-      height: 38px;
-
-      border-radius: 50%;
-
-      object-fit: cover;
-
-      border: 1.5px solid var(--panel-border);
-
-      box-shadow: 0 0 10px rgba(88, 170, 235, 0.4);
-
-    }
-
-
-
-    .brand-link {
-
-      display: inline-flex;
-
-      align-items: center;
-
-      gap: 12px;
-
-      text-decoration: none;
-
-      color: var(--white);
-
-      font-family: 'Space Grotesk', sans-serif;
-
-      font-weight: 700;
-
-      font-size: 24px;
-
-      letter-spacing: -0.5px;
-
-    }
-
-
-
-    .target-icon {
-
-      width: 28px;
-
-      height: 28px;
-
-      display: grid;
-
-      place-items: center;
-
-      color: var(--blue);
-
-    }
-
-
-
-    .target-icon svg {
-
-      width: 100%;
-
-      height: 100%;
-
-      stroke: var(--blue);
-
-      fill: none;
-
-    }
-
-
-
-    .auth-card {
-
-      background: var(--panel);
-
-      border: 2px solid var(--panel-border);
-
+      justify-content: space-between;
+      padding: 10px 22px;
       border-radius: 8px;
-
-      width: 100%;
-
-      max-width: 440px;
-
-      box-shadow:
-
-        0 0 35px rgba(74, 168, 233, 0.18),
-
-        inset 0 0 40px rgba(6, 26, 41, 0.5);
-
-      position: relative;
-
-      overflow: hidden;
-
+      border: 1.5px solid var(--line-subtle);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+      gap: 16px;
+      flex-shrink: 0;
     }
 
-
-
-    /* Corner Marks */
-
-
-
-    .corner-mark {
-
-      position: absolute;
-
-      width: 14px;
-
-      height: 14px;
-
-      border-color: var(--blue);
-
-      border-style: solid;
-
-      pointer-events: none;
-
-    }
-
-
-
-    .corner-mark.tl {
-
-      top: 8px;
-
-      left: 8px;
-
-      border-width: 2px 0 0 2px;
-
-    }
-
-
-
-    .corner-mark.tr {
-
-      top: 8px;
-
-      right: 8px;
-
-      border-width: 2px 2px 0 0;
-
-    }
-
-
-
-    .corner-mark.bl {
-
-      bottom: 8px;
-
-      left: 8px;
-
-      border-width: 0 0 2px 2px;
-
-    }
-
-
-
-    .corner-mark.br {
-
-      bottom: 8px;
-
-      right: 8px;
-
-      border-width: 0 2px 2px 0;
-
-    }
-
-
-
-    .tab-header {
-
+    .brand-wrap {
       display: flex;
-
-      border-bottom: 1.5px solid var(--blue-dim);
-
-    }
-
-
-
-    .tab-btn {
-
-      flex: 1;
-
-      padding: 16px;
-
-      background: rgba(6, 26, 41, 0.6);
-
-      border: none;
-
-      color: var(--text-muted);
-
-      font-family: 'DM Mono', monospace;
-
-      font-size: 15px;
-
-      font-weight: 700;
-
-      cursor: pointer;
-
-      transition: all 0.15s ease;
-
-      letter-spacing: 0.5px;
-
-    }
-
-
-
-    .tab-btn:hover {
-
-      color: var(--white);
-
-    }
-
-
-
-    .tab-btn.active {
-
-      background: var(--panel);
-
-      color: var(--blue-light);
-
-      border-bottom: 3px solid var(--blue);
-
-    }
-
-
-
-    .form-container {
-
-      padding: 28px 24px;
-
-    }
-
-
-
-    .form-group {
-
-      margin-bottom: 18px;
-
-    }
-
-
-
-    label {
-
-      display: block;
-
-      color: var(--blue);
-
-      font-size: 12px;
-
-      font-weight: 600;
-
-      letter-spacing: 1px;
-
-      text-transform: uppercase;
-
-      margin-bottom: 8px;
-
-    }
-
-
-
-    .input-wrap {
-
-      position: relative;
-
-    }
-
-
-
-    input {
-
-      width: 100%;
-
-      padding: 12px 14px;
-
-      background: var(--panel-inner);
-
-      border: 1.5px solid var(--blue-dim);
-
-      border-radius: 4px;
-
-      color: var(--white);
-
-      font-family: 'DM Mono', monospace;
-
-      font-size: 14.5px;
-
-      outline: none;
-
-      transition:
-
-        border-color 0.15s ease,
-
-        box-shadow 0.15s ease;
-
-    }
-
-
-
-    input:focus {
-
-      border-color: var(--blue);
-
-      box-shadow:
-
-        0 0 10px rgba(88, 170, 235, 0.3);
-
-    }
-
-
-
-    input.error-border {
-
-      border-color: var(--red) !important;
-
-    }
-
-
-
-    .error-text {
-
-      display: none;
-
-      color: var(--red);
-
-      font-size: 12px;
-
-      margin-top: 6px;
-
-    }
-
-
-
-    .error-text.show {
-
-      display: block;
-
-    }
-
-
-
-    .submit-btn {
-
-      width: 100%;
-
-      padding: 14px;
-
-      background: var(--blue);
-
-      color: #061a29;
-
-      border: 2px solid var(--blue);
-
-      border-radius: 4px;
-
-      font-family: 'DM Mono', monospace;
-
-      font-size: 15px;
-
-      font-weight: 700;
-
-      letter-spacing: 0.5px;
-
-      cursor: pointer;
-
-      margin-top: 10px;
-
-      box-shadow:
-
-        4px 4px 0 #04121d,
-
-        6px 6px 0 #3a8ac4;
-
-      transition: all 0.15s ease;
-
-      display: flex;
-
       align-items: center;
-
-      justify-content: center;
-
-      gap: 8px;
-
-    }
-
-
-
-    .submit-btn:hover:not(:disabled) {
-
-      background: #6bbcf5;
-
-      border-color: #6bbcf5;
-
-      box-shadow:
-
-        5px 5px 0 #04121d,
-
-        7px 7px 0 #3a8ac4;
-
-    }
-
-
-
-    .submit-btn:active:not(:disabled) {
-
-      transform: translateY(2px);
-
-    }
-
-
-
-    .submit-btn:disabled {
-
-      opacity: 0.5;
-
-      cursor: not-allowed;
-
-    }
-
-
-
-    .back-home {
-
-      margin-top: 20px;
-
-      text-align: center;
-
-      font-size: 13px;
-
-    }
-
-
-
-    .back-home a {
-
-      color: var(--text-muted);
-
+      gap: 12px;
       text-decoration: none;
-
-      transition: color 0.15s ease;
-
+      color: var(--white);
     }
 
+    .topbar-brand-logo {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid var(--line);
+      box-shadow: 0 0 8px rgba(88, 170, 235, 0.4);
+      flex-shrink: 0;
+    }
 
+    .brand-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: clamp(16px, 1.4vw, 20px);
+      letter-spacing: -0.5px;
+      color: var(--white);
+    }
 
-    .back-home a:hover {
-
+    .brand-tag {
+      background: var(--panel-inner);
       color: var(--blue-light);
-
+      border: 1px solid var(--line-subtle);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
     }
 
+    /* TIMER */
+    .timer-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(6, 26, 41, 0.85);
+      border: 1.5px solid var(--blue);
+      box-shadow: 0 0 15px rgba(88, 170, 235, 0.25);
+      padding: 6px 16px;
+      border-radius: 6px;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .timer-icon {
+      color: var(--blue-light);
+      font-size: 16px;
+      animation: pulse-icon 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse-icon {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.15); opacity: 1; filter: drop-shadow(0 0 6px var(--blue)); }
+    }
+
+    .timer-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .timer-display {
+      font-size: 18px;
+      font-weight: 700;
+      color: #38bdf8;
+      letter-spacing: 1.5px;
+      text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+    }
+
+    /* TOP ACTIONS */
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .nav-btn-link {
+      background: var(--panel-inner);
+      border: 1px solid var(--line-subtle);
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .nav-btn-link:hover {
+      color: var(--white);
+      border-color: var(--line);
+      background: rgba(74, 168, 233, 0.15);
+    }
+
+    .score-badge-box {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid var(--green);
+      color: #6ee7b7;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .topbar-era-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+    }
+
+    .topbar-era-logo {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid var(--line);
+      box-shadow: 0 0 8px rgba(88, 170, 235, 0.4);
+      transition: transform 0.2s ease;
+    }
+
+    .topbar-era-logo:hover { transform: scale(1.08); }
+
+    /* 6 STAGES NAVIGATION ROW */
+    .stages-nav-row {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+      margin-bottom: 4px;
+    }
+
+    .stage-nav-card {
+      background: var(--panel);
+      border: 1.5px solid var(--line-subtle);
+      border-radius: 8px;
+      padding: 14px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      position: relative;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      user-select: none;
+      text-align: center;
+    }
+
+    .stage-nav-card.active-stage {
+      border-color: var(--green);
+      background: rgba(16, 185, 129, 0.08);
+      box-shadow: 0 0 16px rgba(16, 185, 129, 0.25), inset 0 0 10px rgba(16, 185, 129, 0.1);
+    }
+
+    .stage-nav-card.completed-stage {
+      border-color: var(--blue);
+      background: rgba(88, 170, 235, 0.08);
+    }
+
+    .stage-nav-card.locked-stage {
+      border-color: rgba(74, 168, 233, 0.12);
+      background: rgba(6, 26, 41, 0.5);
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
+    .stage-nav-card.selected-view {
+      outline: 2px solid var(--blue-light);
+      transform: translateY(-2px);
+    }
+
+    .stage-nav-icon { font-size: 20px; }
+    .stage-nav-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--white);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+
+    .stage-nav-sub {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .stage-nav-card.active-stage .stage-nav-sub { color: var(--green); }
+    .stage-nav-card.completed-stage .stage-nav-sub { color: var(--blue-light); }
+    .stage-nav-card.locked-stage .stage-nav-sub { color: var(--locked); }
+    .stage-nav-card.final-stage .stage-nav-sub { color: var(--red); }
+
+    /* SECTION HEADER */
+    .section-title-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--line-subtle);
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-family: 'DM Mono', monospace;
+      font-size: clamp(15px, 1.3vw, 18px);
+      font-weight: 700;
+      color: var(--blue-light);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: 0.5px;
+      flex-wrap: wrap;
+    }
+
+    .section-title .cmd-prompt { color: var(--blue); }
+
+    /* QUESTIONS CONTAINER */
+    .questions-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .question-card {
+      background: var(--panel);
+      border: 1.5px solid var(--line);
+      border-radius: 8px;
+      padding: 30px 34px;
+      position: relative;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5), inset 0 0 25px rgba(6, 26, 41, 0.7);
+      transition: all 0.2s ease;
+      min-height: 480px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .question-card.active-q {
+      border-color: var(--line);
+      box-shadow: 0 0 30px rgba(74, 168, 233, 0.25), inset 0 0 25px rgba(6, 26, 41, 0.7);
+    }
+
+    .question-card.solved-q {
+      border-color: rgba(16, 185, 129, 0.6);
+      background: rgba(6, 35, 56, 0.9);
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.2), inset 0 0 25px rgba(6, 35, 56, 0.6);
+    }
+
+    .question-card-inner {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 32px;
+      align-items: start;
+      height: 100%;
+    }
+
+    @media (max-width: 960px) {
+      .question-card-inner { grid-template-columns: 1fr; }
+      .stages-nav-row { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* STEP PROGRESS PILLS ROW */
+    .q-step-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .q-step-pill {
+      background: rgba(4, 18, 29, 0.8);
+      border: 1px solid var(--line-subtle);
+      border-radius: 4px;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .q-step-pill:hover:not(.locked) {
+      border-color: var(--line);
+      color: var(--white);
+      background: rgba(74, 168, 233, 0.15);
+    }
+
+    .q-step-pill.active {
+      border-color: var(--blue);
+      background: rgba(88, 170, 235, 0.25);
+      color: var(--white);
+      box-shadow: 0 0 10px rgba(88, 170, 235, 0.3);
+    }
+
+    .q-step-pill.solved {
+      border-color: var(--green);
+      background: rgba(16, 185, 129, 0.15);
+      color: #6ee7b7;
+    }
+
+    .q-step-pill.locked {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    /* STAGE ALL SOLVED CARD */
+    .stage-cleared-card {
+      background: var(--panel);
+      border: 1.5px solid var(--green);
+      border-radius: 8px;
+      padding: 40px;
+      text-align: center;
+      box-shadow: 0 0 35px rgba(16, 185, 129, 0.25);
+      min-height: 440px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .cleared-icon {
+      font-size: 56px;
+      color: var(--green);
+      filter: drop-shadow(0 0 16px rgba(16, 185, 129, 0.6));
+    }
+
+    .cleared-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.5px;
+    }
+
+    .cleared-desc {
+      font-size: 15px;
+      color: var(--muted);
+      max-width: 540px;
+      line-height: 1.6;
+    }
+
+    .btn-next-stage {
+      background: var(--green);
+      color: #04121d;
+      border: 1.5px solid var(--green);
+      border-radius: 6px;
+      padding: 14px 32px;
+      font-family: 'DM Mono', monospace;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+      transition: all 0.2s ease;
+      margin-top: 10px;
+    }
+
+    .btn-next-stage:hover {
+      background: #34d399;
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.7);
+    }
+
+    /* STAGE 6 SELECTION CARD */
+    .stage6-choice-card {
+      background: var(--panel);
+      border: 1.5px solid var(--line);
+      border-radius: 8px;
+      padding: 36px 30px;
+      min-height: 480px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 16px;
+      box-shadow: 0 0 30px rgba(74, 168, 233, 0.18);
+    }
+
+    .stage6-choice-card h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      color: var(--white);
+      font-size: 26px;
+    }
+
+    .stage6-choice-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      width: 100%;
+      margin: 14px 0;
+    }
+
+    @media (max-width: 800px) {
+      .stage6-choice-grid { grid-template-columns: 1fr; }
+    }
+
+    .stage6-pick-box {
+      background: rgba(4, 18, 29, 0.75);
+      border: 1.5px solid var(--line-subtle);
+      border-radius: 8px;
+      padding: 20px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 160px;
+    }
+
+    .stage6-pick-box:hover {
+      border-color: var(--blue-light);
+      background: rgba(88, 170, 235, 0.1);
+    }
+
+    .stage6-pick-box.selected {
+      border-color: var(--green);
+      background: rgba(16, 185, 129, 0.15);
+      box-shadow: 0 0 16px rgba(16, 185, 129, 0.25);
+    }
+
+    /* LEFT MAIN COLUMN OF QUESTION CARD */
+    .question-main {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .question-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .question-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--blue-light);
+      letter-spacing: 0.5px;
+    }
+
+    .question-status-badge {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    .question-status-badge.solved {
+      background: rgba(16, 185, 129, 0.2);
+      color: #6ee7b7;
+      border: 1px solid var(--green);
+    }
+
+    .question-status-badge.active {
+      background: rgba(88, 170, 235, 0.2);
+      color: var(--blue-light);
+      border: 1px solid var(--blue);
+    }
+
+    .question-status-badge.locked {
+      background: rgba(86, 114, 135, 0.2);
+      color: var(--locked);
+      border: 1px solid var(--locked);
+    }
+
+    .question-prompt-box {
+      background: var(--panel-inner);
+      border-left: 3.5px solid var(--line);
+      padding: 16px 20px;
+      border-radius: 0 6px 6px 0;
+      color: var(--white);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .question-desc-box {
+      background: rgba(4, 18, 29, 0.6);
+      border: 1px dashed rgba(74, 168, 233, 0.3);
+      padding: 10px 14px;
+      border-radius: 4px;
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .question-desc-box strong { color: var(--blue-light); }
+
+    .question-code-block {
+      margin-top: 10px;
+      background: rgba(4, 18, 29, 0.85);
+      padding: 12px 14px;
+      border-radius: 4px;
+      color: #7dd3fc;
+      font-family: 'DM Mono', monospace;
+      font-size: 13.5px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      border: 1px dashed rgba(74, 168, 233, 0.35);
+    }
+
+    /* INPUT ROW */
+    .question-input-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-top: 6px;
+    }
+
+    .answer-text-input {
+      flex: 1;
+      background: rgba(4, 18, 29, 0.95);
+      border: 1.5px solid var(--line-subtle);
+      border-radius: 6px;
+      padding: 13px 18px;
+      color: var(--white);
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .answer-text-input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 14px rgba(88, 170, 235, 0.35);
+    }
+
+    .answer-text-input.input-correct {
+      border-color: var(--green) !important;
+      background: rgba(6, 78, 59, 0.25);
+    }
+
+    .answer-text-input.input-wrong {
+      border-color: var(--red) !important;
+      animation: shake 0.35s ease;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-7px); }
+      75% { transform: translateX(7px); }
+    }
+
+    .btn-submit-answer {
+      background: var(--blue);
+      color: #04121d;
+      border: 1.5px solid var(--blue);
+      border-radius: 6px;
+      padding: 13px 28px;
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      box-shadow: 0 0 14px rgba(88, 170, 235, 0.35);
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn-submit-answer:hover:not(:disabled) {
+      background: #72b9f0;
+      box-shadow: 0 0 20px rgba(88, 170, 235, 0.6);
+      transform: translateY(-1px);
+    }
+
+    .btn-submit-answer:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .feedback-banner {
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 4px;
+      display: none;
+    }
+    .feedback-banner.err { display: block; color: var(--red); }
+    .feedback-banner.ok { display: block; color: #6ee7b7; }
+
+    /* RIGHT SIDEBAR */
+    .question-side {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      border-left: 1px solid rgba(74, 168, 233, 0.15);
+      padding-left: 24px;
+    }
+
+    @media (max-width: 960px) {
+      .question-side {
+        border-left: none;
+        border-top: 1px solid rgba(74, 168, 233, 0.15);
+        padding-left: 0;
+        padding-top: 18px;
+      }
+    }
+
+    .hint-box {
+      background: rgba(6, 26, 41, 0.7);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: 6px;
+      padding: 14px 16px;
+    }
+
+    .hint-box.locked-hint {
+      border-color: rgba(86, 114, 135, 0.25);
+      background: rgba(4, 18, 29, 0.5);
+    }
+
+    .hint-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .hint-label {
+      color: #fbbf24;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hint-label.locked-lbl { color: var(--locked); }
+
+    .btn-hint-toggle {
+      background: transparent;
+      border: 1px solid rgba(245, 158, 11, 0.5);
+      color: #fbbf24;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'DM Mono', monospace;
+      transition: all 0.15s ease;
+    }
+
+    .btn-hint-toggle:hover {
+      background: rgba(245, 158, 11, 0.2);
+      color: #fde68a;
+    }
+
+    .btn-skip-question {
+      width: 100%;
+      margin-top: 14px;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.6);
+      border-radius: 5px;
+      color: #fca5a5;
+      padding: 9px 10px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-skip-question:hover {
+      background: rgba(239, 68, 68, 0.22);
+      border-color: var(--red);
+      color: #fecaca;
+    }
+
+    .hint-penalty-notice {
+      margin-top: 10px;
+      color: #fca5a5;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .hint-text {
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .metrics-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(4, 18, 29, 0.6);
+      border: 1px solid var(--line-subtle);
+      border-radius: 6px;
+      padding: 12px 16px;
+    }
+
+    .metric-item { display: flex; flex-direction: column; gap: 2px; }
+    .metric-title { font-size: 10.5px; color: var(--muted-dark); text-transform: uppercase; font-weight: 700; }
+    .metric-value { font-size: 16px; font-weight: 700; color: var(--green); }
+
+    /* DIFFICULTY MODAL & SWITCHER */
+    .diff-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(2, 10, 17, 0.88);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      padding: 20px;
+    }
+    .diff-modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .diff-modal-card {
+      background: #062338;
+      border: 1.5px solid var(--blue);
+      border-radius: 8px;
+      width: 100%;
+      max-width: 520px;
+      box-shadow: 0 0 45px rgba(74, 168, 233, 0.35);
+      position: relative;
+      overflow: hidden;
+      transform: scale(0.95);
+      transition: transform 0.2s ease;
+    }
+    .diff-modal-overlay.active .diff-modal-card {
+      transform: scale(1);
+    }
+    .diff-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1.5px solid rgba(74, 168, 233, 0.3);
+    }
+    .diff-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--blue-light);
+      letter-spacing: 0.5px;
+    }
+    .modal-close-btn {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-size: 24px;
+      cursor: pointer;
+      line-height: 1;
+      padding: 2px 6px;
+      transition: color 0.15s ease;
+    }
+    .modal-close-btn:hover { color: var(--white); }
+    .diff-body { padding: 22px 20px; }
+    .diff-phase-name {
+      font-size: 14px;
+      color: var(--white);
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+    .diff-options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .diff-card-btn {
+      background: rgba(4, 18, 29, 0.75);
+      border: 1.5px solid rgba(74, 168, 233, 0.3);
+      border-radius: 6px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: var(--white);
+      font-family: 'DM Mono', monospace;
+      text-align: left;
+    }
+    .diff-card-btn:hover {
+      border-color: var(--blue);
+      background: rgba(88, 170, 235, 0.15);
+      transform: translateX(4px);
+      box-shadow: 0 0 15px rgba(88, 170, 235, 0.25);
+    }
+    .diff-badge {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+    .diff-badge.easy { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; border: 1px solid #10b981; }
+    .diff-badge.med { background: rgba(88, 170, 235, 0.2); color: #72b9f0; border: 1px solid #58aaeb; }
+    .diff-badge.hard { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid #ef4444; }
+    .diff-points-val {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .diff-subtext {
+      font-size: 11.5px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    .diff-chip-btn {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(88, 170, 235, 0.14);
+      border: 1px solid var(--blue);
+      color: var(--blue-light);
+      font-family: 'DM Mono', monospace;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-left: 12px;
+      cursor: pointer;
+      vertical-align: middle;
+      transition: all 0.2s ease;
+    }
+    .diff-chip-btn:hover {
+      background: var(--blue);
+      color: #030d16;
+      box-shadow: 0 0 12px rgba(88, 170, 235, 0.4);
+    }
   </style>
-
-
-
 </head>
-
-
-
 <body>
 
+  <div class="app-container">
+    <header class="topbar">
+      <div class="brand-wrap">
+        <img src="logo-graphic-geeks.png" alt="Graphic Geeks" class="topbar-brand-logo">
+        <span class="brand-title">CYBER HUNT</span>
+        <span class="brand-tag">CHALLENGE ARENA</span>
+      </div>
 
+      <div class="timer-pill" title="Live Event Countdown">
+        <span class="timer-icon">&#9201;</span>
+        <span class="timer-label">TIME REMAINING:</span>
+        <span class="timer-display" id="eventCountdown">01:59:59</span>
+      </div>
 
-  <div class="brand-header">
+      <div class="top-actions">
+        <a class="nav-btn-link" href="dashboard.html" title="Back to Stages Dashboard">&larr; Dashboard</a>
+        <div class="score-badge-box">
+          <span>&#9733;</span>
+          <span id="currentScore">0 PTS</span>
+        </div>
+        <a class="topbar-era-wrap" href="https://geu.ac.in" target="_blank" rel="noopener" title="Graphic Era University">
+          <img src="logo-graphic-era.png" alt="Graphic Era University" class="topbar-era-logo" width="34" height="34">
+        </a>
+      </div>
+    </header>
 
+    <!-- 6 STAGES NAVIGATION ROW -->
+    <nav class="stages-nav-row" id="stagesNavRow"></nav>
 
-
-    <a class="brand-link" href="../landing.html" title="Cyber Hunt Home">
-
-
-
-      <img src="../logo-graphic-geeks.png" alt="Graphic Geeks" class="header-brand-logo" width="34" height="34"
-
-        onerror="this.src='logo-graphic-geeks.png'">
-
-
-
-      <span>CYBER HUNT 2026</span>
-
-
-
-    </a>
-
-
-
-  </div>
-
-
-
-
-
-  <div class="auth-card">
-
-
-
-    <span class="corner-mark tl"></span>
-
-    <span class="corner-mark tr"></span>
-
-    <span class="corner-mark bl"></span>
-
-    <span class="corner-mark br"></span>
-
-
-
-
-
-    <div class="tab-header">
-
-
-
-      <button class="tab-btn" id="loginTab">
-
-
-
-        LOGIN
-
-
-
-      </button>
-
-
-
-      <button class="tab-btn active" id="signUpTab">
-
-
-
-        SIGN UP
-
-
-
-      </button>
-
-
-
+    <!-- SECTION TITLE HEADER -->
+    <div class="section-title-wrap">
+      <div class="section-title" id="stageHeaderTitle">
+        <span class="cmd-prompt">&gt;_</span> STAGE 1: HIDDEN CLUE
+      </div>
+      <div style="font-size: 12px; color: var(--muted);" id="stageProgressSub">
+        Solve all challenges sequentially to unlock the next stage.
+      </div>
     </div>
 
+    <!-- QUESTIONS LIST / STAGE 6 CHOICE SCREEN -->
+    <main class="questions-list" id="questionsContainer"></main>
+  </div>
 
+  <!-- DIFFICULTY SELECTION MODAL -->
+  <div class="diff-modal-overlay" id="wsDiffModalOverlay">
+    <div class="diff-modal-card" id="wsDiffModal">
+      <div class="diff-header">
+        <span class="diff-title">STAGE DIFFICULTY CONFIGURATION</span>
+        <button type="button" class="modal-close-btn" onclick="closeWorkspaceDiffModal()">&times;</button>
+      </div>
+      <div class="diff-body">
+        <div class="diff-phase-name" id="wsDiffModalStageTitle">Stage 1: Hidden Clue</div>
+        <div style="font-size: 12px; color: var(--muted); margin-bottom: 14px;">Select difficulty level for this stage:</div>
 
-
-
-    <div class="form-container">
-
-
-
-      <form id="authForm">
-
-
-
-        <div class="form-group">
-
-
-
-          <label>Participant Username</label>
-
-
-
-          <div class="input-wrap">
-
-
-
-            <input type="text" id="username" placeholder="e.g. alice_geu" autocomplete="off" required />
-
-
-
+        <div class="diff-options-grid">
+          <div class="diff-card-btn" onclick="chooseWorkspaceDifficulty('easy')">
+            <div>
+              <span class="diff-badge easy">EASY</span>
+              <div class="diff-subtext">Standard clue discovery & guided prompt</div>
+            </div>
+            <div class="diff-points-val" style="color: #6ee7b7;">50 PTS</div>
           </div>
 
-
-
-          <div class="error-text" id="usernameError">
-
-
-
-            Username already exists. Please pick another.
-
-
-
+          <div class="diff-card-btn" onclick="chooseWorkspaceDifficulty('medium')">
+            <div>
+              <span class="diff-badge med">MEDIUM</span>
+              <div class="diff-subtext">Intermediate forensic depth & puzzles</div>
+            </div>
+            <div class="diff-points-val" style="color: #72b9f0;">100 PTS</div>
           </div>
 
-
-
+          <div class="diff-card-btn" onclick="chooseWorkspaceDifficulty('hard')">
+            <div>
+              <span class="diff-badge hard">HARD</span>
+              <div class="diff-subtext">Cryptographic challenge & deep analysis</div>
+            </div>
+            <div class="diff-points-val" style="color: #fca5a5;">150 PTS</div>
+          </div>
         </div>
-
-
-
-
-
-        <div class="form-group">
-
-
-
-          <label>Password</label>
-
-
-
-          <div class="input-wrap">
-
-
-
-            <input type="password" id="password" placeholder="Enter Your Pass" required />
-
-
-
-          </div>
-
-
-
-        </div>
-
-
-
-
-
-        <div class="form-group" id="confirmPassGroup">
-
-
-
-          <label>Confirm Password</label>
-
-
-
-          <div class="input-wrap">
-
-
-
-            <input type="password" id="confirmPassword" placeholder="Enter Your Pass" required />
-
-
-
-          </div>
-
-
-
-        </div>
-
-
-
-
-
-        <button type="submit" class="submit-btn" id="submitBtn">
-
-
-
-          <span>Sign Up & Enter</span>
-
-
-
-        </button>
-
-
-
-      </form>
-
-
-
+      </div>
     </div>
-
-
-
   </div>
-
-
-
-
-
-  <div class="back-home">
-
-
-
-    <a href="../landing.html">
-
-
-
-      &larr; Return to Cyber Hunt Homepage
-
-
-
-    </a>
-
-
-
-  </div>
-
-
-
-
 
   <script>
+    // 60-QUESTION MASTER POOL PER CATEGORY
+    const QUESTION_BANK = {
+      1: {
+        easy: [
+          { q: "I have keys but open no locks. I have space but no room. You can enter, but you cannot walk inside me. What am I?", desc: "A classic riddle where the words 'keys,' 'space,' and 'enter' point toward a computer object.", ans: ["keyboard"], hints: ["You use me while typing.", "I have many keys.", "“Enter” is one of them."] },
+          { q: "I speak without a mouth and hear without ears. I have no body, but I come alive when sound reaches me. What am I?", desc: "Identify the phenomenon that repeats a sound.", ans: ["echo"], hints: ["You often hear me in mountains.", "I repeat what you say.", "Sound creates me."] },
+          { q: "The more you take from me, the bigger I become. What am I?", desc: "The answer is something that grows when material is removed from it.", ans: ["hole"], hints: ["Removing something creates me.", "Digging can make me larger.", "I am an empty space."] },
+          { q: "I have a face and two hands, but no arms or legs. What am I?", desc: "Use the clues about a face and hands to identify the object.", ans: ["clock"], hints: ["I measure time.", "My hands move.", "I may hang on a wall."] },
+          { q: "I get wetter as I dry something else. What am I?", desc: "Think of an everyday object whose purpose involves drying.", ans: ["towel"], hints: ["You use me after a shower.", "I absorb water.", "Drying makes me wet."] },
+          { q: "I have one eye but cannot see. What am I?", desc: "The word 'eye' refers to a hole rather than an actual organ.", ans: ["needle"], hints: ["I am used for sewing.", "Thread passes through my eye.", "I am thin and sharp."] },
+          { q: "I become shorter every time I work, yet I help you see. What am I?", desc: "Identify the object that decreases in size while producing light.", ans: ["candle"], hints: ["I contain a wick.", "Fire consumes me.", "I produce light."] },
+          { q: "I have teeth but cannot bite. What am I?", desc: "'Teeth' are used metaphorically to describe a common object.", ans: ["comb"], hints: ["I am used with hair.", "My teeth are arranged in rows.", "I help remove tangles."] },
+          { q: "I fly without wings and cry without eyes. Wherever I go, darkness follows me. What am I?", desc: "Identify the natural object associated with darkness and rain.", ans: ["cloud"], hints: ["I float in the sky.", "I can produce rain.", "I can block sunlight."] },
+          { q: "I have a neck but no head, and I can hold something inside me. What am I?", desc: "The clue describes a container with a narrow upper section.", ans: ["bottle"], hints: ["I can contain water.", "My top is called a neck.", "You can put a cap on me."] },
+          { q: "I am full of holes, but I can still hold water. What am I?", desc: "Find the object whose holes are small enough to retain liquid through surface tension.", ans: ["sponge"], hints: ["I absorb liquids.", "I am soft.", "You may find me in a kitchen."] },
+          { q: "I have pages but I am not a tree. I contain stories but cannot speak. What am I?", desc: "The clues point to a common source of written stories.", ans: ["book"], hints: ["You read me.", "I contain pages.", "Libraries contain many of me."] },
+          { q: "I follow you everywhere during the day but disappear when the light is gone. What am I?", desc: "Identify the dark shape produced by blocking light.", ans: ["shadow"], hints: ["Light creates me.", "I copy your shape.", "Darkness can make me disappear."] },
+          { q: "I have numbers and hands but cannot clap. What am I?", desc: "Identify the object using the clues 'numbers' and 'hands.'", ans: ["clock"], hints: ["I tell time.", "My hands move.", "I have numbers around my face."] },
+          { q: "I can be cracked, made, told, and played. What am I?", desc: "The same word fits several common expressions.", ans: ["joke"], hints: ["People laugh at me.", "You can “tell” me.", "You can “play” me on someone."] },
+          { q: "I disappear as soon as you say my name. What am I?", desc: "Think of something that exists only while it remains unspoken.", ans: ["silence"], hints: ["I involve the absence of sound.", "Speaking destroys me.", "Libraries often ask for me."] },
+          { q: "I am always coming but never arrive. What am I?", desc: "The answer is a concept related to time.", ans: ["tomorrow"], hints: ["I refer to the future.", "When I arrive, I become today.", "Calendars help you find me."] },
+          { q: "I have a thumb and four fingers, but I am not alive. What am I?", desc: "Identify the object shaped like a hand.", ans: ["glove"], hints: ["You wear me.", "I cover your hand.", "I have separate finger spaces."] },
+          { q: "I can travel around the world while staying in one corner. What am I?", desc: "The riddle refers to something placed in a corner of an envelope.", ans: ["stamp"], hints: ["I belong on mail.", "I help letters travel.", "I am usually stuck to an envelope."] },
+          { q: "I am black when clean and white when dirty. What am I?", desc: "Think of a surface used for writing with chalk.", ans: ["blackboard", "chalkboard"], hints: ["Teachers use me.", "Chalk makes me white.", "My normal surface is dark."] }
+        ],
+        medium: [
+          { q: "I can be written, broken, kept, and given. What am I?", desc: "Find the word that forms all four common expressions.", ans: ["promise"], hints: ["You can make me to someone.", "Breaking me means not keeping your word.", "Keeping me means honoring your word."] },
+          { q: "I have cities but no houses, forests but no trees, and water but no fish. What am I?", desc: "The objects mentioned exist as representations rather than real objects.", ans: ["map"], hints: ["I represent locations.", "You can use me for navigation.", "I can show cities and rivers."] },
+          { q: "I have an eye, but I cannot see. I can be used to measure distance. What am I?", desc: "The 'eye' is a feature of an optical viewing device.", ans: ["telescope"], hints: ["I help you see distant objects.", "Astronomers use me.", "My lenses point toward the sky."] },
+          { q: "I am taken before you get me, and I can be good or bad. What am I?", desc: "The clue refers to something people make before receiving its consequences.", ans: ["decision"], hints: ["You make me.", "Choices lead to me.", "I can have consequences."] },
+          { q: "I can run but never walk. I have a bed but never sleep. I have a mouth but never eat. What am I?", desc: "Several human-like terms describe a natural geographical feature.", ans: ["river"], hints: ["I contain flowing water.", "I have a riverbed.", "I can have a mouth."] },
+          { q: "I have branches, but no leaves, trunk, or fruit. What am I?", desc: "The word 'branches' refers to divisions in an organization.", ans: ["bank"], hints: ["I handle money.", "Large organizations have many locations.", "Those locations are called branches."] },
+          { q: "I am invisible, but I can fill a room. I can be felt but not held. What am I?", desc: "Identify something that occupies space and can be physically sensed.", ans: ["air"], hints: ["You breathe me.", "Wind is moving me.", "You cannot normally see me."] },
+          { q: "I can be opened but never closed, and I can contain knowledge without speaking. What am I?", desc: "Think of a source of information that people 'open' to learn.", ans: ["book"], hints: ["You turn my pages.", "I can contain knowledge.", "Reading me gives information."] },
+          { q: "I have a head and a tail but no body. What am I?", desc: "The answer is an object with two named sides.", ans: ["coin"], hints: ["I am used as money.", "One side is called heads.", "The other side is called tails."] },
+          { q: "The more there is of me, the less you see. What am I?", desc: "The answer is something that reduces visibility.", ans: ["darkness"], hints: ["I am the opposite of light.", "Night can bring me.", "More of me means less visibility."] },
+          { q: "I am lighter than a feather, but nobody can hold me for long. What am I?", desc: "Identify something humans cannot continuously maintain physically.", ans: ["breath"], hints: ["You do this constantly.", "You can hold me temporarily.", "Eventually you must release me."] },
+          { q: "I am a word of six letters. Remove one letter and twelve remain. What am I?", desc: "The clue depends on a wordplay relationship between letters and numbers.", ans: ["dozens"], hints: ["Think about the number twelve.", "The answer relates directly to twelve.", "Removing one character creates a related word."] },
+          { q: "I have many rings but no fingers. I can tell you how old something is. What am I?", desc: "Rings in a natural object can reveal age.", ans: ["tree"], hints: ["Look at my trunk.", "My rings form over time.", "Counting them can estimate age."] },
+          { q: "I am not alive, but I grow. I have no lungs, but I need air. I have no mouth, but water kills me. What am I?", desc: "Identify something that grows and requires oxygen but can be extinguished by water.", ans: ["fire"], hints: ["I produce heat.", "Air helps me burn.", "Water can extinguish me."] },
+          { q: "I have a screen but I am not a television. I have windows but no walls. I can open files but have no hands. What am I?", desc: "The clues use computer terminology metaphorically.", ans: ["computer"], hints: ["You interact with me digitally.", "I have software windows.", "I can open files."] },
+          { q: "I can be long or short, grown or cut, painted or natural. What am I?", desc: "Identify something associated with fingers and different styles.", ans: ["nail"], hints: ["You have several of me.", "I can be trimmed.", "People sometimes paint me."] },
+          { q: "I have a root but I am not a plant. I have branches but I am not a tree. What am I?", desc: "Both 'root' and 'branches' describe a structure in another field.", ans: ["network"], hints: ["Think about computers.", "Devices can connect through me.", "Networks can have hierarchical structures."] },
+          { q: "I can be copied but never truly duplicated. I can be digital, physical, or genetic. What am I?", desc: "Identify something that can exist in multiple forms through reproduction or duplication.", ans: ["information"], hints: ["Files contain me.", "DNA carries me.", "Copies can preserve me."] },
+          { q: "I have no voice, but I can answer your questions. I have no brain, but I can contain millions of facts. What am I?", desc: "Identify a digital or physical source of stored knowledge.", ans: ["database"], hints: ["I store structured information.", "Queries can retrieve information from me.", "Computers commonly use me."] },
+          { q: "I can unlock something without being a key. I can be secret but also shared. What am I?", desc: "Identify a common digital secret used for authentication.", ans: ["password"], hints: ["Websites may ask for me.", "Keep me secret.", "I can grant access."] }
+        ],
+        hard: [
+          { q: "I hide in plain sight. Read my beginnings, not my words. 'Silent Owls Hide Every Night.' What secret word appears?", desc: "Use the first letters of the words to uncover the hidden clue.", ans: ["sohen"], hints: ["Ignore the meanings.", "Look at the first letters.", "Read them in order."] },
+          { q: "'Brave Eagles Attack Daily.' Take what comes first from every word. What do you obtain?", desc: "This is an acrostic hidden in the sentence.", ans: ["bead"], hints: ["Examine the beginning of each word.", "Take one letter from each.", "The result is a four letter word."] },
+          { q: "'Hidden clues are often buried between ordinary words.' Take the first letter of each word. What pattern appears?", desc: "Extract the initial letters to reveal the hidden sequence.", ans: ["hcaobow"], hints: ["Do not read normally.", "Focus on word beginnings.", "Take one letter per word."] },
+          { q: "I am found once in 'minute,' twice in 'moment,' but never in 'hour.' What am I?", desc: "This is a letter frequency riddle rather than a conceptual riddle.", ans: ["m"], hints: ["Look at the spelling.", "Count letters.", "Compare the three words."] },
+          { q: "I appear once in 'year,' twice in 'week,' but never in 'day.' What am I?", desc: "Search the written words rather than thinking about calendars.", ans: ["e"], hints: ["Examine the letters.", "Count occurrences.", "Ignore the actual lengths of time."] },
+          { q: "I am hidden in 'cYBER Hunt.' Find the unusual capital letters and read them.", desc: "Capitalization is being used as a hidden clue.", ans: ["yh"], hints: ["Capitals matter.", "Ignore lowercase letters.", "Read only the capitals."] },
+          { q: "'sEcUrE PaSsWoRd' contains a hidden message through alternating capitals. What is it?", desc: "Extract only the uppercase letters.", ans: ["eupswrd"], hints: ["Capitalization is intentional.", "Ignore lowercase letters.", "Read capitals left to right."] },
+          { q: "I am hidden in this sequence: 3 1 20. Convert the numbers using A=1, B=2, C=3. What word appears?", desc: "Decode numerical alphabet positions.", ans: ["cat"], hints: ["A equals 1.", "Convert each number to a letter.", "Read the letters together."] },
+          { q: "19 5 3 18 5 20 uses A=1. What hidden word appears?", desc: "Decode each number as an alphabet position.", ans: ["secret"], hints: ["Use A=1.", "Convert each number.", "Read from left to right."] },
+          { q: "A message says: 'The treasure is under the old tree.' But every third word is the real clue. Which word is at position 3?", desc: "Extract the third word from the sentence.", ans: ["is"], hints: ["Number the words.", "Select position 3.", "Focus on the extracted word."] },
+          { q: "Read the last letters of: 'cyber hunt code'. What hidden sequence appears?", desc: "The clue is hidden using word endings.", ans: ["rte"], hints: ["Do not use the first letters.", "Look at the ends.", "Take one letter from each word."] },
+          { q: "Read the first and last letters of 'Cipher'. What two letter clue appears?", desc: "Extract the outermost letters of the given word.", ans: ["cr"], hints: ["Look at both ends.", "Ignore the middle letters.", "Combine the two letters."] },
+          { q: "'C0D3' replaces letters with visually similar numbers. What word is being represented?", desc: "Recognize the leet speak substitutions.", ans: ["code"], hints: ["0 can replace O.", "3 can replace E.", "Read the result normally."] },
+          { q: "'53 45 43 52 45 54' is written in hexadecimal ASCII. What hidden word does it reveal?", desc: "Decode the hexadecimal character codes.", ans: ["secret"], hints: ["The values represent characters.", "Think ASCII.", "Convert each hexadecimal pair."] },
+          { q: "'01000011 01001111 01000100 01000101' hides a word in binary ASCII. What is it?", desc: "Convert each eight bit binary value into an ASCII character.", ans: ["code"], hints: ["Each group contains eight bits.", "They represent ASCII characters.", "Convert each group separately."] },
+          { q: "A note contains the words 'Red Orange Yellow Green Blue.' Take their first letters. What hidden word appears?", desc: "The clue is concealed through the initial letters of color names.", ans: ["roygb"], hints: ["Look only at the beginnings.", "Each color contributes one letter.", "Preserve the original order."] },
+          { q: "'SILENT' is written backward. What hidden word appears when you reverse it?", desc: "Recognize that the clue must be read in reverse order.", ans: ["tnelis"], hints: ["Start at the right.", "Read toward the left.", "Reverse every character."] },
+          { q: "The clue is 'LFMMP.' Every letter is one position after the intended letter in the alphabet. What word is hidden?", desc: "Shift each letter backward by one position.", ans: ["kello"], hints: ["L becomes K.", "F becomes E.", "Move every letter backward once."] },
+          { q: "'Uifsf' was created by shifting every alphabet letter forward by one. What was the original word?", desc: "Reverse a simple Caesar style shift.", ans: ["there"], hints: ["Move each letter backward.", "U becomes T.", "Read the resulting word normally."] },
+          { q: "Lines: ICE / BOX / ADD / TEN. Read only the middle letters from top to bottom. What appears?", desc: "Identify the characters between the outer characters.", ans: ["code"], hints: ["Focus on the middle positions.", "Ignore the first and last characters.", "Read the middle letters from top to bottom."] }
+        ]
+      },
+      2: {
+        easy: [
+          { q: "What word describes a secret code used to access an account?", desc: "Cybersecurity Basics", ans: ["password"], hints: ["You use it to log in.", "It should be kept secret.", "It protects your account."] },
+          { q: "What device or biometric is commonly used to unlock a phone using your front appearance?", desc: "Biometrics", ans: ["face"], hints: ["It is part of your identity.", "Cameras can recognize it.", "It is on the front of your head."] },
+          { q: "What symbol is commonly used in email addresses?", desc: "Internet Basics", ans: ["@"], hints: ["symbol of AT", "It separates the username and domain.", "Its symbol is @."] },
+          { q: "What does a website usually begin with when using secure communication?", desc: "Web Security", ans: ["https"], hints: ["It is related to HTTP.", "The extra letter matters.", "The S stands for secure."] },
+          { q: "What is the secret number used with a bank card?", desc: "Banking Security", ans: ["pin"], hints: ["It usually contains digits.", "You enter it at an ATM.", "It stands for Personal Identification Number."] },
+          { q: "What malicious software can copy itself and spread between computers automatically?", desc: "Malware", ans: ["worm"], hints: ["It is malware.", "It can spread automatically.", "Its name is also an animal."] },
+          { q: "What malicious program disguises itself as legitimate software?", desc: "Malware", ans: ["trojan"], hints: ["Think of Greek mythology.", "It hides its true purpose.", "It is named after a famous horse."] },
+          { q: "What technology converts readable information into an unreadable form?", desc: "Cryptography", ans: ["encryption"], hints: ["It protects information.", "A key is often involved.", "It turns plaintext into ciphertext."] },
+          { q: "What do we call a person who illegally accesses computer systems?", desc: "Cybersecurity", ans: ["hacker"], hints: ["They work with computers.", "They may exploit vulnerabilities.", "The word starts with H."] },
+          { q: "What is the process of proving who you are online?", desc: "Authentication", ans: ["authentication"], hints: ["It happens during login.", "Passwords can be used.", "It verifies identity."] },
+          { q: "What device connects multiple devices within a network and directs traffic?", desc: "Networking", ans: ["router"], hints: ["It directs traffic.", "You may have one at home.", "It connects networks."] },
+          { q: "What is a fake message designed to steal personal information called?", desc: "Social Engineering", ans: ["phishing"], hints: ["It often arrives by email.", "It tries to trick you.", "It sounds like fishing."] },
+          { q: "What is the name of Google's web browser?", desc: "Technology", ans: ["chrome"], hints: ["It is made by Google.", "It is used to browse websites.", "Its logo has red, yellow, green and blue."] },
+          { q: "What is the standard name for a secret word or phrase used to authenticate someone?", desc: "Authentication", ans: ["credential"], hints: ["It proves something about your identity.", "Passwords are one type.", "It can be used to log in."] },
+          { q: "What do we call information that is hidden from unauthorized people?", desc: "Information Security", ans: ["confidential"], hints: ["It should not be publicly shared.", "Sensitive information can be this.", "It means private or secret."] },
+          { q: "What is the common abbreviation for a Virtual Private Network?", desc: "Networking", ans: ["vpn"], hints: ["It can improve privacy online.", "It creates an encrypted connection.", "It has three letters."] },
+          { q: "What do we call a weakness in computer software?", desc: "Cybersecurity", ans: ["vulnerability"], hints: ["Attackers may exploit it.", "Security teams try to fix it.", "It means a weakness."] },
+          { q: "What is the term for unwanted bulk email?", desc: "Internet Security", ans: ["spam"], hints: ["It fills inboxes.", "It can contain advertisements.", "It is also a canned meat brand."] },
+          { q: "What is the secret piece of information used in cryptography to lock or unlock data?", desc: "Cryptography", ans: ["key"], hints: ["It can unlock encrypted information.", "It works with encryption.", "You use one to open a lock too."] },
+          { q: "What is the name of Microsoft's flagship desktop operating system?", desc: "Operating Systems", ans: ["windows"], hints: ["It runs on PCs.", "Microsoft developed it.", "Its name relates to something in a house."] }
+        ],
+        medium: [
+          { q: "What attack tries many possible passwords until one works?", desc: "Password Security", ans: ["bruteforce", "brute force"], hints: ["It relies on repeated attempts.", "Computers can automate it.", "It tries combinations one after another."] },
+          { q: "What attack uses a list of commonly used passwords?", desc: "Password Security", ans: ["dictionary"], hints: ["It doesn't necessarily try every combination.", "Common words are useful to the attacker.", "Think about a collection of words."] },
+          { q: "What technique adds random data to a password before hashing?", desc: "Cryptography", ans: ["salting"], hints: ["It strengthens password storage.", "It is combined with a hash.", "Think of adding something before cooking."] },
+          { q: "What is the process of converting a password into a fixed length value?", desc: "Cryptography", ans: ["hashing"], hints: ["It is commonly one way.", "Password databases use it.", "SHA 256 is an example."] },
+          { q: "What attack secretly intercepts communication between two parties?", desc: "Network Security", ans: ["mitm", "man in the middle"], hints: ["The attacker is in the middle.", "Communication is intercepted.", "It is abbreviated using three letters."] },
+          { q: "What attack overwhelms a server with traffic from many systems?", desc: "Network Security", ans: ["ddos"], hints: ["It targets availability.", "Many devices may participate.", "It stands for Distributed Denial of Service."] },
+          { q: "What malware encrypts files and demands payment?", desc: "Malware", ans: ["ransomware"], hints: ["Your files may become inaccessible.", "Money is demanded.", "The name combines ransom and software."] },
+          { q: "What security system monitors and filters incoming and outgoing network traffic?", desc: "Network Security", ans: ["firewall"], hints: ["It can block suspicious traffic.", "It protects networks.", "Think of a wall against fire."] },
+          { q: "What protocol is commonly used to securely transfer web pages?", desc: "Web Security", ans: ["https"], hints: ["It is an HTTP extension.", "It uses encryption.", "Look at the beginning of secure websites."] },
+          { q: "What type of encryption uses the same key to encrypt and decrypt data?", desc: "Cryptography", ans: ["symmetric"], hints: ["One key is involved.", "It is generally fast.", "Its opposite is asymmetric."] },
+          { q: "What encryption system uses a public and private key pair?", desc: "Cryptography", ans: ["asymmetric"], hints: ["Two keys are involved.", "One key can be publicly shared.", "RSA is an example."] },
+          { q: "What attack injects malicious database commands through user input?", desc: "Web Security", ans: ["sqli", "sql injection"], hints: ["It targets databases.", "SQL is involved.", "The full term starts with SQL."] },
+          { q: "What vulnerability allows malicious scripts to execute in another user's browser?", desc: "Web Security", ans: ["xss"], hints: ["It targets web applications.", "JavaScript may be involved.", "It has three letters."] },
+          { q: "What process converts ciphertext back into readable plaintext information?", desc: "Cryptography", ans: ["decryption"], hints: ["It reverses encryption.", "A key may be required.", "It produces plaintext."] },
+          { q: "What is a security update that fixes a software vulnerability called?", desc: "Software Security", ans: ["patch"], hints: ["Software developers release it.", "It fixes bugs or security issues.", "Think of repairing a hole."] },
+          { q: "What word precedes 'engineering' when referring to psychological manipulation attacks?", desc: "Social Engineering", ans: ["social"], hints: ["It targets people rather than only machines.", "It exploits human behavior.", "It is commonly followed by “engineering.”"] },
+          { q: "What security principle gives users only the access they actually need?", desc: "Access Control", ans: ["leastprivilege", "least privilege"], hints: ["It limits permissions.", "Users shouldn't get unnecessary access.", "Think “Least ______.”"] },
+          { q: "What is an additional authentication factor besides a password called (abbreviation)?", desc: "Authentication", ans: ["mfa", "2fa"], hints: ["It improves login security.", "It may involve a phone or biometric.", "It has three letters."] },
+          { q: "What attack attempts to steal a user's active login session?", desc: "Web Security", ans: ["sessionhijacking", "session hijacking"], hints: ["It targets sessions.", "Cookies may be involved.", "The session is taken over."] },
+          { q: "What is a fake login page designed to steal credentials called?", desc: "Phishing", ans: ["phishing"], hints: ["It looks like a legitimate website.", "Users enter their credentials.", "It is a type of social engineering."] }
+        ],
+        hard: [
+          { q: "What cryptographic algorithm produces a 256 bit hash commonly used for integrity verification?", desc: "Cryptography", ans: ["sha256", "sha-256"], hints: ["It belongs to SHA 2.", "The number is 256.", "SHA + 256."] },
+          { q: "What attack exploits differences in how applications process SQL queries?", desc: "Web Security", ans: ["sqli", "sql injection"], hints: ["It targets databases.", "User input is often involved.", "Think of SQL Injection."] },
+          { q: "What vulnerability occurs when an application executes commands supplied by an attacker?", desc: "Web Security", ans: ["injection"], hints: ["It involves untrusted input.", "SQL injection is one example.", "The attack inserts something malicious."] },
+          { q: "What attack exploits a program's failure to properly handle memory boundaries?", desc: "System Security", ans: ["overflow", "buffer overflow"], hints: ["It involves memory.", "Buffers are involved.", "Think “buffer ______.”"] },
+          { q: "What attack uses previously captured authentication data to gain access later?", desc: "Authentication", ans: ["replay"], hints: ["The attacker reuses something.", "It may involve captured packets.", "The word means to play again."] },
+          { q: "What security property ensures information has not been modified without authorization?", desc: "Information Security", ans: ["integrity"], hints: ["It is one of the CIA triad.", "It protects against unauthorized modification.", "CIA stands for Confidentiality, Integrity, Availability."] },
+          { q: "What security property ensures authorized users can access information when needed?", desc: "Information Security", ans: ["availability"], hints: ["It is part of CIA.", "Downtime affects it.", "It starts with A."] },
+          { q: "What security property prevents unauthorized disclosure of information?", desc: "Information Security", ans: ["confidentiality"], hints: ["It is part of CIA.", "Encryption helps achieve it.", "It means keeping information secret."] },
+          { q: "What mechanism securely stores a user's login state between requests in many web applications?", desc: "Web Technology", ans: ["cookie"], hints: ["Browsers store it.", "It can contain session information.", "It is named after something you can eat."] },
+          { q: "What protocol translates domain names into IP addresses?", desc: "Networking", ans: ["dns"], hints: ["It works behind the scenes when visiting websites.", "It resolves names such as google.com.", "It stands for Domain Name System."] },
+          { q: "What protocol automatically assigns IP addresses to devices on a network?", desc: "Networking", ans: ["dhcp"], hints: ["It happens when devices join networks.", "It assigns IP configuration.", "It has four letters."] },
+          { q: "What command line tool is commonly used to test network connectivity using ICMP?", desc: "Networking", ans: ["ping"], hints: ["It sends packets to another host.", "It measures response time.", "It sounds like a sonar signal."] },
+          { q: "What attack involves pretending to be a legitimate device or user?", desc: "Network Security", ans: ["spoofing"], hints: ["The attacker pretends to be legitimate.", "DNS can be involved.", "The word means impersonation."] },
+          { q: "What type of malware secretly records a user's keystrokes?", desc: "Malware", ans: ["keylogger"], hints: ["It monitors typing.", "Passwords can be captured.", "Think Key + Logger."] },
+          { q: "What malicious software provides unauthorized remote access to a computer (3 letters)?", desc: "Malware", ans: ["rat"], hints: ["It allows remote control.", "It is a type of malware.", "It stands for Remote Access Trojan."] },
+          { q: "What technique hides secret information inside an image, audio file, or other medium?", desc: "Cryptography", ans: ["steganography"], hints: ["The message is hidden rather than simply encrypted.", "Images can contain hidden data.", "It is associated with the idea of covered writing."] },
+          { q: "What attack exploits a previously unknown software vulnerability?", desc: "Vulnerability Research", ans: ["zeroday", "zero day", "zero-day"], hints: ["Developers may not yet have a fix.", "The vulnerability is newly discovered.", "It has “zero days” of prior warning or patching."] },
+          { q: "What security technique verifies that a digital message came from the claimed sender and was not altered?", desc: "Cryptography", ans: ["signature", "digital signature"], hints: ["It uses cryptographic methods.", "It can provide authenticity and integrity.", "Think of signing a document digitally."] },
+          { q: "What security vulnerability involves sending malicious instructions through input fields?", desc: "Web Security", ans: ["injection"], hints: ["User input is manipulated.", "SQL injection is a common example.", "It is a major web application security category."] },
+          { q: "What system translates human readable domain names into numerical network addresses?", desc: "Networking", ans: ["dns"], hints: ["Websites use domain names.", "Computers communicate using IP addresses.", "It stands for Domain Name System."] }
+        ]
+      },
+      3: {
+        easy: [
+          { q: "You are given the name of a public organization and asked to find its official website. What should you search for first?", desc: "Identify the most reliable starting point for finding public information.", ans: ["name"], hints: ["Start with the organization's exact name.", "Avoid adding random words.", "Look for an official domain."] },
+          { q: "A person uses the username tech_raj on one public platform. What can you try searching to find whether the same username exists elsewhere?", desc: "OSINT often begins by connecting publicly visible usernames.", ans: ["username"], hints: ["Search the username exactly.", "Try different platforms.", "Don't change the spelling."] },
+          { q: "You receive an image and want to know where it appeared online before. Which type of search is most useful?", desc: "Identify the technique used to find visually similar or identical images.", ans: ["reverse", "reverse image"], hints: ["You don't need to describe the image.", "Use the image itself.", "Search engines support this."] },
+          { q: "Information that anyone can legally access on the internet is generally called what (two words)?", desc: "This is the foundation of OSINT.", ans: ["open source"], hints: ["It is not private information.", "It can come from websites, news, maps, etc.", "The first word is 'Open.'"] },
+          { q: "You find two articles about the same event. One was published in 2020 and another in 2024. Which one is generally more recent?", desc: "OSINT requires checking dates before trusting information.", ans: ["2024"], hints: ["Compare the years.", "Bigger year = later date.", "Don't judge by article position."] },
+          { q: "An account has thousands of followers but was created yesterday. What should this make you do?", desc: "Identify a suspicious digital footprint.", ans: ["verify"], hints: ["Check the account history.", "Look for other evidence.", "Don't immediately trust the account."] },
+          { q: "A photograph shows a famous tower. You recognize the tower. What can this information help you determine?", desc: "Visual clues can reveal a location.", ans: ["location"], hints: ["Think geography.", "Famous landmarks are useful clues.", "What place contains the tower?"] },
+          { q: "You know the name of a restaurant but not where it is. Which online tool would be useful for locating it?", desc: "Use publicly available geographic information.", ans: ["maps", "map"], hints: ["Think maps.", "Search by name.", "It can show directions too."] },
+          { q: "You find the same unique username on three public websites. What might this suggest?", desc: "Repeated usernames can be a useful clue.", ans: ["connection"], hints: ["Compare the names.", "Unique names are more useful.", "It is a clue, not absolute proof."] },
+          { q: "Before believing an online claim, what should you check first?", desc: "Reliable OSINT requires source verification.", ans: ["source"], hints: ["Ask who published it.", "Check credibility.", "Don't rely only on the headline."] },
+          { q: "You want Google to search for an exact phrase such as Cyber Hunt 2026. What can you put around the phrase?", desc: "Search operators can make investigations easier.", ans: ["quotes", "quotation marks", "\""], hints: ["They are two identical symbols.", "They are commonly used for exact searches.", "Example: 'Cyber Hunt 2026'."] },
+          { q: "A public social media post says someone attended an event on 15 August. What information does this provide?", desc: "Public posts can provide timeline clues.", ans: ["date"], hints: ["Think about when something happened.", "It gives a point in time.", "It can help build a timeline."] },
+          { q: "Two websites report different information about the same event. What should you do (two words)?", desc: "Good investigators compare multiple sources.", ans: ["cross check", "crosscheck"], hints: ["Don't choose randomly.", "Find another reliable source.", "Compare the evidence."] },
+          { q: "A website ends with .edu. What type of organization is it commonly associated with?", desc: "Domain extensions can provide useful context.", ans: ["education"], hints: ["Think education.", "Colleges often use it.", "It is different from .com."] },
+          { q: "You are given a street photograph. Which visible text clue could help identify the country?", desc: "Small visual details can reveal location.", ans: ["sign", "signs"], hints: ["Look at vehicles.", "Look at signs.", "Look at road markings."] },
+          { q: "Information stored inside a digital file, such as creation date or camera model, is called what?", desc: "This information can sometimes provide useful investigation clues.", ans: ["metadata"], hints: ["It is information about the file.", "It is not necessarily visible in the picture.", "It starts with 'meta.'"] },
+          { q: "Government websites sometimes publish information that anyone can access. What type of information is this?", desc: "Public records are legitimate OSINT sources.", ans: ["public"], hints: ["It is publicly available.", "It comes from an official source.", "No hacking is required."] },
+          { q: "A screenshot contains a visible browser address bar. Why can this be useful?", desc: "Small pieces of visible information can lead to the original source.", ans: ["url"], hints: ["Look at the top of the browser.", "It may contain a website address.", "The address can be searched."] },
+          { q: "Which general tool is commonly used to discover publicly available webpages?", desc: "Identify a basic OSINT tool.", ans: ["search", "search engine"], hints: ["Google is an example.", "Bing is another.", "It helps find information."] },
+          { q: "An investigator finds a claim on social media. Should the claim itself be considered proof (Yes/No)?", desc: "OSINT requires distinguishing claims from verified evidence.", ans: ["no"], hints: ["Anyone can post online.", "Look for supporting sources.", "Claims need verification."] }
+        ],
+        medium: [
+          { q: "You are investigating the username bluefox27 on several sites. What is the next logical step?", desc: "Finding the same username is only the beginning.", ans: ["compare"], hints: ["Compare profile information.", "Look for matching clues.", "Don't assume all accounts belong to one person."] },
+          { q: "A public account uses a distinctive profile picture. What technique can determine whether the picture appears elsewhere?", desc: "Images can reveal connections to other public pages.", ans: ["reverse search", "reverse image search"], hints: ["Use the image.", "Search visually.", "Look for matching results."] },
+          { q: "Arranging college start, club joining, and event attendance chronologically creates what?", desc: "Investigators often organize clues according to time.", ans: ["timeline"], hints: ["Events are arranged by date.", "It shows sequence.", "It helps understand activity."] },
+          { q: "A website says an event happened on Monday, but published date was Tuesday. What should you do?", desc: "Inconsistencies should be investigated rather than ignored.", ans: ["verify"], hints: ["Check another source.", "Verify the actual event date.", "Don't immediately assume either source is correct."] },
+          { q: "Same photo found claiming India on one site and France on another. What must you check?", desc: "Context around an image can be misleading.", ans: ["source"], hints: ["Search the original image.", "Check older versions.", "Look for location clues."] },
+          { q: "A photo shows a road sign saying NH 44. What type of information does this provide?", desc: "Road numbers can narrow down locations.", ans: ["location"], hints: ["It is related to roads.", "Search the road number.", "Think geography."] },
+          { q: "You find a suspicious company site with a slightly misspelled domain. What should you compare?", desc: "Domain comparison can expose misleading websites.", ans: ["domain"], hints: ["Compare spelling.", "Check the official website.", "Look for extra words or characters."] },
+          { q: "A webpage has disappeared, but you want to see an older version. What service helps?", desc: "Websites can sometimes be viewed through historical archives.", ans: ["archive", "wayback machine"], hints: ["Think 'history of the web.'", "Archived pages preserve older versions.", "One famous service is the Wayback Machine."] },
+          { q: "A photo metadata says created in 2022, but post claims taken in 2025. What should you do?", desc: "Metadata can be useful but should not automatically be treated as absolute proof.", ans: ["verify"], hints: ["Metadata can sometimes be changed.", "Search for additional evidence.", "Compare dates."] },
+          { q: "One unknown blog makes a claim while five independent news outlets report otherwise. Which has stronger support?", desc: "Independent sources can increase confidence.", ans: ["multiple", "news"], hints: ["Consider source reliability.", "Consider independence.", "One source vs several."] },
+          { q: "You want search results only from example.com. Which search prefix operator is useful?", desc: "Search operators can narrow results.", ans: ["site:"], hints: ["Think site:.", "Put the domain after it.", "Example: site:example.com."] },
+          { q: "Two profiles share the same unique username and personal site link. Does this strengthen connection (Yes/No)?", desc: "Multiple matching clues are more useful than one.", ans: ["yes"], hints: ["Compare more than the username.", "Look for independent matching details.", "Think confidence."] },
+          { q: "Can a background shop sign with a city name help locate an untagged photo (Yes/No)?", desc: "Text in images can be valuable evidence.", ans: ["yes"], hints: ["Read the sign.", "Search the name.", "Compare map results."] },
+          { q: "An old photo is reposted with a new event description. What should you investigate?", desc: "Images can be reused with incorrect context.", ans: ["context"], hints: ["Search the image.", "Find earlier appearances.", "Compare dates."] },
+          { q: "Is an employee's work email listed on an official public company page open source data (Yes/No)?", desc: "OSINT focuses on information legitimately available to the public.", ans: ["yes"], hints: ["It is intentionally published.", "It is on an official page.", "No private access is needed."] },
+          { q: "Hundreds of restaurant reviews were posted in just two days. What should you investigate?", desc: "Unusual patterns can indicate unreliable information.", ans: ["pattern"], hints: ["Look at dates.", "Compare review patterns.", "Think whether the activity looks natural."] },
+          { q: "After identifying a landmark in a photo, what tool can you use next to inspect nearby streets?", desc: "OSINT often combines multiple public sources.", ans: ["maps", "map"], hints: ["You already know the landmark.", "Use geographic information.", "Look around the location."] },
+          { q: "For government announcements, which is more reliable: an anonymous social account or official website?", desc: "Source authority matters.", ans: ["website"], hints: ["Check who published the information.", "Prefer the original source.", "Look for official domains."] },
+          { q: "Search A gives 100 random results; Search B gives 5 highly focused results. Which is better?", desc: "More results do not necessarily mean better results.", ans: ["relevant", "b"], hints: ["Relevance matters.", "Quality matters.", "Don't judge only by quantity."] },
+          { q: "You have one strong clue and three weak clues. Should you immediately declare the conclusion proven (Yes/No)?", desc: "OSINT requires careful confidence assessment.", ans: ["no"], hints: ["A clue isn't automatically proof.", "Seek independent confirmation.", "Avoid premature conclusions."] }
+        ],
+        hard: [
+          { q: "One username is found across three platforms with varying clues. What must you do before connecting them?", desc: "OSINT investigations should avoid assumptions based on a single matching identifier.", ans: ["verify"], hints: ["Compare multiple independent clues.", "Check whether the dates make sense.", "Look for contradictions."] },
+          { q: "A viral post claims an image was taken yesterday, but reverse search shows it 5 years ago. The post is:", desc: "The photograph may be genuine but its current context may be false.", ans: ["misleading", "fake"], hints: ["Separate image authenticity from context.", "Look at the older result.", "Compare dates."] },
+          { q: "If Site A copies Site B and Site B copied an anonymous post, are A and B independent (Yes/No)?", desc: "Source independence is important.", ans: ["no"], hints: ["Trace the original source.", "Two copies aren't two independent sources.", "Think about the word 'independent.'"] },
+          { q: "Using identical nicknames, avatars, and blogs across platforms builds a digital ______.", desc: "Repeated public information forms a recognizable online presence.", ans: ["footprint"], hints: ["Think about online traces.", "It is connected to identity.", "It is called a digital ______."] },
+          { q: "Metadata says Delhi, but physical road signs indicate France. Which should you trust automatically?", desc: "Different evidence sources can conflict.", ans: ["neither"], hints: ["Metadata can be altered or lost.", "Visual evidence can also be misinterpreted.", "Investigate both."] },
+          { q: "Searching Apple 'Bangalore' '2025' narrowed millions of results down due to added ______.", desc: "Adding specific terms reduces irrelevant results.", ans: ["specificity"], hints: ["More specific keywords.", "Exact phrases can help.", "Search engines use all terms."] },
+          { q: "A screenshot hides the URL but shows a unique browser tab title. What should you do with it?", desc: "Small pieces of visible information can become search clues.", ans: ["search"], hints: ["Search the exact phrase.", "Use quotation marks.", "Look for the original page."] },
+          { q: "A photo shows left-side driving, red-white road sign, and prices in ₹. Which country is this?", desc: "Multiple clues can be combined to narrow a location.", ans: ["india"], hints: ["₹ represents Indian rupees.", "India drives on the left.", "Combine the clues."] },
+          { q: "Event poster states 12 March, official site states 12 March, video uploaded 13 March. How many independent clues confirm the date?", desc: "Combine evidence from different sources.", ans: ["2"], hints: ["Count the official page.", "Count the video upload date carefully.", "Upload date isn't necessarily event date."] },
+          { q: "Profile states started working in 2018, but company announcement shows 2023. What should you investigate?", desc: "Conflicting public timelines can reveal inaccurate claims.", ans: ["timeline"], hints: ["Compare dates.", "Find additional evidence.", "Don't immediately label the person fraudulent."] },
+          { q: "Five news websites use the exact same unusual sentence. What should you investigate?", desc: "Similar wording can indicate that multiple websites are relying on one original source.", ans: ["origin", "source"], hints: ["Search the exact sentence.", "Find the earliest appearance.", "Identify the original source."] },
+          { q: "Comparing building shape and street orientation on a map after viewing a photo analyzes physical ______.", desc: "Combining visual and geographic clues can increase confidence.", ans: ["features"], hints: ["Look at the building shape.", "Compare nearby roads.", "Check whether the surroundings match."] },
+          { q: "Can a matching username alone prove two accounts in India and Canada are the same person (Yes/No)?", desc: "A common identifier does not automatically establish identity.", ans: ["no"], hints: ["Usernames can be reused.", "Look for additional clues.", "One clue is rarely enough."] },
+          { q: "To see a product removed from a website years ago, what tool should you consult?", desc: "Historical webpages may preserve information that is no longer visible.", ans: ["archive", "web archive"], hints: ["Search older versions.", "Use web archives.", "Compare historical dates."] },
+          { q: "Analyzing language, architecture, and road markings to find where an image was captured is called ______.", desc: "Multiple visual clues are used to determine where an image was taken.", ans: ["geolocation"], hints: ["Think geography.", "You are identifying a place.", "The common OSINT term begins with 'Geo.'"] },
+          { q: "Source A: anonymous post. Source B: dated official gazette. Source C: blog citing A. Which is strongest?", desc: "Source type and proximity to the original information matter.", ans: ["b"], hints: ["Look for the original document.", "Anonymous claims are weaker.", "A blog quoting another source is secondary."] },
+          { q: "Four clues point to City X, but one official government passport record says City Y. What must you do?", desc: "OSINT is not simply about counting clues.", ans: ["investigate"], hints: ["Consider source reliability.", "Investigate the contradiction.", "Don't blindly follow the majority."] },
+          { q: "Refining a failed broad search by adding exact quotes, date, and domain demonstrates search ______.", desc: "Effective investigators refine their searches based on results.", ans: ["refinement"], hints: ["You changed the query.", "You made it more precise.", "Think 'search ______.'"] },
+          { q: "What is the best final step before reporting an OSINT conclusion?", desc: "A good investigation verifies the conclusion using independent evidence.", ans: ["confirm", "verification"], hints: ["Don't stop after the first match.", "Look for another reliable source.", "Compare the evidence."] },
+          { q: "Best OSINT mindset: A. Believe first result, B. Assume same person, C. Collect, compare, verify (Type A/B/C)?", desc: "This question tests the fundamental mindset behind OSINT.", ans: ["c"], hints: ["OSINT is about investigation.", "Verification is important.", "Avoid assumptions."] }
+        ]
+      },
+      4: {
+        easy: [
+          { q: "If CAT is coded as DBU, how is DOG coded?", desc: "Each letter is shifted one position forward in the alphabet.", ans: ["eph"], hints: ["C → D.", "A → B.", "Apply the same rule to DOG."] },
+          { q: "If CODE is coded as EDOC, how is LOGIC coded?", desc: "The word is simply written backwards.", ans: ["cigol"], hints: ["Look at the first and last letters.", "No letter is changed.", "Reverse the complete word."] },
+          { q: "If A=1, B=2, C=3..., what is the code for BAD?", desc: "Convert each letter into its alphabet position.", ans: ["214"], hints: ["B = 2.", "A = 1.", "D = 4."] },
+          { q: "If DOG is coded as CNF, how is CAT coded?", desc: "Every letter is shifted one position backward.", ans: ["bzs"], hints: ["D → C.", "O → N.", "Apply the same rule."] },
+          { q: "If A=Z, B=Y, C=X..., how is BAD coded?", desc: "Each letter is replaced by its opposite letter in the alphabet.", ans: ["yzw"], hints: ["A ↔ Z.", "B ↔ Y.", "D ↔ W."] },
+          { q: "If SUN = 19 21 14, what is the code for MOON?", desc: "Each letter is represented by its alphabet position.", ans: ["13 15 15 14", "13151514"], hints: ["M = 13.", "O = 15.", "N = 14."] },
+          { q: "If APPLE is coded as BQQMF, how is MANGO coded?", desc: "Every letter moves one step forward.", ans: ["nbohp"], hints: ["A → B.", "P → Q.", "Apply it to every letter."] },
+          { q: "If CAT becomes XZG, what does DOG become?", desc: "Each letter is replaced by its alphabet opposite.", ans: ["wlt"], hints: ["A becomes Z.", "D becomes W.", "G becomes T."] },
+          { q: "If HELLO is coded as HLO, what rule is being used (Odd or Even)?", desc: "Only letters in odd positions are selected.", ans: ["odd"], hints: ["Number the letters from 1.", "Select positions 1, 3, 5.", "H, L, O remain."] },
+          { q: "If HELLO is coded as EL, which positions are selected (Odd or Even)?", desc: "Only letters in even positions are selected.", ans: ["even"], hints: ["H = position 1.", "E = position 2.", "Select 2 and 4."] },
+          { q: "If ABCD becomes BADC, how will WXYZ be coded?", desc: "Letters are swapped in pairs.", ans: ["xwzy"], hints: ["AB → BA.", "CD → DC.", "Apply the same rule."] },
+          { q: "If A=2, B=4, C=6, D=8, what is the code for BAD?", desc: "Each alphabet position is multiplied by 2.", ans: ["4 2 8", "428"], hints: ["B is position 2.", "Multiply positions by 2.", "D is position 4."] },
+          { q: "If ABC becomes BDF, what is the pattern of CDE (+1, +2, +3)?", desc: "The first letter moves +1, second +2, third +3 and so on.", ans: ["fhj"], hints: ["A → B.", "B → D.", "C → F."] },
+          { q: "If BAT = 2 1 20, what is the code for DOG?", desc: "Letters are replaced by their alphabet positions.", ans: ["4 15 7", "4157"], hints: ["D = 4.", "O = 15.", "G = 7."] },
+          { q: "If TABLE is coded as ELBAT, what is the code for CHAIR?", desc: "Reverse the order of letters.", ans: ["riahc"], hints: ["No letter changes.", "First becomes last.", "Last becomes first."] },
+          { q: "If A → C, B → D, C → E (+2 shift), what is DOG?", desc: "Every letter moves two places forward.", ans: ["fqi"], hints: ["D → F.", "O → Q.", "G → I."] },
+          { q: "If C → A, D → B, E → C (-2 shift), what is FISH?", desc: "Every letter moves two places backward.", ans: ["dgqf"], hints: ["F → D.", "I → G.", "Continue the same pattern."] },
+          { q: "If APPLE becomes EAPPL, what operation moved the last letter to front?", desc: "The last letter was moved to the front.", ans: ["rotation", "rotate"], hints: ["Look at E.", "E was originally at the end.", "Move only the last letter."] },
+          { q: "If A=1 and Z=26, what is the total sum value of BAD?", desc: "Add the alphabet positions of all letters.", ans: ["7"], hints: ["B = 2.", "A = 1.", "D = 4."] },
+          { q: "If DOG is coded as 15 (based on middle letter O=15), what is the code for CAT?", desc: "The middle letter determines the code.", ans: ["1"], hints: ["CAT has three letters.", "Find the middle letter.", "Convert it to its alphabet position."] }
+        ],
+        medium: [
+          { q: "If ABC is coded as BDF (+1, +2, +3), how is DOG coded?", desc: "The first letter moves +1, second +2, and third +3.", ans: ["eqj"], hints: ["D → E.", "O → Q.", "G → J."] },
+          { q: "If ABCD is coded as BADC, what does EFGH become?", desc: "Every two adjacent letters exchange positions.", ans: ["fehg"], hints: ["AB becomes BA.", "CD becomes DC.", "Apply to EFGH."] },
+          { q: "If A → Z, B → Y (mirror) then +1 forward, what is BAD?", desc: "First use the opposite alphabet and then shift one step forward.", ans: ["zax"], hints: ["B → Y.", "Move Y one step forward.", "Do the same for A and D."] },
+          { q: "If CAT becomes DBW, what numerical shift rule is used?", desc: "The 1st letter moves +1, the 2nd +1, and the 3rd +3.", ans: ["+1,+1,+3", "+1 +1 +3"], hints: ["C → D.", "A → B.", "T → W."] },
+          { q: "If the code of a word is the sum of its letters' positions, what is DOG?", desc: "Add the alphabet positions.", ans: ["26"], hints: ["D = 4.", "O = 15.", "G = 7."] },
+          { q: "Reverse ABC to CBA, then move each letter one step forward. Final code?", desc: "Two operations are applied.", ans: ["dcb"], hints: ["Reverse ABC.", "You get CBA.", "Shift each letter forward once."] },
+          { q: "If every vowel is replaced by next vowel in A-E-I-O-U, how does CAT change?", desc: "Only vowels are modified.", ans: ["cet"], hints: ["C remains C.", "A becomes E.", "T remains T."] },
+          { q: "If only consonants move +1 and vowels remain unchanged, what is CAT?", desc: "Apply the rule only to consonants.", ans: ["dau"], hints: ["C → D.", "A remains A.", "T → U."] },
+          { q: "Taking alternate letters from COMPUTER starting from first letter gives what?", desc: "Select positions 1, 3, 5, 7.", ans: ["cmue"], hints: ["C = 1.", "M = 3.", "T = 5 and R = 7."] },
+          { q: "If ABCD is grouped into pairs (A+B) and (C+D), what is the pair sum code?", desc: "Add A+B and C+D.", ans: ["3 7", "37"], hints: ["A+B = 1+2.", "C+D = 3+4.", "Keep the two results separate."] },
+          { q: "If AB code is 1 × 2 = 2, what is the product code of CD (3 × 4)?", desc: "Multiply the alphabet positions.", ans: ["12"], hints: ["C = 3.", "D = 4.", "Multiply them."] },
+          { q: "Subtracting first letter's position from last letter's position in DOG gives what?", desc: "Use alphabet positions.", ans: ["3"], hints: ["D = 4.", "G = 7.", "Calculate last − first."] },
+          { q: "If a three-letter word's code is its middle letter position, what is FAN?", desc: "Only the middle character matters.", ans: ["1"], hints: ["F A N.", "A is in the middle.", "A = 1."] },
+          { q: "If a word's code is sum of first and last letters, what is LOGIC (L=12, C=3)?", desc: "Ignore the middle letters.", ans: ["15"], hints: ["L = 12.", "C = 3.", "Add them."] },
+          { q: "If DOG = 4 15 7, what is the reversed number sequence?", desc: "Reverse the sequence of numbers.", ans: ["7 15 4", "7154"], hints: ["Keep the numbers unchanged.", "Reverse their order.", "Last becomes first."] },
+          { q: "If A=0, B=1, C=2... (0-indexed), what is the code for BAD?", desc: "This time alphabet counting starts from zero.", ans: ["1 0 3", "103"], hints: ["A = 0.", "B = 1.", "D = 3."] },
+          { q: "Every letter shifted forward by word length (3). How is CAT coded?", desc: "CAT has three letters, so every letter moves three positions forward.", ans: ["fdw"], hints: ["Word length = 3.", "C → F.", "A → D."] },
+          { q: "Reverse DOG to GOD, then shift every letter +1. Final word?", desc: "Two simple operations must be performed in order.", ans: ["hpe"], hints: ["Reverse DOG.", "DOG → GOD.", "Shift G,O,D forward."] },
+          { q: "In COMPUTER, write odd position letters then even position letters:", desc: "Rearrange the word based on position.", ans: ["cmue optr", "cmueoptr"], hints: ["Odd positions: 1,3,5,7.", "Even positions: 2,4,6,8.", "Join both groups."] },
+          { q: "If reverse alphabet numbers used (A=26, B=25, C=24), what is BAD?", desc: "Reverse alphabet numbering is used.", ans: ["25 26 23", "252623"], hints: ["A = 26.", "B = 25.", "D = 23."] }
+        ],
+        hard: [
+          { q: "If CAT becomes ECW (+2 shift), what is DOG?", desc: "Apply +2 to every letter.", ans: ["fqi"], hints: ["D → F.", "O → Q.", "G → I."] },
+          { q: "If ABCDE becomes BDFHJ (+1 to +5), what rule is being used?", desc: "The shifts increase from +1 to +5.", ans: ["increasing"], hints: ["A → B = +1.", "B → D = +2.", "C → F = +3."] },
+          { q: "If ABCDE becomes FEDCB, what transformation was used?", desc: "The word is reversed.", ans: ["reverse"], hints: ["A ends up near the end.", "E becomes first.", "Read backwards."] },
+          { q: "Reverse CAT to TAC, then replace with alphabet opposites. Code?", desc: "Two transformations are applied sequentially.", ans: ["gzx"], hints: ["Reverse CAT → TAC.", "T → G.", "A → Z and C → X."] },
+          { q: "Vowels move +1 and consonants move +2. What is CAT?", desc: "Different types of letters follow different rules.", ans: ["ebv"], hints: ["C is a consonant.", "A is a vowel.", "T is a consonant."] },
+          { q: "Multiply alphabet positions of first and last letters of LOGIC (L=12, C=3):", desc: "Only the first and last letters are considered.", ans: ["36"], hints: ["L = 12.", "C = 3.", "Multiply."] },
+          { q: "What is sum of alphabet positions for CODE (3 + 15 + 4 + 5)?", desc: "Convert every letter to its position and calculate the total.", ans: ["27"], hints: ["C = 3.", "O = 15.", "D = 4 and E = 5."] },
+          { q: "Odd letters move +1, even letters move -1. How is CODE encoded?", desc: "The direction depends on the position.", ans: ["ened"], hints: ["C → D.", "O → N.", "D → E."] },
+          { q: "Divide ABCDEFGH into 2-letter pairs and reverse each pair:", desc: "Each pair is independently reversed.", ans: ["badcfehg"], hints: ["AB → BA.", "CD → DC.", "Continue."] },
+          { q: "If every letter is shifted +3 positions ahead, what does LOGIC become?", desc: "Apply a +3 shift to every letter.", ans: ["orjlf"], hints: ["L → O.", "O → R.", "G → J."] },
+          { q: "Reverse DOG to GOD, then replace each letter with opposite alphabet letter:", desc: "Perform both operations.", ans: ["tlw"], hints: ["DOG → GOD.", "G → T.", "O → L and D → W."] },
+          { q: "If ABCDEFGH is rearranged as EFGHABCD, what operation is performed?", desc: "The first half and second half exchange positions.", ans: ["rotation", "rotate"], hints: ["Split the word into two equal parts.", "ABCD | EFGH.", "Swap the halves."] },
+          { q: "For TEAM, compute (T+E) - (A+M) = (20+5) - (1+13):", desc: "Use alphabet positions.", ans: ["11"], hints: ["T=20, E=5.", "A=1, M=13.", "Calculate (20+5) − (1+13)."] },
+          { q: "Count vowels and consonants in COMPUTER. Code as (vowels consonants):", desc: "Count the two categories.", ans: ["3 5", "35"], hints: ["Vowels: A, E, I, O, U.", "Count vowels in COMPUTER.", "The remaining letters are consonants."] },
+          { q: "Alphabet position of the repeated letter in APPLE (P):", desc: "Find the letter appearing more than once.", ans: ["16"], hints: ["Look for repetition.", "One letter occurs twice.", "Convert it to its alphabet position."] },
+          { q: "Alphabet position of latest alphabetical letter in CLOUD (U):", desc: "Find the alphabetically greatest letter.", ans: ["21"], hints: ["Compare C, L, O, U, D.", "Which comes furthest in the alphabet?", "Convert it to a number."] },
+          { q: "Alphabet position of earliest alphabetical letter in ZEBRA (A):", desc: "Find the earliest letter alphabetically.", ans: ["1"], hints: ["Compare Z, E, B, R, A.", "A comes before B.", "A = 1."] },
+          { q: "What is the alphabet distance between A (1) and Z (26)?", desc: "Find the alphabetic distance between A and Z.", ans: ["25"], hints: ["A = 1.", "Z = 26.", "Calculate the difference."] },
+          { q: "For CAT: reverse → shift +1 → reverse again. Final code?", desc: "Three transformations are applied in sequence.", ans: ["ubd"], hints: ["CAT → TAC.", "Shift +1.", "Reverse the result."] },
+          { q: "For CODE: reverse → shift +1 → replace vowels with *. Final code?", desc: "Follow all three rules in the exact order given.", ans: ["f*ep"], hints: ["Reverse CODE first.", "Shift each letter forward.", "Replace vowels with *."] }
+        ]
+      },
+      5: {
+        easy: [
+          { q: "A person creates a fake Instagram login page to steal passwords. What is this?", desc: "The attacker tricks a user into believing a fake website is genuine.", ans: ["phishing"], hints: ["The website looks real.", "Your password is the target.", "It starts with 'P'."] },
+          { q: "Someone keeps trying different passwords repeatedly until logging in. Attack name?", desc: "The attacker repeatedly guesses passwords.", ans: ["bruteforce", "brute force"], hints: ["Many attempts are made.", "It targets login systems.", "Think about using force instead of intelligence."] },
+          { q: "A user sets their password as 123456. What security problem does this represent?", desc: "Simple passwords are much easier for attackers to guess.", ans: ["weakness", "weak password"], hints: ["The password is too simple.", "Attackers can guess it easily.", "Think 'strong vs weak.'"] },
+          { q: "An attacker injects harmful JavaScript into a comment box seen by visitors. Vulnerability?", desc: "The website allows unwanted scripts to run in a user's browser.", ans: ["xss"], hints: ["JavaScript is involved.", "It affects website visitors.", "Its common abbreviation has three letters."] },
+          { q: "A website directly places user input into a database query without checking. Vulnerability?", desc: "Attackers may manipulate the database query through specially crafted input.", ans: ["sqli", "sql injection"], hints: ["A database is involved.", "SQL is involved.", "The answer has two parts."] },
+          { q: "Fake email pretending to be your bank asking for login credentials. Attack?", desc: "The attacker impersonates a trusted organization.", ans: ["phishing"], hints: ["Don't trust the sender immediately.", "Your credentials are being requested.", "It is a type of social engineering."] },
+          { q: "A developer accidentally uploads DB password to public GitHub. Security problem?", desc: "A secret has been accidentally exposed to others.", ans: ["exposure"], hints: ["The information should be private.", "Anyone can see it.", "Think about sensitive information becoming visible."] },
+          { q: "Leaving an account logged in on a public computer creates what security flaw?", desc: "An active login session was left accessible to another person.", ans: ["session"], hints: ["You didn't log out.", "The next person didn't need your password.", "Think about your login session."] },
+          { q: "Which protocol should you look for when entering passwords on websites?", desc: "It encrypts communication between your browser and the website.", ans: ["https"], hints: ["Look at the beginning of the web address.", "It has a padlock in most browsers.", "It starts with 'HTTP'."] },
+          { q: "A normal user opens an admin page due to missing permission checks. Problem?", desc: "The website failed to properly check whether the user was allowed to access the page.", ans: ["authorization"], hints: ["Think about permissions.", "Admin has more privileges.", "'Who can access what?'"] },
+          { q: "Harmful program disguised as a useful software download is called what?", desc: "Attackers may disguise malicious software as legitimate downloads.", ans: ["malware", "trojan"], hints: ["It is software.", "It pretends to be something useful.", "Think 'malicious software.'"] },
+          { q: "A website copies the layout and domain of an online store to trick shoppers. What is this?", desc: "The attacker creates a deceptive copy of a legitimate website.", ans: ["spoofing"], hints: ["It looks almost real.", "The goal is to fool visitors.", "It is often connected to phishing."] },
+          { q: "Sending thousands of requests rapidly to slow down a server is what type of attack?", desc: "Excessive traffic can make a website slow or unavailable.", ans: ["dos"], hints: ["The website becomes difficult to access.", "Many requests are sent.", "Think 'denial of service.'"] },
+          { q: "Attack using thousands of compromised computers to flood a server with traffic:", desc: "Multiple devices generate a large amount of traffic against a target.", ans: ["ddos"], hints: ["More than one computer.", "The website can become unavailable.", "The first letter stands for Distributed."] },
+          { q: "A website displays full credit card numbers openly on user profiles. Issue?", desc: "Sensitive information should not be unnecessarily visible.", ans: ["exposure"], hints: ["Think privacy.", "Financial information is sensitive.", "The information is visible when it shouldn't be."] },
+          { q: "Continuing to run old server software with known unpatched bugs is called being ______.", desc: "Older software may contain vulnerabilities that have already been fixed.", ans: ["outdated"], hints: ["Updates exist for a reason.", "Security fixes may be missing.", "Think 'old vs updated.'"] },
+          { q: "Small browser data file used to remember login sessions across requests:", desc: "Websites commonly use this mechanism for sessions and preferences.", ans: ["cookie"], hints: ["Your browser stores it.", "Websites use it frequently.", "You can clear it from browser settings."] },
+          { q: "Security feature asking for password AND a mobile OTP code (acronym):", desc: "Using two different verification steps provides stronger account protection.", ans: ["2fa", "mfa"], hints: ["More than one verification method.", "Password + code.", "The answer contains a number."] },
+          { q: "An attacker calls an employee pretending to be IT support to extract credentials:", desc: "Instead of attacking software, the attacker manipulates a person.", ans: ["social engineering"], hints: ["No hacking tool is necessarily required.", "The victim is manipulated.", "It is called human based manipulation."] },
+          { q: "What symbol in a browser address bar signifies an encrypted HTTPS connection?", desc: "Browsers commonly display a lock icon for secure HTTPS connections.", ans: ["lock", "padlock"], hints: ["Look near the address bar.", "It indicates a secure connection.", "It looks like a small locked object."] }
+        ],
+        medium: [
+          { q: "Changing /profile/101 to /profile/102 lets you view someone else's account. Vulnerability?", desc: "The website may not be checking whether you are actually allowed to access that person's data.", ans: ["idor"], hints: ["You changed only a number.", "Another user's information appeared.", "Think about access control."] },
+          { q: "A login page allows 10,000 attempts without slowing down. What control is missing?", desc: "Websites should restrict excessive login attempts.", ans: ["rate limit", "rate limiting"], hints: ["Think about limiting requests.", "It helps against password guessing.", "It controls how frequently something can happen."] },
+          { q: "Is hiding an admin page URL without requiring authentication sufficient security (Yes/No)?", desc: "Simply hiding a page does not replace proper access control.", ans: ["no"], hints: ["A secret URL isn't a permission system.", "Anyone with the URL can enter.", "Think authorization."] },
+          { q: "A password reset link uses predictable sequence reset?id=12345. What is the flaw?", desc: "Predictable reset information can make account recovery mechanisms easier to abuse.", ans: ["predictability"], hints: ["Reset links should be difficult to guess.", "Think randomness.", "Attackers should not be able to predict another user's link."] },
+          { q: "Rendering unsanitized user comment text into web HTML directly causes what flaw?", desc: "User input that becomes executable content can affect other visitors.", ans: ["xss"], hints: ["Think browser.", "JavaScript may execute.", "This is a common web vulnerability."] },
+          { q: "Applying the same discount coupon 100 times because server never checks limit is a ______ flaw.", desc: "The application fails to enforce its intended business rules.", ans: ["logic"], hints: ["The code may technically work.", "The problem is with the business rule.", "Think about 'how the system is supposed to work.'"] },
+          { q: "A website makes its raw database backup downloadable via a public URL. Security issue?", desc: "Sensitive internal files should not be publicly accessible.", ans: ["exposure"], hints: ["The file contains private information.", "Anyone with the link can access it.", "Think information exposure."] },
+          { q: "A third-party page tricks your authenticated browser into submitting bank requests (4 letters):", desc: "The malicious website attempts to make your authenticated browser perform an unwanted action.", ans: ["csrf"], hints: ["You are already logged in.", "Your browser sends the request.", "It is commonly shortened to four letters."] },
+          { q: "Testing passwords leaked from another service against new websites is credential ______.", desc: "Attackers exploit users reusing the same credentials across different services.", ans: ["stuffing"], hints: ["The password wasn't guessed.", "It was obtained elsewhere.", "Think about using leaked credentials again."] },
+          { q: "Allowing users to upload any executable file (.exe/.php) in place of avatars is an ______ flaw.", desc: "Unrestricted uploads can allow users to place unexpected or harmful files on the server.", ans: ["upload"], hints: ["The website expected an image.", "The user can upload something else.", "Think about file validation."] },
+          { q: "An error message displaying database version, tables, and server paths causes information ______.", desc: "Detailed error messages can reveal information useful to attackers.", ans: ["disclosure"], hints: ["The website is revealing too much.", "Developers may find the information useful.", "Attackers can also use it."] },
+          { q: "Forwarding users to arbitrary external sites based on URL query strings is an open ______.", desc: "Attackers can use trusted domains to redirect victims to malicious websites.", ans: ["redirect"], hints: ["The website isn't the final destination.", "The destination is controlled by the URL.", "Think about redirection."] },
+          { q: "Assuming user input is never malicious violates the principle of input ______.", desc: "User input should always be treated carefully rather than automatically trusted.", ans: ["validation"], hints: ["Never blindly trust input.", "Attackers control their own input.", "Think 'validation.'"] },
+          { q: "Embedding database credentials inside client-side JavaScript code exposes a ______.", desc: "Secrets should not be placed where users can easily retrieve them.", ans: ["secret"], hints: ["Think confidential information.", "JavaScript runs in the user's browser.", "Anyone can inspect client side code."] },
+          { q: "Tampering role=user to role=admin in request headers succeeds due to broken ______.", desc: "The server should determine and enforce the user's privileges rather than trusting client controlled values.", ans: ["authorization"], hints: ["The client changed its own role.", "The server trusted the change.", "Think permissions."] },
+          { q: "Storing passwords as plain text rather than using cryptographic ______ is a critical flaw.", desc: "Anyone obtaining the database could immediately read users' passwords.", ans: ["hashing"], hints: ["Passwords shouldn't be readable.", "Think password protection.", "Hashing is commonly used."] },
+          { q: "Using the same password across all personal accounts causes risks from password ______.", desc: "A breach at one service can give attackers credentials that work elsewhere.", ans: ["reuse"], hints: ["One leak can affect many accounts.", "Think password reuse.", "Different sites should have different passwords."] },
+          { q: "Session remaining valid after clicking 'Logout' indicates improper ______ management.", desc: "Logout should invalidate the user's active session appropriately.", ans: ["session"], hints: ["Think login state.", "The account remains accessible.", "Session management is involved."] },
+          { q: "Differentiating 'User not found' vs 'Incorrect password' allows username ______.", desc: "Different responses can help attackers discover valid accounts.", ans: ["enumeration"], hints: ["The attacker learns something without logging in.", "Think user accounts.", "It is a type of information leakage."] },
+          { q: "Using third-party libraries with known unpatched security flaws creates a ______ risk.", desc: "Vulnerable dependencies can introduce security problems into otherwise well written applications.", ans: ["dependency"], hints: ["The problem comes from another package.", "Updates are available.", "Think software dependency."] }
+        ],
+        hard: [
+          { q: "Client changes checkout price from ₹5,000 to ₹5 and server accepts it. What failed?", desc: "The server trusted a value controlled by the user instead of calculating the price itself.", ans: ["validation"], hints: ["The browser should not decide the final price.", "The server should verify important values.", "Think about business rules."] },
+          { q: "User accesses /admin/dashboard simply by changing the URL from /user/dashboard. Flaw?", desc: "The server is not properly checking whether the logged in user has administrative privileges.", ans: ["authorization"], hints: ["The user is authenticated.", "Authentication isn't the same as permission.", "Think access control."] },
+          { q: "Refreshing coupon checkout re-applies discount infinitely. What vulnerability type?", desc: "The application failed to enforce a business restriction.", ans: ["logic"], hints: ["The application itself is functioning.", "The rule is being bypassed.", "Think business rules."] },
+          { q: "Changing /account?id=500 to 501 views another user's private data. 4-letter flaw?", desc: "The application uses a user controlled identifier without correctly checking ownership.", ans: ["idor"], hints: ["An ID is being changed.", "Private information appears.", "You may have seen this abbreviation before."] },
+          { q: "Login error messages that reveal whether an email exists enable account ______.", desc: "Response differences can reveal which usernames are registered.", ans: ["enumeration"], hints: ["The attacker doesn't need the password.", "They are discovering accounts.", "Think information gathering."] },
+          { q: "Password reset token fixed as username123 suffers from dangerous ______.", desc: "A reset token should be difficult to predict. Predictable tokens can allow unauthorized password resets.", ans: ["predictability"], hints: ["Password recovery is involved.", "The token can be guessed.", "Think randomness."] },
+          { q: "An API returns user profile data for any provided ID without verifying tokens. Missing ______?", desc: "The API authenticates or processes requests but fails to enforce who is allowed to access the requested data.", ans: ["authorization"], hints: ["The API knows the ID.", "It doesn't check the user's permission.", "Think access control."] },
+          { q: "A third party site triggers unintended requests using your active cookies (4 letters):", desc: "The server incorrectly assumes that a request from an authenticated browser was intentionally made by the user.", ans: ["csrf"], hints: ["The victim is logged in.", "Another website triggers the request.", "Four letter abbreviation."] },
+          { q: "Posting <script> in comments runs code inside viewer browsers. Vulnerability?", desc: "User controlled content is being interpreted as executable browser code.", ans: ["xss"], hints: ["JavaScript.", "Browser.", "Three letter abbreviation."] },
+          { q: "User input directly concatenates into raw database SELECT queries. Vulnerability?", desc: "Untrusted input can alter the intended database query if it is not safely handled.", ans: ["sqli", "sql injection"], hints: ["SQL is involved.", "The database is the target.", "Think 'injection.'"] },
+          { q: "Server fetches attacker-controlled arbitrary internal URLs (4-letter acronym):", desc: "If the server doesn't restrict destinations, an attacker may cause it to request resources the attacker shouldn't be able to reach.", ans: ["ssrf"], hints: ["The server makes the request.", "Internal resources could be involved.", "The abbreviation contains four letters."] },
+          { q: "Open redirect parameters allow attackers to disguise phishing destination via an open ______.", desc: "Attackers may send victims a trusted looking link that ultimately leads to a malicious website.", ans: ["redirect"], hints: ["The first website may be legitimate.", "The final website is controlled by the attacker.", "Think redirection."] },
+          { q: "Allowing thousands of automated login guesses per second lacks an enforced ______.", desc: "Limiting repeated requests can make automated attacks much harder.", ans: ["rate limit"], hints: ["Think speed.", "Too many requests.", "It is called limiting the request rate."] },
+          { q: "Databases storing passwords in cleartext should have applied cryptographic ______.", desc: "Passwords should be stored using secure one way password hashing rather than readable text.", ans: ["hashing"], hints: ["Passwords should not be reversible.", "Think one way transformation.", "Modern applications use password hashing algorithms."] },
+          { q: "Accidentally uploading database_backup.zip into public root causes sensitive data ______.", desc: "Backup files may contain credentials, customer information, or other sensitive data.", ans: ["exposure"], hints: ["Backups can contain lots of information.", "The file is publicly accessible.", "Think information being exposed."] },
+          { q: "Accepting .exe and .php files inside an image upload endpoint lacks proper file ______.", desc: "The application does not properly restrict uploads to the intended file types.", ans: ["validation"], hints: ["The website expected images.", "Other file types are accepted.", "Think about checking user uploaded files."] },
+          { q: "When a CVE vulnerability is announced in a project dependency, developers must perform an ______.", desc: "Known vulnerabilities should be addressed by updating or replacing affected dependencies.", ans: ["update"], hints: ["A newer version exists.", "The vulnerability is already known.", "Think software maintenance."] },
+          { q: "Passing passwords inside URL query strings (/login?password=...) causes credential ______.", desc: "URLs can appear in browser history, logs, analytics systems, and other places.", ans: ["exposure"], hints: ["URLs are often recorded.", "Passwords are sensitive.", "Think information exposure."] },
+          { q: "Which cookie flag prevents client-side JavaScript from accessing session tokens?", desc: "If malicious JavaScript executes in the browser, it may be able to access sensitive session information when cookie protections are missing.", ans: ["httponly"], hints: ["XSS is involved.", "Cookies can contain session information.", "Think about protecting cookies from JavaScript."] },
+          { q: "Treating all client-supplied inputs as untrusted and checking them adheres to input ______.", desc: "User controlled data should be treated as untrusted and appropriately checked before being used.", ans: ["validation"], hints: ["Never blindly trust users.", "Check data before using it.", "Think 'trust but verify.'"] }
+        ]
+      },
+      6: {
+        easy: [
+          { q: "Find the output of this C code:\n#include <stdio.h>\nint main() {\n    int a = 10;\n    int b = 5;\n    printf(\"%d\", a + b);\n    return 0;\n}", desc: "Evaluate basic integer arithmetic.", ans: ["15"], hints: ["a contains 10.", "b contains 5.", "The + operator is used."] },
+          { q: "Which single symbol is used in C to get the address of a variable?", desc: "Address-of operator syntax.", ans: ["&"], hints: ["Related to memory.", "Used before a variable.", "Opposite of *."] },
+          { q: "Find the output:\nint x = 5;\nprintf(\"%d\", x * 2);", desc: "Evaluate integer multiplication.", ans: ["10"], hints: ["x = 5.", "Multiplication is performed.", "5 × 2."] },
+          { q: "Fix the missing syntax on line 3:\n#include <stdio.h>\nint main() {\n    int a = 10\n    printf(\"%d\", a);\n    return 0;\n}", desc: "Punctuation requirement in C statements.", ans: ["int a = 10;"], hints: ["Look at the variable declaration.", "C statements need punctuation.", "It is the same symbol used after printf()."] },
+          { q: "Find the output:\nint x = 10;\nif (x > 5)\n    printf(\"Yes\");\nelse\n    printf(\"No\");", desc: "Conditional branching evaluation.", ans: ["yes"], hints: ["Is 10 greater than 5?", "The if condition is checked first.", "Only one branch executes."] },
+          { q: "Find the output:\nint i;\nfor(i = 1; i <= 3; i++)\n    printf(\"%d \", i);", desc: "Basic for-loop iteration output.", ans: ["1 2 3", "1 2 3 "], hints: ["The loop starts at 1.", "It stops after 3.", "Look at i++."] },
+          { q: "Fix the scanf call to read into integer 'a':\nscanf(\"%d\", a);", desc: "Passing pointer to scanf.", ans: ["scanf(\"%d\", &a);", "scanf(\"%d\",&a);"], hints: ["scanf() needs the address of the variable.", "Think about &.", "Compare scanf() with printf()."] },
+          { q: "Find the output:\nint a = 5;\nint b = 2;\nprintf(\"%d\", a / b);", desc: "Integer division truncation.", ans: ["2"], hints: ["Both variables are integers.", "The decimal part is discarded.", "5 / 2."] },
+          { q: "Find the output:\nint x = 5;\nx++;\nprintf(\"%d\", x);", desc: "Postfix increment evaluation.", ans: ["6"], hints: ["++ increases a value.", "x starts at 5.", "It increases once."] },
+          { q: "Find the output:\nchar ch = 'A';\nprintf(\"%c\", ch);", desc: "Character printing specifier.", ans: ["a"], hints: ["ch stores a character.", "%c is used for characters.", "Look at the value assigned to ch."] },
+          { q: "Why is 'int 2value = 10;' invalid in C?", desc: "C identifier naming rules.", ans: ["identifier"], hints: ["Look at the first character.", "Variable names have rules.", "Can an identifier start with a number?"] },
+          { q: "Find the output:\nint x = 10;\nif (x == 10)\n    printf(\"Correct\");", desc: "Equality condition check.", ans: ["correct"], hints: ["== compares values.", "Is x equal to 10?", "The condition is true."] },
+          { q: "Find the output:\nint x = 10;\nif (x = 5)\n    printf(\"A\");\nelse\n    printf(\"B\");", desc: "Assignment inside condition evaluates to true.", ans: ["a"], hints: ["= is assignment.", "5 is assigned to x.", "In C, non zero values are true."] },
+          { q: "Find the output:\nint a = 3;\nint b = 4;\nprintf(\"%d\", a > b);", desc: "False relational expression output.", ans: ["0"], hints: ["Is 3 greater than 4?", "Comparisons produce 0 or 1.", "False corresponds to 0."] },
+          { q: "Find the output:\nint x = 10;\nprintf(\"%d\", x % 3);", desc: "Modulo operator evaluation.", ans: ["1"], hints: ["% means remainder.", "Divide 10 by 3.", "What remains?"] },
+          { q: "Fix the syntax error on printf:\nprintf(\"Hello World\")", desc: "Statement termination symbol.", ans: ["printf(\"hello world\");", "printf(\"Hello World\");"], hints: ["Check the end of the statement.", "printf() itself is correct.", "C statements need termination."] },
+          { q: "Find output after swap:\nint a=5, b=10, temp=a; a=b; b=temp;\nprintf(\"%d %d\", a, b);", desc: "Variable swapping trace.", ans: ["10 5"], hints: ["temp temporarily stores a.", "a receives b.", "b receives the old a."] },
+          { q: "Find the output:\nint i = 0;\nwhile(i < 3) {\n    printf(\"%d \", i);\n    i++;\n}", desc: "While loop trace.", ans: ["0 1 2", "0 1 2 "], hints: ["Start with 0.", "Stop when i becomes 3.", "i++ increases it."] },
+          { q: "Identify the incorrect line: printing integer marks with %f specifier:", desc: "Format specifier mismatch.", ans: ["printf(\"%f\", marks);"], hints: ["marks is an integer.", "%f is for floating point values.", "Think %d."] },
+          { q: "Find the output:\nchar ch = 'B';\nprintf(\"%d\", ch);", desc: "Printing ASCII code of uppercase 'B'.", ans: ["66"], hints: ["Characters have numeric codes.", "C stores characters internally as integers.", "Think ASCII."] }
+        ],
+        medium: [
+          { q: "Find the output:\nint a = 5;\nprintf(\"%d\", ++a);", desc: "Pre-increment operator evaluation.", ans: ["6"], hints: ["++a is pre increment.", "Increment happens first.", "Then the value is printed."] },
+          { q: "Find output:\nint a = 5;\nprintf(\"%d\", a++);\nprintf(\"%d\", a);", desc: "Post-increment combined output.", ans: ["56"], hints: ["a++ uses the old value first.", "Then a increases.", "The second printf sees the new value."] },
+          { q: "Which standard I/O library function prints formatted output to terminal?", desc: "C library output function.", ans: ["printf"], hints: ["From stdio.h.", "Output function.", "Starts with p."] },
+          { q: "Find the output:\nint a = 10, b = 20;\nif(a < b && b > 15)\n    printf(\"Yes\");\nelse\n    printf(\"No\");", desc: "Logical AND evaluation.", ans: ["yes"], hints: ["10 < 20 is true.", "20 > 15 is true.", "&& requires both to be true."] },
+          { q: "Find the output:\nint a = 5;\nif(a > 0 || a < 10)\n    printf(\"True\");\nelse\n    printf(\"False\");", desc: "Logical OR evaluation.", ans: ["true"], hints: ["|| means OR.", "Only one condition needs to be true.", "5 > 0."] },
+          { q: "Which loop construct guarantees its body executes at least once?", desc: "Post-tested exit-controlled loop.", ans: ["do-while", "do while"], hints: ["Condition comes later.", "Checks condition after execution.", "Exit controlled loop."] },
+          { q: "Find output:\nint arr[] = {10, 20, 30, 40};\nprintf(\"%d\", arr[2]);", desc: "0-indexed array lookup.", ans: ["30"], hints: ["Index starts at 0.", "arr[0] = 10.", "Find arr[2]."] },
+          { q: "Which stdlib.h function dynamically allocates uninitialized memory blocks?", desc: "Dynamic memory allocation.", ans: ["malloc"], hints: ["From stdlib.h.", "Allocates requested bytes.", "Starts with m."] },
+          { q: "How many stars are printed:\nint x = 5;\nfor(int i = 0; i < x; i++)\n    printf(\"*\");", desc: "Loop iteration count.", ans: ["5"], hints: ["i starts at 0.", "It stops before 5.", "Count the iterations."] },
+          { q: "Find output:\nint sum = 0;\nfor(int i = 1; i <= 5; i++)\n    sum += i;\nprintf(\"%d\", sum);", desc: "Cumulative sum 1 through 5.", ans: ["15"], hints: ["Add 1 through 5.", "sum += i.", "Think 1+2+3+4+5."] },
+          { q: "Which storage class preserves a local variable's value across calls?", desc: "Variable lifetime persistence.", ans: ["static"], hints: ["Value persists.", "Local variable can use it.", "Starts with s."] },
+          { q: "Fix line 3 to store address of x in pointer p:\nint x = 10;\nint *p;\np = x;", desc: "Assigning address to pointer.", ans: ["p = &x;", "p=&x;"], hints: ["A pointer stores an address.", "Use the address of operator.", "It is &."] },
+          { q: "Find output:\nint x = 10;\nint *p = &x;\nprintf(\"%d\", *p);", desc: "Pointer dereferencing.", ans: ["10"], hints: ["p stores the address.", "*p accesses the value.", "x is 10."] },
+          { q: "What prints for 'a' after call-by-value function modifies parameter x to 20?", desc: "Pass by value preserves original variable.", ans: ["10"], hints: ["C normally passes arguments by value.", "The function receives a copy.", "The original a remains unchanged."] },
+          { q: "What prints for 'a' after function fun(int *x) { *x = 20; } runs fun(&a)?", desc: "Pass by pointer mutates caller variable.", ans: ["20"], hints: ["The address of a is passed.", "*x changes the original variable.", "a becomes 20."] },
+          { q: "Find output:\nchar str[] = \"Hello\";\nprintf(\"%c\", str[1]);", desc: "String array indexing.", ans: ["e"], hints: ["Strings are character arrays.", "Index starts at 0.", "str[0] is H."] },
+          { q: "Which preprocessor directive is used to include header files in C?", desc: "Preprocessor syntax.", ans: ["#include", "include"], hints: ["Begins with #.", "Used before compilation.", "Contains include."] },
+          { q: "Find output:\nint x = 10;\n{\n    int x = 20;\n    printf(\"%d \", x);\n}\nprintf(\"%d\", x);", desc: "Block scoping shadowing.", ans: ["20 10"], hints: ["There are two variables named x.", "One is inside a block.", "Scope matters."] },
+          { q: "Find output:\nint x = 5;\nif(x)\n    printf(\"A\");\nelse\n    printf(\"B\");", desc: "Truthiness of non-zero integers.", ans: ["a"], hints: ["C treats non zero values as true.", "x = 5.", "5 is non zero."] },
+          { q: "What bug occurs when allocated heap memory is never freed?", desc: "Memory management bug.", ans: ["memory leak"], hints: ["Memory remains allocated.", "Common with malloc().", "2 word answer related to memory."] }
+        ],
+        hard: [
+          { q: "In C, evaluating 'printf(\"%d %d\", a++, ++a)' with a=5 yields compiler-dependent output:", desc: "Sequence points and undefined behavior.", ans: ["6 7", "7 7"], hints: ["a is modified more than once.", "Both operations happen in one expression.", "Think about undefined behavior."] },
+          { q: "Which memory segment normally stores automatic local variables?", desc: "Program memory architecture.", ans: ["stack"], hints: ["Function calls use it.", "Opposite of heap.", "Start with s."] },
+          { q: "Find output:\nint a = 10;\nint *p = &a;\n*p = 25;\nprintf(\"%d\", a);", desc: "Indirect mutation through pointer dereference.", ans: ["25"], hints: ["p points to a.", "*p means the value at that address.", "Changing it changes a."] },
+          { q: "What type of null-terminated array represents a string in C?", desc: "String data type implementation.", ans: ["character", "char"], hints: ["Contains characters.", "Ends with \\0.", "starts with c."] },
+          { q: "Fix the dangling pointer assignment error before '*p = 20;':", desc: "Initializing unassigned pointer.", ans: ["p = &x;", "p=&x;"], hints: ["p needs an address.", "Make it point to x.", "Use &."] },
+          { q: "Find output:\nvoid fun(int *p) { *p = *p + 10; }\nint main() { int x = 5; fun(&x); printf(\"%d\", x); }", desc: "Pointer parameter mutation arithmetic.", ans: ["15"], hints: ["x starts at 5.", "The address is passed.", "10 is added to the original value."] },
+          { q: "Fix the dereference of NULL in printf:\nint *p = NULL;\nprintf(\"%d\", p);", desc: "Safe pointer usage.", ans: ["printf(\"%d\", *p);"], hints: ["NULL means no valid object is being pointed to.", "*p attempts to access a value.", "You cannot safely dereference NULL."] },
+          { q: "Find output:\nint x = 10;\nif(x > 5) {\n    if(x > 15) printf(\"A\");\n    else printf(\"B\");\n}", desc: "Nested condition evaluation.", ans: ["b"], hints: ["First condition is true.", "Then x > 15 is checked.", "The else belongs to the nearest unmatched if."] },
+          { q: "Converting a variable explicitly from one type to another (e.g. (float)x) is called type ______.", desc: "Explicit type conversion.", ans: ["type casting", "casting"], hints: ["Example: (float)x.", "Changes interpretation/type.", "Start with t."] },
+          { q: "Find output:\nint a[] = {10, 20, 30};\nint *p = a;\nprintf(\"%d\", *(p + 1));", desc: "Pointer arithmetic array traversal.", ans: ["20"], hints: ["p points to the first element.", "p + 1 points to the second.", "Dereference it."] },
+          { q: "Which function allocates contiguous memory for an array and initializes it to zero?", desc: "Zero-initialized heap allocation.", ans: ["calloc"], hints: ["Similar to malloc().", "Initializes bytes to 0.", "Starts with c."] },
+          { q: "Output of 'sizeof(int)' on typical 32-bit/64-bit systems in bytes:", desc: "Data type size evaluation.", ans: ["4"], hints: ["x is an integer.", "sizeof gives size in bytes.", "The exact number depends on the system."] },
+          { q: "What technique allocates heap memory at runtime using malloc/calloc (abbreviation DMA)?", desc: "Dynamic memory allocation.", ans: ["dynamic memory allocation", "dma"], hints: ["Happens at runtime.", "Uses malloc().", "Full form of DMA."] },
+          { q: "Find output:\nint x = 10;\nint *p = &x;\nint **q = &p;\nprintf(\"%d\", **q);", desc: "Double pointer dereference.", ans: ["10"], hints: ["q points to p.", "p points to x.", "Two dereferences reach x."] },
+          { q: "Make code safe after block exit where *p pointed to local x:", desc: "Preventing dangling pointer access.", ans: ["int *p = null;", "p = null;", "int *p = NULL;"], hints: ["x exists only inside the block.", "What happens when the block ends?", "The pointer refers to an object whose lifetime has ended."] },
+          { q: "Find output:\nint x = 10;\nswitch(x) {\n    case 5: printf(\"A\"); break;\n    case 10: printf(\"B\"); break;\n    default: printf(\"C\");\n}", desc: "Switch-case execution matching.", ans: ["b"], hints: ["x is 10.", "Match the correct case.", "break stops execution."] },
+          { q: "Fix infinite loop condition: 'int x = 1; while(x <= 5) { printf(\"%d \", x); }'", desc: "Loop variable update.", ans: ["x = x+1;", "x++;", "x = x+1"], hints: ["Look inside the loop.", "What changes x?", "The condition always remains true."] },
+          { q: "What type of address format value does printf with '%p' produce?", desc: "Pointer address representation.", ans: ["xa123320", "hexadecimal", "address"], hints: ["p stores an address.", "%p is used for pointers.", "The actual address varies."] },
+          { q: "What value does printing an uninitialized local automatic variable display in C?", desc: "Uninitialized memory contents.", ans: ["garbage value", "garbage"], hints: ["x was declared.", "Was it given a value?", "Local variables aren't automatically initialized to zero."] },
+          { q: "Fix recursive call in 'int factorial(int n) { return n * factorial(n); }' to decrement:", desc: "Recursion progress condition.", ans: ["return n * factorial(n-1);", "return n * factorial(n - 1);"], hints: ["The function calls itself.", "What stops the recursion?", "There is no stopping condition."] }
+        ]
+      }
+    };
 
+    const STAGE_META = [
+      { id: 1, title: "Hidden Clue", topic: "Hidden Clue" },
+      { id: 2, title: "Password Puzzles", topic: "Password Puzzles" },
+      { id: 3, title: "OSINT Challenge", topic: "Open Source Intelligence" },
+      { id: 4, title: "Encoding/Decoding", topic: "Encoding / Decoding" },
+      { id: 5, title: "Web Vulnerabilities", topic: "Web Vulnerabilities" },
+      { id: 6, title: "C Coding Round", topic: "C Coding Challenge" }
+    ];
 
-
-    // =====================================================
-
-    // USER DATA
-
-    // =====================================================
-
-
-
-    let users =
-
-      JSON.parse(localStorage.getItem('cyber_users'))
-
-      || [];
-
-
-
-    /*
-
-      If there are no saved users, keep your original
-
-      default usernames and give them empty passwords.
-
-
-
-      New signups will contain username + password.
-
-    */
-
-
-
-    if (users.length === 0) {
-
-
-
-      users = [
-
-        {
-
-          username: 'admin',
-
-          password: ''
-
-        },
-
-        {
-
-          username: 'alice',
-
-          password: ''
-
-        },
-
-        {
-
-          username: 'testuser',
-
-          password: ''
-
-        }
-
-      ];
-
-
-
+    // STAGE QUESTION RULES:
+    // Stages 1, 2, 3: 3 questions
+    // Stages 4, 5: 4 questions
+    // Stage 6: Pool of 4 questions, user chooses any 2
+    function getStageQuestionRules(stageId) {
+      if (stageId <= 3) return { poolCount: 3, playableCount: 3, isChoiceRound: false };
+      if (stageId === 4 || stageId === 5) return { poolCount: 4, playableCount: 4, isChoiceRound: false };
+      return { poolCount: 4, playableCount: 2, isChoiceRound: true }; // Stage 6
     }
 
-    else {
+    function generateRandomStagePool(stageId, difficulty) {
+      const pool = (QUESTION_BANK[stageId] && QUESTION_BANK[stageId][difficulty]) || [];
+      const shuffled = [...pool].sort(() => 0.5 - Math.random());
+      const rules = getStageQuestionRules(stageId);
+      const selected = shuffled.slice(0, rules.poolCount);
 
+      return selected.map((item, idx) => ({
+        qId: `${stageId}-${difficulty}-${idx + 1}`,
+        title: `CHALLENGE ${stageId}.${idx + 1}: ${item.desc ? item.desc.slice(0, 36) : 'Mission Objective'}`,
+        question: item.q,
+        description: item.desc || '',
+        snippet: item.q.includes('\n') ? item.q : '',
+        hint: item.hints[0] || 'Observe the question carefully.',
+        hints: item.hints,
+        acceptedAnswers: item.ans
+      }));
+    }
 
+    // STATE
+    let userSolvedQuestions = JSON.parse(localStorage.getItem('cyber_solved_questions')) || [];
+    let userSolvedStages = JSON.parse(localStorage.getItem('cyber_solved_stages')) || [];
+    const rawTotalScore = localStorage.getItem('cyber_total_score');
+    let userScore = (rawTotalScore !== null && !isNaN(Number(rawTotalScore))) ? Number(rawTotalScore) : 0;
+    let usedHints = JSON.parse(localStorage.getItem('cyber_used_hints')) || {};
+    let skippedQuestions = JSON.parse(localStorage.getItem('cyber_skipped_questions')) || [];
+    let stage6DraftPicks = [];
+    let hintPenaltyNotice = null;
+    let pendingDiffStageId = null;
 
-      /*
+    function getStageDifficulty(stageId) {
+      return localStorage.getItem(`cyber_stage_diff_${stageId}`) || '';
+    }
 
-        Convert old username-only data into
+    function getStageBasePoints(stageId) {
+      const diff = getStageDifficulty(stageId) || 'easy';
+      if (diff === 'hard') return 150;
+      if (diff === 'medium') return 100;
+      return 50;
+    }
 
-        username + password format.
+    function getStageCandidatePool(stageId) {
+      const diff = getStageDifficulty(stageId) || 'easy';
+      const storageKey = `cyber_stage_${stageId}_pool_${diff}`;
+      const cached = localStorage.getItem(storageKey);
+      if (cached) {
+        try { return JSON.parse(cached); } catch (e) {}
+      }
+      const newPool = generateRandomStagePool(stageId, diff);
+      localStorage.setItem(storageKey, JSON.stringify(newPool));
+      return newPool;
+    }
 
-      */
+    function getStagePlayableQuestions(stageId) {
+      const pool = getStageCandidatePool(stageId);
+      if (stageId === 6) {
+        const locked = JSON.parse(localStorage.getItem('cyber_stage_6_locked_picks'));
+        if (locked && Array.isArray(locked) && locked.length === 2) {
+          return pool.filter(q => locked.includes(q.qId));
+        }
+        return []; // Not locked yet; will show choice selection screen
+      }
+      return pool;
+    }
 
+    function isQuestionComplete(qId) {
+      return userSolvedQuestions.includes(qId) || skippedQuestions.includes(qId);
+    }
 
+    function isStageCompleted(stageId) {
+      const diff = getStageDifficulty(stageId);
+      if (!diff) return false;
+      if (stageId === 6) {
+        const locked = JSON.parse(localStorage.getItem('cyber_stage_6_locked_picks'));
+        if (!locked || locked.length !== 2) return false;
+      }
+      const questions = getStagePlayableQuestions(stageId);
+      return questions.length > 0 && questions.every(q => isQuestionComplete(q.qId));
+    }
 
-      users = users.map(user => {
+    function getHintCost(stageId, hintNumber) {
+      const costs = [10, 20, 30];
+      return costs[hintNumber - 1] || 10;
+    }
 
+    function getQuestionHintPenalty(stageId, qId) {
+      const hintCount = Math.min(Number(usedHints[qId] || 0), 3);
+      let penalty = 0;
+      for (let i = 1; i <= hintCount; i++) {
+        penalty += getHintCost(stageId, i);
+      }
+      return penalty;
+    }
 
+    function getQuestionNetPoints(stageId, question) {
+      const basePoints = getStageBasePoints(stageId);
+      return basePoints - getQuestionHintPenalty(stageId, question.qId);
+    }
 
-        if (typeof user === 'string') {
+    function findQuestion(qId) {
+      for (const meta of STAGE_META) {
+        const pool = getStageCandidatePool(meta.id);
+        const question = pool.find(q => q.qId === qId);
+        if (question) return { question, stageId: meta.id, meta };
+      }
+      return null;
+    }
 
+    function getActiveStageId() {
+      for (let i = 0; i < STAGE_META.length; i++) {
+        const meta = STAGE_META[i];
+        if (!isStageCompleted(meta.id)) {
+          return meta.id;
+        }
+      }
+      return STAGE_META.length;
+    }
 
+    let activeStageId = getActiveStageId();
+    let currentViewStageId = activeStageId;
+    let currentFocusedQId = null;
 
-          return {
+    // WORKSPACE MODAL
+    window.openWorkspaceDiffModal = function(stageId) {
+      const meta = STAGE_META.find(s => s.id === stageId);
+      if (!meta) return;
+      pendingDiffStageId = stageId;
+      const titleEl = document.getElementById('wsDiffModalStageTitle');
+      if (titleEl) titleEl.textContent = `Stage ${meta.id}: ${meta.title}`;
+      const overlay = document.getElementById('wsDiffModalOverlay');
+      if (overlay) overlay.classList.add('active');
+    };
 
-            username: user.toLowerCase(),
+    window.closeWorkspaceDiffModal = function() {
+      const overlay = document.getElementById('wsDiffModalOverlay');
+      if (overlay) overlay.classList.remove('active');
+      pendingDiffStageId = null;
+    };
 
-            password: ''
+    window.chooseWorkspaceDifficulty = function(level) {
+      if (!pendingDiffStageId) return;
+      const stId = pendingDiffStageId;
+      localStorage.setItem(`cyber_stage_diff_${stId}`, level);
+      
+      // Clear previous cached pool and choices for clean random questions
+      localStorage.removeItem(`cyber_stage_${stId}_pool_${level}`);
+      if (stId === 6) {
+        localStorage.removeItem('cyber_stage_6_locked_picks');
+        stage6DraftPicks = [];
+      }
 
-          };
+      getStageCandidatePool(stId);
+      closeWorkspaceDiffModal();
+      currentViewStageId = stId;
+      currentFocusedQId = null;
+      renderApp();
+    };
 
+    // STAGE 6 SELECTION ACTIONS
+    window.toggleStage6Pick = function(qId) {
+      if (stage6DraftPicks.includes(qId)) {
+        stage6DraftPicks = stage6DraftPicks.filter(id => id !== qId);
+      } else if (stage6DraftPicks.length < 2) {
+        stage6DraftPicks.push(qId);
+      }
+      renderApp();
+    };
 
+    window.confirmStage6Picks = function() {
+      if (stage6DraftPicks.length !== 2) return;
+      localStorage.setItem('cyber_stage_6_locked_picks', JSON.stringify(stage6DraftPicks));
+      currentFocusedQId = stage6DraftPicks[0];
+      renderApp();
+    };
 
+    // TIMER
+    let eventDurationSeconds = parseInt(localStorage.getItem('cyber_timer_remaining'), 10);
+    if (isNaN(eventDurationSeconds) || eventDurationSeconds <= 0) {
+      eventDurationSeconds = 2 * 60 * 60;
+    }
+
+    const timerDisplay = document.getElementById('eventCountdown');
+    function updateTimer() {
+      if (eventDurationSeconds <= 0) {
+        timerDisplay.textContent = "00:00:00 - EXPIRED";
+        timerDisplay.style.color = "var(--red)";
+        return;
+      }
+      eventDurationSeconds--;
+      localStorage.setItem('cyber_timer_remaining', eventDurationSeconds);
+      const h = String(Math.floor(eventDurationSeconds / 3600)).padStart(2, '0');
+      const m = String(Math.floor((eventDurationSeconds % 3600) / 60)).padStart(2, '0');
+      const s = String(eventDurationSeconds % 60).padStart(2, '0');
+      timerDisplay.textContent = `${h}:${m}:${s}`;
+    }
+    setInterval(updateTimer, 1000);
+    updateTimer();
+
+    // HINTS
+    window.useHint = function(qId) {
+      const found = findQuestion(qId);
+      if (!found) return;
+
+      const currentHintNumber = Number(usedHints[qId] || 0);
+      if (currentHintNumber >= 3 || isQuestionComplete(qId)) return;
+
+      const nextHintNumber = currentHintNumber + 1;
+      const deduction = getHintCost(found.stageId, nextHintNumber);
+      usedHints[qId] = nextHintNumber;
+      userScore = Number(userScore) - deduction;
+      localStorage.setItem('cyber_used_hints', JSON.stringify(usedHints));
+      localStorage.setItem('cyber_total_score', String(userScore));
+      hintPenaltyNotice = { qId, amount: deduction };
+
+      const scoreElement = document.getElementById('currentScore');
+      if (scoreElement) scoreElement.textContent = `${userScore} PTS`;
+      renderApp();
+    };
+
+    // SKIP
+    window.skipToNextQuestion = function(qId) {
+      const found = findQuestion(qId);
+      if (!found || isQuestionComplete(qId)) return;
+      if (Number(usedHints[qId] || 0) < 3) return;
+
+      skippedQuestions.push(qId);
+      localStorage.setItem('cyber_skipped_questions', JSON.stringify(skippedQuestions));
+      localStorage.setItem('cyber_total_score', String(userScore));
+
+      const playable = getStagePlayableQuestions(found.stageId);
+      const nextQuestion = playable.find(q => !isQuestionComplete(q.qId));
+      currentFocusedQId = nextQuestion ? nextQuestion.qId : null;
+      hintPenaltyNotice = null;
+      renderApp();
+    };
+
+    window.selectStage = function(stageId) {
+      if (stageId <= activeStageId) {
+        if (!getStageDifficulty(stageId)) {
+          openWorkspaceDiffModal(stageId);
+          return;
+        }
+        currentViewStageId = stageId;
+        currentFocusedQId = null;
+        renderApp();
+      }
+    };
+
+    window.selectQuestionInStage = function(qId) {
+      if (skippedQuestions.includes(qId)) return;
+      currentFocusedQId = qId;
+      renderApp();
+    };
+
+    // APP RENDERER
+    function renderApp() {
+      activeStageId = getActiveStageId();
+      if (currentViewStageId > activeStageId) {
+        currentViewStageId = activeStageId;
+      }
+
+      const scoreElement = document.getElementById('currentScore');
+      scoreElement.textContent = `${userScore} PTS`;
+      scoreElement.style.color = userScore < 0 ? '#fca5a5' : '#6ee7b7';
+
+      renderStagesNav();
+      renderQuestions();
+    }
+
+    function renderStagesNav() {
+      const nav = document.getElementById('stagesNavRow');
+      nav.innerHTML = '';
+
+      STAGE_META.forEach(st => {
+        const isStageDone = isStageCompleted(st.id);
+        const isStageActive = (st.id === activeStageId && !isStageDone);
+        const isStageLocked = (st.id > activeStageId);
+        const isFinal = (st.id === 6);
+        const isSelected = (st.id === currentViewStageId);
+
+        let cls = 'locked-stage';
+        let status = '[Locked]';
+        let icon = '&#128274;';
+
+        if (isStageDone) {
+          cls = 'completed-stage';
+          status = '[Completed]';
+          icon = '&#10003;';
+        } else if (isStageActive) {
+          cls = isFinal ? 'active-stage final-stage' : 'active-stage';
+          status = '[Active]';
+          icon = '&#128275;';
+        } else if (isFinal) {
+          cls = 'locked-stage final-stage';
+          status = '[Final]';
+          icon = '&#128681;';
         }
 
+        if (isSelected) cls += ' selected-view';
 
+        const card = document.createElement('div');
+        card.className = `stage-nav-card ${cls}`;
+        card.title = isStageLocked ? "Stage Locked - Complete previous stages" : `View Stage ${st.id}: ${st.title}`;
+        card.onclick = () => selectStage(st.id);
 
-        return user;
-
-
-
+        card.innerHTML = `
+          <span class="stage-nav-icon">${icon}</span>
+          <span class="stage-nav-title">Stage ${st.id}: ${st.title}</span>
+          <span class="stage-nav-sub">${status}</span>
+        `;
+        nav.appendChild(card);
       });
-
-
-
     }
 
-
-
-
-
-    let mode = 'signup';
-
-
-
-
-
-    // =====================================================
-
-    // ELEMENTS
-
-    // =====================================================
-
-
-
-    const loginTab =
-
-      document.getElementById('loginTab');
-
-
-
-    const signUpTab =
-
-      document.getElementById('signUpTab');
-
-
-
-    const confirmGroup =
-
-      document.getElementById('confirmPassGroup');
-
-
-
-    const confirmInput =
-
-      document.getElementById('confirmPassword');
-
-
-
-    const usernameInput =
-
-      document.getElementById('username');
-
-
-
-    const passwordInput =
-
-      document.getElementById('password');
-
-
-
-    const usernameError =
-
-      document.getElementById('usernameError');
-
-
-
-    const submitBtn =
-
-      document.getElementById('submitBtn');
-
-
-
-    const form =
-
-      document.getElementById('authForm');
-
-
-
-
-
-    // =====================================================
-
-    // TAB BUTTONS
-
-    // =====================================================
-
-
-
-    loginTab.onclick = () =>
-
-      setMode('login');
-
-
-
-    signUpTab.onclick = () =>
-
-      setMode('signup');
-
-
-
-
-
-    // =====================================================
-
-    // CHANGE LOGIN / SIGNUP MODE
-
-    // =====================================================
-
-
-
-    function setMode(newMode) {
-
-
-
-      mode = newMode;
-
-
-
-      clearError();
-
-
-
-
-
-      if (mode === 'signup') {
-
-
-
-        signUpTab.classList.add('active');
-
-
-
-        loginTab.classList.remove('active');
-
-
-
-        confirmGroup.style.display = 'block';
-
-
-
-        confirmInput.required = true;
-
-
-
-        submitBtn.innerHTML =
-
-          '<span>Sign Up & Enter</span>';
-
-
-
-        checkUsernameUnique();
-
-
-
+    function renderQuestions() {
+      const currentMeta = STAGE_META.find(s => s.id === currentViewStageId);
+      if (!currentMeta) return;
+
+      const currentDiff = (getStageDifficulty(currentMeta.id) || 'easy').toUpperCase();
+      const basePts = getStageBasePoints(currentMeta.id);
+
+      const headerTitle = document.getElementById('stageHeaderTitle');
+      const progressSub = document.getElementById('stageProgressSub');
+      const container = document.getElementById('questionsContainer');
+      container.innerHTML = '';
+
+      // Stage 6 special selection check: Pick any 2 of 4 questions
+      if (currentMeta.id === 6) {
+        const lockedPicks = JSON.parse(localStorage.getItem('cyber_stage_6_locked_picks'));
+        if (!lockedPicks || lockedPicks.length !== 2) {
+          const pool = getStageCandidatePool(6);
+
+          headerTitle.innerHTML = `
+            <span class="cmd-prompt">&gt;_</span> STAGE 6: C CODING ROUND (QUESTION SELECTION)
+            <button type="button" class="diff-chip-btn" onclick="openWorkspaceDiffModal(6)" title="Change Difficulty">
+              &#9889; ${currentDiff} (+${basePts} PTS) <span style="font-size:10px; margin-left:4px; opacity:0.8;">&#9998; CHANGE</span>
+            </button>
+          `;
+          progressSub.textContent = "Select any 2 questions out of 4 below to begin your coding challenge.";
+
+          container.innerHTML = `
+            <div class="stage6-choice-card">
+              <div style="font-size: 12px; color: var(--blue-light); font-weight: 700; letter-spacing: 1px;">STAGE 6 // FINAL ROUND</div>
+              <h2>Select Any 2 Questions Out Of 4</h2>
+              <p style="color: var(--muted); max-width: 650px; font-size: 14px;">
+                You have 4 randomized coding questions in this pool. Choose exactly 2 challenges to solve. Once confirmed, your selection is locked for this attempt.
+              </p>
+
+              <div class="stage6-choice-grid">
+                ${pool.map((q, i) => {
+                  const isSelected = stage6DraftPicks.includes(q.qId);
+                  return `
+                    <div 
+                      class="stage6-pick-box ${isSelected ? 'selected' : ''}" 
+                      onclick="toggleStage6Pick('${q.qId}')"
+                    >
+                      <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                          <strong style="color: var(--blue-light); font-size: 14px;">Question ${i + 1}</strong>${isSelected ? '<span style="color: var(--green); font-weight: 700; font-size: 12px;">&#10003; SELECTED</span>' : ''}
+                        </div>
+                        <div style="font-size: 13px; color: var(--white); margin-bottom: 8px; line-height: 1.5;">${q.question.replace(/\n/g, ' ').slice(0, 110)}...</div>
+                      </div>
+                      <div style="font-size: 11.5px; color: var(--muted); border-top: 1px dashed rgba(74, 168, 233, 0.25); padding-top: 8px;">
+                        ${q.description || 'C Programming Challenge'}
+                      </div>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+
+              <button 
+                class="btn-submit-answer" 
+                style="padding: 13px 34px;"
+                onclick="confirmStage6Picks()" 
+                ${stage6DraftPicks.length !== 2 ? 'disabled' : ''}
+              >
+                CONFIRM & LOCK 2 QUESTIONS (${stage6DraftPicks.length}/2)
+              </button>
+            </div>
+          `;
+          return;
+        }
       }
 
+      const stageQuestions = getStagePlayableQuestions(currentMeta.id);
+      const solvedInStage = stageQuestions.filter(q => isQuestionComplete(q.qId)).length;
+      const allStageSolved = isStageCompleted(currentMeta.id);
 
+      headerTitle.innerHTML = `
+        <span class="cmd-prompt">&gt;_</span> STAGE ${currentMeta.id}: ${currentMeta.topic.toUpperCase()} (${stageQuestions.length} CHALLENGES)
+        <button type="button" class="diff-chip-btn" onclick="openWorkspaceDiffModal(${currentMeta.id})" title="Change Difficulty & Regenerate Questions">
+          &#9889; ${currentDiff} (+${basePts} PTS) <span style="font-size:10px; margin-left:4px; opacity:0.8;">&#9998; CHANGE</span>
+        </button>
+      `;
+      progressSub.textContent = `Completed or skipped ${solvedInStage} of ${stageQuestions.length} challenges in this stage.`;
 
-      else {
-
-
-
-        loginTab.classList.add('active');
-
-
-
-        signUpTab.classList.remove('active');
-
-
-
-        confirmGroup.style.display = 'none';
-
-
-
-        confirmInput.required = false;
-
-
-
-        submitBtn.innerHTML =
-
-          '<span>Login & Enter</span>';
-
-
-
+      let activeQInStage = null;
+      for (let i = 0; i < stageQuestions.length; i++) {
+        const q = stageQuestions[i];
+        if (!isQuestionComplete(q.qId)) {
+          activeQInStage = q.qId;
+          break;
+        }
       }
 
+      if (allStageSolved && !currentFocusedQId) {
+        const clearedCard = document.createElement('div');
+        clearedCard.className = 'stage-cleared-card';
+        clearedCard.innerHTML = `
+          <div class="cleared-icon">&#9733;</div>
+          <h2 class="cleared-title">STAGE ${currentMeta.id}: ${currentMeta.topic.toUpperCase()} CLEARED!</h2>
+          <p class="cleared-desc">
+            All ${stageQuestions.length} challenges in this stage have been completed or skipped.
+            Authentication credentials have been verified and recorded.
+          </p>
+          ${currentMeta.id < STAGE_META.length ? `
+            <button class="btn-next-stage" onclick="selectStage(${currentMeta.id + 1})">
+              PROCEED TO STAGE ${currentMeta.id + 1} &rarr;
+            </button>
+          ` : `
+            <div style="color: var(--green); font-weight: 700; font-size: 18px; margin-top: 10px;">
+              &#127881; ALL CYBER HUNT 2026 CHALLENGES SUCCESSFULLY COMPLETED!
+            </div>
+          `}
+        `;
+        container.appendChild(clearedCard);
+        return;
+      }
 
+      if (!currentFocusedQId || !stageQuestions.some(q => q.qId === currentFocusedQId)) {
+        currentFocusedQId = activeQInStage || stageQuestions[stageQuestions.length - 1].qId;
+      }
 
+      const targetQ = stageQuestions.find(q => q.qId === currentFocusedQId) || stageQuestions[0];
+      const isSolved = userSolvedQuestions.includes(targetQ.qId);
+      const isSkipped = skippedQuestions.includes(targetQ.qId);
+      const questionHintPenalty = getQuestionHintPenalty(currentMeta.id, targetQ.qId);
+      const questionNetPoints = getQuestionNetPoints(currentMeta.id, targetQ);
+      const isActive = (targetQ.qId === activeQInStage);
+      const isLocked = (isSkipped || (!isSolved && targetQ.qId !== activeQInStage && currentViewStageId === activeStageId && targetQ.qId > activeQInStage));
+
+      const card = document.createElement('article');
+      card.className = `question-card ${isSolved ? 'solved-q' : ''} ${isActive ? 'active-q' : ''}`;
+      card.id = `qCard_${targetQ.qId}`;
+
+      let stepPillsHtml = '<div class="q-step-row">';
+      stageQuestions.forEach((q, idx) => {
+        const qSolved = userSolvedQuestions.includes(q.qId);
+        const qSkipped = skippedQuestions.includes(q.qId);
+        const qActive = (q.qId === activeQInStage);
+        const qFocused = (q.qId === targetQ.qId);
+        const qLocked = qSkipped || (!qSolved && !qActive && currentViewStageId === activeStageId && q.qId > activeQInStage);
+
+        let pCls = '';
+        let icon = `${idx + 1}`;
+        if (qSolved) { pCls = 'solved'; icon = '&#10003;'; }
+        else if (qSkipped) { pCls = 'locked'; icon = '&#9197;'; }
+        else if (qActive) { pCls = 'active'; icon = '&#9679;'; }
+        else if (qLocked) { pCls = 'locked'; icon = '&#128274;'; }
+
+        if (qFocused) pCls += ' active';
+
+        stepPillsHtml += `
+          <button 
+            type="button" 
+            class="q-step-pill ${pCls}" 
+            ${qLocked ? 'disabled' : ''} 
+            onclick="selectQuestionInStage('${q.qId}')"
+            title="Challenge ${idx + 1}: ${q.title}"
+          >
+            <span>${icon}</span>
+            <span>Challenge ${idx + 1}</span>
+            ${qSolved ? '<span style="color:#6ee7b7; font-size:10px;">[Solved]</span>' : (qSkipped ? '<span style="color:#fca5a5; font-size:10px;">[Skipped]</span>' : (qActive ? '<span style="color:#38bdf8; font-size:10px;">[Active]</span>' : ''))}
+          </button>
+        `;
+      });
+      stepPillsHtml += '</div>';
+
+      let hintHtml = '';
+      if (isLocked) {
+        hintHtml = `
+          <div class="hint-box locked-hint">
+            <div class="hint-top">
+              <span class="hint-label locked-lbl">&#128274; HINT LOCKED</span>
+            </div>
+            <div class="hint-text" style="color: var(--locked); font-style: italic;">
+              Complete previous challenge to unlock clue hint.
+            </div>
+          </div>
+        `;
+      } else {
+        const hints = targetQ.hints || [targetQ.hint];
+        const hintCount = Number(usedHints[targetQ.qId] || 0);
+        const hintCosts = [1, 2, 3].map(number => getHintCost(currentMeta.id, number));
+        const usedHintMarkup = hints
+          .slice(0, hintCount)
+          .map((hint, index) => `
+            <div class="hint-text" style="margin-top: ${index ? '10px' : '0'};">
+              <strong style="color:#fbbf24;">Hint ${index + 1}:</strong> ${hint}
+            </div>
+          `).join('');
+        const nextHintMarkup = hintCount < hints.length
+          ? `
+            <button class="btn-hint-toggle" onclick="useHint('${targetQ.qId}')">
+              Use Hint ${hintCount + 1} (-${hintCosts[hintCount]} pts)
+            </button>
+          `
+          : `<span style="color:var(--muted-dark); font-size:11px;">All hints used</span>`;
+        const skipMarkup = !isSolved && hintCount >= hints.length
+          ? `
+            <button class="btn-skip-question" onclick="skipToNextQuestion('${targetQ.qId}')">
+              &#9197; SKIP TO NEXT QUESTION
+            </button>
+            <div class="hint-text" style="color:var(--muted-dark); margin-top:8px; font-style:italic;">
+              This question will be locked permanently after skipping.
+            </div>
+          `
+          : '';
+        const penaltyMarkup = hintPenaltyNotice && hintPenaltyNotice.qId === targetQ.qId
+          ? `<div class="hint-penalty-notice">Score updated: -${hintPenaltyNotice.amount} PTS &rarr; Total ${userScore} PTS</div>`
+          : '';
+
+        hintHtml = `
+          <div class="hint-box">
+            <div class="hint-top">
+              <span class="hint-label">&#128161; HINTS (${hintCount}/${hints.length})</span>
+              ${nextHintMarkup}
+            </div>
+            ${usedHintMarkup || `
+              <div class="hint-text" style="color: var(--muted-dark); font-style: italic;">
+                Hints deduct ${hintCosts[0]}, ${hintCosts[1]}, and${hintCosts[2]} points progressively.
+              </div>
+            `}
+            ${penaltyMarkup}
+            ${skipMarkup}
+          </div>
+        `;
+      }
+
+      card.innerHTML = `
+        ${stepPillsHtml}
+
+        <div class="question-card-inner">
+          <div class="question-main">
+            <div class="question-header">
+              <h2 class="question-title">${targetQ.title}</h2>
+              <span class="question-status-badge ${isSolved ? 'solved' : (isActive ? 'active' : 'locked')}">
+                ${isSolved ? '&#10003; SOLVED' : (isActive ? 'ACTIVE MISSION' : '&#128274; LOCKED')}
+              </span>
+            </div>
+
+            <div class="question-prompt-box">
+              <div style="font-size: 15.5px; margin-bottom: 6px;">${targetQ.question}</div>
+              ${targetQ.description ? `<div class="question-desc-box"><strong>Description:</strong> ${targetQ.description}</div>` : ''}
+              ${targetQ.snippet ? `<pre class="question-code-block">${targetQ.snippet}</pre>` : ''}
+            </div>
+
+            <div class="question-input-row">
+              <input 
+                type="text" 
+                class="answer-text-input ${isSolved ? 'input-correct' : ''}" 
+                id="input_${targetQ.qId}" 
+                placeholder="${isSolved ? 'Access Granted: Challenge Decrypted' : 'Type your answer here...'}" 
+                value="${isSolved ? '&#10003; ANSWER VERIFIED' : ''}" 
+                ${isSolved || isLocked ? 'disabled' : ''} 
+                autocomplete="off"
+              />
+              <button 
+                class="btn-submit-answer" 
+                id="btn_${targetQ.qId}" 
+                onclick="submitAnswer('${targetQ.qId}')" 
+                ${isSolved || isLocked ? 'disabled' : ''}
+              >
+                ${isSolved ? 'SOLVED' : 'SUBMIT ANSWER'}
+              </button>
+            </div>
+
+            <div class="feedback-banner" id="feedback_${targetQ.qId}"></div>
+          </div>
+
+          <div class="question-side">
+            ${hintHtml}
+
+            <div class="metrics-box">
+              <div class="metric-item">
+                <span class="metric-title">Points (Net)</span>
+                <span class="metric-value" style="color: ${isSkipped ? 'var(--muted-dark)' : (questionNetPoints < 0 ? 'var(--red)' : 'var(--green)')};">
+                  ${isSkipped ? '0' : `${questionNetPoints >= 0 ? '+' : ''}${questionNetPoints}`}
+                </span>
+                <span style="font-size: 10px; color: var(--muted-dark); margin-top: 3px;">
+                  Base +${basePts} PTS
+                </span>
+              </div>
+              <div class="metric-item">
+                <span class="metric-title">Total Score</span>
+                <span class="metric-value" style="color: ${userScore < 0 ? 'var(--red)' : 'var(--green)'};">
+                  ${userScore} PTS
+                </span>
+              </div>
+              <div class="metric-item" style="text-align: right;">
+                <span class="metric-title">Status</span>
+                <span style="font-size: 13px; font-weight: 700; color: ${isSolved ? 'var(--green)' : (isActive ? 'var(--blue-light)' : 'var(--locked)')};">
+                  ${isSolved ? 'Completed' : (isActive ? 'In Progress' : 'Locked')}
+                </span>
+              </div>
+            </div>
+
+            <div style="background: rgba(4, 18, 29, 0.4); border: 1px solid var(--line-subtle); border-radius: 6px; padding: 12px 16px; font-size: 12px; color: var(--muted);">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                <span>Stage Progress</span>
+                <span style="color: var(--white); font-weight: 700;">${solvedInStage} / ${stageQuestions.length}</span>
+              </div>
+              <div style="width: 100%; height: 6px; background: rgba(6, 26, 41, 0.8); border-radius: 3px; overflow: hidden;">
+                <div style="width: ${(solvedInStage / stageQuestions.length) * 100}%; height: 100%; background: var(--blue); transition: width 0.3s ease;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      container.appendChild(card);
     }
 
-
-
-
-
-    // =====================================================
-
-    // INITIAL MODE
-
-    // =====================================================
-
-
-
-    const initMode =
-
-      new URLSearchParams(window.location.search)
-
-        .get('mode');
-
-
-
-    setMode(
-
-      initMode === 'login'
-
-        ? 'login'
-
-        : 'signup'
-
-    );
-
-
-
-
-
-    // =====================================================
-
-    // USERNAME CHECK
-
-    // =====================================================
-
-
-
-    usernameInput.addEventListener(
-
-      'input',
-
-      checkUsernameUnique
-
-    );
-
-
-
-
-
-    function checkUsernameUnique() {
-
-
-
-      const enteredName =
-
-        usernameInput.value
-
-          .trim()
-
-          .toLowerCase();
-
-
-
-
-
-      if (
-
-        mode === 'signup' &&
-
-        enteredName &&
-
-        users.some(
-
-          user => user.username === enteredName
-
-        )
-
-      ) {
-
-
-
-        usernameInput.classList.add(
-
-          'error-border'
-
-        );
-
-
-
-        usernameError.classList.add(
-
-          'show'
-
-        );
-
-
-
-        submitBtn.disabled = true;
-
-
-
-        return false;
-
-
-
+    // SUBMISSION & VALIDATION
+    window.submitAnswer = function(qId) {
+      const found = findQuestion(qId);
+      if (!found) return;
+
+      const { question: targetQ, stageId } = found;
+      const stageQuestions = getStagePlayableQuestions(stageId);
+      if (!stageQuestions.some(q => q.qId === qId) || skippedQuestions.includes(qId)) return;
+
+      const input = document.getElementById(`input_${qId}`);
+      const feedback = document.getElementById(`feedback_${qId}`);
+      const val = input.value.trim().toLowerCase();
+
+      if (!val) {
+        input.classList.add('input-wrong');
+        feedback.className = "feedback-banner err";
+        feedback.textContent = "Please enter an answer.";
+        setTimeout(() => input.classList.remove('input-wrong'), 500);
+        return;
       }
 
-
-
-      else {
-
-
-
-        clearError();
-
-
-
-        return true;
-
-
-
-      }
-
-
-
-    }
-
-
-
-
-
-    // =====================================================
-
-    // CLEAR USERNAME ERROR
-
-    // =====================================================
-
-
-
-    function clearError() {
-
-
-
-      usernameInput.classList.remove(
-
-        'error-border'
-
-      );
-
-
-
-      usernameError.classList.remove(
-
-        'show'
-
-      );
-
-
-
-      submitBtn.disabled = false;
-
-
-
-    }
-
-
-
-
-
-    // =====================================================
-
-    // LOGIN / SIGNUP SUBMIT
-
-    // =====================================================
-
-
-
-    form.addEventListener(
-
-      'submit',
-
-      (e) => {
-
-
-
-        e.preventDefault();
-
-
-
-
-
-        const user =
-
-          usernameInput.value
-
-            .trim()
-
-            .toLowerCase();
-
-
-
-        const pass =
-
-          passwordInput.value;
-
-
-
-
-
-        // ================================================
-
-        // SIGN UP
-
-        // ================================================
-
-
-
-        if (mode === 'signup') {
-
-
-
-          if (!checkUsernameUnique()) {
-
-
-
-            return;
-
-
-
+      const isCorrect = targetQ.acceptedAnswers.some(ans => ans.trim().toLowerCase() === val);
+
+      if (isCorrect) {
+        const basePoints = getStageBasePoints(stageId);
+        const hintPenalty = getQuestionHintPenalty(stageId, qId);
+        const netPoints = getQuestionNetPoints(stageId, targetQ);
+        feedback.className = "feedback-banner ok";
+        feedback.innerHTML = `&#10003; Correct! Verified. Base +${basePoints} PTS${hintPenalty ? `, hints -${hintPenalty} PTS` : ''}, net +${netPoints} PTS.`;
+
+        if (!userSolvedQuestions.includes(qId)) {
+          userSolvedQuestions.push(qId);
+          userScore += basePoints;
+          localStorage.setItem('cyber_solved_questions', JSON.stringify(userSolvedQuestions));
+          localStorage.setItem('cyber_total_score', String(userScore));
+
+          const allStageSolved = stageQuestions.every(q => isQuestionComplete(q.qId));
+          if (allStageSolved && !userSolvedStages.includes(stageId)) {
+            userSolvedStages.push(stageId);
+            localStorage.setItem('cyber_solved_stages', JSON.stringify(userSolvedStages));
           }
 
-
-
-
-
-          // Password confirmation
-
-
-
-          if (
-
-            pass !== confirmInput.value
-
-          ) {
-
-
-
-            alert(
-
-              'Passwords do not match.'
-
-            );
-
-
-
-            return;
-
-
-
-          }
-
-
-
-
-
-          // Create user
-
-
-
-          users.push({
-
-
-
-            username: user,
-
-
-
-            password: pass
-
-
-
-          });
-
-
-
-
-
-          // Save users
-
-
-
-          localStorage.setItem(
-
-            'cyber_users',
-
-            JSON.stringify(users)
-
-          );
-
-
-
-
-
-          // Save current user
-
-
-
-          localStorage.setItem(
-
-            'cyber_current_user',
-
-            user
-
-          );
-
-
-
-
-
-          // ==============================================
-
-          // IMPORTANT:
-
-          // Tell dashboard to show the security popup.
-
-          // ==============================================
-
-
-
-          sessionStorage.setItem(
-
-            'cyber_show_breach_popup',
-
-            'true'
-
-          );
-
-
-
-
-
-          // NO SUCCESS ALERT HERE.
-
-          // Dashboard popup will appear immediately.
-
-
-
-          redirectToNext();
-
-
-
+          let nextUnsolved = stageQuestions.find(q => !isQuestionComplete(q.qId));
+          currentFocusedQId = nextUnsolved ? nextUnsolved.qId : null;
         }
 
-
-
-
-
-        // ================================================
-
-        // LOGIN
-
-        // ================================================
-
-
-
-        else {
-
-
-
-          /*
-
-            ONLY CHANGE:
-
-            Check both username AND password.
-
-          */
-
-
-
-          const validUser =
-
-            users.find(
-
-              savedUser =>
-
-                savedUser.username === user &&
-
-                savedUser.password === pass
-
-            );
-
-
-
-
-
-          /*
-
-            If username/password combination is wrong,
-
-            show ONLY a normal alert popup.
-
-          */
-
-
-
-          if (!validUser) {
-
-
-
-            alert(
-
-              'Invalid input. Please Enter the correct Username and Password'
-
-            );
-
-
-
-            return;
-
-
-
-          }
-
-
-
-
-
-          // ==============================================
-
-          // CORRECT LOGIN
-
-          // Everything below remains the same.
-
-          // ==============================================
-
-
-
-          // Tell dashboard to show popup
-
-          localStorage.setItem(
-
-            'cyber_current_user',
-
-            user
-
-          );
-
-
-
-          window.location.href = '../dashboard.html';
-
-
-
-        }
-
-
-
+        setTimeout(() => {
+          renderApp();
+        }, 700);
+      } else {
+        input.classList.add('input-wrong');
+        feedback.className = "feedback-banner err";
+        feedback.textContent = "Incorrect answer. Recheck clues or hint.";
+        setTimeout(() => input.classList.remove('input-wrong'), 600);
       }
+    };
 
-    );
+    renderApp();
 
-
-
-
-
-    // =====================================================
-
-    // REDIRECT
-
-    // =====================================================
-
-
-
-    function redirectToNext() {
-
-
-
-      const nextPage =
-
-        new URLSearchParams(
-
-          window.location.search
-
-        ).get('next');
-
-
-
-
-
-      if (
-
-        nextPage &&
-
-        /^\/?[a-zA-Z0-9_./-]+\.html$/.test(nextPage)
-
-      ) {
-
-
-
-        window.location.href =
-
-          nextPage;
-
-
-
-      }
-
-
-
-      else {
-
-
-
-        window.location.href =
-
-          '../dashboard.html';
-
-
-
-      }
-
-
-
+    if (!getStageDifficulty(currentViewStageId)) {
+      setTimeout(() => {
+        openWorkspaceDiffModal(currentViewStageId);
+      }, 150);
     }
-
-
-
   </script>
-
-
-
 </body>
-
-
-
 </html>
