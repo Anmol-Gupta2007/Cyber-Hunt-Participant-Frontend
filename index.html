@@ -280,10 +280,11 @@
   </div>
 
   <script>
+    // Pure Client-Side User Storage (Works everywhere including GitHub Pages)
     let users = JSON.parse(localStorage.getItem('cyber_users')) || [
-      { username: 'admin', password: '' },
-      { username: 'alice', password: '' },
-      { username: 'testuser', password: '' }
+      { username: 'admin', password: 'password' },
+      { username: 'alice', password: 'password' },
+      { username: 'testuser', password: 'password' }
     ];
 
     let mode = 'signup';
@@ -328,7 +329,7 @@
 
     function checkUsernameUnique() {
       const enteredName = usernameInput.value.trim().toLowerCase();
-      if (mode === 'signup' && enteredName && users.some(u => u.username === enteredName)) {
+      if (mode === 'signup' && enteredName && users.some(u => u.username.toLowerCase() === enteredName)) {
         usernameInput.classList.add('error-border');
         usernameError.classList.add('show');
         submitBtn.disabled = true;
@@ -359,6 +360,7 @@
           return;
         }
 
+        // Save new user locally in browser
         users.push({ username: user, password: pass });
         localStorage.setItem('cyber_users', JSON.stringify(users));
         localStorage.setItem('cyber_current_user', user);
@@ -367,7 +369,7 @@
         redirectToNext();
       } else {
         const validUser = users.find(
-          u => u.username === user && u.password === pass
+          u => u.username.toLowerCase() === user && u.password === pass
         );
 
         if (!validUser) {
@@ -376,7 +378,7 @@
         }
 
         localStorage.setItem('cyber_current_user', user);
-        window.location.href = 'dashboard.html';
+        redirectToNext();
       }
     });
 
