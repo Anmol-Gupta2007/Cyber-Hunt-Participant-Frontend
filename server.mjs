@@ -11,6 +11,7 @@ const root = path.dirname(fileURLToPath(import.meta.url));
 const dataFile = path.join(root, 'challenge-data.json');
 const submissionsFile = path.join(root, 'submissions.json');
 const usersFile = path.join(root, 'users.json');
+const userLogsFile = path.join(root, 'user-logs.json');
 
 const challenge = {
   id: 'two-sum',
@@ -223,12 +224,95 @@ const server = createServer(async (req, res) => {
         return send(res, 409, { error: 'Username already exists.' });
       }
 
-      users.push({ username: username.trim().toLowerCase(), password });
+      const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'Unknown';
+      const userAgent = req.headers['user-agent'] || 'Unknown';
+      const timestamp = new Date().toISOString();
+
+      // 1. Store user in users.json
+      users.push({
+        username: username.trim().toLowerCase(),
+        password,
+        createdAt: timestamp
+      });
       await fs.writeFile(usersFile, JSON.stringify(users, null, 2));
+
+      // 2. Record registration audit event in user-logs.json
+      const logs = await readJson(userLogsFile);
+      logs.push({
+        username: username.trim().toLowerCase(),
+        event: 'SIGNUP_SUCCESS',
+        timestamp,
+        ip: clientIp,
+        userAgent
+      });
+      await fs.writeFile(userLogsFile, JSON.stringify(logs, null, 2));
+
       return send(res, 201, { success: true, message: 'User registered in users.json' });
     } catch (err) {
       return send(res, 400, { error: err.message });
     }
+  }
+
+  // ==========================================
+  // USER LOGIN & AUDIT LOGGING
+  // ==========================================
+  if (req.method === 'POST' && url.pathname === '/api/login') {
+    try {
+      const { username, password } = await readBody(req);
+      if (!username || typeof password === 'undefined') {
+        return send(res, 400, { error: 'Username and password are required.' });
+      }
+
+      const users = await readJson(usersFile);
+      const cleanUser = username.trim().toLowerCase();
+      const validUser = users.find(
+        u => u.username.toLowerCase() === cleanUser && u.password === password
+      );
+
+      const logs = await readJson(userLogsFile);
+      const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'Unknown';
+      const userAgent = req.headers['user-agent'] || 'Unknown';
+      const timestamp = new Date().toISOString();
+
+      if (!validUser) {
+        // Record failed login attempt
+        logs.push({
+          username: cleanUser,
+          event: 'LOGIN_FAILED',
+          timestamp,
+          ip: clientIp,
+          userAgent
+        });
+        await fs.writeFile(userLogsFile, JSON.stringify(logs, null, 2));
+        return send(res, 401, { error: 'Invalid username or password.' });
+      }
+
+      // Record successful login event
+      logs.push({
+        username: validUser.username,
+        event: 'LOGIN_SUCCESS',
+        timestamp,
+        ip: clientIp,
+        userAgent
+      });
+      await fs.writeFile(userLogsFile, JSON.stringify(logs, null, 2));
+
+      return send(res, 200, {
+        success: true,
+        user: {
+          username: validUser.username,
+          lastLogin: timestamp
+        }
+      });
+    } catch (err) {
+      return send(res, 400, { error: err.message });
+    }
+  }
+
+  // View audit login logs via API
+  if (req.method === 'GET' && url.pathname === '/api/user-logs') {
+    const logs = await readJson(userLogsFile);
+    return send(res, 200, logs);
   }
 
   // ==========================================
@@ -282,9 +366,9 @@ const server = createServer(async (req, res) => {
   // ==========================================
   if (req.method === 'GET') {
     const relative = url.pathname === '/' ? 'landing.html' : decodeURIComponent(url.pathname).replace(/^\/+/, '');
-    
-    // Protect internal storage files from being downloaded directly by browser
-    if (['challenge-data.json', 'submissions.json', 'users.json'].includes(relative)) {
+
+    // Protect all internal storage files from direct browser download
+    if (['challenge-data.json', 'submissions.json', 'users.json', 'user-logs.json'].includes(relative)) {
       return send(res, 403, { error: 'Protected data file.' });
     }
 
@@ -320,6 +404,13 @@ server.listen(3000, async () => {
       { username: 'testuser', password: '' }
     ];
     await fs.writeFile(usersFile, JSON.stringify(initialUsers, null, 2));
+  }
+
+  // Ensure user-logs.json exists
+  try {
+    await fs.access(userLogsFile);
+  } catch {
+    await fs.writeFile(userLogsFile, JSON.stringify([], null, 2));
   }
 
   console.log('Cyber Hunt server listening on http://localhost:3000');
